@@ -10,4 +10,7 @@ sealed class Destination : Parcelable {
 
     @Parcelize
     data object About : Destination()
+
+    @Parcelize
+    data object Game : Destination()
 }
