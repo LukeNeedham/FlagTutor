@@ -1,18 +1,15 @@
 package com.flagtutor.app.data.remote
 
-import com.flagtutor.app.data.remote.dto.CountryDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 
-private const val BASE_URL = "https://restcountries.com/v3.1"
+private const val CODES_URL = "https://flagcdn.com/en/codes.json"
 
 class CountryApi(private val httpClient: HttpClient) {
 
-    suspend fun getAllCountries(): List<CountryDto> {
-        return httpClient.get("$BASE_URL/all") {
-            parameter("fields", "name,cca2,flags")
-        }.body()
+    /** Returns a map of ISO 3166-1 alpha-2 code (lowercase) to English country name. */
+    suspend fun getCountryCodes(): Map<String, String> {
+        return httpClient.get(CODES_URL).body()
     }
 }
