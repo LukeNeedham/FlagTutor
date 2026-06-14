@@ -5,12 +5,14 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomePage(
+    onNavigateToGame: () -> Unit,
     onNavigateToAbout: () -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     HomePageContent(
         title = viewModel.title,
         subtitle = viewModel.subtitle,
-        onStartClick = onNavigateToAbout,
+        onStartClick = onNavigateToGame,
+        onAboutClick = onNavigateToAbout,
     )
 }

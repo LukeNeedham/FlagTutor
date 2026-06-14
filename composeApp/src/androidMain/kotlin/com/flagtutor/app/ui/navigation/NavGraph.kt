@@ -2,6 +2,7 @@ package com.flagtutor.app.ui.navigation
 
 import androidx.compose.runtime.Composable
 import com.flagtutor.app.ui.feature.about.AboutPage
+import com.flagtutor.app.ui.feature.game.GamePage
 import com.flagtutor.app.ui.feature.home.HomePage
 import dev.olshevski.navigation.reimagined.NavBackHandler
 import dev.olshevski.navigation.reimagined.NavHost
@@ -18,12 +19,15 @@ fun NavGraph() {
     NavHost(navController) { destination ->
         when (destination) {
             Destination.Home -> HomePage(
+                onNavigateToGame = { navController.navigate(Destination.Game) },
                 onNavigateToAbout = { navController.navigate(Destination.About) },
             )
 
             Destination.About -> AboutPage(
                 onNavigateBack = { navController.pop() },
             )
+
+            Destination.Game -> GamePage()
         }
     }
 }
