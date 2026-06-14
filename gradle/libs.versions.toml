@@ -3,12 +3,22 @@ agp = "8.7.3"
 kotlin = "2.1.0"
 compose-plugin = "1.7.3"
 activityCompose = "1.9.3"
+koin = "4.1.1"
+reimagined = "1.5.0"
+circleFlagsAndroid = "0.1.4"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
+reimagined-navigation = { module = "dev.olshevski.navigation:reimagined", version.ref = "reimagined" }
+circle-flags-android = { module = "com.github.LukeNeedham:circle-flags-android", version.ref = "circleFlagsAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

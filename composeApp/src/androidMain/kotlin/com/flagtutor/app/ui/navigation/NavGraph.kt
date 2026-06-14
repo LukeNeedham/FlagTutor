@@ -1,0 +1,29 @@
+package com.flagtutor.app.ui.navigation
+
+import androidx.compose.runtime.Composable
+import com.flagtutor.app.ui.feature.about.AboutPage
+import com.flagtutor.app.ui.feature.home.HomePage
+import dev.olshevski.navigation.reimagined.NavBackHandler
+import dev.olshevski.navigation.reimagined.NavHost
+import dev.olshevski.navigation.reimagined.navigate
+import dev.olshevski.navigation.reimagined.pop
+import dev.olshevski.navigation.reimagined.rememberNavController
+
+@Composable
+fun NavGraph() {
+    val navController = rememberNavController<Destination>(startDestination = Destination.Home)
+
+    NavBackHandler(navController)
+
+    NavHost(navController) { destination ->
+        when (destination) {
+            Destination.Home -> HomePage(
+                onNavigateToAbout = { navController.navigate(Destination.About) },
+            )
+
+            Destination.About -> AboutPage(
+                onNavigateBack = { navController.pop() },
+            )
+        }
+    }
+}
