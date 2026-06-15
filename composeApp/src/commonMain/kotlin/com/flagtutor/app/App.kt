@@ -1,10 +1,10 @@
 package com.flagtutor.app
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
 import com.flagtutor.app.di.appModule
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.module.Module
@@ -15,7 +15,7 @@ fun App(platformModule: Module, content: @Composable () -> Unit) {
         val imageLoader = koinInject<ImageLoader>()
         setSingletonImageLoaderFactory { imageLoader }
 
-        MaterialTheme {
+        FlagTutorTheme {
             content()
         }
     }

@@ -27,7 +27,9 @@ fun NavGraph() {
                 onNavigateBack = { navController.pop() },
             )
 
-            Destination.Game -> GamePage()
+            Destination.Game -> GamePage(
+                onNavigateBack = { navController.pop() },
+            )
         }
     }
 }

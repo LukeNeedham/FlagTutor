@@ -16,11 +16,23 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
@@ -31,95 +43,143 @@ import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.FlagImage
 import com.flagtutor.app.ui.feature.game.component.FlagOptionButton
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GamePageContent(
     uiState: GameUiState,
     onOptionSelected: (Country) -> Unit,
     onRetry: () -> Unit,
+    onBackClick: () -> Unit,
 ) {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        when (uiState) {
-            is GameUiState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is GameUiState.Error -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        text = "Couldn't load flags. Check your connection and try again.",
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = onRetry) {
-                        Text("Retry")
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Guess the Flag") },
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                ),
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.background,
+    ) { innerPadding ->
+        Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+            when (uiState) {
+                is GameUiState.Loading -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Loading flags…",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                     }
                 }
-            }
 
-            is GameUiState.Success -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        text = "Which country's flag is this?",
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
-                    AnimatedContent(
-                        targetState = uiState,
-                        contentKey = { it.flag.alpha2Code },
-                        transitionSpec = {
-                            (
-                                fadeIn(animationSpec = tween(durationMillis = 300, delayMillis = 90)) +
-                                    slideInHorizontally(
-                                        animationSpec = tween(durationMillis = 300, delayMillis = 90),
-                                    ) { width -> width / 3 }
-                                ).togetherWith(
-                                fadeOut(animationSpec = tween(durationMillis = 90)) +
-                                    slideOutHorizontally(
-                                        animationSpec = tween(durationMillis = 90),
-                                    ) { width -> -width / 3 },
-                            )
-                        },
-                        label = "flag-transition",
-                        modifier = Modifier.fillMaxWidth(),
-                    ) { state ->
-                        Column(
+                is GameUiState.Error -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.WifiOff,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.height(48.dp),
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            text = "Couldn't load flags. Check your connection and try again.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Button(onClick = onRetry, shape = MaterialTheme.shapes.large) {
+                            Icon(imageVector = Icons.Filled.Refresh, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Retry")
+                        }
+                    }
+                }
+
+                is GameUiState.Success -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 24.dp, vertical = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Text(
+                            text = "Which country's flag is this?",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Spacer(modifier = Modifier.height(24.dp))
+                        AnimatedContent(
+                            targetState = uiState,
+                            contentKey = { it.flag.alpha2Code },
+                            transitionSpec = {
+                                (
+                                    fadeIn(animationSpec = tween(durationMillis = 300, delayMillis = 90)) +
+                                        slideInHorizontally(
+                                            animationSpec = tween(durationMillis = 300, delayMillis = 90),
+                                        ) { width -> width / 3 }
+                                    ).togetherWith(
+                                    fadeOut(animationSpec = tween(durationMillis = 90)) +
+                                        slideOutHorizontally(
+                                            animationSpec = tween(durationMillis = 90),
+                                        ) { width -> -width / 3 },
+                                )
+                            },
+                            label = "flag-transition",
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-                            FlagImage(
-                                flagUrl = state.flag.flagUrl,
-                                modifier = Modifier
-                                    .fillMaxWidth(0.8f)
-                                    .aspectRatio(3f / 2f),
-                                contentScale = ContentScale.Fit,
-                            )
-                            Spacer(modifier = Modifier.height(32.dp))
-                            state.options.forEach { country ->
-                                // Keyed so each option gets a fresh crumble animation state when the flag changes.
-                                key(country.alpha2Code) {
-                                    FlagOptionButton(
-                                        country = country,
-                                        isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
-                                        isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
-                                        enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
-                                        onClick = { onOptionSelected(country) },
-                                        modifier = Modifier.fillMaxWidth(),
+                        ) { state ->
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                Card(
+                                    shape = MaterialTheme.shapes.extraLarge,
+                                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                                    modifier = Modifier.fillMaxWidth(0.85f),
+                                ) {
+                                    FlagImage(
+                                        flagUrl = state.flag.flagUrl,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .aspectRatio(3f / 2f)
+                                            .padding(16.dp),
+                                        contentScale = ContentScale.Fit,
                                     )
-                                    Spacer(modifier = Modifier.height(12.dp))
+                                }
+                                Spacer(modifier = Modifier.height(32.dp))
+                                state.options.forEach { country ->
+                                    // Keyed so each option gets a fresh crumble animation state when the flag changes.
+                                    key(country.alpha2Code) {
+                                        FlagOptionButton(
+                                            country = country,
+                                            isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
+                                            isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
+                                            enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
+                                            onClick = { onOptionSelected(country) },
+                                            modifier = Modifier.fillMaxWidth(),
+                                        )
+                                        Spacer(modifier = Modifier.height(12.dp))
+                                    }
                                 }
                             }
                         }
