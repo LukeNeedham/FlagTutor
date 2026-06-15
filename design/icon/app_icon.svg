@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <!-- Background -->
+  <rect width="108" height="108" rx="24" fill="#1565C0"/>
+
+  <!-- Gold flag (back, pole leans to upper-right, cloth flies right) -->
+  <g transform="translate(54,64) rotate(34) scale(0.85) translate(-54,-64)">
+    <rect x="51" y="10" width="6" height="84" rx="3" fill="#5D4037"/>
+    <path d="M57,15 L86,15 L76,27 L86,39 L57,39 Z" fill="#FFB300"/>
+  </g>
+
+  <!-- Red flag (front, pole leans to upper-left, cloth flies left) -->
+  <g transform="translate(54,64) rotate(-34) scale(0.85) translate(-54,-64)">
+    <rect x="51" y="10" width="6" height="84" rx="3" fill="#5D4037"/>
+    <path d="M51,15 L22,15 L32,27 L22,39 L51,39 Z" fill="#E53935"/>
+  </g>
+</svg>
