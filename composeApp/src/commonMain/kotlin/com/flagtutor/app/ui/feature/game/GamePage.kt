@@ -8,10 +8,8 @@ fun GamePage(
     viewModel: GameViewModel = koinViewModel(),
 ) {
     GamePageContent(
-        flag = viewModel.flag,
-        options = viewModel.options,
-        incorrectAlpha2Codes = viewModel.incorrectAlpha2Codes,
-        isAnswerRevealed = viewModel.isAnswerRevealed,
+        uiState = viewModel.uiState,
         onOptionSelected = viewModel::onOptionSelected,
+        onRetry = viewModel::loadCountries,
     )
 }
