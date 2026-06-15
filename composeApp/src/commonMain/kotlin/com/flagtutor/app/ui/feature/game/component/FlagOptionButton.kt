@@ -4,11 +4,17 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.GenericShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -90,11 +96,11 @@ fun FlagOptionButton(
 
     val colors = if (isCorrectAnswer) {
         ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            contentColor = MaterialTheme.colorScheme.onTertiary,
         )
     } else {
-        ButtonDefaults.buttonColors()
+        ButtonDefaults.filledTonalButtonColors()
     }
 
     Box(modifier = modifier) {
@@ -102,10 +108,16 @@ fun FlagOptionButton(
             onClick = onClick,
             enabled = enabled,
             colors = colors,
+            shape = MaterialTheme.shapes.large,
+            contentPadding = PaddingValues(vertical = 16.dp, horizontal = 24.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .graphicsLayer { alpha = baseAlpha.value },
         ) {
+            if (isCorrectAnswer) {
+                Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+            }
             Text(country.name)
         }
 
@@ -123,7 +135,7 @@ fun FlagOptionButton(
                             rotationZ = piece.rotation.value
                             alpha = piece.alpha.value
                         }
-                        .clip(ButtonDefaults.shape)
+                        .clip(MaterialTheme.shapes.large)
                         .clip(crumblePieceShape(index, PIECE_COUNT)),
                 ) {
                     Surface(
