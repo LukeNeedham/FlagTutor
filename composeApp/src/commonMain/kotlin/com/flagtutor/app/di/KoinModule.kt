@@ -1,5 +1,7 @@
 package com.flagtutor.app.di
 
+import com.flagtutor.app.data.image.FlagImagePrefetcher
+import com.flagtutor.app.data.local.CountryLocalDataSource
 import com.flagtutor.app.data.remote.CountryApi
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.ui.feature.about.AboutViewModel
@@ -22,7 +24,9 @@ val appModule = module {
         }
     }
     singleOf(::CountryApi)
+    singleOf(::CountryLocalDataSource)
     singleOf(::CountryRepository)
+    singleOf(::FlagImagePrefetcher)
     viewModelOf(::HomeViewModel)
     viewModelOf(::AboutViewModel)
     viewModelOf(::GameViewModel)

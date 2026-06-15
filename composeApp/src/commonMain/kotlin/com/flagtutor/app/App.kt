@@ -4,19 +4,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import coil3.ImageLoader
 import coil3.compose.setSingletonImageLoaderFactory
-import coil3.network.ktor3.KtorNetworkFetcherFactory
 import com.flagtutor.app.di.appModule
 import org.koin.compose.KoinApplication
+import org.koin.compose.koinInject
+import org.koin.core.module.Module
 
 @Composable
-fun App(content: @Composable () -> Unit) {
-    setSingletonImageLoaderFactory { context ->
-        ImageLoader.Builder(context)
-            .components { add(KtorNetworkFetcherFactory()) }
-            .build()
-    }
+fun App(platformModule: Module, content: @Composable () -> Unit) {
+    KoinApplication(application = { modules(appModule, platformModule) }) {
+        val imageLoader = koinInject<ImageLoader>()
+        setSingletonImageLoaderFactory { imageLoader }
 
-    KoinApplication(application = { modules(appModule) }) {
         MaterialTheme {
             content()
         }
