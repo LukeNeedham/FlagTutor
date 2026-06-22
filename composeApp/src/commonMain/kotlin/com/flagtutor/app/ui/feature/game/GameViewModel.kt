@@ -9,11 +9,9 @@ import com.flagtutor.app.data.image.FlagImagePrefetcher
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val OPTIONS_COUNT = 4
-private const val NEXT_FLAG_DELAY_MS = 700L
 
 class GameViewModel(
     private val countryRepository: CountryRepository,
@@ -52,16 +50,18 @@ class GameViewModel(
         }
     }
 
+    fun onNextFlag() {
+        val state = uiState as? GameUiState.Success ?: return
+        if (!state.isAnswerRevealed) return
+        showRandomFlag(previous = state.flag)
+    }
+
     fun onOptionSelected(country: Country) {
         val state = uiState as? GameUiState.Success ?: return
         if (state.isAnswerRevealed || country.alpha2Code in state.incorrectAlpha2Codes) return
 
         if (country.alpha2Code == state.flag.alpha2Code) {
             uiState = state.copy(isAnswerRevealed = true)
-            viewModelScope.launch {
-                delay(NEXT_FLAG_DELAY_MS)
-                showRandomFlag(previous = state.flag)
-            }
         } else {
             uiState = state.copy(incorrectAlpha2Codes = state.incorrectAlpha2Codes + country.alpha2Code)
         }

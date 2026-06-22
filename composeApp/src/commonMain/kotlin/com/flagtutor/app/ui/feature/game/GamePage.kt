@@ -11,6 +11,7 @@ fun GamePage(
     GamePageContent(
         uiState = viewModel.uiState,
         onOptionSelected = viewModel::onOptionSelected,
+        onNextFlag = viewModel::onNextFlag,
         onRetry = viewModel::loadCountries,
         onBackClick = onNavigateBack,
     )
