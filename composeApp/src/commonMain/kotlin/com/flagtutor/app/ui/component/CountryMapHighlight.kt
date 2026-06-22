@@ -26,7 +26,10 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 private const val PADDING_FRACTION = 0.05f
-private const val COUNTRY_WIDTH_FRACTION = 1f / 3f
+private const val MIN_COUNTRY_FRACTION = 1f / 3f
+private const val MAX_COUNTRY_FRACTION = 5f / 6f
+private const val LARGE_SPAN_THRESHOLD = 20f
+private const val LARGE_SPAN_CAP = 120f
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -129,13 +132,37 @@ private fun computeViewport(
         }
     }
 
-    val countrySpanLon = (maxLon - minLon).coerceAtLeast(2f)
+    var countrySpanLon = maxLon - minLon
+    var cLon: Float
+
+    if (countrySpanLon > 180f) {
+        var wrapMin = Float.MAX_VALUE
+        var wrapMax = -Float.MAX_VALUE
+        for (ring in targetPolygons) {
+            for (pt in ring) {
+                val lon = if (pt.lon < 0f) pt.lon + 360f else pt.lon
+                if (lon < wrapMin) wrapMin = lon
+                if (lon > wrapMax) wrapMax = lon
+            }
+        }
+        countrySpanLon = wrapMax - wrapMin
+        cLon = (wrapMin + wrapMax) / 2f
+        if (cLon > 180f) cLon -= 360f
+    } else {
+        cLon = (minLon + maxLon) / 2f
+    }
+
+    countrySpanLon = countrySpanLon.coerceAtLeast(2f)
     val countrySpanLat = (maxLat - minLat).coerceAtLeast(2f)
-    val cLon = (minLon + maxLon) / 2f
     val cLat = (minLat + maxLat) / 2f
 
-    val neededLon = countrySpanLon / COUNTRY_WIDTH_FRACTION
-    val neededLat = countrySpanLat / COUNTRY_WIDTH_FRACTION
+    val maxSpan = maxOf(countrySpanLon, countrySpanLat)
+    val t = ((maxSpan - LARGE_SPAN_THRESHOLD) / (LARGE_SPAN_CAP - LARGE_SPAN_THRESHOLD))
+        .coerceIn(0f, 1f)
+    val fraction = MIN_COUNTRY_FRACTION + t * (MAX_COUNTRY_FRACTION - MIN_COUNTRY_FRACTION)
+
+    val neededLon = countrySpanLon / fraction
+    val neededLat = countrySpanLat / fraction
 
     val finalSpanLon: Float
     val finalSpanLat: Float
@@ -167,9 +194,15 @@ private fun DrawScope.buildPath(
     val path = Path()
     val rangeX = vp.maxLon - vp.minLon
     val rangeY = vp.maxLat - vp.minLat
+    val vpCenter = (vp.minLon + vp.maxLon) / 2f
 
     ring.forEachIndexed { i, pt ->
-        val x = padX + ((pt.lon - vp.minLon) / rangeX) * drawW
+        val lon = when {
+            pt.lon < vpCenter - 180f -> pt.lon + 360f
+            pt.lon > vpCenter + 180f -> pt.lon - 360f
+            else -> pt.lon
+        }
+        val x = padX + ((lon - vp.minLon) / rangeX) * drawW
         val y = padY + ((vp.maxLat - pt.lat) / rangeY) * drawH
         if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
     }
