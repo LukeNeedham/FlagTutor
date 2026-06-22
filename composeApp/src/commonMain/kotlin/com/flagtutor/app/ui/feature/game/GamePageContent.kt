@@ -1,7 +1,9 @@
 package com.flagtutor.app.ui.feature.game
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -17,8 +19,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
@@ -40,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.domain.model.Country
+import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.component.FlagImage
 import com.flagtutor.app.ui.feature.game.component.FlagOptionButton
 
@@ -48,6 +54,7 @@ import com.flagtutor.app.ui.feature.game.component.FlagOptionButton
 fun GamePageContent(
     uiState: GameUiState,
     onOptionSelected: (Country) -> Unit,
+    onNextFlag: () -> Unit,
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -118,10 +125,16 @@ fun GamePageContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
                             .padding(horizontal = 24.dp, vertical = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
                     ) {
+                        Text(
+                            text = if (uiState.isAnswerRevealed) uiState.flag.name else "Which country's flag is this?",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Spacer(modifier = Modifier.height(24.dp))
                         AnimatedContent(
                             targetState = uiState,
                             contentKey = { it.flag.alpha2Code },
@@ -160,9 +173,44 @@ fun GamePageContent(
                                         contentScale = ContentScale.Fit,
                                     )
                                 }
-                                Spacer(modifier = Modifier.height(32.dp))
+                                Spacer(modifier = Modifier.height(16.dp))
+                                AnimatedVisibility(
+                                    visible = state.isAnswerRevealed,
+                                    enter = fadeIn(tween(400)) + expandVertically(tween(400)),
+                                ) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Card(
+                                            shape = MaterialTheme.shapes.extraLarge,
+                                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                                            modifier = Modifier.fillMaxWidth(0.85f),
+                                        ) {
+                                            CountryMapHighlight(
+                                                alpha2Code = state.flag.alpha2Code,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .aspectRatio(16f / 10f)
+                                                    .padding(12.dp),
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.height(16.dp))
+                                        Button(
+                                            onClick = onNextFlag,
+                                            shape = MaterialTheme.shapes.large,
+                                        ) {
+                                            Text("Next Flag")
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                                contentDescription = null,
+                                            )
+                                        }
+                                    }
+                                }
+                                if (!state.isAnswerRevealed) {
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                }
                                 state.options.forEach { country ->
-                                    // Keyed so each option gets a fresh crumble animation state when the flag changes.
                                     key(country.alpha2Code) {
                                         FlagOptionButton(
                                             country = country,
