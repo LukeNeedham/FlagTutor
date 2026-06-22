@@ -86,13 +86,17 @@ fun CountryMapHighlight(
         val viewport = computeViewport(boundaries, targetCode, drawW / drawH)
 
         for ((code, polygons) in boundaries) {
-            if (code == "aq") continue
-            val fill = if (code == targetCode) highlightColor else landColor
+            if (code == "aq" || code == targetCode) continue
             for (ring in polygons) {
                 val path = buildPath(ring, viewport, padX, padY, drawW, drawH)
-                drawPath(path, fill, style = Fill)
+                drawPath(path, landColor, style = Fill)
                 drawPath(path, borderColor, style = Stroke(width = 1f))
             }
+        }
+        boundaries[targetCode]?.forEach { ring ->
+            val path = buildPath(ring, viewport, padX, padY, drawW, drawH)
+            drawPath(path, highlightColor, style = Fill)
+            drawPath(path, borderColor, style = Stroke(width = 1f))
         }
     }
 }

@@ -1,12 +1,5 @@
 package com.flagtutor.app.domain.model
 
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.float
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonPrimitive
-
 object CountryBoundaries {
 
     data class LatLng(val lon: Float, val lat: Float)
@@ -21,17 +14,61 @@ object CountryBoundaries {
 
     fun load(jsonBytes: ByteArray) {
         if (parsed != null) return
-        val root = Json.parseToJsonElement(String(jsonBytes)) as JsonObject
-        val map = mutableMapOf<String, List<List<LatLng>>>()
-        for ((code, polygonsElement) in root) {
-            val polygons = (polygonsElement as JsonArray).map { polyElement ->
-                (polyElement as JsonArray).map { pointElement ->
-                    val arr = pointElement.jsonArray
-                    LatLng(arr[0].jsonPrimitive.float, arr[1].jsonPrimitive.float)
+        parsed = parse(String(jsonBytes, Charsets.UTF_8))
+    }
+
+    private fun parse(json: String): Map<String, List<List<LatLng>>> {
+        val map = HashMap<String, List<List<LatLng>>>(300)
+        var i = json.indexOf('{') + 1
+        val len = json.length
+
+        while (i < len) {
+            // Find next key
+            val keyStart = json.indexOf('"', i)
+            if (keyStart < 0) break
+            val keyEnd = json.indexOf('"', keyStart + 1)
+            val code = json.substring(keyStart + 1, keyEnd)
+            i = json.indexOf('[', keyEnd) + 1 // outer polygon array
+
+            val polygons = ArrayList<List<LatLng>>()
+            while (i < len && json[i] != ']') {
+                if (json[i] == '[') {
+                    i++ // start of polygon ring array
+                    val ring = ArrayList<LatLng>()
+                    while (i < len && json[i] != ']') {
+                        if (json[i] == '[') {
+                            i++ // start of coordinate pair
+                            val lonEnd = json.indexOf(',', i)
+                            val lon = json.substring(i, lonEnd).toFloat()
+                            i = lonEnd + 1
+                            val latEnd = findNumberEnd(json, i)
+                            val lat = json.substring(i, latEnd).toFloat()
+                            i = json.indexOf(']', latEnd) + 1 // past closing ]
+                            ring.add(LatLng(lon, lat))
+                        } else {
+                            i++
+                        }
+                    }
+                    if (i < len) i++ // past polygon ring ]
+                    polygons.add(ring)
+                } else {
+                    i++
                 }
             }
+            if (i < len) i++ // past outer polygon array ]
             map[code] = polygons
         }
-        parsed = map
+        return map
+    }
+
+    private fun findNumberEnd(s: String, start: Int): Int {
+        var i = start
+        val len = s.length
+        while (i < len) {
+            val c = s[i]
+            if (c == ']' || c == ',') return i
+            i++
+        }
+        return i
     }
 }
