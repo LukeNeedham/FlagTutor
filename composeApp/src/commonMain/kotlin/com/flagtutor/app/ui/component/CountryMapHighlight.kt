@@ -1,9 +1,13 @@
 package com.flagtutor.app.ui.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -26,12 +30,26 @@ fun CountryMapHighlight(
 ) {
     val boundaries = remember { CountryBoundaries.boundaries }
     val targetCode = remember(alpha2Code) { alpha2Code.lowercase() }
+    val hasBoundary = remember(targetCode) { targetCode in boundaries }
+
+    if (!hasBoundary) {
+        Box(modifier = modifier, contentAlignment = Alignment.Center) {
+            Text(
+                text = "No map data",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        return
+    }
 
     Canvas(modifier = modifier) {
         val padX = size.width * PADDING_FRACTION
         val padY = size.height * PADDING_FRACTION
         val drawW = size.width - 2 * padX
         val drawH = size.height - 2 * padY
+
+        if (drawW <= 0f || drawH <= 0f) return@Canvas
 
         val viewport = computeViewport(boundaries, targetCode, drawW / drawH)
 
@@ -60,9 +78,7 @@ private fun computeViewport(
     canvasAspectRatio: Float,
 ): Viewport {
     val targetPolygons = boundaries[targetCode]
-    if (targetPolygons == null || targetPolygons.isEmpty()) {
-        return Viewport(-180f, 180f, -60f, 85f)
-    }
+        ?: return Viewport(-180f, 180f, -60f, 85f)
 
     var minLon = Float.MAX_VALUE
     var maxLon = -Float.MAX_VALUE
@@ -79,15 +95,24 @@ private fun computeViewport(
 
     val countrySpanLon = (maxLon - minLon).coerceAtLeast(2f)
     val countrySpanLat = (maxLat - minLat).coerceAtLeast(2f)
-
     val cLon = (minLon + maxLon) / 2f
     val cLat = (minLat + maxLat) / 2f
 
-    val viewSpanLon = countrySpanLon / COUNTRY_WIDTH_FRACTION
-    val viewSpanLat = viewSpanLon / canvasAspectRatio
+    // Country should fill ~1/3 of the map. Compute spans for both axes,
+    // then expand the smaller axis to match the canvas aspect ratio.
+    val neededLon = countrySpanLon / COUNTRY_WIDTH_FRACTION
+    val neededLat = countrySpanLat / COUNTRY_WIDTH_FRACTION
 
-    val finalSpanLon = maxOf(viewSpanLon, countrySpanLat / COUNTRY_WIDTH_FRACTION * canvasAspectRatio)
-    val finalSpanLat = finalSpanLon / canvasAspectRatio
+    val finalSpanLon: Float
+    val finalSpanLat: Float
+
+    if (neededLon / neededLat > canvasAspectRatio) {
+        finalSpanLon = neededLon
+        finalSpanLat = neededLon / canvasAspectRatio
+    } else {
+        finalSpanLat = neededLat
+        finalSpanLon = neededLat * canvasAspectRatio
+    }
 
     return Viewport(
         minLon = cLon - finalSpanLon / 2f,
