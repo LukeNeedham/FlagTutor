@@ -14,6 +14,7 @@ import com.flagtutor.app.domain.model.CountryBoundaries
 import com.flagtutor.app.domain.model.CountryBoundaries.LatLng
 
 private const val PADDING_FRACTION = 0.05f
+private const val COUNTRY_WIDTH_FRACTION = 1f / 3f
 
 @Composable
 fun CountryMapHighlight(
@@ -21,7 +22,7 @@ fun CountryMapHighlight(
     modifier: Modifier = Modifier,
     highlightColor: Color = MaterialTheme.colorScheme.primary,
     landColor: Color = MaterialTheme.colorScheme.surfaceVariant,
-    borderColor: Color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+    borderColor: Color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
 ) {
     val boundaries = remember { CountryBoundaries.boundaries }
     val targetCode = remember(alpha2Code) { alpha2Code.lowercase() }
@@ -32,7 +33,7 @@ fun CountryMapHighlight(
         val drawW = size.width - 2 * padX
         val drawH = size.height - 2 * padY
 
-        val viewport = WORLD_VIEWPORT
+        val viewport = computeViewport(boundaries, targetCode, drawW / drawH)
 
         for ((code, polygons) in boundaries) {
             if (code == "aq") continue
@@ -40,7 +41,7 @@ fun CountryMapHighlight(
             for (ring in polygons) {
                 val path = buildPath(ring, viewport, padX, padY, drawW, drawH)
                 drawPath(path, fill, style = Fill)
-                drawPath(path, borderColor, style = Stroke(width = 0.5f))
+                drawPath(path, borderColor, style = Stroke(width = 1f))
             }
         }
     }
@@ -53,7 +54,48 @@ private data class Viewport(
     val maxLat: Float,
 )
 
-private val WORLD_VIEWPORT = Viewport(-180f, 180f, -60f, 85f)
+private fun computeViewport(
+    boundaries: Map<String, List<List<LatLng>>>,
+    targetCode: String,
+    canvasAspectRatio: Float,
+): Viewport {
+    val targetPolygons = boundaries[targetCode]
+    if (targetPolygons == null || targetPolygons.isEmpty()) {
+        return Viewport(-180f, 180f, -60f, 85f)
+    }
+
+    var minLon = Float.MAX_VALUE
+    var maxLon = -Float.MAX_VALUE
+    var minLat = Float.MAX_VALUE
+    var maxLat = -Float.MAX_VALUE
+    for (ring in targetPolygons) {
+        for (pt in ring) {
+            if (pt.lon < minLon) minLon = pt.lon
+            if (pt.lon > maxLon) maxLon = pt.lon
+            if (pt.lat < minLat) minLat = pt.lat
+            if (pt.lat > maxLat) maxLat = pt.lat
+        }
+    }
+
+    val countrySpanLon = (maxLon - minLon).coerceAtLeast(2f)
+    val countrySpanLat = (maxLat - minLat).coerceAtLeast(2f)
+
+    val cLon = (minLon + maxLon) / 2f
+    val cLat = (minLat + maxLat) / 2f
+
+    val viewSpanLon = countrySpanLon / COUNTRY_WIDTH_FRACTION
+    val viewSpanLat = viewSpanLon / canvasAspectRatio
+
+    val finalSpanLon = maxOf(viewSpanLon, countrySpanLat / COUNTRY_WIDTH_FRACTION * canvasAspectRatio)
+    val finalSpanLat = finalSpanLon / canvasAspectRatio
+
+    return Viewport(
+        minLon = cLon - finalSpanLon / 2f,
+        maxLon = cLon + finalSpanLon / 2f,
+        minLat = cLat - finalSpanLat / 2f,
+        maxLat = cLat + finalSpanLat / 2f,
+    )
+}
 
 private fun DrawScope.buildPath(
     ring: List<LatLng>,
