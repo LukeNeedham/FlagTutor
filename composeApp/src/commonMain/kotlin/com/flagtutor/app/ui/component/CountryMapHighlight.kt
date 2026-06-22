@@ -196,13 +196,15 @@ private fun DrawScope.buildPath(
     val rangeY = vp.maxLat - vp.minLat
     val vpCenter = (vp.minLon + vp.maxLon) / 2f
 
+    val refLon = ring.firstOrNull()?.lon ?: 0f
+    val ringShift = when {
+        refLon < vpCenter - 180f -> 360f
+        refLon > vpCenter + 180f -> -360f
+        else -> 0f
+    }
+
     ring.forEachIndexed { i, pt ->
-        val lon = when {
-            pt.lon < vpCenter - 180f -> pt.lon + 360f
-            pt.lon > vpCenter + 180f -> pt.lon - 360f
-            else -> pt.lon
-        }
-        val x = padX + ((lon - vp.minLon) / rangeX) * drawW
+        val x = padX + ((pt.lon + ringShift - vp.minLon) / rangeX) * drawW
         val y = padY + ((vp.maxLat - pt.lat) / rangeY) * drawH
         if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
     }
