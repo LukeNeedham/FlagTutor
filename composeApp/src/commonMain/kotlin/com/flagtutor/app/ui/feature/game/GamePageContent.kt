@@ -122,12 +122,6 @@ fun GamePageContent(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
                     ) {
-                        Text(
-                            text = "Which country's flag is this?",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                        Spacer(modifier = Modifier.height(24.dp))
                         AnimatedContent(
                             targetState = uiState,
                             contentKey = { it.flag.alpha2Code },
