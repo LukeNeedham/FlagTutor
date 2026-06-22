@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,10 +20,15 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.flagtutor.app.domain.model.CountryBoundaries
 import com.flagtutor.app.domain.model.CountryBoundaries.LatLng
+import flagtutor.composeapp.generated.resources.Res
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 private const val PADDING_FRACTION = 0.05f
 private const val COUNTRY_WIDTH_FRACTION = 1f / 3f
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun CountryMapHighlight(
     alpha2Code: String,
@@ -28,7 +37,30 @@ fun CountryMapHighlight(
     landColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     borderColor: Color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
 ) {
-    val boundaries = remember { CountryBoundaries.boundaries }
+    var loaded by remember { mutableStateOf(CountryBoundaries.isLoaded) }
+
+    LaunchedEffect(Unit) {
+        if (!CountryBoundaries.isLoaded) {
+            withContext(Dispatchers.Default) {
+                val bytes = Res.readBytes("files/country_boundaries.json")
+                CountryBoundaries.load(bytes)
+            }
+            loaded = true
+        }
+    }
+
+    if (!loaded) {
+        Box(modifier = modifier, contentAlignment = Alignment.Center) {
+            Text(
+                text = "Loading map…",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        return
+    }
+
+    val boundaries = CountryBoundaries.boundaries
     val targetCode = remember(alpha2Code) { alpha2Code.lowercase() }
     val hasBoundary = remember(targetCode) { targetCode in boundaries }
 
@@ -98,8 +130,6 @@ private fun computeViewport(
     val cLon = (minLon + maxLon) / 2f
     val cLat = (minLat + maxLat) / 2f
 
-    // Country should fill ~1/3 of the map. Compute spans for both axes,
-    // then expand the smaller axis to match the canvas aspect ratio.
     val neededLon = countrySpanLon / COUNTRY_WIDTH_FRACTION
     val neededLat = countrySpanLat / COUNTRY_WIDTH_FRACTION
 
