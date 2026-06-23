@@ -22,7 +22,6 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.reimagined.navigation)
             implementation(libs.ktor.client.android)
-            implementation(libs.palette)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

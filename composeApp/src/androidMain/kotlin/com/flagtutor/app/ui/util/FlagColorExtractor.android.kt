@@ -3,9 +3,18 @@ package com.flagtutor.app.ui.util
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.compose.ui.graphics.Color
-import androidx.palette.graphics.Palette
 import coil3.BitmapImage
 import coil3.Image
+
+private const val QUANTIZE_SHIFT = 5
+private const val BUCKET_SIZE = 1 shl QUANTIZE_SHIFT
+
+private class ColorBucket {
+    var totalR = 0L
+    var totalG = 0L
+    var totalB = 0L
+    var count = 0
+}
 
 actual fun extractColorsFromImage(image: Image, count: Int): List<ExtractedColor> {
     val bitmap = (image as? BitmapImage)?.bitmap ?: return emptyList()
@@ -15,17 +24,36 @@ actual fun extractColorsFromImage(image: Image, count: Int): List<ExtractedColor
         bitmap
     }
     try {
-        val palette = Palette.from(softwareBitmap)
-            .clearFilters()
-            .maximumColorCount(32)
-            .generate()
-        return palette.swatches
-            .sortedByDescending { it.population }
+        val width = softwareBitmap.width
+        val height = softwareBitmap.height
+        val pixels = IntArray(width * height)
+        softwareBitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        val buckets = mutableMapOf<Int, ColorBucket>()
+        for (pixel in pixels) {
+            val r = (pixel shr 16) and 0xFF
+            val g = (pixel shr 8) and 0xFF
+            val b = pixel and 0xFF
+            val key = (r / BUCKET_SIZE shl 16) or (g / BUCKET_SIZE shl 8) or (b / BUCKET_SIZE)
+            val bucket = buckets.getOrPut(key) { ColorBucket() }
+            bucket.totalR += r
+            bucket.totalG += g
+            bucket.totalB += b
+            bucket.count++
+        }
+
+        return buckets.values
+            .sortedByDescending { it.count }
             .take(count)
-            .map { swatch ->
+            .map { bucket ->
+                val avgR = (bucket.totalR / bucket.count).toInt()
+                val avgG = (bucket.totalG / bucket.count).toInt()
+                val avgB = (bucket.totalB / bucket.count).toInt()
+                val containerColor = Color(avgR, avgG, avgB)
+                val luminance = (0.299 * avgR + 0.587 * avgG + 0.114 * avgB) / 255.0
                 ExtractedColor(
-                    containerColor = Color(swatch.rgb).copy(alpha = 1f),
-                    contentColor = Color(swatch.titleTextColor).copy(alpha = 1f),
+                    containerColor = containerColor,
+                    contentColor = if (luminance > 0.5) Color.Black else Color.White,
                 )
             }
     } finally {
