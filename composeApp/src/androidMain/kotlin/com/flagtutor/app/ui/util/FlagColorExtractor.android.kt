@@ -15,7 +15,10 @@ actual fun extractColorsFromImage(image: Image, count: Int): List<ExtractedColor
         bitmap
     }
     try {
-        val palette = Palette.from(softwareBitmap).maximumColorCount(count * 2).generate()
+        val palette = Palette.from(softwareBitmap)
+            .clearFilters()
+            .maximumColorCount(count * 2)
+            .generate()
         return palette.swatches
             .sortedByDescending { it.population }
             .take(count)
