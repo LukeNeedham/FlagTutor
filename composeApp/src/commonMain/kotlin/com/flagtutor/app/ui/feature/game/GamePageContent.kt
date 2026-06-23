@@ -158,21 +158,13 @@ fun GamePageContent(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
-                                Card(
-                                    shape = MaterialTheme.shapes.extraLarge,
-                                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                                    modifier = Modifier.fillMaxWidth(0.85f),
-                                ) {
-                                    FlagImage(
-                                        flagUrl = state.flag.flagUrl,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .aspectRatio(3f / 2f)
-                                            .padding(16.dp),
-                                        contentScale = ContentScale.Fit,
-                                    )
-                                }
+                                FlagImage(
+                                    flagUrl = state.flag.flagUrl,
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.85f)
+                                        .aspectRatio(3f / 2f),
+                                    contentScale = ContentScale.Fit,
+                                )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 AnimatedVisibility(
                                     visible = state.isAnswerRevealed,
