@@ -16,6 +16,8 @@ private class ColorBucket {
     var count = 0
 }
 
+private const val SIGNIFICANCE_THRESHOLD = 0.03
+
 actual fun extractColorsFromImage(image: Image, count: Int): List<ExtractedColor> {
     val bitmap = (image as? BitmapImage)?.bitmap ?: return emptyList()
     val softwareBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bitmap.config == Bitmap.Config.HARDWARE) {
@@ -42,8 +44,10 @@ actual fun extractColorsFromImage(image: Image, count: Int): List<ExtractedColor
             bucket.count++
         }
 
-        return buckets.values
-            .sortedByDescending { it.count }
+        val sorted = buckets.values.sortedByDescending { it.count }
+        val maxCount = sorted.firstOrNull()?.count ?: return emptyList()
+        return sorted
+            .filter { it.count >= maxCount * SIGNIFICANCE_THRESHOLD }
             .take(count)
             .map { bucket ->
                 val avgR = (bucket.totalR / bucket.count).toInt()
