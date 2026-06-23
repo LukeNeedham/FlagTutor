@@ -11,4 +11,5 @@ data class Country(
     val name: String,
     val alpha2Code: String,
     val flagUrl: String,
+    val wikipediaUrl: String,
 )

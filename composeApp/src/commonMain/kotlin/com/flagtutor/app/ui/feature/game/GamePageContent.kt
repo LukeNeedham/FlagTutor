@@ -12,6 +12,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +25,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
@@ -31,6 +33,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +58,7 @@ fun GamePageContent(
     uiState: GameUiState,
     onOptionSelected: (Country) -> Unit,
     onNextFlag: () -> Unit,
+    onMoreInfo: (String) -> Unit,
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -186,16 +190,33 @@ fun GamePageContent(
                                             )
                                         }
                                         Spacer(modifier = Modifier.height(16.dp))
-                                        Button(
-                                            onClick = onNextFlag,
-                                            shape = MaterialTheme.shapes.large,
+                                        Row(
+                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
                                         ) {
-                                            Text("Next Flag")
-                                            Spacer(modifier = Modifier.width(8.dp))
-                                            Icon(
-                                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                                contentDescription = null,
-                                            )
+                                            Button(
+                                                onClick = onNextFlag,
+                                                shape = MaterialTheme.shapes.large,
+                                            ) {
+                                                Text("Next")
+                                                Spacer(modifier = Modifier.width(8.dp))
+                                                Icon(
+                                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                                    contentDescription = null,
+                                                )
+                                            }
+                                            if (state.flag.wikipediaUrl.isNotEmpty()) {
+                                                FilledTonalButton(
+                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                    shape = MaterialTheme.shapes.large,
+                                                ) {
+                                                    Text("More Info")
+                                                    Spacer(modifier = Modifier.width(8.dp))
+                                                    Icon(
+                                                        imageVector = Icons.Filled.Info,
+                                                        contentDescription = null,
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
                                 }

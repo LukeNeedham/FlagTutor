@@ -1,6 +1,7 @@
 package com.flagtutor.app.data.repository
 
 import com.flagtutor.app.data.local.CountryLocalDataSource
+import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.data.remote.CountryApi
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
@@ -14,15 +15,29 @@ data class CountriesResult(val countries: List<Country>, val isFromCache: Boolea
 class CountryRepository(
     private val countryApi: CountryApi,
     private val localDataSource: CountryLocalDataSource,
+    private val wikipediaLinkDataSource: WikipediaLinkDataSource,
 ) {
 
     /** Returns the cached country list if one exists, otherwise fetches and caches it. */
     suspend fun getCountries(): CountriesResult {
         val cached = localDataSource.getCountries()
         if (cached != null) {
-            return CountriesResult(cached, isFromCache = true)
+            val enriched = enrichWithWikipediaLinks(cached)
+            return CountriesResult(enriched, isFromCache = true)
         }
         return CountriesResult(fetchAndPersist(), isFromCache = false)
+    }
+
+    private suspend fun enrichWithWikipediaLinks(countries: List<Country>): List<Country> {
+        if (countries.all { it.wikipediaUrl.isNotEmpty() }) return countries
+        val wikiLinks = wikipediaLinkDataSource.getLinks()
+        return countries.map { country ->
+            if (country.wikipediaUrl.isEmpty()) {
+                country.copy(wikipediaUrl = wikiLinks[country.alpha2Code] ?: "")
+            } else {
+                country
+            }
+        }
     }
 
     /** Fetches the latest country data and updates the cache. Returns null if offline. */
@@ -37,6 +52,7 @@ class CountryRepository(
     }
 
     private suspend fun fetchAndPersist(): List<Country> {
+        val wikiLinks = wikipediaLinkDataSource.getLinks()
         val countries = countryApi.getCountryCodes()
             .filterKeys { it.length == 2 && it !in EXCLUDED_CODES }
             .map { (code, name) ->
@@ -44,6 +60,7 @@ class CountryRepository(
                     name = name,
                     alpha2Code = code,
                     flagUrl = "$FLAG_BASE_URL/$code.png",
+                    wikipediaUrl = wikiLinks[code] ?: "",
                 )
             }
             .sortedBy { it.name }
