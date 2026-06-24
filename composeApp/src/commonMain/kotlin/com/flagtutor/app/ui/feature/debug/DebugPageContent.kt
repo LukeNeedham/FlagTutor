@@ -174,7 +174,6 @@ private fun DebugCountryRow(
         )
         CountryMapHighlight(
             alpha2Code = country.alpha2Code,
-            showBackground = false,
             modifier = Modifier
                 .height(40.dp)
                 .aspectRatio(16f / 10f)

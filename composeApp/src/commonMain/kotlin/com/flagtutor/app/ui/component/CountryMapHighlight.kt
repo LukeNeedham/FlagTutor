@@ -36,7 +36,6 @@ private const val LARGE_SPAN_CAP = 120f
 fun CountryMapHighlight(
     alpha2Code: String,
     modifier: Modifier = Modifier,
-    showBackground: Boolean = true,
     highlightColor: Color = MaterialTheme.colorScheme.primary,
     landColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     borderColor: Color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
@@ -89,14 +88,12 @@ fun CountryMapHighlight(
 
         val viewport = computeViewport(boundaries, targetCode, drawW / drawH)
 
-        if (showBackground) {
-            for ((code, polygons) in boundaries) {
-                if (code == "aq" || code == targetCode) continue
-                for (ring in polygons) {
-                    val path = buildPath(ring, viewport, padX, padY, drawW, drawH)
-                    drawPath(path, landColor, style = Fill)
-                    drawPath(path, borderColor, style = Stroke(width = 1f))
-                }
+        for ((code, polygons) in boundaries) {
+            if (code == "aq" || code == targetCode) continue
+            for (ring in polygons) {
+                val path = buildPath(ring, viewport, padX, padY, drawW, drawH)
+                drawPath(path, landColor, style = Fill)
+                drawPath(path, borderColor, style = Stroke(width = 1f))
             }
         }
         boundaries[targetCode]?.forEach { ring ->
