@@ -16,7 +16,7 @@ private class ColorBucket {
     var count = 0
 }
 
-private const val MIN_PIXEL_FRACTION = 0.01
+private const val MIN_PIXEL_FRACTION = 0.03
 
 actual fun extractColorsFromImage(image: Image, count: Int): List<ExtractedColor> {
     val bitmap = (image as? BitmapImage)?.bitmap ?: return emptyList()
