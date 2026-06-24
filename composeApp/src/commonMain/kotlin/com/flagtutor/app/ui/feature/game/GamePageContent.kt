@@ -50,7 +50,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -183,17 +182,22 @@ fun GamePageContent(
                                     enter = fadeIn(tween(400)) + expandVertically(tween(400)),
                                 ) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        CenteredTextWithTrailingIcon(
-                                            text = {
-                                                Text(
-                                                    text = state.flag.name,
-                                                    style = MaterialTheme.typography.titleLarge,
-                                                    color = MaterialTheme.colorScheme.onBackground,
-                                                    textAlign = TextAlign.Center,
-                                                )
-                                            },
-                                            icon = if (state.flag.wikipediaUrl.isNotEmpty()) {
-                                                {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            modifier = Modifier.fillMaxWidth(),
+                                        ) {
+                                            Spacer(modifier = Modifier.weight(1f))
+                                            Text(
+                                                text = state.flag.name,
+                                                style = MaterialTheme.typography.titleLarge,
+                                                color = MaterialTheme.colorScheme.onBackground,
+                                                textAlign = TextAlign.Center,
+                                            )
+                                            Box(
+                                                modifier = Modifier.weight(1f),
+                                                contentAlignment = Alignment.CenterStart,
+                                            ) {
+                                                if (state.flag.wikipediaUrl.isNotEmpty()) {
                                                     IconButton(
                                                         onClick = { onMoreInfo(state.flag.wikipediaUrl) },
                                                     ) {
@@ -204,9 +208,8 @@ fun GamePageContent(
                                                         )
                                                     }
                                                 }
-                                            } else null,
-                                            modifier = Modifier.fillMaxWidth(),
-                                        )
+                                            }
+                                        }
                                         Spacer(modifier = Modifier.height(12.dp))
                                         Card(
                                             shape = MaterialTheme.shapes.extraLarge,
@@ -339,47 +342,4 @@ private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
     return IntArray(4) { order[it] % colors.size }
 }
 
-@Composable
-private fun CenteredTextWithTrailingIcon(
-    text: @Composable () -> Unit,
-    icon: (@Composable () -> Unit)?,
-    modifier: Modifier = Modifier,
-) {
-    Layout(
-        content = {
-            text()
-            if (icon != null) {
-                icon()
-            }
-        },
-        modifier = modifier,
-    ) { measurables, constraints ->
-        val hasIcon = icon != null
-        val iconPlaceable = if (hasIcon) {
-            measurables[1].measure(constraints.copy(minWidth = 0))
-        } else null
-        val iconWidth = iconPlaceable?.width ?: 0
 
-        val textMaxWidth = (constraints.maxWidth - iconWidth).coerceAtLeast(0)
-        val textPlaceable = measurables[0].measure(
-            constraints.copy(minWidth = 0, maxWidth = textMaxWidth)
-        )
-
-        val height = maxOf(textPlaceable.height, iconPlaceable?.height ?: 0)
-
-        layout(constraints.maxWidth, height) {
-            val textX = maxOf(
-                0,
-                minOf(
-                    (constraints.maxWidth - textPlaceable.width) / 2,
-                    constraints.maxWidth - textPlaceable.width - iconWidth,
-                ),
-            )
-            textPlaceable.place(textX, (height - textPlaceable.height) / 2)
-            iconPlaceable?.place(
-                textX + textPlaceable.width,
-                (height - (iconPlaceable.height)) / 2,
-            )
-        }
-    }
-}
