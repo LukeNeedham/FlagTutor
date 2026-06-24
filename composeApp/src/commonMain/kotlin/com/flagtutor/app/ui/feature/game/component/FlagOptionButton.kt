@@ -65,6 +65,7 @@ fun FlagOptionButton(
     enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    shape: Shape = MaterialTheme.shapes.large,
     containerColor: Color? = null,
     contentColor: Color? = null,
 ) {
@@ -114,7 +115,7 @@ fun FlagOptionButton(
             onClick = onClick,
             enabled = enabled,
             colors = colors,
-            shape = MaterialTheme.shapes.large,
+            shape = shape,
             contentPadding = PaddingValues(vertical = 16.dp, horizontal = 24.dp),
             modifier = Modifier
                 .fillMaxSize()

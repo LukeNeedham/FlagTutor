@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -237,6 +238,17 @@ fun GamePageContent(
                                         .fillMaxWidth(),
                                     verticalArrangement = Arrangement.spacedBy(12.dp),
                                 ) {
+                                    val cornerRadius = 24.dp
+                                    val gridShapes = arrayOf(
+                                        arrayOf(
+                                            RoundedCornerShape(topStart = cornerRadius),
+                                            RoundedCornerShape(topEnd = cornerRadius),
+                                        ),
+                                        arrayOf(
+                                            RoundedCornerShape(bottomStart = cornerRadius),
+                                            RoundedCornerShape(bottomEnd = cornerRadius),
+                                        ),
+                                    )
                                     state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
                                         Row(
                                             modifier = Modifier.weight(1f).fillMaxWidth(),
@@ -255,6 +267,7 @@ fun GamePageContent(
                                                         isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
                                                         enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
                                                         onClick = { onOptionSelected(country) },
+                                                        shape = gridShapes[rowIndex][colIndex],
                                                         containerColor = extractedColor?.containerColor,
                                                         contentColor = extractedColor?.contentColor,
                                                         modifier = Modifier.weight(1f).fillMaxHeight(),
