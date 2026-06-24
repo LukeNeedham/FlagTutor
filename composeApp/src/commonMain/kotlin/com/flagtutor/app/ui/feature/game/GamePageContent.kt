@@ -360,8 +360,12 @@ private fun CenteredTextWithTrailingIcon(
         } else null
         val iconWidth = iconPlaceable?.width ?: 0
 
+        val textMaxWidth = (constraints.maxWidth - iconWidth).coerceAtLeast(0)
         val textPlaceable = measurables[0].measure(
-            constraints.copy(maxWidth = (constraints.maxWidth - iconWidth).coerceAtLeast(0))
+            constraints.copy(
+                minWidth = constraints.minWidth.coerceAtMost(textMaxWidth),
+                maxWidth = textMaxWidth,
+            )
         )
 
         val height = maxOf(textPlaceable.height, iconPlaceable?.height ?: 0)
