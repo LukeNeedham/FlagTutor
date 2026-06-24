@@ -258,7 +258,7 @@ fun GamePageContent(
                                             rowOptions.forEachIndexed { colIndex, country ->
                                                 val colorIndex = colorOrder[rowIndex * 2 + colIndex]
                                                 val extractedColor = if (buttonColors.isNotEmpty()) {
-                                                    buttonColors[colorIndex]
+                                                    buttonColors[colorIndex % buttonColors.size]
                                                 } else null
 
                                                 key(country.alpha2Code) {
