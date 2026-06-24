@@ -138,11 +138,13 @@ fun GamePageContent(
                             .padding(horizontal = 24.dp, vertical = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(
-                            text = if (uiState.isAnswerRevealed) uiState.flag.name else "Which country's flag is this?",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
+                        if (!uiState.isAnswerRevealed) {
+                            Text(
+                                text = "Which country's flag is this?",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
                         Spacer(modifier = Modifier.height(24.dp))
                         AnimatedContent(
                             targetState = uiState,
@@ -186,6 +188,12 @@ fun GamePageContent(
                                     enter = fadeIn(tween(400)) + expandVertically(tween(400)),
                                 ) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text(
+                                            text = state.flag.name,
+                                            style = MaterialTheme.typography.titleLarge,
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                        )
+                                        Spacer(modifier = Modifier.height(12.dp))
                                         Card(
                                             shape = MaterialTheme.shapes.extraLarge,
                                             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -231,48 +239,50 @@ fun GamePageContent(
                                         }
                                     }
                                 }
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Column(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxWidth(),
-                                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                                ) {
-                                    val cornerRadius = 24.dp
-                                    val gridShapes = arrayOf(
-                                        arrayOf(
-                                            RoundedCornerShape(topStart = cornerRadius),
-                                            RoundedCornerShape(topEnd = cornerRadius),
-                                        ),
-                                        arrayOf(
-                                            RoundedCornerShape(bottomStart = cornerRadius),
-                                            RoundedCornerShape(bottomEnd = cornerRadius),
-                                        ),
-                                    )
-                                    val colorOrder = checkerboardColorOrder(buttonColors)
-                                    state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
-                                        Row(
-                                            modifier = Modifier.weight(1f).fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                        ) {
-                                            rowOptions.forEachIndexed { colIndex, country ->
-                                                val colorIndex = colorOrder[rowIndex * 2 + colIndex]
-                                                val extractedColor = if (buttonColors.isNotEmpty()) {
-                                                    buttonColors[colorIndex]
-                                                } else null
+                                if (!state.isAnswerRevealed) {
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    Column(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .fillMaxWidth(),
+                                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                                    ) {
+                                        val cornerRadius = 24.dp
+                                        val gridShapes = arrayOf(
+                                            arrayOf(
+                                                RoundedCornerShape(topStart = cornerRadius),
+                                                RoundedCornerShape(topEnd = cornerRadius),
+                                            ),
+                                            arrayOf(
+                                                RoundedCornerShape(bottomStart = cornerRadius),
+                                                RoundedCornerShape(bottomEnd = cornerRadius),
+                                            ),
+                                        )
+                                        val colorOrder = checkerboardColorOrder(buttonColors)
+                                        state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
+                                            Row(
+                                                modifier = Modifier.weight(1f).fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                            ) {
+                                                rowOptions.forEachIndexed { colIndex, country ->
+                                                    val colorIndex = colorOrder[rowIndex * 2 + colIndex]
+                                                    val extractedColor = if (buttonColors.isNotEmpty()) {
+                                                        buttonColors[colorIndex]
+                                                    } else null
 
-                                                key(country.alpha2Code) {
-                                                    FlagOptionButton(
-                                                        country = country,
-                                                        isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
-                                                        isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
-                                                        enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
-                                                        onClick = { onOptionSelected(country) },
-                                                        shape = gridShapes[rowIndex][colIndex],
-                                                        containerColor = extractedColor?.containerColor,
-                                                        contentColor = extractedColor?.contentColor,
-                                                        modifier = Modifier.weight(1f).fillMaxHeight(),
-                                                    )
+                                                    key(country.alpha2Code) {
+                                                        FlagOptionButton(
+                                                            country = country,
+                                                            isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
+                                                            isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
+                                                            enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
+                                                            onClick = { onOptionSelected(country) },
+                                                            shape = gridShapes[rowIndex][colIndex],
+                                                            containerColor = extractedColor?.containerColor,
+                                                            contentColor = extractedColor?.contentColor,
+                                                            modifier = Modifier.weight(1f).fillMaxHeight(),
+                                                        )
+                                                    }
                                                 }
                                             }
                                         }

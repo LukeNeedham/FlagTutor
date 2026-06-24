@@ -3,6 +3,5 @@ This is an ordered list of todo items. Each item should be done in isolation, an
 
 # Todos
 - add a debug page, accessible from the home page when in debug builds, which lists all countries with their map and their button to open more info
-- when the user gets an answer correct, hide the answer buttons completely. the layout should be: flag, name of country, map, learn more button, next flag button. the top status text showing "which country is this" should be removed.
 - add a "reverse" game mode where the user gets shown the name of a country, and the 4 option buttons show flags, and the users needs to click the correct flag
 - refactor to make the app fully offline - bundle the country data file in the apk instead of making API calls, and bundle the flag images in the apk also instead of using URLs
