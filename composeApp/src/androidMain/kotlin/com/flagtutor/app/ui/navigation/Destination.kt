@@ -12,10 +12,10 @@ sealed class Destination : Parcelable {
     data object About : Destination()
 
     @Parcelize
-    data object Game : Destination()
+    data object PickCountryNameGame : Destination()
 
     @Parcelize
-    data object ReverseGame : Destination()
+    data object PickFlagGame : Destination()
 
     @Parcelize
     data object Debug : Destination()

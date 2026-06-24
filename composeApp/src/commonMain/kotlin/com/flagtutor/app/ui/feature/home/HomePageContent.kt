@@ -2,6 +2,7 @@ package com.flagtutor.app.ui.feature.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -77,10 +78,9 @@ fun HomePageContent(
             ) {
                 Button(
                     onClick = onGuessCountryClick,
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(56.dp),
+                    modifier = Modifier.weight(1f),
                     shape = MaterialTheme.shapes.large,
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
                 ) {
                     Icon(imageVector = Icons.Filled.Public, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
@@ -88,10 +88,9 @@ fun HomePageContent(
                 }
                 Button(
                     onClick = onGuessTheFlagClick,
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(56.dp),
+                    modifier = Modifier.weight(1f),
                     shape = MaterialTheme.shapes.large,
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
                 ) {
                     Icon(imageVector = Icons.Filled.Flag, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))

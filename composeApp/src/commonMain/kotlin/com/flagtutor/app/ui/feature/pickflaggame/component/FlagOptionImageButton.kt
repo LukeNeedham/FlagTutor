@@ -1,4 +1,4 @@
-package com.flagtutor.app.ui.feature.reversegame.component
+package com.flagtutor.app.ui.feature.pickflaggame.component
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Easing

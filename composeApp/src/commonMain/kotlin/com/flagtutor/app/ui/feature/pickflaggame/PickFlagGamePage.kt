@@ -1,4 +1,4 @@
-package com.flagtutor.app.ui.feature.reversegame
+package com.flagtutor.app.ui.feature.pickflaggame
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalUriHandler
@@ -6,12 +6,12 @@ import com.flagtutor.app.ui.feature.game.GameViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ReverseGamePage(
+fun PickFlagGamePage(
     onNavigateBack: () -> Unit,
     viewModel: GameViewModel = koinViewModel(),
 ) {
     val uriHandler = LocalUriHandler.current
-    ReverseGamePageContent(
+    PickFlagGamePageContent(
         uiState = viewModel.uiState,
         onOptionSelected = viewModel::onOptionSelected,
         onNextFlag = viewModel::onNextFlag,

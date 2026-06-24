@@ -1,4 +1,4 @@
-package com.flagtutor.app.ui.feature.reversegame
+package com.flagtutor.app.ui.feature.pickflaggame
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -50,11 +50,11 @@ import androidx.compose.ui.unit.dp
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.feature.game.GameUiState
-import com.flagtutor.app.ui.feature.reversegame.component.FlagOptionImageButton
+import com.flagtutor.app.ui.feature.pickflaggame.component.FlagOptionImageButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReverseGamePageContent(
+fun PickFlagGamePageContent(
     uiState: GameUiState,
     onOptionSelected: (Country) -> Unit,
     onNextFlag: () -> Unit,
@@ -148,7 +148,7 @@ fun ReverseGamePageContent(
                                         ) { width -> -width / 3 },
                                 )
                             },
-                            label = "reverse-game-transition",
+                            label = "pick-flag-game-transition",
                             modifier = Modifier.fillMaxWidth().weight(1f),
                         ) { state ->
                             Column(
