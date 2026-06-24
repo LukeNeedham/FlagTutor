@@ -57,7 +57,7 @@ actual fun extractColorsFromImage(image: Image, count: Int): List<ExtractedColor
                 val luminance = (0.299 * avgR + 0.587 * avgG + 0.114 * avgB) / 255.0
                 ExtractedColor(
                     containerColor = containerColor,
-                    contentColor = if (luminance > 0.5) Color.Black else Color.White,
+                    contentColor = if (luminance > 0.7) Color.Black else Color.White,
                 )
             }
     } finally {
