@@ -4,8 +4,9 @@ import androidx.compose.runtime.Composable
 import com.flagtutor.app.BuildConfig
 import com.flagtutor.app.ui.feature.about.AboutPage
 import com.flagtutor.app.ui.feature.debug.DebugPage
-import com.flagtutor.app.ui.feature.game.GamePage
 import com.flagtutor.app.ui.feature.home.HomePage
+import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGamePage
+import com.flagtutor.app.ui.feature.pickflaggame.PickFlagGamePage
 import dev.olshevski.navigation.reimagined.NavBackHandler
 import dev.olshevski.navigation.reimagined.NavHost
 import dev.olshevski.navigation.reimagined.navigate
@@ -21,7 +22,8 @@ fun NavGraph() {
     NavHost(navController) { destination ->
         when (destination) {
             Destination.Home -> HomePage(
-                onNavigateToGame = { navController.navigate(Destination.Game) },
+                onNavigateToPickCountryNameGame = { navController.navigate(Destination.PickCountryNameGame) },
+                onNavigateToPickFlagGame = { navController.navigate(Destination.PickFlagGame) },
                 onNavigateToAbout = { navController.navigate(Destination.About) },
                 onNavigateToDebug = if (BuildConfig.DEBUG) {
                     { navController.navigate(Destination.Debug) }
@@ -34,7 +36,11 @@ fun NavGraph() {
                 onNavigateBack = { navController.pop() },
             )
 
-            Destination.Game -> GamePage(
+            Destination.PickCountryNameGame -> PickCountryNameGamePage(
+                onNavigateBack = { navController.pop() },
+            )
+
+            Destination.PickFlagGame -> PickFlagGamePage(
                 onNavigateBack = { navController.pop() },
             )
 

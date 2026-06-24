@@ -1,4 +1,4 @@
-package com.flagtutor.app.ui.feature.game
+package com.flagtutor.app.ui.feature.pickcountrynamegame
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -55,14 +55,14 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
-import com.flagtutor.app.ui.feature.game.component.FlagOptionButton
+import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
 import com.flagtutor.app.ui.util.ExtractedColor
 import com.flagtutor.app.ui.util.extractColorsFromImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GamePageContent(
-    uiState: GameUiState,
+fun PickCountryNameGamePageContent(
+    uiState: PickCountryNameGameUiState,
     onOptionSelected: (Country) -> Unit,
     onNextFlag: () -> Unit,
     onMoreInfo: (String) -> Unit,
@@ -87,7 +87,7 @@ fun GamePageContent(
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             when (uiState) {
-                is GameUiState.Loading -> {
+                is PickCountryNameGameUiState.Loading -> {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -103,7 +103,7 @@ fun GamePageContent(
                     }
                 }
 
-                is GameUiState.Error -> {
+                is PickCountryNameGameUiState.Error -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -132,7 +132,7 @@ fun GamePageContent(
                     }
                 }
 
-                is GameUiState.Success -> {
+                is PickCountryNameGameUiState.Success -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -297,12 +297,6 @@ fun GamePageContent(
     }
 }
 
-/**
- * Returns color indices arranged so the most similar pair sits on the diagonal
- * (non-adjacent grid positions), avoiding same-colour buttons touching.
- * Output order: [topLeft, topRight, bottomLeft, bottomRight].
- * Returned indices are valid for [colors].size (modulo-wrapped).
- */
 private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
     if (colors.isEmpty()) return intArrayOf(0, 1, 2, 3)
 
@@ -336,10 +330,6 @@ private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
         }
     }
 
-    // best = [diagA1, diagA2, diagB1, diagB2]
-    // Grid: topLeft=A1, topRight=B1, bottomLeft=B2, bottomRight=A2
     val order = intArrayOf(best[0], best[2], best[3], best[1])
     return IntArray(4) { order[it] % colors.size }
 }
-
-

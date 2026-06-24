@@ -7,7 +7,7 @@ import com.flagtutor.app.data.remote.CountryApi
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.ui.feature.about.AboutViewModel
 import com.flagtutor.app.ui.feature.debug.DebugViewModel
-import com.flagtutor.app.ui.feature.game.GameViewModel
+import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGameViewModel
 import com.flagtutor.app.ui.feature.home.HomeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -33,5 +33,5 @@ val appModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::AboutViewModel)
     viewModelOf(::DebugViewModel)
-    viewModelOf(::GameViewModel)
+    viewModelOf(::PickCountryNameGameViewModel)
 }
