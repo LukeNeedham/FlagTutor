@@ -33,6 +33,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -49,6 +50,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.flagtutor.app.domain.model.Country
@@ -180,28 +183,30 @@ fun GamePageContent(
                                     enter = fadeIn(tween(400)) + expandVertically(tween(400)),
                                 ) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.Center,
-                                        ) {
-                                            Text(
-                                                text = state.flag.name,
-                                                style = MaterialTheme.typography.titleLarge,
-                                                color = MaterialTheme.colorScheme.onBackground,
-                                            )
-                                            if (state.flag.wikipediaUrl.isNotEmpty()) {
-                                                Spacer(modifier = Modifier.width(4.dp))
-                                                IconButton(
-                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                ) {
-                                                    Icon(
-                                                        imageVector = Icons.Filled.Info,
-                                                        contentDescription = "More Info",
-                                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                                    )
+                                        CenteredTextWithTrailingIcon(
+                                            text = {
+                                                Text(
+                                                    text = state.flag.name,
+                                                    style = MaterialTheme.typography.titleLarge,
+                                                    color = MaterialTheme.colorScheme.onBackground,
+                                                    textAlign = TextAlign.Center,
+                                                )
+                                            },
+                                            icon = if (state.flag.wikipediaUrl.isNotEmpty()) {
+                                                {
+                                                    IconButton(
+                                                        onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Filled.Info,
+                                                            contentDescription = "More Info",
+                                                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                        )
+                                                    }
                                                 }
-                                            }
-                                        }
+                                            } else null,
+                                            modifier = Modifier.fillMaxWidth(),
+                                        )
                                         Spacer(modifier = Modifier.height(12.dp))
                                         Card(
                                             shape = MaterialTheme.shapes.extraLarge,
@@ -218,11 +223,11 @@ fun GamePageContent(
                                             )
                                         }
                                         Spacer(modifier = Modifier.height(16.dp))
-                                        Button(
+                                        FilledTonalButton(
                                             onClick = onNextFlag,
                                             shape = MaterialTheme.shapes.large,
                                         ) {
-                                            Text("Next")
+                                            Text("Next flag")
                                             Spacer(modifier = Modifier.width(8.dp))
                                             Icon(
                                                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -332,4 +337,48 @@ private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
     // Grid: topLeft=A1, topRight=B1, bottomLeft=B2, bottomRight=A2
     val order = intArrayOf(best[0], best[2], best[3], best[1])
     return IntArray(4) { order[it] % colors.size }
+}
+
+@Composable
+private fun CenteredTextWithTrailingIcon(
+    text: @Composable () -> Unit,
+    icon: (@Composable () -> Unit)?,
+    modifier: Modifier = Modifier,
+) {
+    Layout(
+        content = {
+            text()
+            if (icon != null) {
+                icon()
+            }
+        },
+        modifier = modifier,
+    ) { measurables, constraints ->
+        val hasIcon = icon != null
+        val iconPlaceable = if (hasIcon) {
+            measurables[1].measure(constraints)
+        } else null
+        val iconWidth = iconPlaceable?.width ?: 0
+
+        val textPlaceable = measurables[0].measure(
+            constraints.copy(maxWidth = (constraints.maxWidth - iconWidth).coerceAtLeast(0))
+        )
+
+        val height = maxOf(textPlaceable.height, iconPlaceable?.height ?: 0)
+
+        layout(constraints.maxWidth, height) {
+            val textX = maxOf(
+                0,
+                minOf(
+                    (constraints.maxWidth - textPlaceable.width) / 2,
+                    constraints.maxWidth - textPlaceable.width - iconWidth,
+                ),
+            )
+            textPlaceable.place(textX, (height - textPlaceable.height) / 2)
+            iconPlaceable?.place(
+                textX + textPlaceable.width,
+                (height - (iconPlaceable.height)) / 2,
+            )
+        }
+    }
 }
