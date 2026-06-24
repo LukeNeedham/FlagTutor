@@ -49,13 +49,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
-import com.flagtutor.app.ui.feature.game.GameUiState
+import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGameUiState
 import com.flagtutor.app.ui.feature.pickflaggame.component.FlagOptionImageButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickFlagGamePageContent(
-    uiState: GameUiState,
+    uiState: PickCountryNameGameUiState,
     onOptionSelected: (Country) -> Unit,
     onNextFlag: () -> Unit,
     onMoreInfo: (String) -> Unit,
@@ -80,7 +80,7 @@ fun PickFlagGamePageContent(
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             when (uiState) {
-                is GameUiState.Loading -> {
+                is PickCountryNameGameUiState.Loading -> {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -96,7 +96,7 @@ fun PickFlagGamePageContent(
                     }
                 }
 
-                is GameUiState.Error -> {
+                is PickCountryNameGameUiState.Error -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -125,7 +125,7 @@ fun PickFlagGamePageContent(
                     }
                 }
 
-                is GameUiState.Success -> {
+                is PickCountryNameGameUiState.Success -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()

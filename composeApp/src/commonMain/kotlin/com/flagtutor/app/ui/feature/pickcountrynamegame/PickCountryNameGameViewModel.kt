@@ -1,4 +1,4 @@
-package com.flagtutor.app.ui.feature.game
+package com.flagtutor.app.ui.feature.pickcountrynamegame
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,14 +13,14 @@ import kotlinx.coroutines.launch
 
 private const val OPTIONS_COUNT = 4
 
-class GameViewModel(
+class PickCountryNameGameViewModel(
     private val countryRepository: CountryRepository,
     private val flagImagePrefetcher: FlagImagePrefetcher,
 ) : ViewModel() {
 
     private var countries: List<Country> = emptyList()
 
-    var uiState by mutableStateOf<GameUiState>(GameUiState.Loading)
+    var uiState by mutableStateOf<PickCountryNameGameUiState>(PickCountryNameGameUiState.Loading)
         private set
 
     init {
@@ -28,7 +28,7 @@ class GameViewModel(
     }
 
     fun loadCountries() {
-        uiState = GameUiState.Loading
+        uiState = PickCountryNameGameUiState.Loading
         viewModelScope.launch {
             try {
                 val result = countryRepository.getCountries()
@@ -45,19 +45,19 @@ class GameViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                uiState = GameUiState.Error
+                uiState = PickCountryNameGameUiState.Error
             }
         }
     }
 
     fun onNextFlag() {
-        val state = uiState as? GameUiState.Success ?: return
+        val state = uiState as? PickCountryNameGameUiState.Success ?: return
         if (!state.isAnswerRevealed) return
         showRandomFlag(previous = state.flag)
     }
 
     fun onOptionSelected(country: Country) {
-        val state = uiState as? GameUiState.Success ?: return
+        val state = uiState as? PickCountryNameGameUiState.Success ?: return
         if (state.isAnswerRevealed || country.alpha2Code in state.incorrectAlpha2Codes) return
 
         if (country.alpha2Code == state.flag.alpha2Code) {
@@ -72,7 +72,7 @@ class GameViewModel(
         while (next.alpha2Code == previous?.alpha2Code) {
             next = countries.random()
         }
-        uiState = GameUiState.Success(
+        uiState = PickCountryNameGameUiState.Success(
             flag = next,
             options = generateOptions(next),
             incorrectAlpha2Codes = emptySet(),
