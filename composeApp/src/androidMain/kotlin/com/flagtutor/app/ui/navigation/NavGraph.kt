@@ -1,7 +1,9 @@
 package com.flagtutor.app.ui.navigation
 
 import androidx.compose.runtime.Composable
+import com.flagtutor.app.BuildConfig
 import com.flagtutor.app.ui.feature.about.AboutPage
+import com.flagtutor.app.ui.feature.debug.DebugPage
 import com.flagtutor.app.ui.feature.game.GamePage
 import com.flagtutor.app.ui.feature.home.HomePage
 import dev.olshevski.navigation.reimagined.NavBackHandler
@@ -21,6 +23,11 @@ fun NavGraph() {
             Destination.Home -> HomePage(
                 onNavigateToGame = { navController.navigate(Destination.Game) },
                 onNavigateToAbout = { navController.navigate(Destination.About) },
+                onNavigateToDebug = if (BuildConfig.DEBUG) {
+                    { navController.navigate(Destination.Debug) }
+                } else {
+                    null
+                },
             )
 
             Destination.About -> AboutPage(
@@ -28,6 +35,10 @@ fun NavGraph() {
             )
 
             Destination.Game -> GamePage(
+                onNavigateBack = { navController.pop() },
+            )
+
+            Destination.Debug -> DebugPage(
                 onNavigateBack = { navController.pop() },
             )
         }

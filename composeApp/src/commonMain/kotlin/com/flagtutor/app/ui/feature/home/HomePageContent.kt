@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
@@ -17,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +32,7 @@ fun HomePageContent(
     subtitle: String,
     onStartClick: () -> Unit,
     onAboutClick: () -> Unit,
+    onDebugClick: (() -> Unit)? = null,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -87,6 +90,20 @@ fun HomePageContent(
                 Icon(imageVector = Icons.Outlined.Info, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "About", style = MaterialTheme.typography.titleMedium)
+            }
+            if (onDebugClick != null) {
+                Spacer(modifier = Modifier.height(12.dp))
+                TextButton(
+                    onClick = onDebugClick,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    shape = MaterialTheme.shapes.large,
+                ) {
+                    Icon(imageVector = Icons.Filled.Build, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Debug", style = MaterialTheme.typography.titleMedium)
+                }
             }
         }
     }
