@@ -13,4 +13,7 @@ sealed class Destination : Parcelable {
 
     @Parcelize
     data object Game : Destination()
+
+    @Parcelize
+    data object Debug : Destination()
 }
