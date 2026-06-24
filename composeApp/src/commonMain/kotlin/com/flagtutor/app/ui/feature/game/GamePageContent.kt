@@ -258,7 +258,7 @@ fun GamePageContent(
                                             rowOptions.forEachIndexed { colIndex, country ->
                                                 val colorIndex = colorOrder[rowIndex * 2 + colIndex]
                                                 val extractedColor = if (buttonColors.isNotEmpty()) {
-                                                    buttonColors[colorIndex % buttonColors.size]
+                                                    buttonColors[colorIndex]
                                                 } else null
 
                                                 key(country.alpha2Code) {
@@ -291,24 +291,22 @@ fun GamePageContent(
  * Returns color indices arranged so the most similar pair sits on the diagonal
  * (non-adjacent grid positions), avoiding same-colour buttons touching.
  * Output order: [topLeft, topRight, bottomLeft, bottomRight].
+ * Returned indices are valid for [colors].size (modulo-wrapped).
  */
 private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
-    if (colors.size < 4) return intArrayOf(0, 1, 2, 3)
+    if (colors.isEmpty()) return intArrayOf(0, 1, 2, 3)
+
+    val effective = List(4) { colors[it % colors.size] }
 
     fun dist(i: Int, j: Int): Float {
-        val a = colors[i].containerColor
-        val b = colors[j].containerColor
+        val a = effective[i].containerColor
+        val b = effective[j].containerColor
         val dr = a.red - b.red
         val dg = a.green - b.green
         val db = a.blue - b.blue
         return dr * dr + dg * dg + db * db
     }
 
-    // Try all 3 ways to split 4 colours into 2 diagonal pairs.
-    // Diagonal A = positions (0,0) and (1,1) — non-adjacent.
-    // Diagonal B = positions (0,1) and (1,0) — non-adjacent.
-    // All grid adjacencies are cross-diagonal, so we maximise the
-    // minimum cross-diagonal colour distance.
     val splits = arrayOf(
         intArrayOf(0, 1, 2, 3),
         intArrayOf(0, 2, 1, 3),
@@ -330,5 +328,6 @@ private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
 
     // best = [diagA1, diagA2, diagB1, diagB2]
     // Grid: topLeft=A1, topRight=B1, bottomLeft=B2, bottomRight=A2
-    return intArrayOf(best[0], best[2], best[3], best[1])
+    val order = intArrayOf(best[0], best[2], best[3], best[1])
+    return IntArray(4) { order[it] % colors.size }
 }
