@@ -28,6 +28,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import com.flagtutor.app.domain.model.Country
@@ -125,7 +126,7 @@ fun FlagOptionButton(
                 Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
             }
-            Text(country.name)
+            Text(country.name, textAlign = TextAlign.Center)
         }
 
         if (isCrumbled) {
@@ -142,7 +143,7 @@ fun FlagOptionButton(
                             rotationZ = piece.rotation.value
                             alpha = piece.alpha.value
                         }
-                        .clip(MaterialTheme.shapes.large)
+                        .clip(shape)
                         .clip(crumblePieceShape(index, PIECE_COUNT)),
                 ) {
                     Surface(
@@ -151,7 +152,7 @@ fun FlagOptionButton(
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text(country.name)
+                            Text(country.name, textAlign = TextAlign.Center)
                         }
                     }
                 }
