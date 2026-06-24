@@ -6,6 +6,7 @@ import com.flagtutor.app.ui.feature.about.AboutPage
 import com.flagtutor.app.ui.feature.debug.DebugPage
 import com.flagtutor.app.ui.feature.game.GamePage
 import com.flagtutor.app.ui.feature.home.HomePage
+import com.flagtutor.app.ui.feature.reversegame.ReverseGamePage
 import dev.olshevski.navigation.reimagined.NavBackHandler
 import dev.olshevski.navigation.reimagined.NavHost
 import dev.olshevski.navigation.reimagined.navigate
@@ -22,6 +23,7 @@ fun NavGraph() {
         when (destination) {
             Destination.Home -> HomePage(
                 onNavigateToGame = { navController.navigate(Destination.Game) },
+                onNavigateToReverseGame = { navController.navigate(Destination.ReverseGame) },
                 onNavigateToAbout = { navController.navigate(Destination.About) },
                 onNavigateToDebug = if (BuildConfig.DEBUG) {
                     { navController.navigate(Destination.Debug) }
@@ -35,6 +37,10 @@ fun NavGraph() {
             )
 
             Destination.Game -> GamePage(
+                onNavigateBack = { navController.pop() },
+            )
+
+            Destination.ReverseGame -> ReverseGamePage(
                 onNavigateBack = { navController.pop() },
             )
 

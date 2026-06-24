@@ -15,5 +15,8 @@ sealed class Destination : Parcelable {
     data object Game : Destination()
 
     @Parcelize
+    data object ReverseGame : Destination()
+
+    @Parcelize
     data object Debug : Destination()
 }
