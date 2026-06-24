@@ -50,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.flagtutor.app.domain.model.Country
@@ -138,11 +139,6 @@ fun GamePageContent(
                             .padding(horizontal = 24.dp, vertical = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(
-                            text = if (uiState.isAnswerRevealed) uiState.flag.name else "Which country's flag is this?",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
                         Spacer(modifier = Modifier.height(24.dp))
                         AnimatedContent(
                             targetState = uiState,
@@ -186,6 +182,35 @@ fun GamePageContent(
                                     enter = fadeIn(tween(400)) + expandVertically(tween(400)),
                                 ) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            modifier = Modifier.fillMaxWidth(),
+                                        ) {
+                                            Spacer(modifier = Modifier.weight(1f))
+                                            Text(
+                                                text = state.flag.name,
+                                                style = MaterialTheme.typography.titleLarge,
+                                                color = MaterialTheme.colorScheme.onBackground,
+                                                textAlign = TextAlign.Center,
+                                            )
+                                            Box(
+                                                modifier = Modifier.weight(1f),
+                                                contentAlignment = Alignment.CenterStart,
+                                            ) {
+                                                if (state.flag.wikipediaUrl.isNotEmpty()) {
+                                                    IconButton(
+                                                        onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Filled.Info,
+                                                            contentDescription = "More Info",
+                                                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        Spacer(modifier = Modifier.height(12.dp))
                                         Card(
                                             shape = MaterialTheme.shapes.extraLarge,
                                             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -201,78 +226,63 @@ fun GamePageContent(
                                             )
                                         }
                                         Spacer(modifier = Modifier.height(16.dp))
-                                        Row(
-                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                        FilledTonalButton(
+                                            onClick = onNextFlag,
+                                            shape = MaterialTheme.shapes.large,
                                         ) {
-                                            Button(
-                                                onClick = onNextFlag,
-                                                shape = MaterialTheme.shapes.large,
-                                            ) {
-                                                Text("Next")
-                                                Spacer(modifier = Modifier.width(8.dp))
-                                                Icon(
-                                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                                    contentDescription = null,
-                                                )
-                                            }
-                                            if (state.flag.wikipediaUrl.isNotEmpty()) {
-                                                FilledTonalButton(
-                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                    shape = MaterialTheme.shapes.large,
-                                                ) {
-                                                    Text("More Info")
-                                                    Spacer(modifier = Modifier.width(8.dp))
-                                                    Icon(
-                                                        imageVector = Icons.Filled.Info,
-                                                        contentDescription = null,
-                                                    )
-                                                }
-                                            }
+                                            Text("Next flag")
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                                contentDescription = null,
+                                            )
                                         }
                                     }
                                 }
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Column(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxWidth(),
-                                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                                ) {
-                                    val cornerRadius = 24.dp
-                                    val gridShapes = arrayOf(
-                                        arrayOf(
-                                            RoundedCornerShape(topStart = cornerRadius),
-                                            RoundedCornerShape(topEnd = cornerRadius),
-                                        ),
-                                        arrayOf(
-                                            RoundedCornerShape(bottomStart = cornerRadius),
-                                            RoundedCornerShape(bottomEnd = cornerRadius),
-                                        ),
-                                    )
-                                    val colorOrder = checkerboardColorOrder(buttonColors)
-                                    state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
-                                        Row(
-                                            modifier = Modifier.weight(1f).fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                        ) {
-                                            rowOptions.forEachIndexed { colIndex, country ->
-                                                val colorIndex = colorOrder[rowIndex * 2 + colIndex]
-                                                val extractedColor = if (buttonColors.isNotEmpty()) {
-                                                    buttonColors[colorIndex]
-                                                } else null
+                                if (!state.isAnswerRevealed) {
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    Column(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .fillMaxWidth(),
+                                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                                    ) {
+                                        val cornerRadius = 24.dp
+                                        val gridShapes = arrayOf(
+                                            arrayOf(
+                                                RoundedCornerShape(topStart = cornerRadius),
+                                                RoundedCornerShape(topEnd = cornerRadius),
+                                            ),
+                                            arrayOf(
+                                                RoundedCornerShape(bottomStart = cornerRadius),
+                                                RoundedCornerShape(bottomEnd = cornerRadius),
+                                            ),
+                                        )
+                                        val colorOrder = checkerboardColorOrder(buttonColors)
+                                        state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
+                                            Row(
+                                                modifier = Modifier.weight(1f).fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                            ) {
+                                                rowOptions.forEachIndexed { colIndex, country ->
+                                                    val colorIndex = colorOrder[rowIndex * 2 + colIndex]
+                                                    val extractedColor = if (buttonColors.isNotEmpty()) {
+                                                        buttonColors[colorIndex]
+                                                    } else null
 
-                                                key(country.alpha2Code) {
-                                                    FlagOptionButton(
-                                                        country = country,
-                                                        isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
-                                                        isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
-                                                        enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
-                                                        onClick = { onOptionSelected(country) },
-                                                        shape = gridShapes[rowIndex][colIndex],
-                                                        containerColor = extractedColor?.containerColor,
-                                                        contentColor = extractedColor?.contentColor,
-                                                        modifier = Modifier.weight(1f).fillMaxHeight(),
-                                                    )
+                                                    key(country.alpha2Code) {
+                                                        FlagOptionButton(
+                                                            country = country,
+                                                            isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
+                                                            isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
+                                                            enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
+                                                            onClick = { onOptionSelected(country) },
+                                                            shape = gridShapes[rowIndex][colIndex],
+                                                            containerColor = extractedColor?.containerColor,
+                                                            contentColor = extractedColor?.contentColor,
+                                                            modifier = Modifier.weight(1f).fillMaxHeight(),
+                                                        )
+                                                    }
                                                 }
                                             }
                                         }
@@ -331,3 +341,5 @@ private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
     val order = intArrayOf(best[0], best[2], best[3], best[1])
     return IntArray(4) { order[it] % colors.size }
 }
+
+
