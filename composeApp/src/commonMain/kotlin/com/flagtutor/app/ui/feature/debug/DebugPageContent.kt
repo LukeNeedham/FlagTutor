@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,11 +21,9 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -118,14 +118,14 @@ fun DebugPageContent(
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     ) {
                         items(countries, key = { it.alpha2Code }) { country ->
-                            DebugCountryCard(
+                            DebugCountryRow(
                                 country = country,
                                 onMoreInfo = onMoreInfo,
                             )
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                         }
                     }
                 }
@@ -135,55 +135,47 @@ fun DebugPageContent(
 }
 
 @Composable
-private fun DebugCountryCard(
+private fun DebugCountryRow(
     country: Country,
     onMoreInfo: (String) -> Unit,
 ) {
-    Card(
-        shape = MaterialTheme.shapes.large,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        modifier = Modifier.fillMaxWidth(),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = country.name,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            FlagImage(
-                flagUrl = country.flagUrl,
-                modifier = Modifier
-                    .fillMaxWidth(0.6f)
-                    .aspectRatio(3f / 2f),
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            CountryMapHighlight(
-                alpha2Code = country.alpha2Code,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(16f / 10f),
-            )
-            if (country.wikipediaUrl.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(12.dp))
-                FilledTonalButton(
-                    onClick = { onMoreInfo(country.wikipediaUrl) },
-                    shape = MaterialTheme.shapes.large,
-                ) {
-                    Text("More Info")
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Icon(
-                        imageVector = Icons.Filled.Info,
-                        contentDescription = null,
-                    )
-                }
+        Text(
+            text = country.name,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.weight(1f),
+        )
+        if (country.wikipediaUrl.isNotEmpty()) {
+            IconButton(
+                onClick = { onMoreInfo(country.wikipediaUrl) },
+                modifier = Modifier.size(32.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Info,
+                    contentDescription = "More info",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp),
+                )
             }
         }
+        FlagImage(
+            flagUrl = country.flagUrl,
+            modifier = Modifier
+                .height(32.dp)
+                .aspectRatio(3f / 2f),
+        )
+        CountryMapHighlight(
+            alpha2Code = country.alpha2Code,
+            modifier = Modifier
+                .height(40.dp)
+                .aspectRatio(16f / 10f),
+        )
     }
 }
