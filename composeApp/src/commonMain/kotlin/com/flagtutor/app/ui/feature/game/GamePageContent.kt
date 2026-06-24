@@ -42,15 +42,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
-import com.flagtutor.app.ui.component.FlagImage
 import com.flagtutor.app.ui.feature.game.component.FlagOptionButton
+import com.flagtutor.app.ui.util.ExtractedColor
+import com.flagtutor.app.ui.util.extractColorsFromImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -158,16 +164,22 @@ fun GamePageContent(
                             label = "flag-transition",
                             modifier = Modifier.fillMaxWidth(),
                         ) { state ->
+                            var buttonColors by remember { mutableStateOf<List<ExtractedColor>>(emptyList()) }
+
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
-                                FlagImage(
-                                    flagUrl = state.flag.flagUrl,
+                                AsyncImage(
+                                    model = state.flag.flagUrl,
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Fit,
+                                    onSuccess = { success ->
+                                        buttonColors = extractColorsFromImage(success.result.image, 4)
+                                    },
                                     modifier = Modifier
                                         .fillMaxWidth(0.85f)
                                         .aspectRatio(3f / 2f),
-                                    contentScale = ContentScale.Fit,
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                                 AnimatedVisibility(
@@ -223,7 +235,11 @@ fun GamePageContent(
                                 if (!state.isAnswerRevealed) {
                                     Spacer(modifier = Modifier.height(16.dp))
                                 }
-                                state.options.forEach { country ->
+                                state.options.forEachIndexed { index, country ->
+                                    val extractedColor = if (buttonColors.isNotEmpty()) {
+                                        buttonColors[index % buttonColors.size]
+                                    } else null
+
                                     key(country.alpha2Code) {
                                         FlagOptionButton(
                                             country = country,
@@ -231,6 +247,8 @@ fun GamePageContent(
                                             isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
                                             enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
                                             onClick = { onOptionSelected(country) },
+                                            containerColor = extractedColor?.containerColor,
+                                            contentColor = extractedColor?.contentColor,
                                             modifier = Modifier.fillMaxWidth(),
                                         )
                                         Spacer(modifier = Modifier.height(12.dp))

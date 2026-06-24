@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -64,6 +65,8 @@ fun FlagOptionButton(
     enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    containerColor: Color? = null,
+    contentColor: Color? = null,
 ) {
     val density = LocalDensity.current
     val baseAlpha = remember { Animatable(1f) }
@@ -94,13 +97,16 @@ fun FlagOptionButton(
         }
     }
 
-    val colors = if (isCorrectAnswer) {
-        ButtonDefaults.buttonColors(
+    val colors = when {
+        isCorrectAnswer -> ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.tertiary,
             contentColor = MaterialTheme.colorScheme.onTertiary,
         )
-    } else {
-        ButtonDefaults.filledTonalButtonColors()
+        containerColor != null -> ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = contentColor ?: MaterialTheme.colorScheme.onPrimary,
+        )
+        else -> ButtonDefaults.filledTonalButtonColors()
     }
 
     Box(modifier = modifier) {
