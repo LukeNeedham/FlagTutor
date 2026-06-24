@@ -9,19 +9,19 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -135,7 +135,6 @@ fun GamePageContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
                             .padding(horizontal = 24.dp, vertical = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
@@ -162,12 +161,12 @@ fun GamePageContent(
                                 )
                             },
                             label = "flag-transition",
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().weight(1f),
                         ) { state ->
                             var buttonColors by remember { mutableStateOf<List<ExtractedColor>>(emptyList()) }
 
                             Column(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxSize(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 AsyncImage(
@@ -232,26 +231,51 @@ fun GamePageContent(
                                         }
                                     }
                                 }
-                                if (!state.isAnswerRevealed) {
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                }
-                                state.options.forEachIndexed { index, country ->
-                                    val extractedColor = if (buttonColors.isNotEmpty()) {
-                                        buttonColors[index % buttonColors.size]
-                                    } else null
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Column(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxWidth(),
+                                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                                ) {
+                                    val cornerRadius = 24.dp
+                                    val gridShapes = arrayOf(
+                                        arrayOf(
+                                            RoundedCornerShape(topStart = cornerRadius),
+                                            RoundedCornerShape(topEnd = cornerRadius),
+                                        ),
+                                        arrayOf(
+                                            RoundedCornerShape(bottomStart = cornerRadius),
+                                            RoundedCornerShape(bottomEnd = cornerRadius),
+                                        ),
+                                    )
+                                    val colorOrder = checkerboardColorOrder(buttonColors)
+                                    state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
+                                        Row(
+                                            modifier = Modifier.weight(1f).fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                        ) {
+                                            rowOptions.forEachIndexed { colIndex, country ->
+                                                val colorIndex = colorOrder[rowIndex * 2 + colIndex]
+                                                val extractedColor = if (buttonColors.isNotEmpty()) {
+                                                    buttonColors[colorIndex]
+                                                } else null
 
-                                    key(country.alpha2Code) {
-                                        FlagOptionButton(
-                                            country = country,
-                                            isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
-                                            isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
-                                            enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
-                                            onClick = { onOptionSelected(country) },
-                                            containerColor = extractedColor?.containerColor,
-                                            contentColor = extractedColor?.contentColor,
-                                            modifier = Modifier.fillMaxWidth(),
-                                        )
-                                        Spacer(modifier = Modifier.height(12.dp))
+                                                key(country.alpha2Code) {
+                                                    FlagOptionButton(
+                                                        country = country,
+                                                        isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
+                                                        isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
+                                                        enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
+                                                        onClick = { onOptionSelected(country) },
+                                                        shape = gridShapes[rowIndex][colIndex],
+                                                        containerColor = extractedColor?.containerColor,
+                                                        contentColor = extractedColor?.contentColor,
+                                                        modifier = Modifier.weight(1f).fillMaxHeight(),
+                                                    )
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -261,4 +285,49 @@ fun GamePageContent(
             }
         }
     }
+}
+
+/**
+ * Returns color indices arranged so the most similar pair sits on the diagonal
+ * (non-adjacent grid positions), avoiding same-colour buttons touching.
+ * Output order: [topLeft, topRight, bottomLeft, bottomRight].
+ * Returned indices are valid for [colors].size (modulo-wrapped).
+ */
+private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
+    if (colors.isEmpty()) return intArrayOf(0, 1, 2, 3)
+
+    val effective = List(4) { colors[it % colors.size] }
+
+    fun dist(i: Int, j: Int): Float {
+        val a = effective[i].containerColor
+        val b = effective[j].containerColor
+        val dr = a.red - b.red
+        val dg = a.green - b.green
+        val db = a.blue - b.blue
+        return dr * dr + dg * dg + db * db
+    }
+
+    val splits = arrayOf(
+        intArrayOf(0, 1, 2, 3),
+        intArrayOf(0, 2, 1, 3),
+        intArrayOf(0, 3, 1, 2),
+    )
+
+    var best = splits[0]
+    var bestMin = -1f
+    for (s in splits) {
+        val min = minOf(
+            minOf(dist(s[0], s[2]), dist(s[0], s[3])),
+            minOf(dist(s[1], s[2]), dist(s[1], s[3])),
+        )
+        if (min > bestMin) {
+            bestMin = min
+            best = s
+        }
+    }
+
+    // best = [diagA1, diagA2, diagB1, diagB2]
+    // Grid: topLeft=A1, topRight=B1, bottomLeft=B2, bottomRight=A2
+    val order = intArrayOf(best[0], best[2], best[3], best[1])
+    return IntArray(4) { order[it] % colors.size }
 }
