@@ -15,13 +15,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -135,7 +134,6 @@ fun GamePageContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
                             .padding(horizontal = 24.dp, vertical = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
@@ -162,12 +160,12 @@ fun GamePageContent(
                                 )
                             },
                             label = "flag-transition",
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().weight(1f),
                         ) { state ->
                             var buttonColors by remember { mutableStateOf<List<ExtractedColor>>(emptyList()) }
 
                             Column(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxSize(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 AsyncImage(
@@ -232,26 +230,38 @@ fun GamePageContent(
                                         }
                                     }
                                 }
-                                if (!state.isAnswerRevealed) {
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                }
-                                state.options.forEachIndexed { index, country ->
-                                    val extractedColor = if (buttonColors.isNotEmpty()) {
-                                        buttonColors[index % buttonColors.size]
-                                    } else null
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Column(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxWidth(),
+                                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                                ) {
+                                    state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
+                                        Row(
+                                            modifier = Modifier.weight(1f).fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                        ) {
+                                            rowOptions.forEachIndexed { colIndex, country ->
+                                                val index = rowIndex * 2 + colIndex
+                                                val extractedColor = if (buttonColors.isNotEmpty()) {
+                                                    buttonColors[index % buttonColors.size]
+                                                } else null
 
-                                    key(country.alpha2Code) {
-                                        FlagOptionButton(
-                                            country = country,
-                                            isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
-                                            isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
-                                            enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
-                                            onClick = { onOptionSelected(country) },
-                                            containerColor = extractedColor?.containerColor,
-                                            contentColor = extractedColor?.contentColor,
-                                            modifier = Modifier.fillMaxWidth(),
-                                        )
-                                        Spacer(modifier = Modifier.height(12.dp))
+                                                key(country.alpha2Code) {
+                                                    FlagOptionButton(
+                                                        country = country,
+                                                        isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
+                                                        isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
+                                                        enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
+                                                        onClick = { onOptionSelected(country) },
+                                                        containerColor = extractedColor?.containerColor,
+                                                        contentColor = extractedColor?.contentColor,
+                                                        modifier = Modifier.weight(1f).fillMaxHeight(),
+                                                    )
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

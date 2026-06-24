@@ -117,7 +117,7 @@ fun FlagOptionButton(
             shape = MaterialTheme.shapes.large,
             contentPadding = PaddingValues(vertical = 16.dp, horizontal = 24.dp),
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .graphicsLayer { alpha = baseAlpha.value },
         ) {
             if (isCorrectAnswer) {
