@@ -33,7 +33,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -138,13 +137,6 @@ fun GamePageContent(
                             .padding(horizontal = 24.dp, vertical = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        if (!uiState.isAnswerRevealed) {
-                            Text(
-                                text = "Which country's flag is this?",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-                        }
                         Spacer(modifier = Modifier.height(24.dp))
                         AnimatedContent(
                             targetState = uiState,
@@ -188,11 +180,28 @@ fun GamePageContent(
                                     enter = fadeIn(tween(400)) + expandVertically(tween(400)),
                                 ) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Text(
-                                            text = state.flag.name,
-                                            style = MaterialTheme.typography.titleLarge,
-                                            color = MaterialTheme.colorScheme.onBackground,
-                                        )
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Center,
+                                        ) {
+                                            Text(
+                                                text = state.flag.name,
+                                                style = MaterialTheme.typography.titleLarge,
+                                                color = MaterialTheme.colorScheme.onBackground,
+                                            )
+                                            if (state.flag.wikipediaUrl.isNotEmpty()) {
+                                                Spacer(modifier = Modifier.width(4.dp))
+                                                IconButton(
+                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Filled.Info,
+                                                        contentDescription = "More Info",
+                                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                    )
+                                                }
+                                            }
+                                        }
                                         Spacer(modifier = Modifier.height(12.dp))
                                         Card(
                                             shape = MaterialTheme.shapes.extraLarge,
@@ -209,33 +218,16 @@ fun GamePageContent(
                                             )
                                         }
                                         Spacer(modifier = Modifier.height(16.dp))
-                                        Row(
-                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                        Button(
+                                            onClick = onNextFlag,
+                                            shape = MaterialTheme.shapes.large,
                                         ) {
-                                            Button(
-                                                onClick = onNextFlag,
-                                                shape = MaterialTheme.shapes.large,
-                                            ) {
-                                                Text("Next")
-                                                Spacer(modifier = Modifier.width(8.dp))
-                                                Icon(
-                                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                                    contentDescription = null,
-                                                )
-                                            }
-                                            if (state.flag.wikipediaUrl.isNotEmpty()) {
-                                                FilledTonalButton(
-                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                    shape = MaterialTheme.shapes.large,
-                                                ) {
-                                                    Text("More Info")
-                                                    Spacer(modifier = Modifier.width(8.dp))
-                                                    Icon(
-                                                        imageVector = Icons.Filled.Info,
-                                                        contentDescription = null,
-                                                    )
-                                                }
-                                            }
+                                            Text("Next")
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                                contentDescription = null,
+                                            )
                                         }
                                     }
                                 }
