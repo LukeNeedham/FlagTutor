@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,6 +42,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -49,17 +50,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
 import com.flagtutor.app.ui.util.ExtractedColor
+import com.flagtutor.app.ui.util.decodeImageBitmap
 import com.flagtutor.app.ui.util.extractColorsFromImage
+import flagtutor.composeapp.generated.resources.Res
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
-@OptIn(ExperimentalMaterial3Api::class)
+private data class FlagData(val bitmap: ImageBitmap, val colors: List<ExtractedColor>)
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun PickCountryNameGamePageContent(
     uiState: PickCountryNameGameUiState,
@@ -111,15 +119,9 @@ fun PickCountryNameGamePageContent(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.WifiOff,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error,
-                            modifier = Modifier.height(48.dp),
-                        )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            text = "Couldn't load flags. Check your connection and try again.",
+                            text = "Couldn't load flags. Please try again.",
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -159,19 +161,32 @@ fun PickCountryNameGamePageContent(
                             label = "flag-transition",
                             modifier = Modifier.fillMaxWidth().weight(1f),
                         ) { state ->
-                            var buttonColors by remember { mutableStateOf<List<ExtractedColor>>(emptyList()) }
+                            var flagData by remember { mutableStateOf<FlagData?>(null) }
+
+                            LaunchedEffect(state.flag.alpha2Code) {
+                                flagData = withContext(Dispatchers.Default) {
+                                    val bytes = Res.readBytes("files/flags/${state.flag.alpha2Code}.png")
+                                    FlagData(
+                                        bitmap = decodeImageBitmap(bytes),
+                                        colors = extractColorsFromImage(bytes, 4),
+                                    )
+                                }
+                            }
 
                             Column(
                                 modifier = Modifier.fillMaxSize(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
-                                AsyncImage(
-                                    model = state.flag.flagUrl,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Fit,
-                                    onSuccess = { success ->
-                                        buttonColors = extractColorsFromImage(success.result.image, 4)
-                                    },
+                                flagData?.bitmap?.let { bmp ->
+                                    Image(
+                                        bitmap = bmp,
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Fit,
+                                        modifier = Modifier
+                                            .fillMaxWidth(0.85f)
+                                            .aspectRatio(3f / 2f),
+                                    )
+                                } ?: Spacer(
                                     modifier = Modifier
                                         .fillMaxWidth(0.85f)
                                         .aspectRatio(3f / 2f),
@@ -258,6 +273,7 @@ fun PickCountryNameGamePageContent(
                                                 RoundedCornerShape(bottomEnd = cornerRadius),
                                             ),
                                         )
+                                        val buttonColors = flagData?.colors ?: emptyList()
                                         val colorOrder = checkerboardColorOrder(buttonColors)
                                         state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
                                             Row(

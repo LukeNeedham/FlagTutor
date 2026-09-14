@@ -167,7 +167,7 @@ private fun DebugCountryRow(
             }
         }
         FlagImage(
-            flagUrl = country.flagUrl,
+            alpha2Code = country.alpha2Code,
             modifier = Modifier
                 .height(32.dp)
                 .aspectRatio(3f / 2f),

@@ -1,10 +1,9 @@
 package com.flagtutor.app.ui.util
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.compose.ui.graphics.Color
-import coil3.BitmapImage
-import coil3.Image
 
 private const val QUANTIZE_SHIFT = 5
 private const val BUCKET_SIZE = 1 shl QUANTIZE_SHIFT
@@ -18,8 +17,8 @@ private class ColorBucket {
 
 private const val MIN_PIXEL_FRACTION = 0.02
 
-actual fun extractColorsFromImage(image: Image, count: Int): List<ExtractedColor> {
-    val bitmap = (image as? BitmapImage)?.bitmap ?: return emptyList()
+actual fun extractColorsFromImage(imageBytes: ByteArray, count: Int): List<ExtractedColor> {
+    val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size) ?: return emptyList()
     val softwareBitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bitmap.config == Bitmap.Config.HARDWARE) {
         bitmap.copy(Bitmap.Config.ARGB_8888, false) ?: return emptyList()
     } else {

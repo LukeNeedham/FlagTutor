@@ -1,70 +1,38 @@
 package com.flagtutor.app.data.repository
 
-import com.flagtutor.app.data.local.CountryLocalDataSource
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
-import com.flagtutor.app.data.remote.CountryApi
 import com.flagtutor.app.domain.model.Country
-import kotlinx.coroutines.CancellationException
+import flagtutor.composeapp.generated.resources.Res
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
-/** flagcdn.com codes also include non-country entries (e.g. the EU and UN) which aren't playable. */
 private val EXCLUDED_CODES = setOf("eu", "un")
-private const val FLAG_BASE_URL = "https://flagcdn.com/w320"
-
-data class CountriesResult(val countries: List<Country>, val isFromCache: Boolean)
 
 class CountryRepository(
-    private val countryApi: CountryApi,
-    private val localDataSource: CountryLocalDataSource,
     private val wikipediaLinkDataSource: WikipediaLinkDataSource,
 ) {
 
-    /** Returns the cached country list if one exists, otherwise fetches and caches it. */
-    suspend fun getCountries(): CountriesResult {
-        val cached = localDataSource.getCountries()
-        if (cached != null) {
-            val enriched = enrichWithWikipediaLinks(cached)
-            return CountriesResult(enriched, isFromCache = true)
-        }
-        return CountriesResult(fetchAndPersist(), isFromCache = false)
-    }
+    private var cached: List<Country>? = null
 
-    private suspend fun enrichWithWikipediaLinks(countries: List<Country>): List<Country> {
-        if (countries.all { it.wikipediaUrl.isNotEmpty() }) return countries
+    @OptIn(ExperimentalResourceApi::class)
+    suspend fun getCountries(): List<Country> {
+        cached?.let { return it }
+        val bytes = Res.readBytes("files/countries.json")
+        val codes = Json.decodeFromString<JsonObject>(bytes.decodeToString())
         val wikiLinks = wikipediaLinkDataSource.getLinks()
-        return countries.map { country ->
-            if (country.wikipediaUrl.isEmpty()) {
-                country.copy(wikipediaUrl = wikiLinks[country.alpha2Code] ?: "")
-            } else {
-                country
-            }
-        }
-    }
-
-    /** Fetches the latest country data and updates the cache. Returns null if offline. */
-    suspend fun refreshInBackground(): List<Country>? {
-        return try {
-            fetchAndPersist()
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    private suspend fun fetchAndPersist(): List<Country> {
-        val wikiLinks = wikipediaLinkDataSource.getLinks()
-        val countries = countryApi.getCountryCodes()
-            .filterKeys { it.length == 2 && it !in EXCLUDED_CODES }
-            .map { (code, name) ->
+        val countries = codes.entries
+            .filter { it.key.length == 2 && it.key !in EXCLUDED_CODES }
+            .map { (code, nameElement) ->
                 Country(
-                    name = name,
+                    name = nameElement.jsonPrimitive.content,
                     alpha2Code = code,
-                    flagUrl = "$FLAG_BASE_URL/$code.png",
                     wikipediaUrl = wikiLinks[code] ?: "",
                 )
             }
             .sortedBy { it.name }
-        localDataSource.saveCountries(countries)
+        cached = countries
         return countries
     }
 }

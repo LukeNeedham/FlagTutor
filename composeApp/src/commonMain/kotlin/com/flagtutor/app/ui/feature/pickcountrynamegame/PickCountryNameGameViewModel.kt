@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flagtutor.app.data.image.FlagImagePrefetcher
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
@@ -15,7 +14,6 @@ private const val OPTIONS_COUNT = 4
 
 class PickCountryNameGameViewModel(
     private val countryRepository: CountryRepository,
-    private val flagImagePrefetcher: FlagImagePrefetcher,
 ) : ViewModel() {
 
     private var countries: List<Country> = emptyList()
@@ -31,17 +29,8 @@ class PickCountryNameGameViewModel(
         uiState = PickCountryNameGameUiState.Loading
         viewModelScope.launch {
             try {
-                val result = countryRepository.getCountries()
-                countries = result.countries
+                countries = countryRepository.getCountries()
                 showRandomFlag()
-                flagImagePrefetcher.prefetch(result.countries)
-
-                if (result.isFromCache) {
-                    countryRepository.refreshInBackground()?.let { refreshed ->
-                        countries = refreshed
-                        flagImagePrefetcher.prefetch(refreshed)
-                    }
-                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
