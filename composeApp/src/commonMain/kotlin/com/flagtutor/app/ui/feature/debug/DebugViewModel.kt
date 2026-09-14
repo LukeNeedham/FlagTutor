@@ -33,7 +33,7 @@ class DebugViewModel(
         viewModelScope.launch {
             try {
                 val result = countryRepository.getCountries()
-                countries = result.countries
+                countries = result
                 isLoading = false
             } catch (e: CancellationException) {
                 throw e
