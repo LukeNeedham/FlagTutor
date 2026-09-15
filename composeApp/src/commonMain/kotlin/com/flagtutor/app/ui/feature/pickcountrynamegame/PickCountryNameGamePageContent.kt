@@ -9,7 +9,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,32 +41,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
+import com.flagtutor.app.ui.component.FlagImage
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
-import com.flagtutor.app.ui.util.ExtractedColor
-import com.flagtutor.app.ui.util.decodeImageBitmap
-import com.flagtutor.app.ui.util.extractColorsFromImage
-import flagtutor.composeapp.generated.resources.Res
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
-private data class FlagData(val bitmap: ImageBitmap, val colors: List<ExtractedColor>)
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickCountryNameGamePageContent(
     uiState: PickCountryNameGameUiState,
@@ -161,32 +145,12 @@ fun PickCountryNameGamePageContent(
                             label = "flag-transition",
                             modifier = Modifier.fillMaxWidth().weight(1f),
                         ) { state ->
-                            var flagData by remember { mutableStateOf<FlagData?>(null) }
-
-                            LaunchedEffect(state.flag.alpha2Code) {
-                                flagData = withContext(Dispatchers.Default) {
-                                    val bytes = Res.readBytes("files/flags/${state.flag.alpha2Code}.png")
-                                    FlagData(
-                                        bitmap = decodeImageBitmap(bytes),
-                                        colors = extractColorsFromImage(bytes, 4),
-                                    )
-                                }
-                            }
-
                             Column(
                                 modifier = Modifier.fillMaxSize(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
-                                flagData?.bitmap?.let { bmp ->
-                                    Image(
-                                        bitmap = bmp,
-                                        contentDescription = null,
-                                        contentScale = ContentScale.Fit,
-                                        modifier = Modifier
-                                            .fillMaxWidth(0.85f)
-                                            .aspectRatio(3f / 2f),
-                                    )
-                                } ?: Spacer(
+                                FlagImage(
+                                    alpha2Code = state.flag.alpha2Code,
                                     modifier = Modifier
                                         .fillMaxWidth(0.85f)
                                         .aspectRatio(3f / 2f),
@@ -273,19 +237,12 @@ fun PickCountryNameGamePageContent(
                                                 RoundedCornerShape(bottomEnd = cornerRadius),
                                             ),
                                         )
-                                        val buttonColors = flagData?.colors ?: emptyList()
-                                        val colorOrder = checkerboardColorOrder(buttonColors)
                                         state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
                                             Row(
                                                 modifier = Modifier.weight(1f).fillMaxWidth(),
                                                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                                             ) {
                                                 rowOptions.forEachIndexed { colIndex, country ->
-                                                    val colorIndex = colorOrder[rowIndex * 2 + colIndex]
-                                                    val extractedColor = if (buttonColors.isNotEmpty()) {
-                                                        buttonColors[colorIndex]
-                                                    } else null
-
                                                     key(country.alpha2Code) {
                                                         FlagOptionButton(
                                                             country = country,
@@ -294,8 +251,8 @@ fun PickCountryNameGamePageContent(
                                                             enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
                                                             onClick = { onOptionSelected(country) },
                                                             shape = gridShapes[rowIndex][colIndex],
-                                                            containerColor = extractedColor?.containerColor,
-                                                            contentColor = extractedColor?.contentColor,
+                                                            containerColor = null,
+                                                            contentColor = null,
                                                             modifier = Modifier.weight(1f).fillMaxHeight(),
                                                         )
                                                     }
@@ -313,39 +270,3 @@ fun PickCountryNameGamePageContent(
     }
 }
 
-private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
-    if (colors.isEmpty()) return intArrayOf(0, 1, 2, 3)
-
-    val effective = List(4) { colors[it % colors.size] }
-
-    fun dist(i: Int, j: Int): Float {
-        val a = effective[i].containerColor
-        val b = effective[j].containerColor
-        val dr = a.red - b.red
-        val dg = a.green - b.green
-        val db = a.blue - b.blue
-        return dr * dr + dg * dg + db * db
-    }
-
-    val splits = arrayOf(
-        intArrayOf(0, 1, 2, 3),
-        intArrayOf(0, 2, 1, 3),
-        intArrayOf(0, 3, 1, 2),
-    )
-
-    var best = splits[0]
-    var bestMin = -1f
-    for (s in splits) {
-        val min = minOf(
-            minOf(dist(s[0], s[2]), dist(s[0], s[3])),
-            minOf(dist(s[1], s[2]), dist(s[1], s[3])),
-        )
-        if (min > bestMin) {
-            bestMin = min
-            best = s
-        }
-    }
-
-    val order = intArrayOf(best[0], best[2], best[3], best[1])
-    return IntArray(4) { order[it] % colors.size }
-}
