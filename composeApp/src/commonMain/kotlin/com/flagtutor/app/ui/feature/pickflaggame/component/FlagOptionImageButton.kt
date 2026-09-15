@@ -19,10 +19,10 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.AnimateCrumble
 import com.flagtutor.app.ui.component.CrumblePieces
+import com.flagtutor.app.ui.component.FlagImage
 import com.flagtutor.app.ui.component.rememberCrumbleState
 
 @Composable
@@ -56,9 +56,8 @@ fun FlagOptionImageButton(
                 .graphicsLayer { alpha = crumbleState.baseAlpha.value },
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                AsyncImage(
-                    model = country.flagUrl,
-                    contentDescription = null,
+                FlagImage(
+                    alpha2Code = country.alpha2Code,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxSize()
@@ -92,9 +91,8 @@ fun FlagOptionImageButton(
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    AsyncImage(
-                        model = country.flagUrl,
-                        contentDescription = null,
+                    FlagImage(
+                        alpha2Code = country.alpha2Code,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .fillMaxSize()

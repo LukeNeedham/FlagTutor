@@ -21,7 +21,6 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.reimagined.navigation)
-            implementation(libs.ktor.client.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -35,13 +34,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor)
-            implementation(libs.multiplatform.settings)
         }
     }
 }
@@ -86,5 +79,41 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+
+// ─── Asset generation tasks ──────────────────────────────────────────────────
+
+/**
+ * Downloads country flag SVGs from hampusborgos/country-flags on GitHub and converts them
+ * to 320px-wide PNGs. Requires Python 3 with cairosvg: pip3 install cairosvg
+ * Only needed if flag images need to be regenerated; they are already committed to the repo.
+ */
+tasks.register("downloadFlags") {
+    description = "Downloads and converts country flag images from GitHub into compose resources."
+    group = "setup"
+    doLast {
+        val script = rootProject.file("scripts/download_flags.py")
+        exec {
+            commandLine("python3", script.absolutePath)
+        }
+    }
+}
+
+/**
+ * Generates a map PNG for every country from country_boundaries.json using generate_maps.py.
+ * Run once after checkout: ./gradlew generateMaps
+ * Requires Python 3 with Pillow: pip3 install Pillow
+ */
+tasks.register("generateMaps") {
+    description = "Generates map PNG images for every country from country_boundaries.json."
+    group = "setup"
+    inputs.file("src/commonMain/composeResources/files/country_boundaries.json")
+    outputs.dir("src/commonMain/composeResources/files/maps")
+    doLast {
+        val script = rootProject.file("scripts/generate_maps.py")
+        exec {
+            commandLine("python3", script.absolutePath)
+        }
     }
 }
