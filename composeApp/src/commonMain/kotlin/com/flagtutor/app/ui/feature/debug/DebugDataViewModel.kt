@@ -10,7 +10,7 @@ import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-class DebugViewModel(
+class DebugDataViewModel(
     private val countryRepository: CountryRepository,
 ) : ViewModel() {
 

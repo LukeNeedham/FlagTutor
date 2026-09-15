@@ -4,7 +4,7 @@ import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.ui.feature.about.AboutViewModel
 import com.flagtutor.app.ui.feature.crashes.CrashesViewModel
-import com.flagtutor.app.ui.feature.debug.DebugViewModel
+import com.flagtutor.app.ui.feature.debug.DebugDataViewModel
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGameViewModel
 import com.flagtutor.app.ui.feature.home.HomeViewModel
 import org.koin.core.module.dsl.singleOf
@@ -16,7 +16,7 @@ val appModule = module {
     singleOf(::CountryRepository)
     viewModelOf(::HomeViewModel)
     viewModelOf(::AboutViewModel)
-    viewModelOf(::DebugViewModel)
+    viewModelOf(::DebugDataViewModel)
     viewModelOf(::CrashesViewModel)
     viewModelOf(::PickCountryNameGameViewModel)
 }
