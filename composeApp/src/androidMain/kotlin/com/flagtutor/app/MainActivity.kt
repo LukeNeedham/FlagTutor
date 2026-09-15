@@ -10,9 +10,10 @@ import com.flagtutor.app.ui.navigation.NavGraph
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        CrashRepositoryImpl(applicationContext).installUncaughtExceptionHandler()
+        val crashRepository = CrashRepositoryImpl(applicationContext)
+        crashRepository.installUncaughtExceptionHandler()
         setContent {
-            App(extraModules = listOf(androidModule)) {
+            App(extraModules = listOf(androidModule(applicationContext))) {
                 NavGraph()
             }
         }
