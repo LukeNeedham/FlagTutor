@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.WifiOff
@@ -49,6 +50,7 @@ fun DebugPageContent(
     onMoreInfo: (String) -> Unit,
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
+    onCrashesClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -59,6 +61,14 @@ fun DebugPageContent(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onCrashesClick) {
+                        Icon(
+                            imageVector = Icons.Filled.BugReport,
+                            contentDescription = "Crashes",
                         )
                     }
                 },

@@ -19,4 +19,7 @@ sealed class Destination : Parcelable {
 
     @Parcelize
     data object Debug : Destination()
+
+    @Parcelize
+    data object Crashes : Destination()
 }

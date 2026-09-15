@@ -3,6 +3,7 @@ package com.flagtutor.app.ui.navigation
 import androidx.compose.runtime.Composable
 import com.flagtutor.app.BuildConfig
 import com.flagtutor.app.ui.feature.about.AboutPage
+import com.flagtutor.app.ui.feature.crashes.CrashesPage
 import com.flagtutor.app.ui.feature.debug.DebugPage
 import com.flagtutor.app.ui.feature.home.HomePage
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGamePage
@@ -45,6 +46,11 @@ fun NavGraph() {
             )
 
             Destination.Debug -> DebugPage(
+                onNavigateBack = { navController.pop() },
+                onNavigateToCrashes = { navController.navigate(Destination.Crashes) },
+            )
+
+            Destination.Crashes -> CrashesPage(
                 onNavigateBack = { navController.pop() },
             )
         }

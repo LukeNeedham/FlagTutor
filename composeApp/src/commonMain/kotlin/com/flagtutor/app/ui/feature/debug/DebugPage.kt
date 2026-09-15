@@ -7,6 +7,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun DebugPage(
     onNavigateBack: () -> Unit,
+    onNavigateToCrashes: () -> Unit,
     viewModel: DebugViewModel = koinViewModel(),
 ) {
     val uriHandler = LocalUriHandler.current
@@ -17,5 +18,6 @@ fun DebugPage(
         onMoreInfo = { url -> uriHandler.openUri(url) },
         onRetry = viewModel::loadCountries,
         onBackClick = onNavigateBack,
+        onCrashesClick = onNavigateToCrashes,
     )
 }
