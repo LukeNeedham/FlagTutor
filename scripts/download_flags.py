@@ -1,13 +1,16 @@
 """
-Downloads a flag PNG for every country listed in countries.json from flagcdn.com.
+Downloads flag SVGs from hampusborgos/country-flags on GitHub and converts
+them to 320px-wide PNGs. Requires: pip install cairosvg
 Run once after checkout: python3 scripts/download_flags.py
 Skips flags that have already been downloaded.
 """
 import json, os, sys, urllib.request
+import cairosvg
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 COUNTRIES_PATH = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/countries.json")
 OUT_DIR = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/flags")
+BASE_URL = "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg"
 
 os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -23,9 +26,10 @@ for code in codes:
     if os.path.exists(out_path):
         skipped += 1
         continue
-    url = f"https://flagcdn.com/w320/{code}.png"
+    url = f"{BASE_URL}/{code}.svg"
     try:
-        urllib.request.urlretrieve(url, out_path)
+        svg_data = urllib.request.urlopen(url).read()
+        cairosvg.svg2png(bytestring=svg_data, write_to=out_path, output_width=320)
         downloaded += 1
         if downloaded % 25 == 0:
             print(f"  {downloaded} flags downloaded…")
