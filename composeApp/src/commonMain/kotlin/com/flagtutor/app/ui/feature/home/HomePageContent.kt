@@ -3,10 +3,7 @@ package com.flagtutor.app.ui.feature.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
@@ -36,7 +32,6 @@ fun HomePageContent(
     title: String,
     subtitle: String,
     onGuessCountryClick: () -> Unit,
-    onGuessTheFlagClick: () -> Unit,
     onAboutClick: () -> Unit,
     onDebugClick: (() -> Unit)? = null,
 ) {
@@ -74,30 +69,15 @@ fun HomePageContent(
                 )
             }
 
-            Row(
-                modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            Button(
+                onClick = onGuessCountryClick,
+                modifier = Modifier.fillMaxWidth().height(56.dp),
+                shape = MaterialTheme.shapes.large,
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             ) {
-                Button(
-                    onClick = onGuessCountryClick,
-                    modifier = Modifier.weight(1f).fillMaxHeight(),
-                    shape = MaterialTheme.shapes.large,
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-                ) {
-                    Icon(imageVector = Icons.Filled.Public, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Guess Country", style = MaterialTheme.typography.titleMedium)
-                }
-                Button(
-                    onClick = onGuessTheFlagClick,
-                    modifier = Modifier.weight(1f).fillMaxHeight(),
-                    shape = MaterialTheme.shapes.large,
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-                ) {
-                    Icon(imageVector = Icons.Filled.Flag, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Guess Flag", style = MaterialTheme.typography.titleMedium)
-                }
+                Icon(imageVector = Icons.Filled.Public, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "Guess Country", style = MaterialTheme.typography.titleMedium)
             }
             Spacer(modifier = Modifier.height(12.dp))
             OutlinedButton(
