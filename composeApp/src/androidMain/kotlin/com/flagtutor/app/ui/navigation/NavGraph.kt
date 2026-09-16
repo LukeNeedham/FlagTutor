@@ -14,7 +14,6 @@ import com.flagtutor.app.ui.feature.debug.DebugDataPage
 import com.flagtutor.app.ui.feature.debug.DebugPage
 import com.flagtutor.app.ui.feature.home.HomePage
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGamePage
-import com.flagtutor.app.ui.feature.pickflaggame.PickFlagGamePage
 import dev.olshevski.navigation.reimagined.NavBackHandler
 import dev.olshevski.navigation.reimagined.NavHost
 import dev.olshevski.navigation.reimagined.navigate
@@ -32,7 +31,6 @@ fun NavGraph() {
         when (destination) {
             Destination.Home -> HomePage(
                 onNavigateToPickCountryNameGame = { navController.navigate(Destination.PickCountryNameGame) },
-                onNavigateToPickFlagGame = { navController.navigate(Destination.PickFlagGame) },
                 onNavigateToAbout = { navController.navigate(Destination.About) },
                 onNavigateToDebug = if (BuildConfig.DEBUG) {
                     { navController.navigate(Destination.Debug) }
@@ -46,10 +44,6 @@ fun NavGraph() {
             )
 
             Destination.PickCountryNameGame -> PickCountryNameGamePage(
-                onNavigateBack = { navController.pop() },
-            )
-
-            Destination.PickFlagGame -> PickFlagGamePage(
                 onNavigateBack = { navController.pop() },
             )
 

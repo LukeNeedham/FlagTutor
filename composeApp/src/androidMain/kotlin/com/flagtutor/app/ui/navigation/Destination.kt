@@ -15,9 +15,6 @@ sealed class Destination : Parcelable {
     data object PickCountryNameGame : Destination()
 
     @Parcelize
-    data object PickFlagGame : Destination()
-
-    @Parcelize
     data object Debug : Destination()
 
     @Parcelize
