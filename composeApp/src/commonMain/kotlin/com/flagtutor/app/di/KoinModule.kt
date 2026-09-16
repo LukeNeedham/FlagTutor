@@ -2,7 +2,6 @@ package com.flagtutor.app.di
 
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.data.repository.CountryRepository
-import com.flagtutor.app.ui.feature.about.AboutViewModel
 import com.flagtutor.app.ui.feature.crashes.CrashesViewModel
 import com.flagtutor.app.ui.feature.debug.DebugDataViewModel
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGameViewModel
@@ -15,7 +14,6 @@ val appModule = module {
     singleOf(::WikipediaLinkDataSource)
     singleOf(::CountryRepository)
     viewModelOf(::HomeViewModel)
-    viewModelOf(::AboutViewModel)
     viewModelOf(::DebugDataViewModel)
     viewModelOf(::CrashesViewModel)
     viewModelOf(::PickCountryNameGameViewModel)
