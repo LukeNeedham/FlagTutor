@@ -3,7 +3,6 @@ package com.flagtutor.app.ui.feature.pickcountrynamegame
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -194,7 +193,10 @@ fun PickCountryNameGamePageContent(
                                 Spacer(modifier = Modifier.height(16.dp))
                                 AnimatedVisibility(
                                     visible = state.isAnswerRevealed,
-                                    enter = fadeIn(tween(400)) + expandVertically(tween(400)),
+                                    enter = fadeIn(tween(400)) +
+                                        slideInHorizontally(
+                                            animationSpec = tween(400),
+                                        ) { fullWidth -> -fullWidth },
                                 ) {
                                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                         Row(
@@ -254,50 +256,59 @@ fun PickCountryNameGamePageContent(
                                         }
                                     }
                                 }
-                                if (!state.isAnswerRevealed) {
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    Column(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxWidth(),
-                                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                                    ) {
-                                        val cornerRadius = 24.dp
-                                        val gridShapes = arrayOf(
-                                            arrayOf(
-                                                RoundedCornerShape(topStart = cornerRadius),
-                                                RoundedCornerShape(topEnd = cornerRadius),
-                                            ),
-                                            arrayOf(
-                                                RoundedCornerShape(bottomStart = cornerRadius),
-                                                RoundedCornerShape(bottomEnd = cornerRadius),
-                                            ),
-                                        )
-                                        val buttonColors = flagData?.colors ?: emptyList()
-                                        val colorOrder = checkerboardColorOrder(buttonColors)
-                                        state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
-                                            Row(
-                                                modifier = Modifier.weight(1f).fillMaxWidth(),
-                                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                            ) {
-                                                rowOptions.forEachIndexed { colIndex, country ->
-                                                    val colorIndex = colorOrder[rowIndex * 2 + colIndex]
-                                                    val extractedColor = if (buttonColors.isNotEmpty()) {
-                                                        buttonColors[colorIndex]
-                                                    } else null
+                                AnimatedVisibility(
+                                    visible = !state.isAnswerRevealed,
+                                    exit = fadeOut(tween(400)) +
+                                        slideOutHorizontally(
+                                            animationSpec = tween(400),
+                                        ) { fullWidth -> fullWidth },
+                                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                                ) {
+                                    Column(modifier = Modifier.fillMaxSize()) {
+                                        Spacer(modifier = Modifier.height(16.dp))
+                                        Column(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .fillMaxWidth(),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                                        ) {
+                                            val cornerRadius = 24.dp
+                                            val gridShapes = arrayOf(
+                                                arrayOf(
+                                                    RoundedCornerShape(topStart = cornerRadius),
+                                                    RoundedCornerShape(topEnd = cornerRadius),
+                                                ),
+                                                arrayOf(
+                                                    RoundedCornerShape(bottomStart = cornerRadius),
+                                                    RoundedCornerShape(bottomEnd = cornerRadius),
+                                                ),
+                                            )
+                                            val buttonColors = flagData?.colors ?: emptyList()
+                                            val colorOrder = checkerboardColorOrder(buttonColors)
+                                            state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
+                                                Row(
+                                                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                                ) {
+                                                    rowOptions.forEachIndexed { colIndex, country ->
+                                                        val colorIndex = colorOrder[rowIndex * 2 + colIndex]
+                                                        val extractedColor = if (buttonColors.isNotEmpty()) {
+                                                            buttonColors[colorIndex]
+                                                        } else null
 
-                                                    key(country.alpha2Code) {
-                                                        FlagOptionButton(
-                                                            country = country,
-                                                            isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
-                                                            isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
-                                                            enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
-                                                            onClick = { onOptionSelected(country) },
-                                                            shape = gridShapes[rowIndex][colIndex],
-                                                            containerColor = extractedColor?.containerColor,
-                                                            contentColor = extractedColor?.contentColor,
-                                                            modifier = Modifier.weight(1f).fillMaxHeight(),
-                                                        )
+                                                        key(country.alpha2Code) {
+                                                            FlagOptionButton(
+                                                                country = country,
+                                                                isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
+                                                                isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
+                                                                enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
+                                                                onClick = { onOptionSelected(country) },
+                                                                shape = gridShapes[rowIndex][colIndex],
+                                                                containerColor = extractedColor?.containerColor,
+                                                                contentColor = extractedColor?.contentColor,
+                                                                modifier = Modifier.weight(1f).fillMaxHeight(),
+                                                            )
+                                                        }
                                                     }
                                                 }
                                             }
