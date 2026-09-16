@@ -7,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.flagtutor.app.BuildConfig
 import com.flagtutor.app.data.crash.CrashEntry
-import com.flagtutor.app.ui.feature.about.AboutPage
 import com.flagtutor.app.ui.feature.crashes.CrashDetailPage
 import com.flagtutor.app.ui.feature.crashes.CrashesPage
 import com.flagtutor.app.ui.feature.debug.DebugDataPage
@@ -31,16 +30,11 @@ fun NavGraph() {
         when (destination) {
             Destination.Home -> HomePage(
                 onNavigateToPickCountryNameGame = { navController.navigate(Destination.PickCountryNameGame) },
-                onNavigateToAbout = { navController.navigate(Destination.About) },
                 onNavigateToDebug = if (BuildConfig.DEBUG) {
                     { navController.navigate(Destination.Debug) }
                 } else {
                     null
                 },
-            )
-
-            Destination.About -> AboutPage(
-                onNavigateBack = { navController.pop() },
             )
 
             Destination.PickCountryNameGame -> PickCountryNameGamePage(
