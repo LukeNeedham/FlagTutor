@@ -1,0 +1,45 @@
+name: Update Wikipedia Maps
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Re-download every country's map, overwriting existing files (unchecked only fetches missing ones)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  update-maps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download country maps from Wikipedia
+        env:
+          FORCE_REDOWNLOAD: ${{ inputs.force && '1' || '0' }}
+        run: |
+          python3 scripts/download_wikipedia_maps.py | tee download_maps.log
+          echo "## Wikipedia map download results" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          tail -n 60 download_maps.log >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit and push updated maps
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add composeApp/src/commonMain/composeResources/files/maps
+          if git diff --cached --quiet; then
+            echo "No map changes to commit."
+          else
+            git commit -m "Update Wikipedia country maps"
+            git push origin HEAD:"${{ github.ref_name }}"
+          fi
