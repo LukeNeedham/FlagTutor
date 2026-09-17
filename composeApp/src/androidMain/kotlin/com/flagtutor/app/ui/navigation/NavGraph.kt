@@ -9,6 +9,7 @@ import com.flagtutor.app.BuildConfig
 import com.flagtutor.app.data.crash.CrashEntry
 import com.flagtutor.app.ui.feature.crashes.CrashDetailPage
 import com.flagtutor.app.ui.feature.crashes.CrashesPage
+import com.flagtutor.app.ui.feature.credits.CreditsPage
 import com.flagtutor.app.ui.feature.debug.DebugDataPage
 import com.flagtutor.app.ui.feature.debug.DebugPage
 import com.flagtutor.app.ui.feature.home.HomePage
@@ -30,6 +31,7 @@ fun NavGraph() {
         when (destination) {
             Destination.Home -> HomePage(
                 onNavigateToPickCountryNameGame = { navController.navigate(Destination.PickCountryNameGame) },
+                onNavigateToCredits = { navController.navigate(Destination.Credits) },
                 onNavigateToDebug = if (BuildConfig.DEBUG) {
                     { navController.navigate(Destination.Debug) }
                 } else {
@@ -38,6 +40,10 @@ fun NavGraph() {
             )
 
             Destination.PickCountryNameGame -> PickCountryNameGamePage(
+                onNavigateBack = { navController.pop() },
+            )
+
+            Destination.Credits -> CreditsPage(
                 onNavigateBack = { navController.pop() },
             )
 
