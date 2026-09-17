@@ -11,6 +11,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,6 +58,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.domain.model.Country
+import com.flagtutor.app.domain.util.googleMapsSearchUrl
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
 import com.flagtutor.app.ui.util.ExtractedColor
@@ -76,6 +78,7 @@ fun PickCountryNameGamePageContent(
     onOptionSelected: (Country) -> Unit,
     onNextFlag: () -> Unit,
     onMoreInfo: (String) -> Unit,
+    onOpenMap: (String) -> Unit,
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -235,6 +238,10 @@ fun PickCountryNameGamePageContent(
                                                         style = MaterialTheme.typography.titleLarge,
                                                         color = MaterialTheme.colorScheme.onBackground,
                                                         textAlign = TextAlign.Center,
+                                                        modifier = Modifier.clickable(
+                                                            enabled = state.flag.wikipediaUrl.isNotEmpty(),
+                                                            onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                        ),
                                                     )
                                                     Box(
                                                         modifier = Modifier.weight(1f),
@@ -258,7 +265,9 @@ fun PickCountryNameGamePageContent(
                                                     shape = MaterialTheme.shapes.extraLarge,
                                                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                                                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                                                    modifier = Modifier.fillMaxWidth(0.85f),
+                                                    modifier = Modifier
+                                                        .fillMaxWidth(0.85f)
+                                                        .clickable(onClick = { onOpenMap(googleMapsSearchUrl(state.flag.name)) }),
                                                 ) {
                                                     CountryMapHighlight(
                                                         alpha2Code = state.flag.alpha2Code,

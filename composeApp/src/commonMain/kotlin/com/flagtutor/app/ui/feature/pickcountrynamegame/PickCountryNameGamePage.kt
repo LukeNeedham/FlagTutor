@@ -15,6 +15,7 @@ fun PickCountryNameGamePage(
         onOptionSelected = viewModel::onOptionSelected,
         onNextFlag = viewModel::onNextFlag,
         onMoreInfo = { url -> uriHandler.openUri(url) },
+        onOpenMap = { url -> uriHandler.openUri(url) },
         onRetry = viewModel::loadCountries,
         onBackClick = onNavigateBack,
     )
