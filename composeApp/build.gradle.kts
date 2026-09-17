@@ -101,17 +101,17 @@ tasks.register("downloadFlags") {
 }
 
 /**
- * Generates a map PNG for every country from country_boundaries.json using generate_maps.py.
- * Run once after checkout: ./gradlew generateMaps
- * Requires Python 3 with Pillow: pip3 install Pillow
+ * Downloads each country's globe/orthographic locator map from its Wikipedia infobox using
+ * download_wikipedia_maps.py. Run once after checkout: ./gradlew downloadWikipediaMaps
+ * These images are sourced from Wikimedia Commons; see the in-app credits screen for attribution.
  */
-tasks.register("generateMaps") {
-    description = "Generates map PNG images for every country from country_boundaries.json."
+tasks.register("downloadWikipediaMaps") {
+    description = "Downloads globe/orthographic map images for every country from Wikipedia."
     group = "setup"
-    inputs.file("src/commonMain/composeResources/files/country_boundaries.json")
+    inputs.file("src/commonMain/composeResources/files/wikipedia_links.json")
     outputs.dir("src/commonMain/composeResources/files/maps")
     doLast {
-        val script = rootProject.file("scripts/generate_maps.py")
+        val script = rootProject.file("scripts/download_wikipedia_maps.py")
         exec {
             commandLine("python3", script.absolutePath)
         }
