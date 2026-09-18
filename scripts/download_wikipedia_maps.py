@@ -21,6 +21,10 @@ THUMB_WIDTH = 600
 REQUEST_DELAY_SECONDS = 2.5
 MAX_RETRIES = 3
 MAX_RETRY_DELAY_SECONDS = 20
+# Wikimedia's rate-limit response (HTTP 429) names how long to wait before retrying via
+# a Retry-After header. Respect it (capped, so one file can't stall the whole run) instead
+# of a generic backoff that's too short to ever clear the cooldown.
+MAX_RETRY_AFTER_SECONDS = 60
 # If this many requests in a row fail, Wikimedia is almost certainly rate-limiting/blocking
 # this runner rather than each file being individually broken. Stop early instead of burning
 # hours retrying every remaining country - re-running later (once the block lifts) is cheaper.
@@ -43,6 +47,20 @@ with open(LINKS_PATH) as f:
     links = json.load(f)
 
 
+def retry_delay_for(error, default_delay):
+    """How long to wait before retrying after `error`. Honours a 429's Retry-After header,
+    since that's Wikimedia telling us exactly when its rate limit will clear - a shorter,
+    unrelated backoff just retries before the cooldown ends and fails every time."""
+    if isinstance(error, urllib.error.HTTPError) and error.code == 429:
+        retry_after = error.headers.get("Retry-After")
+        if retry_after is not None:
+            try:
+                return min(float(retry_after), MAX_RETRY_AFTER_SECONDS)
+            except ValueError:
+                pass
+    return default_delay
+
+
 def fetch_json(url):
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
     delay = REQUEST_DELAY_SECONDS
@@ -51,8 +69,8 @@ def fetch_json(url):
             with urllib.request.urlopen(req, timeout=30) as resp:
                 body = resp.read()
             return json.loads(body)
-        except (urllib.error.HTTPError, urllib.error.URLError, json.JSONDecodeError):
-            time.sleep(delay)
+        except (urllib.error.HTTPError, urllib.error.URLError, json.JSONDecodeError) as e:
+            time.sleep(retry_delay_for(e, delay))
             delay = min(delay * 2, MAX_RETRY_DELAY_SECONDS)
     return None
 
@@ -66,8 +84,8 @@ def fetch_bytes(url):
         try:
             with urllib.request.urlopen(req, timeout=30) as resp:
                 return resp.read()
-        except (urllib.error.HTTPError, urllib.error.URLError):
-            time.sleep(delay)
+        except (urllib.error.HTTPError, urllib.error.URLError) as e:
+            time.sleep(retry_delay_for(e, delay))
             delay = min(delay * 2, MAX_RETRY_DELAY_SECONDS)
     return None
 
