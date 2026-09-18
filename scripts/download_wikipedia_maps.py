@@ -61,18 +61,32 @@ def retry_delay_for(error, default_delay):
     return default_delay
 
 
+def describe_error(error):
+    """Human-readable reason for a failed request, so failure logs say *why* rather than
+    just *that* a download failed - critical for telling a transient blip apart from a
+    persistent block (e.g. a 403 from every request means the runner's IP is blocked,
+    not that any individual file is broken)."""
+    if isinstance(error, urllib.error.HTTPError):
+        return f"HTTP {error.code} {error.reason}"
+    if isinstance(error, urllib.error.URLError):
+        return f"URLError: {error.reason}"
+    return f"{type(error).__name__}: {error}"
+
+
 def fetch_json(url):
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
     delay = REQUEST_DELAY_SECONDS
+    last_error = None
     for attempt in range(MAX_RETRIES):
         try:
             with urllib.request.urlopen(req, timeout=30) as resp:
                 body = resp.read()
-            return json.loads(body)
+            return json.loads(body), None
         except (urllib.error.HTTPError, urllib.error.URLError, json.JSONDecodeError) as e:
+            last_error = describe_error(e)
             time.sleep(retry_delay_for(e, delay))
             delay = min(delay * 2, MAX_RETRY_DELAY_SECONDS)
-    return None
+    return None, last_error
 
 
 def fetch_bytes(url):
@@ -80,14 +94,16 @@ def fetch_bytes(url):
         url = "https:" + url
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     delay = REQUEST_DELAY_SECONDS
+    last_error = None
     for attempt in range(MAX_RETRIES):
         try:
             with urllib.request.urlopen(req, timeout=30) as resp:
-                return resp.read()
+                return resp.read(), None
         except (urllib.error.HTTPError, urllib.error.URLError) as e:
+            last_error = describe_error(e)
             time.sleep(retry_delay_for(e, delay))
             delay = min(delay * 2, MAX_RETRY_DELAY_SECONDS)
-    return None
+    return None, last_error
 
 
 def pick_map_item(media_list_items):
@@ -126,6 +142,7 @@ guessed = []
 failed = []
 not_attempted = []
 consecutive_failures = 0
+last_network_error = None
 
 codes = sorted(links.keys())
 for i, code in enumerate(codes):
@@ -137,9 +154,10 @@ for i, code in enumerate(codes):
     if consecutive_failures >= CIRCUIT_BREAKER_THRESHOLD:
         not_attempted.extend(codes[i:])
         print(
-            f"\nAborting early: {consecutive_failures} downloads in a row failed - "
-            f"likely rate-limited/blocked rather than a per-file problem. "
-            f"{len(not_attempted)} countries not attempted, re-run later to retry them.",
+            f"\nAborting early: {consecutive_failures} downloads in a row failed "
+            f"(most recent error: {last_network_error}) - likely rate-limited/blocked "
+            f"rather than a per-file problem. {len(not_attempted)} countries not attempted, "
+            f"re-run later to retry them.",
             file=sys.stderr,
         )
         break
@@ -148,12 +166,13 @@ for i, code in enumerate(codes):
     title = url.rstrip("/").rsplit("/wiki/", 1)[-1]
     media_list_url = f"https://en.wikipedia.org/api/rest_v1/page/media-list/{title}"
 
-    data = fetch_json(media_list_url)
+    data, error = fetch_json(media_list_url)
     time.sleep(REQUEST_DELAY_SECONDS)
     if data is None:
-        print(f"  [{code}] FAILED: could not fetch media list", file=sys.stderr)
+        print(f"  [{code}] FAILED: could not fetch media list ({error})", file=sys.stderr)
         failed.append(code)
         consecutive_failures += 1
+        last_network_error = error
         continue
 
     item, confident = pick_map_item(data.get("items", []))
@@ -163,12 +182,13 @@ for i, code in enumerate(codes):
         consecutive_failures = 0
         continue
 
-    image_bytes = fetch_bytes(thumb_url_at_width(item, THUMB_WIDTH))
+    image_bytes, error = fetch_bytes(thumb_url_at_width(item, THUMB_WIDTH))
     time.sleep(REQUEST_DELAY_SECONDS)
     if image_bytes is None:
-        print(f"  [{code}] FAILED: could not download {item['title']}", file=sys.stderr)
+        print(f"  [{code}] FAILED: could not download {item['title']} ({error})", file=sys.stderr)
         failed.append(code)
         consecutive_failures += 1
+        last_network_error = error
         continue
 
     with open(out_path, "wb") as f:
