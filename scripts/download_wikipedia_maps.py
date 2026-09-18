@@ -19,7 +19,16 @@ OUT_DIR = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResource
 USER_AGENT = "FlagTutorMapFetcher/1.0 (https://github.com/lukeneedham/flagtutor; contact via GitHub)"
 THUMB_WIDTH = 600
 REQUEST_DELAY_SECONDS = 2.5
-MAX_RETRIES = 6
+MAX_RETRIES = 3
+MAX_RETRY_DELAY_SECONDS = 20
+# Wikimedia's rate-limit response (HTTP 429) names how long to wait before retrying via
+# a Retry-After header. Respect it (capped, so one file can't stall the whole run) instead
+# of a generic backoff that's too short to ever clear the cooldown.
+MAX_RETRY_AFTER_SECONDS = 60
+# If this many requests in a row fail, Wikimedia is almost certainly rate-limiting/blocking
+# this runner rather than each file being individually broken. Stop early instead of burning
+# hours retrying every remaining country - re-running later (once the block lifts) is cheaper.
+CIRCUIT_BREAKER_THRESHOLD = 10
 
 NON_MAP_NAME_PATTERNS = re.compile(
     r"flag_of|coat_of_arms|national_emblem|state_emblem|seal_of|emblem_of|banner_of|logo_of",
@@ -38,6 +47,20 @@ with open(LINKS_PATH) as f:
     links = json.load(f)
 
 
+def retry_delay_for(error, default_delay):
+    """How long to wait before retrying after `error`. Honours a 429's Retry-After header,
+    since that's Wikimedia telling us exactly when its rate limit will clear - a shorter,
+    unrelated backoff just retries before the cooldown ends and fails every time."""
+    if isinstance(error, urllib.error.HTTPError) and error.code == 429:
+        retry_after = error.headers.get("Retry-After")
+        if retry_after is not None:
+            try:
+                return min(float(retry_after), MAX_RETRY_AFTER_SECONDS)
+            except ValueError:
+                pass
+    return default_delay
+
+
 def fetch_json(url):
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
     delay = REQUEST_DELAY_SECONDS
@@ -46,9 +69,9 @@ def fetch_json(url):
             with urllib.request.urlopen(req, timeout=30) as resp:
                 body = resp.read()
             return json.loads(body)
-        except (urllib.error.HTTPError, urllib.error.URLError, json.JSONDecodeError):
-            time.sleep(delay)
-            delay *= 2
+        except (urllib.error.HTTPError, urllib.error.URLError, json.JSONDecodeError) as e:
+            time.sleep(retry_delay_for(e, delay))
+            delay = min(delay * 2, MAX_RETRY_DELAY_SECONDS)
     return None
 
 
@@ -61,9 +84,9 @@ def fetch_bytes(url):
         try:
             with urllib.request.urlopen(req, timeout=30) as resp:
                 return resp.read()
-        except (urllib.error.HTTPError, urllib.error.URLError):
-            time.sleep(delay)
-            delay *= 2
+        except (urllib.error.HTTPError, urllib.error.URLError) as e:
+            time.sleep(retry_delay_for(e, delay))
+            delay = min(delay * 2, MAX_RETRY_DELAY_SECONDS)
     return None
 
 
@@ -101,13 +124,25 @@ downloaded = 0
 skipped = 0
 guessed = []
 failed = []
+not_attempted = []
+consecutive_failures = 0
 
 codes = sorted(links.keys())
-for code in codes:
+for i, code in enumerate(codes):
     out_path = os.path.join(OUT_DIR, f"{code}.png")
     if os.path.exists(out_path) and not FORCE:
         skipped += 1
         continue
+
+    if consecutive_failures >= CIRCUIT_BREAKER_THRESHOLD:
+        not_attempted.extend(codes[i:])
+        print(
+            f"\nAborting early: {consecutive_failures} downloads in a row failed - "
+            f"likely rate-limited/blocked rather than a per-file problem. "
+            f"{len(not_attempted)} countries not attempted, re-run later to retry them.",
+            file=sys.stderr,
+        )
+        break
 
     url = links[code]
     title = url.rstrip("/").rsplit("/wiki/", 1)[-1]
@@ -118,12 +153,14 @@ for code in codes:
     if data is None:
         print(f"  [{code}] FAILED: could not fetch media list", file=sys.stderr)
         failed.append(code)
+        consecutive_failures += 1
         continue
 
     item, confident = pick_map_item(data.get("items", []))
     if item is None:
         print(f"  [{code}] FAILED: no candidate map image found", file=sys.stderr)
         failed.append(code)
+        consecutive_failures = 0
         continue
 
     image_bytes = fetch_bytes(thumb_url_at_width(item, THUMB_WIDTH))
@@ -131,17 +168,20 @@ for code in codes:
     if image_bytes is None:
         print(f"  [{code}] FAILED: could not download {item['title']}", file=sys.stderr)
         failed.append(code)
+        consecutive_failures += 1
         continue
 
     with open(out_path, "wb") as f:
         f.write(image_bytes)
     downloaded += 1
+    consecutive_failures = 0
     if not confident:
         guessed.append((code, item["title"]))
     if downloaded % 25 == 0:
         print(f"  {downloaded} maps downloaded…")
 
-print(f"\nDone: {downloaded} downloaded, {skipped} already present, {len(failed)} failed.")
+print(f"\nDone: {downloaded} downloaded, {skipped} already present, {len(failed)} failed"
+      + (f", {len(not_attempted)} not attempted" if not_attempted else "") + ".")
 if guessed:
     print(f"\n{len(guessed)} countries had no 'orthographic'/'globe' match in the filename - picked the first lead image, please verify:")
     for code, title in guessed:
