@@ -131,9 +131,20 @@ def pick_map_item(media_list_items):
     return best_item, best_score > 0
 
 
-def thumb_url_at_width(item, width):
-    src = item["srcset"][-1]["src"]
-    return re.sub(r"/\d+px-", f"/{width}px-", src)
+def thumb_url_near_width(item, target_width):
+    """Pick the srcset entry closest to `target_width`, rather than requesting an arbitrary
+    size. Wikimedia's thumbnail servers only pre-render a per-file whitelist of widths (the
+    ones already offered in `srcset`) and reject any other width with an HTTP 400 ("Use
+    thumbnail sizes listed on ...") - rewriting the URL to a fixed width like the old code did
+    is exactly what triggered that, on effectively every file."""
+    def width_of(entry):
+        match = re.search(r"/(\d+)px-", entry["src"])
+        return int(match.group(1)) if match else None
+
+    candidates = [(w, entry["src"]) for entry in item["srcset"] if (w := width_of(entry)) is not None]
+    if not candidates:
+        return item["srcset"][-1]["src"]
+    return min(candidates, key=lambda c: abs(c[0] - target_width))[1]
 
 
 downloaded = 0
@@ -182,7 +193,7 @@ for i, code in enumerate(codes):
         consecutive_failures = 0
         continue
 
-    image_bytes, error = fetch_bytes(thumb_url_at_width(item, THUMB_WIDTH))
+    image_bytes, error = fetch_bytes(thumb_url_near_width(item, THUMB_WIDTH))
     time.sleep(REQUEST_DELAY_SECONDS)
     if image_bytes is None:
         print(f"  [{code}] FAILED: could not download {item['title']} ({error})", file=sys.stderr)
