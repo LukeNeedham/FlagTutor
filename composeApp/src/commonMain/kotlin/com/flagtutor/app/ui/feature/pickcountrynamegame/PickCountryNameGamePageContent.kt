@@ -58,7 +58,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.domain.model.Country
-import com.flagtutor.app.domain.util.googleMapsSearchUrl
+import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
 import com.flagtutor.app.ui.util.ExtractedColor
@@ -267,7 +267,7 @@ fun PickCountryNameGamePageContent(
                                                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                                                     modifier = Modifier
                                                         .fillMaxWidth(0.85f)
-                                                        .clickable(onClick = { onOpenMap(googleMapsSearchUrl(state.flag.name)) }),
+                                                        .clickable(onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) }),
                                                 ) {
                                                     CountryMapHighlight(
                                                         alpha2Code = state.flag.alpha2Code,
