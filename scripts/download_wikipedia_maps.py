@@ -106,8 +106,19 @@ def fetch_bytes(url):
     return None, last_error
 
 
-def pick_map_item(media_list_items):
-    """Pick the globe/orthographic map image among a page's lead-section images."""
+def map_keyword_score(item):
+    score = 0
+    for pattern, points in MAP_KEYWORD_SCORES:
+        if pattern.search(item["title"]):
+            score = max(score, points)
+    return score
+
+
+def pick_map_candidates(media_list_items):
+    """Rank a page's lead-section images best-first (globe/orthographic keyword match, then
+    everything else), so that if the top pick's file turns out to be persistently broken/
+    blocked on Wikimedia's side, the caller can fall back to the next best lead image instead
+    of failing the whole country."""
     candidates = [
         item
         for item in media_list_items
@@ -116,19 +127,7 @@ def pick_map_item(media_list_items):
         and item.get("srcset")
         and not NON_MAP_NAME_PATTERNS.search(item.get("title", ""))
     ]
-    if not candidates:
-        return None, False
-
-    best_item, best_score = None, -1
-    for item in candidates:
-        score = 0
-        for pattern, points in MAP_KEYWORD_SCORES:
-            if pattern.search(item["title"]):
-                score = max(score, points)
-        if score > best_score:
-            best_item, best_score = item, score
-
-    return best_item, best_score > 0
+    return sorted(candidates, key=map_keyword_score, reverse=True)
 
 
 def thumb_url_near_width(item, target_width):
@@ -236,15 +235,24 @@ for i, code in enumerate(codes):
             continue
         data = {"items": fallback_items}
 
-    item, confident = pick_map_item(data.get("items", []))
-    if item is None:
+    candidates = pick_map_candidates(data.get("items", []))
+    if not candidates:
         print(f"  [{code}] FAILED: no candidate map image found", file=sys.stderr)
         failed.append(code)
         consecutive_failures = 0
         continue
 
-    image_bytes, error = fetch_bytes(thumb_url_near_width(item, THUMB_WIDTH))
-    time.sleep(REQUEST_DELAY_SECONDS)
+    # Try candidates best-first, falling back to the next lead image if one's file turns
+    # out to be persistently broken/blocked on Wikimedia's side (seen in practice: a
+    # specific SVG failing the same way across separate runs hours apart) rather than
+    # failing the whole country over one bad file.
+    image_bytes, error, item = None, None, None
+    for item in candidates:
+        image_bytes, error = fetch_bytes(thumb_url_near_width(item, THUMB_WIDTH))
+        time.sleep(REQUEST_DELAY_SECONDS)
+        if image_bytes is not None:
+            break
+
     if image_bytes is None:
         print(f"  [{code}] FAILED: could not download {item['title']} ({error})", file=sys.stderr)
         failed.append(code)
@@ -256,7 +264,7 @@ for i, code in enumerate(codes):
         f.write(image_bytes)
     downloaded += 1
     consecutive_failures = 0
-    if not confident:
+    if map_keyword_score(item) == 0:
         guessed.append((code, item["title"]))
     if downloaded % 25 == 0:
         print(f"  {downloaded} maps downloaded…")
