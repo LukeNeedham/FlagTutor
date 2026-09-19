@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -27,7 +28,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DebugPageContent(
-    onDebugDataClick: () -> Unit,
+    onCountriesOverviewClick: () -> Unit,
+    onFlagAttemptsClick: () -> Unit,
     onCrashesClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -58,13 +60,22 @@ fun DebugPageContent(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             OutlinedButton(
-                onClick = onDebugDataClick,
+                onClick = onCountriesOverviewClick,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = MaterialTheme.shapes.large,
             ) {
                 Icon(imageVector = Icons.Filled.List, contentDescription = null)
                 Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                Text("Debug Data")
+                Text("Countries Overview")
+            }
+            OutlinedButton(
+                onClick = onFlagAttemptsClick,
+                modifier = Modifier.fillMaxWidth().height(56.dp),
+                shape = MaterialTheme.shapes.large,
+            ) {
+                Icon(imageVector = Icons.Filled.Flag, contentDescription = null)
+                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+                Text("Flag Attempts")
             }
             OutlinedButton(
                 onClick = onCrashesClick,

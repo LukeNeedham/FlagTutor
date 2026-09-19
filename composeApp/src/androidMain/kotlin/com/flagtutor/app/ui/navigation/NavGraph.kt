@@ -10,8 +10,9 @@ import com.flagtutor.app.data.crash.CrashEntry
 import com.flagtutor.app.ui.feature.crashes.CrashDetailPage
 import com.flagtutor.app.ui.feature.crashes.CrashesPage
 import com.flagtutor.app.ui.feature.credits.CreditsPage
-import com.flagtutor.app.ui.feature.debug.DebugDataPage
+import com.flagtutor.app.ui.feature.debug.CountriesOverviewPage
 import com.flagtutor.app.ui.feature.debug.DebugPage
+import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsPage
 import com.flagtutor.app.ui.feature.home.HomePage
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGamePage
 import dev.olshevski.navigation.reimagined.NavBackHandler
@@ -49,11 +50,16 @@ fun NavGraph() {
 
             Destination.Debug -> DebugPage(
                 onNavigateBack = { navController.pop() },
-                onNavigateToDebugData = { navController.navigate(Destination.DebugData) },
+                onNavigateToCountriesOverview = { navController.navigate(Destination.CountriesOverview) },
+                onNavigateToFlagAttempts = { navController.navigate(Destination.FlagAttempts) },
                 onNavigateToCrashes = { navController.navigate(Destination.Crashes) },
             )
 
-            Destination.DebugData -> DebugDataPage(
+            Destination.CountriesOverview -> CountriesOverviewPage(
+                onNavigateBack = { navController.pop() },
+            )
+
+            Destination.FlagAttempts -> FlagAttemptsPage(
                 onNavigateBack = { navController.pop() },
             )
 

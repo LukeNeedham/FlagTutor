@@ -6,15 +6,21 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flagtutor.app.data.repository.CountryRepository
+import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.domain.model.Country
+import com.flagtutor.app.domain.model.FlagAttempt
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-class DebugDataViewModel(
+class CountriesOverviewViewModel(
     private val countryRepository: CountryRepository,
+    private val flagAttemptRepository: FlagAttemptRepository,
 ) : ViewModel() {
 
     var countries by mutableStateOf<List<Country>>(emptyList())
+        private set
+
+    var attemptStatsByCountry by mutableStateOf<Map<String, FlagAttemptStats>>(emptyMap())
         private set
 
     var isLoading by mutableStateOf(true)
@@ -32,8 +38,10 @@ class DebugDataViewModel(
         isError = false
         viewModelScope.launch {
             try {
-                val result = countryRepository.getCountries()
-                countries = result
+                countries = countryRepository.getCountries()
+                attemptStatsByCountry = flagAttemptRepository.getAttempts()
+                    .groupBy { it.alpha2Code }
+                    .mapValues { (_, attempts) -> attempts.toStats() }
                 isLoading = false
             } catch (e: CancellationException) {
                 throw e
@@ -43,4 +51,15 @@ class DebugDataViewModel(
             }
         }
     }
+}
+
+/** Assumes [this] is ordered oldest-first, matching [FlagAttemptRepository.getAttempts]. */
+private fun List<FlagAttempt>.toStats(): FlagAttemptStats {
+    val totalIncorrectAnswers = sumOf { it.guessCount - 1 }
+    return FlagAttemptStats(
+        totalAttempts = size,
+        totalIncorrectAnswers = totalIncorrectAnswers,
+        averageIncorrectPerAttempt = totalIncorrectAnswers.toDouble() / size,
+        currentStreak = asReversed().takeWhile { it.guessCount == 1 }.size,
+    )
 }
