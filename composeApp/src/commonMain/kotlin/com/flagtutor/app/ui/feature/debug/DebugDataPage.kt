@@ -12,6 +12,7 @@ fun DebugDataPage(
     val uriHandler = LocalUriHandler.current
     DebugDataPageContent(
         countries = viewModel.countries,
+        attemptStatsByCountry = viewModel.attemptStatsByCountry,
         isLoading = viewModel.isLoading,
         isError = viewModel.isError,
         onMoreInfo = { url -> uriHandler.openUri(url) },

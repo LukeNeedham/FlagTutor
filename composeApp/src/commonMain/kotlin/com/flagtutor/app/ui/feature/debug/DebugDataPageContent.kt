@@ -46,6 +46,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.component.FlagImage
+import kotlin.math.round
 
 private enum class DebugImageType { FLAG, MAP }
 
@@ -55,6 +56,7 @@ private data class EnlargedImage(val alpha2Code: String, val type: DebugImageTyp
 @Composable
 fun DebugDataPageContent(
     countries: List<Country>,
+    attemptStatsByCountry: Map<String, FlagAttemptStats>,
     isLoading: Boolean,
     isError: Boolean,
     onMoreInfo: (String) -> Unit,
@@ -137,6 +139,7 @@ fun DebugDataPageContent(
                         items(countries, key = { it.alpha2Code }) { country ->
                             DebugCountryRow(
                                 country = country,
+                                attemptStats = attemptStatsByCountry[country.alpha2Code],
                                 onMoreInfo = onMoreInfo,
                                 onFlagClick = {
                                     enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.FLAG)
@@ -183,50 +186,61 @@ fun DebugDataPageContent(
 @Composable
 private fun DebugCountryRow(
     country: Country,
+    attemptStats: FlagAttemptStats?,
     onMoreInfo: (String) -> Unit,
     onFlagClick: () -> Unit,
     onMapClick: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        Text(
-            text = country.name,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.weight(1f),
-        )
-        if (country.wikipediaUrl.isNotEmpty()) {
-            IconButton(
-                onClick = { onMoreInfo(country.wikipediaUrl) },
-                modifier = Modifier.size(32.dp),
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Info,
-                    contentDescription = "More info",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp),
-                )
+    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text(
+                text = country.name,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.weight(1f),
+            )
+            if (country.wikipediaUrl.isNotEmpty()) {
+                IconButton(
+                    onClick = { onMoreInfo(country.wikipediaUrl) },
+                    modifier = Modifier.size(32.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Info,
+                        contentDescription = "More info",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
             }
+            FlagImage(
+                alpha2Code = country.alpha2Code,
+                modifier = Modifier
+                    .height(32.dp)
+                    .aspectRatio(3f / 2f)
+                    .clickable(onClick = onFlagClick),
+            )
+            CountryMapHighlight(
+                alpha2Code = country.alpha2Code,
+                modifier = Modifier
+                    .height(40.dp)
+                    .aspectRatio(16f / 10f)
+                    .clipToBounds()
+                    .clickable(onClick = onMapClick),
+            )
         }
-        FlagImage(
-            alpha2Code = country.alpha2Code,
-            modifier = Modifier
-                .height(32.dp)
-                .aspectRatio(3f / 2f)
-                .clickable(onClick = onFlagClick),
-        )
-        CountryMapHighlight(
-            alpha2Code = country.alpha2Code,
-            modifier = Modifier
-                .height(40.dp)
-                .aspectRatio(16f / 10f)
-                .clipToBounds()
-                .clickable(onClick = onMapClick),
+        Text(
+            text = attemptStats?.toSummaryText() ?: "No attempts yet",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
+}
+
+private fun FlagAttemptStats.toSummaryText(): String {
+    val roundedAverage = round(averageIncorrectPerAttempt * 100) / 100
+    return "$totalAttempts attempts · $totalIncorrectAnswers incorrect · avg $roundedAverage incorrect/attempt"
 }
