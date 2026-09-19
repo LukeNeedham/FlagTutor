@@ -52,11 +52,14 @@ class PickCountryNameGameViewModel(
         if (state.isAnswerRevealed || country.alpha2Code in state.incorrectAlpha2Codes) return
 
         if (country.alpha2Code == state.flag.alpha2Code) {
-            flagAttemptRepository.recordAttempt(
-                alpha2Code = state.flag.alpha2Code,
-                guessCount = state.incorrectAlpha2Codes.size + 1,
-            )
             uiState = state.copy(isAnswerRevealed = true)
+            val guessCount = state.incorrectAlpha2Codes.size + 1
+            viewModelScope.launch {
+                flagAttemptRepository.recordAttempt(
+                    alpha2Code = state.flag.alpha2Code,
+                    guessCount = guessCount,
+                )
+            }
         } else {
             uiState = state.copy(incorrectAlpha2Codes = state.incorrectAlpha2Codes + country.alpha2Code)
         }
