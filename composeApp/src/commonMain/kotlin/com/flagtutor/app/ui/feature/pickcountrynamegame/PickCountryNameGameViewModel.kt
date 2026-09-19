@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flagtutor.app.data.repository.CountryRepository
+import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -14,6 +15,7 @@ private const val OPTIONS_COUNT = 4
 
 class PickCountryNameGameViewModel(
     private val countryRepository: CountryRepository,
+    private val flagAttemptRepository: FlagAttemptRepository,
 ) : ViewModel() {
 
     private var countries: List<Country> = emptyList()
@@ -50,6 +52,10 @@ class PickCountryNameGameViewModel(
         if (state.isAnswerRevealed || country.alpha2Code in state.incorrectAlpha2Codes) return
 
         if (country.alpha2Code == state.flag.alpha2Code) {
+            flagAttemptRepository.recordAttempt(
+                alpha2Code = state.flag.alpha2Code,
+                guessCount = state.incorrectAlpha2Codes.size + 1,
+            )
             uiState = state.copy(isAnswerRevealed = true)
         } else {
             uiState = state.copy(incorrectAlpha2Codes = state.incorrectAlpha2Codes + country.alpha2Code)
