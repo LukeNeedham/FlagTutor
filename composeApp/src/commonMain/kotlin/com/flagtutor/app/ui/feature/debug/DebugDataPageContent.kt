@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.debug
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,13 +33,22 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.component.FlagImage
+
+private enum class DebugImageType { FLAG, MAP }
+
+private data class EnlargedImage(val alpha2Code: String, val type: DebugImageType)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,6 +60,8 @@ fun DebugDataPageContent(
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
+    var enlargedImage by remember { mutableStateOf<EnlargedImage?>(null) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -122,10 +134,43 @@ fun DebugDataPageContent(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     ) {
                         items(countries, key = { it.alpha2Code }) { country ->
-                            DebugCountryRow(country = country, onMoreInfo = onMoreInfo)
+                            DebugCountryRow(
+                                country = country,
+                                onMoreInfo = onMoreInfo,
+                                onFlagClick = {
+                                    enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.FLAG)
+                                },
+                                onMapClick = {
+                                    enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.MAP)
+                                },
+                            )
                             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    enlargedImage?.let { image ->
+        Dialog(onDismissRequest = { enlargedImage = null }) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(4f / 3f)
+                    .clickable { enlargedImage = null },
+                contentAlignment = Alignment.Center,
+            ) {
+                when (image.type) {
+                    DebugImageType.FLAG -> FlagImage(
+                        alpha2Code = image.alpha2Code,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+
+                    DebugImageType.MAP -> CountryMapHighlight(
+                        alpha2Code = image.alpha2Code,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
                 }
             }
         }
@@ -136,6 +181,8 @@ fun DebugDataPageContent(
 private fun DebugCountryRow(
     country: Country,
     onMoreInfo: (String) -> Unit,
+    onFlagClick: () -> Unit,
+    onMapClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -167,14 +214,16 @@ private fun DebugCountryRow(
             alpha2Code = country.alpha2Code,
             modifier = Modifier
                 .height(32.dp)
-                .aspectRatio(3f / 2f),
+                .aspectRatio(3f / 2f)
+                .clickable(onClick = onFlagClick),
         )
         CountryMapHighlight(
             alpha2Code = country.alpha2Code,
             modifier = Modifier
                 .height(40.dp)
                 .aspectRatio(16f / 10f)
-                .clipToBounds(),
+                .clipToBounds()
+                .clickable(onClick = onMapClick),
         )
     }
 }
