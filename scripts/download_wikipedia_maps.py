@@ -30,14 +30,24 @@ MAX_RETRY_AFTER_SECONDS = 60
 # hours retrying every remaining country - re-running later (once the block lifts) is cheaper.
 CIRCUIT_BREAKER_THRESHOLD = 10
 
+# Many overseas territories' Wikipedia pages name their coat-of-arms/logo file in French,
+# Dutch, German, Spanish or Portuguese rather than English, e.g. "Blason_St_Barthélémy" or
+# "Aruba_wapen" - those don't contain any of the English terms below, so they'd otherwise slip
+# through and get picked over the page's actual locator map.
 NON_MAP_NAME_PATTERNS = re.compile(
-    r"flag_of|coat_of_arms|national_emblem|state_emblem|seal_of|emblem_of|banner_of|logo_of",
+    r"flag_of|coat_of_arms|national_emblem|state_emblem|seal_of|emblem_of|banner_of|logo"
+    r"|blason|armoiries|wapen|wappen|escudo|bras[aã]o|stemma",
     re.IGNORECASE,
 )
 MAP_KEYWORD_SCORES = [
     (re.compile(r"orthographic", re.IGNORECASE), 2),
     (re.compile(r"globe", re.IGNORECASE), 1),
 ]
+# A genuine cartographic locator/orthographic map is essentially never distributed on
+# Wikipedia as a JPEG - that format is used for photographs. Excluding it up front stops a
+# lead-section photo (e.g. a satellite photo of the country) from being picked over the page's
+# actual locator map elsewhere in the lead.
+NON_MAP_EXTENSIONS = re.compile(r"\.jpe?g$", re.IGNORECASE)
 
 FORCE = os.environ.get("FORCE_REDOWNLOAD") == "1"
 
@@ -126,6 +136,7 @@ def pick_map_candidates(media_list_items):
         and item.get("type") == "image"
         and item.get("srcset")
         and not NON_MAP_NAME_PATTERNS.search(item.get("title", ""))
+        and not NON_MAP_EXTENSIONS.search(item.get("title", ""))
     ]
     return sorted(candidates, key=map_keyword_score, reverse=True)
 
