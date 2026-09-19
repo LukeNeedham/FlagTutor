@@ -12,7 +12,7 @@ import com.flagtutor.app.domain.model.FlagAttempt
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
-class DebugDataViewModel(
+class CountriesOverviewViewModel(
     private val countryRepository: CountryRepository,
     private val flagAttemptRepository: FlagAttemptRepository,
 ) : ViewModel() {
@@ -53,11 +53,13 @@ class DebugDataViewModel(
     }
 }
 
+/** Assumes [this] is ordered oldest-first, matching [FlagAttemptRepository.getAttempts]. */
 private fun List<FlagAttempt>.toStats(): FlagAttemptStats {
     val totalIncorrectAnswers = sumOf { it.guessCount - 1 }
     return FlagAttemptStats(
         totalAttempts = size,
         totalIncorrectAnswers = totalIncorrectAnswers,
         averageIncorrectPerAttempt = totalIncorrectAnswers.toDouble() / size,
+        currentStreak = asReversed().takeWhile { it.guessCount == 1 }.size,
     )
 }

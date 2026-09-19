@@ -54,7 +54,7 @@ private data class EnlargedImage(val alpha2Code: String, val type: DebugImageTyp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DebugDataPageContent(
+fun CountriesOverviewPageContent(
     countries: List<Country>,
     attemptStatsByCountry: Map<String, FlagAttemptStats>,
     isLoading: Boolean,
@@ -68,7 +68,7 @@ fun DebugDataPageContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Debug - All Countries") },
+                title = { Text("Countries Overview") },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -137,7 +137,7 @@ fun DebugDataPageContent(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     ) {
                         items(countries, key = { it.alpha2Code }) { country ->
-                            DebugCountryRow(
+                            CountryOverviewRow(
                                 country = country,
                                 attemptStats = attemptStatsByCountry[country.alpha2Code],
                                 onMoreInfo = onMoreInfo,
@@ -184,7 +184,7 @@ fun DebugDataPageContent(
 }
 
 @Composable
-private fun DebugCountryRow(
+private fun CountryOverviewRow(
     country: Country,
     attemptStats: FlagAttemptStats?,
     onMoreInfo: (String) -> Unit,
@@ -242,5 +242,6 @@ private fun DebugCountryRow(
 
 private fun FlagAttemptStats.toSummaryText(): String {
     val roundedAverage = round(averageIncorrectPerAttempt * 100) / 100
-    return "$totalAttempts attempts · $totalIncorrectAnswers incorrect · avg $roundedAverage incorrect/attempt"
+    return "$totalAttempts attempts · $totalIncorrectAnswers incorrect · " +
+        "avg $roundedAverage incorrect/attempt · streak $currentStreak"
 }

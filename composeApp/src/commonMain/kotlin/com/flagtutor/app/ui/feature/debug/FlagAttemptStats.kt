@@ -4,4 +4,5 @@ data class FlagAttemptStats(
     val totalAttempts: Int,
     val totalIncorrectAnswers: Int,
     val averageIncorrectPerAttempt: Double,
+    val currentStreak: Int,
 )

@@ -5,12 +5,12 @@ import androidx.compose.ui.platform.LocalUriHandler
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun DebugDataPage(
+fun CountriesOverviewPage(
     onNavigateBack: () -> Unit,
-    viewModel: DebugDataViewModel = koinViewModel(),
+    viewModel: CountriesOverviewViewModel = koinViewModel(),
 ) {
     val uriHandler = LocalUriHandler.current
-    DebugDataPageContent(
+    CountriesOverviewPageContent(
         countries = viewModel.countries,
         attemptStatsByCountry = viewModel.attemptStatsByCountry,
         isLoading = viewModel.isLoading,

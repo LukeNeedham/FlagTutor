@@ -3,7 +3,7 @@ package com.flagtutor.app.di
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.ui.feature.crashes.CrashesViewModel
-import com.flagtutor.app.ui.feature.debug.DebugDataViewModel
+import com.flagtutor.app.ui.feature.debug.CountriesOverviewViewModel
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsViewModel
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGameViewModel
 import com.flagtutor.app.ui.feature.home.HomeViewModel
@@ -15,7 +15,7 @@ val appModule = module {
     singleOf(::WikipediaLinkDataSource)
     singleOf(::CountryRepository)
     viewModelOf(::HomeViewModel)
-    viewModelOf(::DebugDataViewModel)
+    viewModelOf(::CountriesOverviewViewModel)
     viewModelOf(::CrashesViewModel)
     viewModelOf(::PickCountryNameGameViewModel)
     viewModelOf(::FlagAttemptsViewModel)
