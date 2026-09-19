@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.component.FlagImage
@@ -153,23 +154,25 @@ fun DebugDataPageContent(
     }
 
     enlargedImage?.let { image ->
-        Dialog(onDismissRequest = { enlargedImage = null }) {
+        Dialog(
+            onDismissRequest = { enlargedImage = null },
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+        ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(4f / 3f)
+                    .fillMaxSize(0.95f)
                     .clickable { enlargedImage = null },
                 contentAlignment = Alignment.Center,
             ) {
                 when (image.type) {
                     DebugImageType.FLAG -> FlagImage(
                         alpha2Code = image.alpha2Code,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxSize(),
                     )
 
                     DebugImageType.MAP -> CountryMapHighlight(
                         alpha2Code = image.alpha2Code,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxSize(),
                     )
                 }
             }
