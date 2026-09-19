@@ -10,7 +10,7 @@ CC BY-SA or GFDL, which requires attribution - see the in-app credits screen
 Requires: Python 3 (stdlib only). Run once after checkout: python3 scripts/download_wikipedia_maps.py
 Skips countries that have already been downloaded. Re-run to retry failures.
 """
-import json, os, re, sys, time, urllib.request, urllib.error
+import html, json, os, re, sys, time, urllib.parse, urllib.request, urllib.error
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LINKS_PATH = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/wikipedia_links.json")
@@ -147,6 +147,48 @@ def thumb_url_near_width(item, target_width):
     return min(candidates, key=lambda c: abs(c[0] - target_width))[1]
 
 
+def fetch_media_list_fallback(title):
+    """Fallback for when the REST media-list endpoint returns a hard HTTP 500 for a page - a
+    real, persistent Wikimedia-side bug confirmed for a handful of articles (reproduces from
+    completely different networks, not just this runner, and doesn't clear on retry).
+
+    Parses the classic action=parse HTML of the lead section (section 0 - the same scope the
+    REST endpoint uses) and turns each <img> there into an item shaped like a media-list entry,
+    so pick_map_item/thumb_url_near_width work on it unchanged."""
+    api_url = (
+        "https://en.wikipedia.org/w/api.php?action=parse&format=json&formatversion=2"
+        f"&prop=text&section=0&page={title}"
+    )
+    data, error = fetch_json(api_url)
+    if data is None:
+        return None, error
+
+    page_html = data.get("parse", {}).get("text", "")
+    items = []
+    for tag_match in re.finditer(r"<img[^>]*>", page_html):
+        tag = tag_match.group(0)
+        src_match = re.search(r'src="([^"]+)"', tag)
+        name_match = re.search(r"/thumb/[0-9a-f]/[0-9a-f]{2}/([^/]+)/\d+px-", tag)
+        if not src_match or not name_match:
+            continue
+
+        srcset = [{"src": html.unescape(src_match.group(1))}]
+        srcset_match = re.search(r'srcset="([^"]+)"', tag)
+        if srcset_match:
+            for entry in html.unescape(srcset_match.group(1)).split(","):
+                src = entry.strip().split(" ")[0]
+                if src:
+                    srcset.append({"src": src})
+
+        items.append({
+            "title": f"File:{urllib.parse.unquote(name_match.group(1))}",
+            "section_id": 0,
+            "type": "image",
+            "srcset": srcset,
+        })
+    return items, None
+
+
 downloaded = 0
 skipped = 0
 guessed = []
@@ -180,11 +222,19 @@ for i, code in enumerate(codes):
     data, error = fetch_json(media_list_url)
     time.sleep(REQUEST_DELAY_SECONDS)
     if data is None:
-        print(f"  [{code}] FAILED: could not fetch media list ({error})", file=sys.stderr)
-        failed.append(code)
-        consecutive_failures += 1
-        last_network_error = error
-        continue
+        fallback_items, fallback_error = fetch_media_list_fallback(title)
+        time.sleep(REQUEST_DELAY_SECONDS)
+        if fallback_items is None:
+            print(
+                f"  [{code}] FAILED: could not fetch media list ({error}); "
+                f"fallback also failed ({fallback_error})",
+                file=sys.stderr,
+            )
+            failed.append(code)
+            consecutive_failures += 1
+            last_network_error = fallback_error
+            continue
+        data = {"items": fallback_items}
 
     item, confident = pick_map_item(data.get("items", []))
     if item is None:
