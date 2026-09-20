@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -51,6 +52,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
@@ -224,7 +226,7 @@ fun PickCountryNameGamePageContent(
                                         if (revealed) {
                                             Column(
                                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                                modifier = Modifier.fillMaxWidth(),
+                                                modifier = Modifier.fillMaxSize(),
                                             ) {
                                                 Row(
                                                     verticalAlignment = Alignment.CenterVertically,
@@ -266,12 +268,18 @@ fun PickCountryNameGamePageContent(
                                                         .aspectRatio(16f / 10f)
                                                         .clickable(onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) }),
                                                 )
-                                                Spacer(modifier = Modifier.height(20.dp))
+                                                Spacer(modifier = Modifier.weight(1f))
                                                 Button(
                                                     onClick = onNextFlag,
                                                     shape = MaterialTheme.shapes.large,
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = Color.White,
+                                                        contentColor = Color.Black,
+                                                    ),
                                                     contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
-                                                    modifier = Modifier.fillMaxWidth(0.85f),
+                                                    modifier = Modifier
+                                                        .fillMaxWidth(0.85f)
+                                                        .height(64.dp),
                                                 ) {
                                                     Text(
                                                         text = "Next flag",

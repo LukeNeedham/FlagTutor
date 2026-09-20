@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 
 class HomeViewModel : ViewModel() {
 
-    var title by mutableStateOf("FlagTutor")
+    var title by mutableStateOf("Flag Tutor")
         private set
 
     var subtitle by mutableStateOf("Learn the flags of the world")
