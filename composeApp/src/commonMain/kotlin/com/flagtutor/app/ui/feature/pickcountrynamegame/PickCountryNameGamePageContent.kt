@@ -235,7 +235,7 @@ fun PickCountryNameGamePageContent(
                                                     Spacer(modifier = Modifier.weight(1f))
                                                     Text(
                                                         text = state.flag.name,
-                                                        style = MaterialTheme.typography.headlineMedium,
+                                                        style = MaterialTheme.typography.headlineLarge,
                                                         color = MaterialTheme.colorScheme.onBackground,
                                                         textAlign = TextAlign.Center,
                                                         modifier = Modifier.clickable(
@@ -291,6 +291,7 @@ fun PickCountryNameGamePageContent(
                                                         contentDescription = null,
                                                     )
                                                 }
+                                                Spacer(modifier = Modifier.height(24.dp))
                                             }
                                         } else {
                                             Column(modifier = Modifier.fillMaxSize()) {
