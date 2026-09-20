@@ -360,8 +360,10 @@ fun PickCountryNameGamePageContent(
                         visible = uiState.isAnswerRevealed,
                         enter = fadeIn(animationSpec = tween(400)) +
                             slideInVertically(animationSpec = tween(400)) { fullHeight -> fullHeight },
-                        exit = fadeOut(animationSpec = tween(400)) +
-                            slideOutVertically(animationSpec = tween(400)) { fullHeight -> fullHeight },
+                        exit = fadeOut(animationSpec = tween(durationMillis = 90)) +
+                            slideOutHorizontally(
+                                animationSpec = tween(durationMillis = 90),
+                            ) { width -> -width / 3 },
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
