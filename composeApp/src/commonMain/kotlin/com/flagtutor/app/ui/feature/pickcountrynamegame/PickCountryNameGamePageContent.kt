@@ -13,7 +13,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
@@ -54,7 +53,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -196,7 +194,6 @@ fun PickCountryNameGamePageContent(
                                         .fillMaxWidth(0.85f)
                                         .aspectRatio(3f / 2f),
                                 )
-                                Spacer(modifier = Modifier.height(16.dp))
                                 val revealTransition = updateTransition(
                                     targetState = state.isAnswerRevealed,
                                     label = "reveal-transition",
@@ -331,22 +328,6 @@ fun PickCountryNameGamePageContent(
                                                 }
                                             }
                                         }
-                                    }
-                                    if (revealTransition.isRunning) {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .height(28.dp)
-                                                .align(Alignment.TopCenter)
-                                                .background(
-                                                    Brush.verticalGradient(
-                                                        colors = listOf(
-                                                            MaterialTheme.colorScheme.background,
-                                                            MaterialTheme.colorScheme.background.copy(alpha = 0f),
-                                                        ),
-                                                    ),
-                                                ),
-                                        )
                                     }
                                 }
                             }
