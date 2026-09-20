@@ -146,7 +146,6 @@ fun PickCountryNameGamePageContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(horizontal = 24.dp)
                             .padding(top = 10.dp, bottom = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
@@ -154,16 +153,12 @@ fun PickCountryNameGamePageContent(
                             targetState = uiState,
                             contentKey = { it.flag.alpha2Code },
                             transitionSpec = {
-                                (
-                                    fadeIn(animationSpec = tween(durationMillis = 300, delayMillis = 90)) +
-                                        slideInHorizontally(
-                                            animationSpec = tween(durationMillis = 300, delayMillis = 90),
-                                        ) { width -> width / 3 }
-                                    ).togetherWith(
-                                    fadeOut(animationSpec = tween(durationMillis = 90)) +
-                                        slideOutHorizontally(
-                                            animationSpec = tween(durationMillis = 90),
-                                        ) { width -> -width / 3 },
+                                slideInHorizontally(
+                                    animationSpec = tween(durationMillis = 300),
+                                ) { fullWidth -> fullWidth }.togetherWith(
+                                    slideOutHorizontally(
+                                        animationSpec = tween(durationMillis = 300),
+                                    ) { fullWidth -> -fullWidth },
                                 )
                             },
                             label = "flag-transition",
@@ -182,7 +177,9 @@ fun PickCountryNameGamePageContent(
                             }
 
                             Column(
-                                modifier = Modifier.fillMaxSize(),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 24.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 flagData?.bitmap?.let { bmp ->
