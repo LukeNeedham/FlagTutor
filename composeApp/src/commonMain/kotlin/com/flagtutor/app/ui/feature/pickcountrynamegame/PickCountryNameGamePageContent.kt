@@ -145,7 +145,7 @@ fun PickCountryNameGamePageContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 10.dp, bottom = 16.dp),
+                            .padding(top = 5.dp, bottom = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         AnimatedContent(
