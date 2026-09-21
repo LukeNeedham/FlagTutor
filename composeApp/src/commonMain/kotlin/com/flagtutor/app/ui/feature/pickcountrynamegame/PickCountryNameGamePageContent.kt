@@ -175,11 +175,10 @@ fun PickCountryNameGamePageContent(
                                 }
                             }
 
-                            Column(
+                            Box(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .padding(horizontal = 24.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 flagData?.bitmap?.let { bmp ->
                                     Image(
@@ -187,12 +186,13 @@ fun PickCountryNameGamePageContent(
                                         contentDescription = null,
                                         contentScale = ContentScale.Fit,
                                         modifier = Modifier
+                                            .align(Alignment.TopCenter)
                                             .fillMaxWidth(0.85f)
-                                            .aspectRatio(bmp.width.toFloat() / bmp.height.toFloat())
-                                            .clip(RoundedCornerShape(10.dp)),
+                                            .aspectRatio(bmp.width.toFloat() / bmp.height.toFloat()),
                                     )
                                 } ?: Spacer(
                                     modifier = Modifier
+                                        .align(Alignment.TopCenter)
                                         .fillMaxWidth(0.85f)
                                         .aspectRatio(3f / 2f),
                                 )
@@ -202,8 +202,9 @@ fun PickCountryNameGamePageContent(
                                 )
                                 Box(
                                     modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxWidth(),
+                                        .align(Alignment.BottomCenter)
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.5f),
                                 ) {
                                     revealTransition.AnimatedContent(
                                         contentAlignment = Alignment.TopCenter,
@@ -227,7 +228,7 @@ fun PickCountryNameGamePageContent(
                                                 horizontalAlignment = Alignment.CenterHorizontally,
                                                 modifier = Modifier.fillMaxSize(),
                                             ) {
-                                                Spacer(modifier = Modifier.height(16.dp))
+                                                Spacer(modifier = Modifier.height(30.dp))
                                                 Row(
                                                     verticalAlignment = Alignment.CenterVertically,
                                                     modifier = Modifier.fillMaxWidth(),
@@ -266,6 +267,7 @@ fun PickCountryNameGamePageContent(
                                                     modifier = Modifier
                                                         .fillMaxWidth(0.85f)
                                                         .aspectRatio(16f / 10f)
+                                                        .clip(RoundedCornerShape(10.dp))
                                                         .clickable(onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) }),
                                                 )
                                             }
