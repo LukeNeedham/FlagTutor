@@ -54,7 +54,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -182,25 +181,33 @@ fun PickCountryNameGamePageContent(
                                     .padding(horizontal = 24.dp),
                             ) {
                                 val buttonsPanelHeight = maxHeight * 0.7f
+                                val flagMaxWidth = maxWidth * 0.85f
+                                val flagMaxHeight = maxHeight * 0.3f
 
                                 Column(
                                     modifier = Modifier.fillMaxSize(),
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
                                     flagData?.bitmap?.let { bmp ->
+                                        val bitmapAspectRatio = bmp.width.toFloat() / bmp.height.toFloat()
+                                        val flagWidth = minOf(flagMaxWidth, flagMaxHeight * bitmapAspectRatio)
                                         Image(
                                             bitmap = bmp,
                                             contentDescription = null,
                                             contentScale = ContentScale.Fit,
                                             modifier = Modifier
-                                                .fillMaxWidth(0.85f)
-                                                .aspectRatio(bmp.width.toFloat() / bmp.height.toFloat()),
+                                                .width(flagWidth)
+                                                .aspectRatio(bitmapAspectRatio),
                                         )
-                                    } ?: Spacer(
-                                        modifier = Modifier
-                                            .fillMaxWidth(0.85f)
-                                            .aspectRatio(3f / 2f),
-                                    )
+                                    } ?: run {
+                                        val placeholderAspectRatio = 3f / 2f
+                                        val placeholderWidth = minOf(flagMaxWidth, flagMaxHeight * placeholderAspectRatio)
+                                        Spacer(
+                                            modifier = Modifier
+                                                .width(placeholderWidth)
+                                                .aspectRatio(placeholderAspectRatio),
+                                        )
+                                    }
                                     val revealTransition = updateTransition(
                                         targetState = state.isAnswerRevealed,
                                         label = "reveal-transition",
@@ -268,11 +275,8 @@ fun PickCountryNameGamePageContent(
                                                     Spacer(modifier = Modifier.height(12.dp))
                                                     CountryMapHighlight(
                                                         alpha2Code = state.flag.alpha2Code,
-                                                        modifier = Modifier
-                                                            .fillMaxWidth(0.85f)
-                                                            .aspectRatio(16f / 10f)
-                                                            .clip(RoundedCornerShape(10.dp))
-                                                            .clickable(onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) }),
+                                                        modifier = Modifier.fillMaxWidth(0.85f),
+                                                        onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
                                                     )
                                                 }
                                             } else {
