@@ -53,6 +53,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -187,7 +188,8 @@ fun PickCountryNameGamePageContent(
                                         contentScale = ContentScale.Fit,
                                         modifier = Modifier
                                             .fillMaxWidth(0.85f)
-                                            .aspectRatio(3f / 2f),
+                                            .aspectRatio(bmp.width.toFloat() / bmp.height.toFloat())
+                                            .clip(RoundedCornerShape(10.dp)),
                                     )
                                 } ?: Spacer(
                                     modifier = Modifier
@@ -225,6 +227,7 @@ fun PickCountryNameGamePageContent(
                                                 horizontalAlignment = Alignment.CenterHorizontally,
                                                 modifier = Modifier.fillMaxSize(),
                                             ) {
+                                                Spacer(modifier = Modifier.height(16.dp))
                                                 Row(
                                                     verticalAlignment = Alignment.CenterVertically,
                                                     modifier = Modifier.fillMaxWidth(),
