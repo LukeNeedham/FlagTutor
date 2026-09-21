@@ -52,7 +52,7 @@ fun CountryMapHighlight(
     val aspectRatio = bmp?.let { it.width.toFloat() / it.height.toFloat() } ?: (16f / 10f)
     val shapedModifier = modifier
         .aspectRatio(aspectRatio)
-        .clip(RoundedCornerShape(10.dp))
+        .clip(RoundedCornerShape(15.dp))
         .let { if (onClick != null) it.clickable(onClick = onClick) else it }
 
     when {
