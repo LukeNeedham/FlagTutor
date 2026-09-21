@@ -2,7 +2,6 @@ package com.flagtutor.app.ui.feature.pickcountrynamegame
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
@@ -37,14 +36,11 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -73,7 +69,10 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 private data class FlagData(val bitmap: ImageBitmap, val colors: List<ExtractedColor>)
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+// Next button occupies 24dp top padding + 64dp height + 24dp bottom padding; leave at least 30dp above that.
+private val NextButtonReservedHeight = 142.dp
+
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PickCountryNameGamePageContent(
     uiState: PickCountryNameGameUiState,
@@ -84,23 +83,19 @@ fun PickCountryNameGamePageContent(
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                ),
-            )
-        },
-        containerColor = MaterialTheme.colorScheme.background,
-    ) { innerPadding ->
-        Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background,
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+            ) {
+                Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
             when (uiState) {
                 is PickCountryNameGameUiState.Loading -> {
                     Column(
@@ -145,7 +140,7 @@ fun PickCountryNameGamePageContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = 5.dp, bottom = 16.dp),
+                            .padding(bottom = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         AnimatedContent(
@@ -273,11 +268,19 @@ fun PickCountryNameGamePageContent(
                                                         }
                                                     }
                                                     Spacer(modifier = Modifier.height(12.dp))
-                                                    CountryMapHighlight(
-                                                        alpha2Code = state.flag.alpha2Code,
-                                                        modifier = Modifier.fillMaxWidth(0.85f),
-                                                        onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
-                                                    )
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .fillMaxWidth(),
+                                                        contentAlignment = Alignment.TopCenter,
+                                                    ) {
+                                                        CountryMapHighlight(
+                                                            alpha2Code = state.flag.alpha2Code,
+                                                            modifier = Modifier.fillMaxWidth(0.85f),
+                                                            onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
+                                                        )
+                                                    }
+                                                    Spacer(modifier = Modifier.height(NextButtonReservedHeight))
                                                 }
                                             } else {
                                                 Box(modifier = Modifier.fillMaxSize()) {
@@ -355,7 +358,7 @@ fun PickCountryNameGamePageContent(
                         }
                     }
 
-                    AnimatedVisibility(
+                    androidx.compose.animation.AnimatedVisibility(
                         visible = uiState.isAnswerRevealed,
                         enter = fadeIn(animationSpec = tween(400)) +
                             slideInVertically(animationSpec = tween(400)) { fullHeight -> fullHeight },
@@ -381,7 +384,7 @@ fun PickCountryNameGamePageContent(
                                 .height(64.dp),
                         ) {
                             Text(
-                                text = "Next flag",
+                                text = "Next",
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             Spacer(modifier = Modifier.width(8.dp))
@@ -392,6 +395,7 @@ fun PickCountryNameGamePageContent(
                         }
                     }
                 }
+            }
             }
         }
     }
