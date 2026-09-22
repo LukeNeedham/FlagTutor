@@ -90,7 +90,7 @@ fun PickCountryNameGamePageContent(
         Column(modifier = Modifier.fillMaxSize()) {
             IconButton(
                 onClick = onBackClick,
-                modifier = Modifier.padding(start = 10.dp, top = 10.dp),
+                modifier = Modifier.padding(start = 5.dp, top = 5.dp),
             ) {
                 Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
             }
