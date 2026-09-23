@@ -7,14 +7,16 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,14 +36,11 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -51,7 +50,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -71,7 +69,10 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 private data class FlagData(val bitmap: ImageBitmap, val colors: List<ExtractedColor>)
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+// Next button occupies 24dp top padding + 64dp height + 24dp bottom padding; leave at least 30dp above that.
+private val NextButtonReservedHeight = 142.dp
+
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PickCountryNameGamePageContent(
     uiState: PickCountryNameGameUiState,
@@ -82,23 +83,19 @@ fun PickCountryNameGamePageContent(
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                ),
-            )
-        },
-        containerColor = MaterialTheme.colorScheme.background,
-    ) { innerPadding ->
-        Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background,
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier.padding(start = 5.dp, top = 5.dp),
+            ) {
+                Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
             when (uiState) {
                 is PickCountryNameGameUiState.Loading -> {
                     Column(
@@ -143,24 +140,19 @@ fun PickCountryNameGamePageContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(horizontal = 24.dp, vertical = 16.dp),
+                            .padding(bottom = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Spacer(modifier = Modifier.height(24.dp))
                         AnimatedContent(
                             targetState = uiState,
                             contentKey = { it.flag.alpha2Code },
                             transitionSpec = {
-                                (
-                                    fadeIn(animationSpec = tween(durationMillis = 300, delayMillis = 90)) +
-                                        slideInHorizontally(
-                                            animationSpec = tween(durationMillis = 300, delayMillis = 90),
-                                        ) { width -> width / 3 }
-                                    ).togetherWith(
-                                    fadeOut(animationSpec = tween(durationMillis = 90)) +
-                                        slideOutHorizontally(
-                                            animationSpec = tween(durationMillis = 90),
-                                        ) { width -> -width / 3 },
+                                slideInHorizontally(
+                                    animationSpec = tween(durationMillis = 300),
+                                ) { fullWidth -> fullWidth }.togetherWith(
+                                    slideOutHorizontally(
+                                        animationSpec = tween(durationMillis = 300),
+                                    ) { fullWidth -> -fullWidth },
                                 )
                             },
                             label = "flag-transition",
@@ -178,166 +170,181 @@ fun PickCountryNameGamePageContent(
                                 }
                             }
 
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
+                            BoxWithConstraints(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 24.dp),
                             ) {
-                                flagData?.bitmap?.let { bmp ->
-                                    Image(
-                                        bitmap = bmp,
-                                        contentDescription = null,
-                                        contentScale = ContentScale.Fit,
-                                        modifier = Modifier
-                                            .fillMaxWidth(0.85f)
-                                            .aspectRatio(3f / 2f),
-                                    )
-                                } ?: Spacer(
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.85f)
-                                        .aspectRatio(3f / 2f),
-                                )
-                                Spacer(modifier = Modifier.height(16.dp))
-                                val revealTransition = updateTransition(
-                                    targetState = state.isAnswerRevealed,
-                                    label = "reveal-transition",
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxWidth(),
+                                val buttonsPanelHeight = maxHeight * 0.7f
+                                val flagMaxWidth = maxWidth * 0.85f
+                                val flagMaxHeight = maxHeight * 0.3f
+
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
-                                    revealTransition.AnimatedContent(
-                                        contentAlignment = Alignment.TopCenter,
-                                        transitionSpec = {
-                                            (
-                                                slideIntoContainer(
-                                                    towards = SlideDirection.Down,
-                                                    animationSpec = tween(400),
-                                                ) + fadeIn(tween(400))
-                                                ).togetherWith(
-                                                slideOutOfContainer(
-                                                    towards = SlideDirection.Down,
-                                                    animationSpec = tween(400),
-                                                ) + fadeOut(tween(400)),
-                                            )
-                                        },
-                                        modifier = Modifier.fillMaxSize(),
-                                    ) { revealed ->
-                                        if (revealed) {
-                                            Column(
-                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                modifier = Modifier.fillMaxSize(),
-                                            ) {
-                                                Row(
-                                                    verticalAlignment = Alignment.CenterVertically,
-                                                    modifier = Modifier.fillMaxWidth(),
+                                    flagData?.bitmap?.let { bmp ->
+                                        val bitmapAspectRatio = bmp.width.toFloat() / bmp.height.toFloat()
+                                        val flagWidth = minOf(flagMaxWidth, flagMaxHeight * bitmapAspectRatio)
+                                        Image(
+                                            bitmap = bmp,
+                                            contentDescription = null,
+                                            contentScale = ContentScale.Fit,
+                                            modifier = Modifier
+                                                .width(flagWidth)
+                                                .aspectRatio(bitmapAspectRatio),
+                                        )
+                                    } ?: run {
+                                        val placeholderAspectRatio = 3f / 2f
+                                        val placeholderWidth = minOf(flagMaxWidth, flagMaxHeight * placeholderAspectRatio)
+                                        Spacer(
+                                            modifier = Modifier
+                                                .width(placeholderWidth)
+                                                .aspectRatio(placeholderAspectRatio),
+                                        )
+                                    }
+                                    val revealTransition = updateTransition(
+                                        targetState = state.isAnswerRevealed,
+                                        label = "reveal-transition",
+                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .fillMaxWidth(),
+                                    ) {
+                                        revealTransition.AnimatedContent(
+                                            contentAlignment = Alignment.TopCenter,
+                                            transitionSpec = {
+                                                (
+                                                    slideIntoContainer(
+                                                        towards = SlideDirection.Down,
+                                                        animationSpec = tween(400),
+                                                    ) + fadeIn(tween(400))
+                                                    ).togetherWith(
+                                                    slideOutOfContainer(
+                                                        towards = SlideDirection.Down,
+                                                        animationSpec = tween(400),
+                                                    ) + fadeOut(tween(400)),
+                                                )
+                                            },
+                                            modifier = Modifier.fillMaxSize(),
+                                        ) { revealed ->
+                                            if (revealed) {
+                                                Column(
+                                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                                    modifier = Modifier.fillMaxSize(),
                                                 ) {
-                                                    Spacer(modifier = Modifier.weight(1f))
-                                                    Text(
-                                                        text = state.flag.name,
-                                                        style = MaterialTheme.typography.headlineLarge,
-                                                        color = MaterialTheme.colorScheme.onBackground,
-                                                        textAlign = TextAlign.Center,
-                                                        modifier = Modifier.clickable(
-                                                            enabled = state.flag.wikipediaUrl.isNotEmpty(),
-                                                            onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                        ),
-                                                    )
-                                                    Box(
-                                                        modifier = Modifier.weight(1f),
-                                                        contentAlignment = Alignment.CenterStart,
+                                                    Spacer(modifier = Modifier.height(30.dp))
+                                                    Row(
+                                                        verticalAlignment = Alignment.CenterVertically,
+                                                        modifier = Modifier.fillMaxWidth(),
                                                     ) {
-                                                        if (state.flag.wikipediaUrl.isNotEmpty()) {
-                                                            IconButton(
+                                                        Spacer(modifier = Modifier.weight(1f))
+                                                        Text(
+                                                            text = state.flag.name,
+                                                            style = MaterialTheme.typography.headlineLarge,
+                                                            color = MaterialTheme.colorScheme.onBackground,
+                                                            textAlign = TextAlign.Center,
+                                                            modifier = Modifier.clickable(
+                                                                enabled = state.flag.wikipediaUrl.isNotEmpty(),
                                                                 onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                            ) {
-                                                                Icon(
-                                                                    imageVector = Icons.Filled.Info,
-                                                                    contentDescription = "More Info",
-                                                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                                                )
+                                                            ),
+                                                        )
+                                                        Box(
+                                                            modifier = Modifier.weight(1f),
+                                                            contentAlignment = Alignment.CenterStart,
+                                                        ) {
+                                                            if (state.flag.wikipediaUrl.isNotEmpty()) {
+                                                                IconButton(
+                                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                                ) {
+                                                                    Icon(
+                                                                        imageVector = Icons.Filled.Info,
+                                                                        contentDescription = "More Info",
+                                                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                                    )
+                                                                }
                                                             }
                                                         }
                                                     }
+                                                    Spacer(modifier = Modifier.height(12.dp))
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .fillMaxWidth(),
+                                                        contentAlignment = Alignment.TopCenter,
+                                                    ) {
+                                                        CountryMapHighlight(
+                                                            alpha2Code = state.flag.alpha2Code,
+                                                            modifier = Modifier.fillMaxWidth(0.85f),
+                                                            onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
+                                                        )
+                                                    }
+                                                    Spacer(modifier = Modifier.height(NextButtonReservedHeight))
                                                 }
-                                                Spacer(modifier = Modifier.height(12.dp))
-                                                CountryMapHighlight(
-                                                    alpha2Code = state.flag.alpha2Code,
-                                                    modifier = Modifier
-                                                        .fillMaxWidth(0.85f)
-                                                        .aspectRatio(16f / 10f)
-                                                        .clickable(onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) }),
-                                                )
-                                                Spacer(modifier = Modifier.weight(1f))
-                                                Button(
-                                                    onClick = onNextFlag,
-                                                    shape = MaterialTheme.shapes.large,
-                                                    colors = ButtonDefaults.buttonColors(
-                                                        containerColor = Color.White,
-                                                        contentColor = Color.Black,
-                                                    ),
-                                                    contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
-                                                    modifier = Modifier
-                                                        .fillMaxWidth(0.85f)
-                                                        .height(64.dp),
-                                                ) {
-                                                    Text(
-                                                        text = "Next flag",
-                                                        style = MaterialTheme.typography.titleMedium,
-                                                    )
-                                                    Spacer(modifier = Modifier.width(8.dp))
-                                                    Icon(
-                                                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                                        contentDescription = null,
-                                                    )
-                                                }
-                                                Spacer(modifier = Modifier.height(24.dp))
-                                            }
-                                        } else {
-                                            Column(modifier = Modifier.fillMaxSize()) {
-                                                Spacer(modifier = Modifier.height(16.dp))
-                                                Column(
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .fillMaxWidth(),
-                                                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                                                ) {
-                                                    val cornerRadius = 24.dp
-                                                    val gridShapes = arrayOf(
-                                                        arrayOf(
-                                                            RoundedCornerShape(topStart = cornerRadius),
-                                                            RoundedCornerShape(topEnd = cornerRadius),
-                                                        ),
-                                                        arrayOf(
-                                                            RoundedCornerShape(bottomStart = cornerRadius),
-                                                            RoundedCornerShape(bottomEnd = cornerRadius),
-                                                        ),
-                                                    )
-                                                    val buttonColors = flagData?.colors ?: emptyList()
-                                                    val colorOrder = checkerboardColorOrder(buttonColors)
-                                                    state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
-                                                        Row(
-                                                            modifier = Modifier.weight(1f).fillMaxWidth(),
-                                                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                            } else {
+                                                Box(modifier = Modifier.fillMaxSize()) {
+                                                    Column(
+                                                        modifier = Modifier
+                                                            .align(Alignment.BottomCenter)
+                                                            .fillMaxWidth()
+                                                            .height(buttonsPanelHeight),
+                                                    ) {
+                                                        Spacer(modifier = Modifier.height(16.dp))
+                                                        Column(
+                                                            modifier = Modifier
+                                                                .weight(1f)
+                                                                .fillMaxWidth(),
+                                                            verticalArrangement = Arrangement.spacedBy(12.dp),
                                                         ) {
-                                                            rowOptions.forEachIndexed { colIndex, country ->
-                                                                val colorIndex = colorOrder[rowIndex * 2 + colIndex]
-                                                                val extractedColor = if (buttonColors.isNotEmpty()) {
-                                                                    buttonColors[colorIndex]
-                                                                } else null
+                                                            val loadedFlagData = flagData
+                                                            if (loadedFlagData == null) {
+                                                                Box(
+                                                                    modifier = Modifier.fillMaxSize(),
+                                                                    contentAlignment = Alignment.Center,
+                                                                ) {
+                                                                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                                                                }
+                                                            } else {
+                                                                val cornerRadius = 24.dp
+                                                                val gridShapes = arrayOf(
+                                                                    arrayOf(
+                                                                        RoundedCornerShape(topStart = cornerRadius),
+                                                                        RoundedCornerShape(topEnd = cornerRadius),
+                                                                    ),
+                                                                    arrayOf(
+                                                                        RoundedCornerShape(bottomStart = cornerRadius),
+                                                                        RoundedCornerShape(bottomEnd = cornerRadius),
+                                                                    ),
+                                                                )
+                                                                val buttonColors = loadedFlagData.colors
+                                                                val colorOrder = checkerboardColorOrder(buttonColors)
+                                                                state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
+                                                                    Row(
+                                                                        modifier = Modifier.weight(1f).fillMaxWidth(),
+                                                                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                                                    ) {
+                                                                        rowOptions.forEachIndexed { colIndex, country ->
+                                                                            val colorIndex = colorOrder[rowIndex * 2 + colIndex]
+                                                                            val extractedColor = if (buttonColors.isNotEmpty()) {
+                                                                                buttonColors[colorIndex]
+                                                                            } else null
 
-                                                                key(country.alpha2Code) {
-                                                                    FlagOptionButton(
-                                                                        country = country,
-                                                                        isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
-                                                                        isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
-                                                                        enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
-                                                                        onClick = { onOptionSelected(country) },
-                                                                        shape = gridShapes[rowIndex][colIndex],
-                                                                        containerColor = extractedColor?.containerColor,
-                                                                        contentColor = extractedColor?.contentColor,
-                                                                        modifier = Modifier.weight(1f).fillMaxHeight(),
-                                                                    )
+                                                                            key(country.alpha2Code) {
+                                                                                FlagOptionButton(
+                                                                                    country = country,
+                                                                                    isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
+                                                                                    isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
+                                                                                    enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
+                                                                                    onClick = { onOptionSelected(country) },
+                                                                                    shape = gridShapes[rowIndex][colIndex],
+                                                                                    containerColor = extractedColor?.containerColor,
+                                                                                    contentColor = extractedColor?.contentColor,
+                                                                                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                                                                                )
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -346,27 +353,49 @@ fun PickCountryNameGamePageContent(
                                             }
                                         }
                                     }
-                                    if (revealTransition.isRunning) {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .height(28.dp)
-                                                .align(Alignment.TopCenter)
-                                                .background(
-                                                    Brush.verticalGradient(
-                                                        colors = listOf(
-                                                            MaterialTheme.colorScheme.background,
-                                                            MaterialTheme.colorScheme.background.copy(alpha = 0f),
-                                                        ),
-                                                    ),
-                                                ),
-                                        )
-                                    }
                                 }
                             }
                         }
                     }
+
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = uiState.isAnswerRevealed,
+                        enter = fadeIn(animationSpec = tween(400)) +
+                            slideInVertically(animationSpec = tween(400)) { fullHeight -> fullHeight },
+                        exit = fadeOut(animationSpec = tween(durationMillis = 90)) +
+                            slideOutHorizontally(
+                                animationSpec = tween(durationMillis = 90),
+                            ) { width -> -width / 3 },
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 24.dp),
+                    ) {
+                        Button(
+                            onClick = onNextFlag,
+                            shape = MaterialTheme.shapes.large,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.White,
+                                contentColor = Color.Black,
+                            ),
+                            contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(64.dp),
+                        ) {
+                            Text(
+                                text = "Next",
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                contentDescription = null,
+                            )
+                        }
+                    }
                 }
+            }
             }
         }
     }
