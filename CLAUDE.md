@@ -22,8 +22,9 @@ learn the flags of the world.
 - **Build**: Gradle Kotlin DSL, dependency versions centralized in `gradle/libs.versions.toml` (version catalog)
 - **Min/Target/Compile SDK**: minSdk 24, targetSdk/compileSdk 35
 - **Versions**: Kotlin 2.1.0, AGP 8.7.3, Compose Multiplatform 1.7.3, Java 11 target
-- Currently targets Android only, but is structured as a Kotlin Multiplatform project
-  (`commonMain` / `androidMain`) so other platforms can be added later.
+- Targets Android and iOS, structured as a Kotlin Multiplatform project (`commonMain` /
+  `androidMain` / `iosMain`). Building and running the iOS app requires a macOS host with Xcode
+  installed (Kotlin/Native's iOS targets can only be compiled there).
 
 ## Repository layout
 
@@ -37,12 +38,20 @@ composeApp/                                Kotlin Multiplatform module
         MainActivity.kt                     Single Activity - hosts App composable
       res/                                  Android resources (icons, strings, themes)
       AndroidManifest.xml
+    iosMain/
+      kotlin/com/flagtutor/app/
+        MainViewController.kt               Entry point called from Swift - hosts App composable
   build.gradle.kts
+iosApp/                                    Xcode project - thin SwiftUI shell hosting the Compose UI
+  iosApp.xcodeproj/
+  iosApp/
+    iOSApp.swift                           @main SwiftUI App entry point
+    ContentView.swift                      Wraps MainViewController() in a UIViewControllerRepresentable
 gradle/
   libs.versions.toml                       Centralized dependency version catalog
   wrapper/                                  Gradle wrapper
 .claude/                                    Claude Code on the web config (Android SDK setup hook)
-.github/workflows/                          CI: build APK on PRs, attach as a GitHub Release asset
+.github/workflows/                          CI: build APK + iOS simulator app on PRs, attach APK as a GitHub Release asset
 ```
 
 ## Architecture & conventions
@@ -56,6 +65,9 @@ same conventions used in the VideoDiary sibling project for consistency:
   across platforms. Prefer putting new code here unless it needs a platform-specific API.
 - **`androidMain`**: Android-specific code (e.g. `MainActivity`, Android resources, platform
   implementations of `expect`/`actual` declarations).
+- **`iosMain`**: iOS-specific code (e.g. `MainViewController`, platform implementations of
+  `expect`/`actual` declarations). The `iosApp/` Xcode project is a thin SwiftUI shell around it;
+  new screens and business logic should still go in `commonMain`.
 
 ### Feature structure (`commonMain/kotlin/com/flagtutor/app/ui/feature/<name>/`)
 
@@ -99,12 +111,26 @@ As screens are added, give each one:
 ./gradlew check
 ```
 
+iOS can only be built on a macOS host with Xcode installed (Kotlin/Native has no cross-compiler
+for Apple targets). On such a machine:
+
+```bash
+# Open the Xcode project directly - the "Compile Kotlin Framework" run script phase builds the
+# composeApp KMP framework automatically as part of the Xcode build/run.
+open iosApp/iosApp.xcodeproj
+
+# Or build from the command line, e.g. for the simulator:
+xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator \
+  -destination 'generic/platform=iOS Simulator' build
+```
+
 ## CI/CD
 
 - `.github/workflows/trigger_on_pull_request.yml` runs on PRs targeting `main`:
   1. Builds `assembleDebug`.
   2. Creates a draft GitHub Release tagged with the branch/run info and uploads the debug APK as an asset.
   3. Posts/updates a sticky PR comment with a direct download link to the APK.
+  4. On a separate `macos-14` runner, builds the iOS app for the simulator via `xcodebuild`.
 
 ## General conventions for changes
 

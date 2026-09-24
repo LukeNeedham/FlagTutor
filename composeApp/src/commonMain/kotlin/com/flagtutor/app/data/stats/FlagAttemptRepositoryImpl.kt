@@ -1,6 +1,7 @@
 package com.flagtutor.app.data.stats
 
 import com.flagtutor.app.domain.model.FlagAttempt
+import com.flagtutor.app.ui.util.currentTimeMillis
 
 class FlagAttemptRepositoryImpl(private val dao: FlagAttemptDao) : FlagAttemptRepository {
 
@@ -9,7 +10,7 @@ class FlagAttemptRepositoryImpl(private val dao: FlagAttemptDao) : FlagAttemptRe
             FlagAttemptEntity(
                 countryId = alpha2Code,
                 numberOfAttempts = guessCount,
-                timestamp = System.currentTimeMillis(),
+                timestamp = currentTimeMillis(),
             )
         )
     }
