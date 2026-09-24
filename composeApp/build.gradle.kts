@@ -105,9 +105,9 @@ tasks.register("downloadFlags") {
     group = "setup"
     doLast {
         val script = rootProject.file("scripts/download_flags.py")
-        exec {
+        providers.exec {
             commandLine("python3", script.absolutePath)
-        }
+        }.result.get()
     }
 }
 
@@ -123,8 +123,8 @@ tasks.register("downloadWikipediaMaps") {
     outputs.dir("src/commonMain/composeResources/files/maps")
     doLast {
         val script = rootProject.file("scripts/download_wikipedia_maps.py")
-        exec {
+        providers.exec {
             commandLine("python3", script.absolutePath)
-        }
+        }.result.get()
     }
 }
