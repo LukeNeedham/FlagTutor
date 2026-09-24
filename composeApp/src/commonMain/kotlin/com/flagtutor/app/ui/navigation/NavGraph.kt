@@ -22,8 +22,11 @@ fun NavGraph() {
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryProvider = { destination ->
-            when (destination) {
-                Destination.Home -> NavEntry(destination) {
+            // NavDisplay's entryProvider is typed against the generic NavKey marker interface
+            // rather than Destination, so cast once here to get an exhaustive `when` below:
+            // a new Destination subtype without a matching branch becomes a compile error again.
+            when (val dest = destination as Destination) {
+                Destination.Home -> NavEntry(dest) {
                     HomePage(
                         onNavigateToPickCountryNameGame = { backStack.add(Destination.PickCountryNameGame) },
                         onNavigateToCredits = { backStack.add(Destination.Credits) },
@@ -35,19 +38,19 @@ fun NavGraph() {
                     )
                 }
 
-                Destination.PickCountryNameGame -> NavEntry(destination) {
+                Destination.PickCountryNameGame -> NavEntry(dest) {
                     PickCountryNameGamePage(
                         onNavigateBack = { backStack.removeLastOrNull() },
                     )
                 }
 
-                Destination.Credits -> NavEntry(destination) {
+                Destination.Credits -> NavEntry(dest) {
                     CreditsPage(
                         onNavigateBack = { backStack.removeLastOrNull() },
                     )
                 }
 
-                Destination.Debug -> NavEntry(destination) {
+                Destination.Debug -> NavEntry(dest) {
                     DebugPage(
                         onNavigateBack = { backStack.removeLastOrNull() },
                         onNavigateToCountriesOverview = { backStack.add(Destination.CountriesOverview) },
@@ -56,33 +59,31 @@ fun NavGraph() {
                     )
                 }
 
-                Destination.CountriesOverview -> NavEntry(destination) {
+                Destination.CountriesOverview -> NavEntry(dest) {
                     CountriesOverviewPage(
                         onNavigateBack = { backStack.removeLastOrNull() },
                     )
                 }
 
-                Destination.FlagAttempts -> NavEntry(destination) {
+                Destination.FlagAttempts -> NavEntry(dest) {
                     FlagAttemptsPage(
                         onNavigateBack = { backStack.removeLastOrNull() },
                     )
                 }
 
-                Destination.Crashes -> NavEntry(destination) {
+                Destination.Crashes -> NavEntry(dest) {
                     CrashesPage(
                         onNavigateBack = { backStack.removeLastOrNull() },
                         onNavigateToCrashDetail = { crash -> backStack.add(Destination.CrashDetail(crash)) },
                     )
                 }
 
-                is Destination.CrashDetail -> NavEntry(destination) {
+                is Destination.CrashDetail -> NavEntry(dest) {
                     CrashDetailPage(
-                        crash = destination.crash,
+                        crash = dest.crash,
                         onNavigateBack = { backStack.removeLastOrNull() },
                     )
                 }
-
-                else -> error("Unknown destination: $destination")
             }
         },
     )
