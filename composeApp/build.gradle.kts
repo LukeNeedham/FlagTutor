@@ -43,7 +43,7 @@ kotlin {
 
 android {
     namespace = "com.flagtutor.app"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.flagtutor.app"
