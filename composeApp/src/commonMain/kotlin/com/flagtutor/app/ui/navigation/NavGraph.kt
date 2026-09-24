@@ -81,6 +81,8 @@ fun NavGraph() {
                         onNavigateBack = { backStack.removeLastOrNull() },
                     )
                 }
+
+                else -> error("Unknown destination: $destination")
             }
         },
     )
