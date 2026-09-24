@@ -1,13 +1,14 @@
 [versions]
-agp = "8.7.3"
-kotlin = "2.1.0"
-compose-plugin = "1.7.3"
+agp = "9.4.1"
+kotlin = "2.1.21"
+compose-plugin = "1.10.3"
 activityCompose = "1.9.3"
 koin = "4.1.1"
-reimagined = "1.5.0"
+navigation3-ui = "1.1.2"
+lifecycle-viewmodel-navigation3 = "2.11.0"
 kotlinxSerialization = "1.7.3"
 room = "2.7.1"
-ksp = "2.1.0-1.0.29"
+ksp = "2.1.21-2.0.2"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -15,7 +16,8 @@ koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
-reimagined-navigation = { module = "dev.olshevski.navigation:reimagined", version.ref = "reimagined" }
+navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "navigation3-ui" }
+lifecycle-viewmodel-navigation3 = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle-viewmodel-navigation3" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
@@ -23,7 +25,6 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

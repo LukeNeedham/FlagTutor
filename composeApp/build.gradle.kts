@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinParcelize)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
@@ -21,7 +20,6 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.reimagined.navigation)
             implementation(libs.room.runtime)
             implementation(libs.room.ktx)
         }
@@ -38,13 +36,15 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.navigation3.ui)
+            implementation(libs.lifecycle.viewmodel.navigation3)
         }
     }
 }
 
 android {
     namespace = "com.flagtutor.app"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.flagtutor.app"
