@@ -15,5 +15,5 @@ expect class DatabaseBuilderFactory {
 fun createDatabase(builder: RoomDatabase.Builder<FlagTutorDatabase>): FlagTutorDatabase =
     builder
         .setDriver(BundledSQLiteDriver())
-        .setQueryCoroutineContext(Dispatchers.IO)
+        .setQueryCoroutineContext(Dispatchers.Default)
         .build()
