@@ -1,14 +1,14 @@
 [versions]
 agp = "8.13.2"
-kotlin = "2.1.0"
-compose-plugin = "1.7.3"
+kotlin = "2.2.21"
+compose-plugin = "1.10.3"
 activityCompose = "1.9.3"
 koin = "4.1.1"
-voyager = "1.1.0-beta03"
+voyager = "2.2.21-1.10.3"
 kotlinxSerialization = "1.7.3"
 room = "2.7.1"
 sqlite = "2.5.1"
-ksp = "2.1.0-1.0.29"
+ksp = "2.2.21-2.0.4"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
