@@ -8,16 +8,14 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 class WikipediaLinkDataSource {
 
-    private var cache: Map<String, String>? = null
+    private val links = LoadOnce {
+        val bytes = readFile("files/wikipedia_links.json")
+        val json = Json.decodeFromString<JsonObject>(bytes.decodeToString())
+        json.mapValues { it.value.jsonPrimitive.content }
+    }
+
+    suspend fun getLinks(): Map<String, String> = links.get()
 
     @OptIn(ExperimentalResourceApi::class)
-    suspend fun getLinks(): Map<String, String> {
-        cache?.let { return it }
-        val bytes = Res.readBytes("files/wikipedia_links.json")
-        val json = Json.decodeFromString<JsonObject>(bytes.decodeToString())
-        val links = json.mapValues { it.value.jsonPrimitive.content }
-        cache = links
-        return links
-    }
+    private suspend fun readFile(path: String) = Res.readBytes(path)
 }
-

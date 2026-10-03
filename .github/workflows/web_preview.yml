@@ -45,6 +45,9 @@ jobs:
 
           - name: Deploy PR preview
             uses: rossjrw/pr-preview-action@v1
+            # The action stamps its comment with the runner's `date`, which follows TZ.
+            env:
+              TZ: Europe/Amsterdam
             with:
               source-dir: ./composeApp/build/dist/wasmJs/productionExecutable
               preview-branch: gh-pages

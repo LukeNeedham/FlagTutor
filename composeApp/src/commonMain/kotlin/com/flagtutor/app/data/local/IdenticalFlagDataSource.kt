@@ -10,18 +10,17 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
  */
 class IdenticalFlagDataSource {
 
-    private var cached: Map<String, Set<String>>? = null
-
-    /** Maps an alpha-2 code to the other codes that share its flag. Codes without twins are absent. */
-    @OptIn(ExperimentalResourceApi::class)
-    suspend fun getIdenticalFlags(): Map<String, Set<String>> {
-        cached?.let { return it }
-        val bytes = Res.readBytes("files/identical_flags.json")
+    private val identicalFlags = LoadOnce {
+        val bytes = readFile("files/identical_flags.json")
         val groups = Json.decodeFromString<List<List<String>>>(bytes.decodeToString())
-        val map = groups.flatMap { group ->
+        groups.flatMap { group ->
             group.map { code -> code.lowercase() to (group.map { it.lowercase() }.toSet() - code.lowercase()) }
         }.toMap()
-        cached = map
-        return map
     }
+
+    /** Maps an alpha-2 code to the other codes that share its flag. Codes without twins are absent. */
+    suspend fun getIdenticalFlags(): Map<String, Set<String>> = identicalFlags.get()
+
+    @OptIn(ExperimentalResourceApi::class)
+    private suspend fun readFile(path: String) = Res.readBytes(path)
 }

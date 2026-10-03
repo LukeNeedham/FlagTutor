@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import com.flagtutor.app.data.settings.DebugSettings
+import androidx.compose.runtime.LaunchedEffect
+import com.flagtutor.app.data.repository.GamePreloader
 import com.flagtutor.app.data.settings.ThemeRepository
 import com.flagtutor.app.ui.util.LocalScaledAnimation
 import com.flagtutor.app.ui.util.ScaledAnimation
@@ -18,6 +20,8 @@ fun App(extraModules: List<Module> = emptyList(), content: @Composable () -> Uni
     KoinApplication(application = { modules(listOf(appModule) + extraModules) }) {
         val themeRepository = koinInject<ThemeRepository>()
         val debugSettings = koinInject<DebugSettings>()
+        val gamePreloader = koinInject<GamePreloader>()
+        LaunchedEffect(Unit) { gamePreloader.start() }
         FlagTutorTheme(themeMode = themeRepository.themeMode) {
             val scaledAnimation = remember(debugSettings.animationSpeed) {
                 ScaledAnimation(debugSettings.animationSpeed.multiplier)
