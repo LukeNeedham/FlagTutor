@@ -16,7 +16,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 LINKS_PATH = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/wikipedia_links.json")
 OUT_DIR = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/maps")
 
-USER_AGENT = "FlagTutorMapFetcher/1.0 (https://github.com/lukeneedham/flagtutor; contact via GitHub)"
+USER_AGENT = "VexedMapFetcher/1.0 (https://github.com/lukeneedham/flagtutor; contact via GitHub)"
 THUMB_WIDTH = 600
 REQUEST_DELAY_SECONDS = 2.5
 MAX_RETRIES = 3

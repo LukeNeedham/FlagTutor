@@ -41,7 +41,7 @@ jobs:
           # PR previews are debug builds (shows the debug menu); production is not.
           - name: Mark build as debug
             if: github.event.action != 'closed'
-            run: echo 'window.flagTutorDebug = true;' > composeApp/build/dist/wasmJs/productionExecutable/config.js
+            run: echo 'window.vexedDebug = true;' > composeApp/build/dist/wasmJs/productionExecutable/config.js
 
           - name: Deploy PR preview
             uses: rossjrw/pr-preview-action@v1
