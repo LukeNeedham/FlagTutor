@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import com.flagtutor.app.domain.model.ThemeMode
 
 private val LightColorScheme = lightColorScheme(
@@ -71,10 +72,12 @@ fun FlagTutorTheme(
         ThemeMode.Light -> false
         ThemeMode.Dark -> true
     }
-    MaterialTheme(
-        colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
-        typography = FlagTutorTypography,
-        shapes = FlagTutorShapes,
-        content = content,
-    )
+    CompositionLocalProvider(LocalAppColors provides if (darkTheme) DarkAppColors else LightAppColors) {
+        MaterialTheme(
+            colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
+            typography = FlagTutorTypography,
+            shapes = FlagTutorShapes,
+            content = content,
+        )
+    }
 }
