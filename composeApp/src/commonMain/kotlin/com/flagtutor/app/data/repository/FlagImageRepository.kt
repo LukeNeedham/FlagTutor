@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import com.flagtutor.app.data.local.FlagColorDataSource
 import com.flagtutor.app.ui.util.ExtractedColor
 import com.flagtutor.app.ui.util.decodeImageBitmap
-import vexed.composeapp.generated.resources.Res
+import flagtutor.composeapp.generated.resources.Res
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred

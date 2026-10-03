@@ -190,6 +190,8 @@ val mergedCommonResources = tasks.register<Sync>("mergeCommonResources") {
 }
 
 compose.resources {
+    // Pinned so the generated package doesn't change with the Gradle root project name.
+    packageOfResClass = "flagtutor.composeapp.generated.resources"
     customDirectory(
         sourceSetName = "commonMain",
         directoryProvider = mergedCommonResources.map { it.destinationDir }.let { provider ->

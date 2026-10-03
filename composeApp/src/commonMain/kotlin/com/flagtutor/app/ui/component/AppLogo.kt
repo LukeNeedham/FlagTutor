@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import vexed.composeapp.generated.resources.Res
-import vexed.composeapp.generated.resources.ic_app_logo
+import flagtutor.composeapp.generated.resources.Res
+import flagtutor.composeapp.generated.resources.ic_app_logo
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
