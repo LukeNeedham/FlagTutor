@@ -7,6 +7,7 @@ koin = "4.1.1"
 voyager = "2.2.21-1.10.3"
 kotlinxSerialization = "1.7.3"
 room = "2.7.1"
+datastore = "1.1.7"
 sqlite = "2.5.1"
 ksp = "2.2.21-2.0.4"
 
@@ -20,6 +21,7 @@ voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 [plugins]

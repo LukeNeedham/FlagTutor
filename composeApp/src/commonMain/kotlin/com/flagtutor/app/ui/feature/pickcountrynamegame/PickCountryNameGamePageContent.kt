@@ -39,14 +39,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -79,7 +78,7 @@ fun PickCountryNameGamePageContent(
     val animationSpeed = LocalAnimationSpeed.current
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background,
+        color = AppTheme.colors.background,
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             IconButton(
@@ -97,12 +96,12 @@ fun PickCountryNameGamePageContent(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
                     ) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        CircularProgressIndicator(color = AppTheme.colors.primary)
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = "Loading flags…",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = AppTheme.typography.bodyLarge,
+                            color = AppTheme.colors.textSecondary,
                         )
                     }
                 }
@@ -118,11 +117,11 @@ fun PickCountryNameGamePageContent(
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = "Couldn't load flags. Please try again.",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = AppTheme.typography.bodyLarge,
+                            color = AppTheme.colors.textSecondary,
                         )
                         Spacer(modifier = Modifier.height(24.dp))
-                        Button(onClick = onRetry, shape = MaterialTheme.shapes.large) {
+                        Button(onClick = onRetry, shape = AppTheme.shapes.large) {
                             Icon(imageVector = Icons.Filled.Refresh, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Retry")
@@ -218,8 +217,8 @@ fun PickCountryNameGamePageContent(
                                                         Spacer(modifier = Modifier.size(InfoButtonSize))
                                                         Text(
                                                             text = state.flag.name,
-                                                            style = MaterialTheme.typography.headlineLarge,
-                                                            color = MaterialTheme.colorScheme.onBackground,
+                                                            style = AppTheme.typography.headlineLarge,
+                                                            color = AppTheme.colors.onBackground,
                                                             textAlign = TextAlign.Center,
                                                             modifier = Modifier
                                                                 .weight(1f, fill = false)
@@ -239,7 +238,7 @@ fun PickCountryNameGamePageContent(
                                                                     Icon(
                                                                         imageVector = Icons.Filled.Info,
                                                                         contentDescription = "More Info",
-                                                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                                        tint = AppTheme.colors.textSecondary,
                                                                     )
                                                                 }
                                                             }
@@ -337,10 +336,10 @@ fun PickCountryNameGamePageContent(
                     ) {
                         Button(
                             onClick = onNextFlag,
-                            shape = MaterialTheme.shapes.large,
+                            shape = AppTheme.shapes.large,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.White,
-                                contentColor = Color.Black,
+                                containerColor = AppTheme.colors.onBackground,
+                                contentColor = AppTheme.colors.background,
                             ),
                             contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
                             modifier = Modifier
@@ -349,7 +348,7 @@ fun PickCountryNameGamePageContent(
                         ) {
                             Text(
                                 text = "Next",
-                                style = MaterialTheme.typography.titleMedium,
+                                style = AppTheme.typography.titleMedium,
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Icon(

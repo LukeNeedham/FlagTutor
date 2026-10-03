@@ -15,6 +15,7 @@ import com.flagtutor.app.ui.feature.debugsettings.DebugSettingsPage
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsPage
 import com.flagtutor.app.ui.feature.home.HomePage
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGamePage
+import com.flagtutor.app.ui.feature.settings.SettingsPage
 
 object HomeScreen : Screen {
     @Composable
@@ -23,6 +24,7 @@ object HomeScreen : Screen {
         HomePage(
             onNavigateToPickCountryNameGame = { navigator.push(PickCountryNameGameScreen) },
             onNavigateToCredits = { navigator.push(CreditsScreen) },
+            onNavigateToSettings = { navigator.push(SettingsScreen) },
             onNavigateToDebug = if (isDebugBuild) {
                 { navigator.push(DebugScreen) }
             } else {
@@ -47,6 +49,16 @@ object CreditsScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         CreditsPage(
+            onNavigateBack = { navigator.pop() },
+        )
+    }
+}
+
+object SettingsScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        SettingsPage(
             onNavigateBack = { navigator.pop() },
         )
     }

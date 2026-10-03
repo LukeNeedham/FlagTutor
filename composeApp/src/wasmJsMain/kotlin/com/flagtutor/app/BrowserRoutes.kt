@@ -9,6 +9,7 @@ import com.flagtutor.app.ui.navigation.DebugSettingsScreen
 import com.flagtutor.app.ui.navigation.FlagAttemptsScreen
 import com.flagtutor.app.ui.navigation.HomeScreen
 import com.flagtutor.app.ui.navigation.PickCountryNameGameScreen
+import com.flagtutor.app.ui.navigation.SettingsScreen
 import kotlinx.browser.window
 
 /**
@@ -33,6 +34,7 @@ object BrowserRoutes {
     private val routes: List<Pair<String, Screen>> = listOf(
         "/play" to PickCountryNameGameScreen,
         "/credits" to CreditsScreen,
+        "/settings" to SettingsScreen,
     ) + if (isDebugBuild) debugRoutes else emptyList()
 
     /**

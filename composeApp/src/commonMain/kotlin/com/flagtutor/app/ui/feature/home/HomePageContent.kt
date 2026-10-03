@@ -13,17 +13,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.ui.component.AppLogo
@@ -34,11 +34,12 @@ fun HomePageContent(
     subtitle: String,
     onGuessCountryClick: () -> Unit,
     onCreditsClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     onDebugClick: (() -> Unit)? = null,
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background,
+        color = AppTheme.colors.background,
     ) {
         Column(
             modifier = Modifier
@@ -57,15 +58,15 @@ fun HomePageContent(
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.displaySmall,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    style = AppTheme.typography.displaySmall,
+                    color = AppTheme.colors.onBackground,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTheme.typography.bodyLarge,
+                    color = AppTheme.colors.textSecondary,
                     textAlign = TextAlign.Center,
                 )
             }
@@ -73,16 +74,29 @@ fun HomePageContent(
             Button(
                 onClick = onGuessCountryClick,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = MaterialTheme.shapes.large,
+                shape = AppTheme.shapes.large,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black,
+                    containerColor = AppTheme.colors.onBackground,
+                    contentColor = AppTheme.colors.background,
                 ),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             ) {
                 Icon(imageVector = Icons.Filled.Public, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Guess Country", style = MaterialTheme.typography.titleMedium)
+                Text(text = "Guess Country", style = AppTheme.typography.titleMedium)
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            TextButton(
+                onClick = onSettingsClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = AppTheme.shapes.large,
+                colors = ButtonDefaults.textButtonColors(contentColor = AppTheme.colors.onBackground),
+            ) {
+                Icon(imageVector = Icons.Filled.Settings, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "Settings", style = AppTheme.typography.titleMedium)
             }
             Spacer(modifier = Modifier.height(12.dp))
             TextButton(
@@ -90,12 +104,12 @@ fun HomePageContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
-                shape = MaterialTheme.shapes.large,
-                colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+                shape = AppTheme.shapes.large,
+                colors = ButtonDefaults.textButtonColors(contentColor = AppTheme.colors.onBackground),
             ) {
                 Icon(imageVector = Icons.Filled.Info, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Credits", style = MaterialTheme.typography.titleMedium)
+                Text(text = "Credits", style = AppTheme.typography.titleMedium)
             }
             if (onDebugClick != null) {
                 Spacer(modifier = Modifier.height(12.dp))
@@ -104,12 +118,12 @@ fun HomePageContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
-                    shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+                    shape = AppTheme.shapes.large,
+                    colors = ButtonDefaults.textButtonColors(contentColor = AppTheme.colors.onBackground),
                 ) {
                     Icon(imageVector = Icons.Filled.Build, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Debug", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Debug", style = AppTheme.typography.titleMedium)
                 }
             }
         }
