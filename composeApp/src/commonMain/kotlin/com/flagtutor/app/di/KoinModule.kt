@@ -1,6 +1,7 @@
 package com.flagtutor.app.di
 
 import com.flagtutor.app.data.local.FlagColorDataSource
+import com.flagtutor.app.data.local.IdenticalFlagDataSource
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.data.repository.FlagImageRepository
@@ -15,6 +16,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     singleOf(::FlagColorDataSource)
+    singleOf(::IdenticalFlagDataSource)
     singleOf(::WikipediaLinkDataSource)
     singleOf(::CountryRepository)
     singleOf(::FlagImageRepository)

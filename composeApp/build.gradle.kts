@@ -181,11 +181,20 @@ val generateFlagColors = tasks.register<GenerateFlagColorsTask>("generateFlagCol
     outputDir.set(layout.buildDirectory.dir("generated/flagColors"))
 }
 
+// Groups of countries sharing a pixel-identical flag, so the game never offers them as options together.
+val generateIdenticalFlags = tasks.register<GenerateIdenticalFlagsTask>("generateIdenticalFlags") {
+    description = "Lists groups of countries that use identical flags."
+    group = "build"
+    flagsDir.set(layout.projectDirectory.dir("src/commonMain/composeResources/files/flags"))
+    outputDir.set(layout.buildDirectory.dir("generated/identicalFlags"))
+}
+
 // customDirectory replaces commonMain's default composeResources directory rather than adding to
 // it, so the generated file is merged with the checked-in resources into one directory.
 val mergedCommonResources = tasks.register<Sync>("mergeCommonResources") {
     from(layout.projectDirectory.dir("src/commonMain/composeResources"))
     from(generateFlagColors.flatMap { it.outputDir })
+    from(generateIdenticalFlags.flatMap { it.outputDir })
     into(layout.buildDirectory.dir("generated/commonComposeResources"))
 }
 

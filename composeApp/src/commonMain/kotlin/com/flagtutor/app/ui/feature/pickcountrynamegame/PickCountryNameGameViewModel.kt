@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.flagtutor.app.data.local.IdenticalFlagDataSource
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.data.repository.FlagImageRepository
 import com.flagtutor.app.data.stats.FlagAttemptRepository
@@ -18,9 +19,11 @@ class PickCountryNameGameViewModel(
     private val countryRepository: CountryRepository,
     private val flagAttemptRepository: FlagAttemptRepository,
     private val flagImageRepository: FlagImageRepository,
+    private val identicalFlagDataSource: IdenticalFlagDataSource,
 ) : ViewModel() {
 
     private var countries: List<Country> = emptyList()
+    private var identicalFlags: Map<String, Set<String>> = emptyMap()
 
     // Chosen one flag ahead so its images can load while the current flag is being guessed.
     private var upcoming: Country? = null
@@ -39,6 +42,7 @@ class PickCountryNameGameViewModel(
         viewModelScope.launch {
             try {
                 countries = countryRepository.getCountries()
+                identicalFlags = identicalFlagDataSource.getIdenticalFlags()
                 showNextFlag(previous = null)
             } catch (e: CancellationException) {
                 throw e
@@ -113,10 +117,18 @@ class PickCountryNameGameViewModel(
     }
 
     private fun generateOptions(correct: Country): List<Country> {
-        val distractors = countries
-            .filter { it.alpha2Code != correct.alpha2Code }
-            .shuffled()
-            .take(OPTIONS_COUNT - 1)
+        // Countries sharing a flag would make several options equally correct, so each picked
+        // option also rules out every country with the same flag.
+        val excluded = mutableSetOf(correct.alpha2Code)
+        excluded += identicalFlags[correct.alpha2Code].orEmpty()
+        val distractors = mutableListOf<Country>()
+        for (candidate in countries.shuffled()) {
+            if (distractors.size == OPTIONS_COUNT - 1) break
+            if (candidate.alpha2Code in excluded) continue
+            distractors += candidate
+            excluded += candidate.alpha2Code
+            excluded += identicalFlags[candidate.alpha2Code].orEmpty()
+        }
         return (distractors + correct).shuffled()
     }
 }
