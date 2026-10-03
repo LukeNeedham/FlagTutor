@@ -295,7 +295,6 @@ fun PickCountryNameGamePageContent(
                                                                             key(country.alpha2Code) {
                                                                                 FlagOptionButton(
                                                                                     country = country,
-                                                                                    isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
                                                                                     isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
                                                                                     enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
                                                                                     onClick = { onOptionSelected(country) },
