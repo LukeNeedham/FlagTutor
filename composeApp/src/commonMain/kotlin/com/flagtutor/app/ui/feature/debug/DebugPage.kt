@@ -8,13 +8,11 @@ fun DebugPage(
     onNavigateToCountriesOverview: () -> Unit,
     onNavigateToFlagAttempts: () -> Unit,
     onNavigateToCrashes: () -> Unit,
-    onNavigateToSettings: () -> Unit,
 ) {
     DebugPageContent(
         onCountriesOverviewClick = onNavigateToCountriesOverview,
         onFlagAttemptsClick = onNavigateToFlagAttempts,
         onCrashesClick = onNavigateToCrashes,
-        onSettingsClick = onNavigateToSettings,
         onBackClick = onNavigateBack,
     )
 }

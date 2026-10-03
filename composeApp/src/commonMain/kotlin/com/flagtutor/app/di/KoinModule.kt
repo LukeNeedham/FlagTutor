@@ -9,7 +9,6 @@ import com.flagtutor.app.data.settings.DebugSettings
 import com.flagtutor.app.data.settings.ThemeRepository
 import com.flagtutor.app.ui.feature.crashes.CrashesViewModel
 import com.flagtutor.app.ui.feature.debug.CountriesOverviewViewModel
-import com.flagtutor.app.ui.feature.debugsettings.DebugSettingsViewModel
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsViewModel
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGameViewModel
 import com.flagtutor.app.ui.feature.home.HomeViewModel
@@ -30,7 +29,6 @@ val appModule = module {
     viewModelOf(::SettingsViewModel)
     viewModelOf(::CountriesOverviewViewModel)
     viewModelOf(::CrashesViewModel)
-    viewModelOf(::DebugSettingsViewModel)
     viewModelOf(::PickCountryNameGameViewModel)
     viewModelOf(::FlagAttemptsViewModel)
 }

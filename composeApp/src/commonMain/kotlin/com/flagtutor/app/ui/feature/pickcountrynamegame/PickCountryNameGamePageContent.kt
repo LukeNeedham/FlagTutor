@@ -55,8 +55,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.flagtutor.app.ui.util.LocalAnimationSpeed
-import com.flagtutor.app.ui.util.scaledBy
+import com.flagtutor.app.ui.util.LocalScaledAnimation
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
@@ -86,7 +85,7 @@ fun PickCountryNameGamePageContent(
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val animationSpeed = LocalAnimationSpeed.current
+    val animation = LocalScaledAnimation.current
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = AppTheme.colors.background,
@@ -152,9 +151,9 @@ fun PickCountryNameGamePageContent(
                         if (isAnswerRevealed) {
                             nextButtonSlideX.snapTo(0f)
                             nextButtonSlideY.snapTo(1f)
-                            nextButtonSlideY.animateTo(0f, tween(400.scaledBy(animationSpeed)))
+                            nextButtonSlideY.animateTo(0f, tween(animation.long))
                         } else {
-                            nextButtonSlideX.animateTo(-1f, tween(300.scaledBy(animationSpeed)))
+                            nextButtonSlideX.animateTo(-1f, tween(animation.medium))
                         }
                     }
                     Column(
@@ -168,10 +167,10 @@ fun PickCountryNameGamePageContent(
                             contentKey = { it.flag.alpha2Code },
                             transitionSpec = {
                                 slideInHorizontally(
-                                    animationSpec = tween(durationMillis = 300.scaledBy(animationSpeed)),
+                                    animationSpec = tween(animation.medium),
                                 ) { fullWidth -> fullWidth }.togetherWith(
                                     slideOutHorizontally(
-                                        animationSpec = tween(durationMillis = 300.scaledBy(animationSpeed)),
+                                        animationSpec = tween(animation.medium),
                                     ) { fullWidth -> -fullWidth },
                                 ).using(SizeTransform(clip = false))
                             },
@@ -225,12 +224,12 @@ fun PickCountryNameGamePageContent(
                                                 (
                                                     slideIntoContainer(
                                                         towards = SlideDirection.Down,
-                                                        animationSpec = tween(400.scaledBy(animationSpeed)),
-                                                    ) + fadeIn(tween(400.scaledBy(animationSpeed)))
+                                                        animationSpec = tween(animation.long),
+                                                    ) + fadeIn(tween(animation.long))
                                                     ).togetherWith(
                                                     slideOutOfContainer(
                                                         towards = SlideDirection.Down,
-                                                        animationSpec = tween(400.scaledBy(animationSpeed)),
+                                                        animationSpec = tween(animation.long),
                                                     ),
                                                 ).using(SizeTransform(clip = false))
                                             },
