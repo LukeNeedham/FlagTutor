@@ -1,1 +1,1 @@
-window.vexedDebug = true;
+window.appDebug = true;
