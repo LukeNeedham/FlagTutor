@@ -49,6 +49,7 @@ jobs:
               source-dir: ./composeApp/build/dist/wasmJs/productionExecutable
               preview-branch: gh-pages
               umbrella-dir: .
+              timezone: Europe/Amsterdam
               action: auto
 
           # GitHub Pages can't serve app routes like /pr-37/play directly. A 404.html at the site
