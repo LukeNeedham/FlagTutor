@@ -108,7 +108,7 @@ As screens are added, give each one:
   `BrowserNavigationSync`), so the back button works. GitHub Pages can't serve those paths, so
   `.github/pages/404.html` (published to the `gh-pages` root by the preview workflow) redirects them
   to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes` (debug pages are at `/debug/...`, debug builds only).
-- `isDebugBuild` on web is read from `config.js` (`window.vexedDebug`), which is `false` in the
+- `isDebugBuild` on web is read from `config.js` (`window.appDebug`), which is `false` in the
   repo. PR previews overwrite it with `true`; the production deploy
   (`.github/workflows/web_deploy_production.yml`, on every push to `main`, to the `gh-pages` root)
   leaves it `false`. Previews live under `/pr-<n>/` and survive production deploys.

@@ -30,7 +30,7 @@ jobs:
               distribution: 'zulu'
               cache: 'gradle'
 
-          # config.js ships with vexedDebug = false, so this is a release-mode site.
+          # config.js ships with appDebug = false, so this is a release-mode site.
           - name: Build web distribution
             run: ./gradlew :composeApp:wasmJsBrowserDistribution
 

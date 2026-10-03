@@ -6,8 +6,8 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 
 @Database(entities = [FlagAttemptEntity::class], version = 1, exportSchema = true)
-@ConstructedBy(VexedDatabaseConstructor::class)
-abstract class VexedDatabase : RoomDatabase() {
+@ConstructedBy(AppDatabaseConstructor::class)
+abstract class AppDatabase : RoomDatabase() {
     abstract fun flagAttemptDao(): FlagAttemptDao
 }
 
@@ -15,6 +15,6 @@ abstract class VexedDatabase : RoomDatabase() {
 // database implementation without reflection (required on Kotlin/Native, where Room can't use
 // Class.forName the way it does on Android/JVM).
 @Suppress("NO_ACTUAL_FOR_EXPECT")
-expect object VexedDatabaseConstructor : RoomDatabaseConstructor<VexedDatabase> {
-    override fun initialize(): VexedDatabase
+expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
+    override fun initialize(): AppDatabase
 }

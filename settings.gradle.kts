@@ -26,5 +26,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Vexed"
+rootProject.name = "App"
 include(":composeApp")

@@ -9,10 +9,10 @@ internal const val DATABASE_FILE_NAME = "flagtutor.db"
 // Constructed per-platform (needs a Context on Android, nothing extra on iOS), then handed to
 // createDatabase() to apply the settings shared across platforms.
 expect class DatabaseBuilderFactory {
-    fun create(): RoomDatabase.Builder<VexedDatabase>
+    fun create(): RoomDatabase.Builder<AppDatabase>
 }
 
-fun createDatabase(builder: RoomDatabase.Builder<VexedDatabase>): VexedDatabase =
+fun createDatabase(builder: RoomDatabase.Builder<AppDatabase>): AppDatabase =
     builder
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)
