@@ -3,11 +3,11 @@ package com.flagtutor.app.ui.feature.pickcountrynamegame
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
@@ -44,10 +44,13 @@ import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
@@ -138,6 +141,22 @@ fun PickCountryNameGamePageContent(
                 }
 
                 is PickCountryNameGameUiState.Success -> {
+                    // The Next button's slide, as fractions of its own size: it enters from below and leaves
+                    // to the left. This is driven by hand rather than with AnimatedVisibility, because that
+                    // swaps in a default spring for the exit if it interrupts a half-finished enter, so the
+                    // button would then leave at a different speed to the rest of the content.
+                    val nextButtonSlideX = remember { Animatable(-1f) }
+                    val nextButtonSlideY = remember { Animatable(1f) }
+                    val isAnswerRevealed = uiState.isAnswerRevealed
+                    LaunchedEffect(isAnswerRevealed) {
+                        if (isAnswerRevealed) {
+                            nextButtonSlideX.snapTo(0f)
+                            nextButtonSlideY.snapTo(1f)
+                            nextButtonSlideY.animateTo(0f, tween(400.scaledBy(animationSpeed)))
+                        } else {
+                            nextButtonSlideX.animateTo(-1f, tween(300.scaledBy(animationSpeed)))
+                        }
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -341,17 +360,14 @@ fun PickCountryNameGamePageContent(
                     // content so the slide distance covers it and the button is fully off screen. Behind the
                     // button is an opaque background starting halfway down it (below its rounded corners), so
                     // the outgoing option buttons slide behind the button's shape.
-                    androidx.compose.animation.AnimatedVisibility(
-                        visible = uiState.isAnswerRevealed,
-                        enter = slideInVertically(
-                            animationSpec = tween(400.scaledBy(animationSpeed)),
-                        ) { fullHeight -> fullHeight },
-                        exit = slideOutHorizontally(
-                            animationSpec = tween(300.scaledBy(animationSpeed)),
-                        ) { fullWidth -> -fullWidth },
+                    Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .graphicsLayer {
+                                translationX = nextButtonSlideX.value * size.width
+                                translationY = nextButtonSlideY.value * size.height
+                            },
                     ) {
                         Box(modifier = Modifier.fillMaxWidth()) {
                             Box(
