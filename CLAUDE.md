@@ -22,7 +22,7 @@ learn the flags of the world.
 - **Build**: Gradle Kotlin DSL, dependency versions centralized in `gradle/libs.versions.toml` (version catalog)
 - **Min/Target/Compile SDK**: minSdk 24, targetSdk/compileSdk 35
 - **Versions**: Kotlin 2.1.0, AGP 8.7.3, Compose Multiplatform 1.7.3, Java 11 target
-- Targets Android and iOS, structured as a Kotlin Multiplatform project (`commonMain` /
+- Targets Android, iOS and web (Kotlin/Wasm), structured as a Kotlin Multiplatform project (`commonMain` /
   `androidMain` / `iosMain`). Building and running the iOS app requires a macOS host with Xcode
   installed (Kotlin/Native's iOS targets can only be compiled there).
 
@@ -98,6 +98,16 @@ As screens are added, give each one:
   - `Logger.warning(...)` — expected-but-notable error states
   - `Logger.error(...)` — unexpected errors / likely bugs
 
+### Web target
+
+- `wasmJsMain` holds the browser entry point (`Main.kt`), `webModule()` and the web `actual`s.
+- Room has no web support, so the persistence code (`data/stats` entity/DAO/database) lives in
+  `roomMain`, an intermediate source set shared by Android and iOS only. Web uses
+  `LocalStorageFlagAttemptRepository` instead. Anything using Room must go in `roomMain`.
+- `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` serves it locally;
+  `./gradlew :composeApp:wasmJsBrowserDistribution` produces the static site in
+  `composeApp/build/dist/wasmJs/productionExecutable`.
+
 ## Build, run & test
 
 ```bash
@@ -140,3 +150,7 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
   where possible.
 - Add new dependencies to `gradle/libs.versions.toml` rather than hardcoding versions in
   `build.gradle.kts` files.
+- `.github/workflows/web_preview.yml` builds the web app on each PR and deploys it to GitHub Pages
+  at `https://<owner>.github.io/<repo>/pr-<number>/` (via the `gh-pages` branch), with a sticky PR
+  comment linking to it. The preview is removed when the PR closes. One-time setup: in repo
+  Settings → Pages, set the source to "Deploy from a branch" → `gh-pages` / root.

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -13,6 +15,29 @@ kotlin {
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        outputModuleName.set("composeApp")
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
+        binaries.executable()
+    }
+
+    // Room has no web support, so the persistence code lives in a source set shared only by the
+    // targets that can use it; the web target supplies its own FlagAttemptRepository.
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    applyDefaultHierarchyTemplate {
+        common {
+            group("room") {
+                withAndroidTarget()
+                withIos()
+            }
         }
     }
 
@@ -33,6 +58,12 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.room.ktx)
         }
+        val roomMain by getting {
+            dependencies {
+                implementation(libs.room.runtime)
+                implementation(libs.sqlite.bundled)
+            }
+        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -47,8 +78,6 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.voyager.navigator)
-            implementation(libs.room.runtime)
-            implementation(libs.sqlite.bundled)
         }
     }
 }
