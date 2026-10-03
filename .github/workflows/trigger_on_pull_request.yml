@@ -85,6 +85,8 @@ jobs:
     # Kotlin/Native compiler needs), so this runs on a separate macos runner rather than as part
     # of the `build` job above.
     build-ios:
+        # Opt-in: only runs from a manual dispatch, since nobody tests the iOS build on each PR.
+        if: github.event_name == 'workflow_dispatch'
         runs-on: macos-14
 
         steps:

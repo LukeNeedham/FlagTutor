@@ -169,3 +169,31 @@ tasks.register("downloadWikipediaMaps") {
         }
     }
 }
+
+// ─── Flag colour extraction ──────────────────────────────────────────────────
+
+// Dominant colours are computed once at build time and shipped as a compose resource, so no
+// platform needs its own image-decoding implementation.
+val generateFlagColors = tasks.register<GenerateFlagColorsTask>("generateFlagColors") {
+    description = "Extracts each flag's dominant colours into a compose resource."
+    group = "build"
+    flagsDir.set(layout.projectDirectory.dir("src/commonMain/composeResources/files/flags"))
+    outputDir.set(layout.buildDirectory.dir("generated/flagColors"))
+}
+
+// customDirectory replaces commonMain's default composeResources directory rather than adding to
+// it, so the generated file is merged with the checked-in resources into one directory.
+val mergedCommonResources = tasks.register<Sync>("mergeCommonResources") {
+    from(layout.projectDirectory.dir("src/commonMain/composeResources"))
+    from(generateFlagColors.flatMap { it.outputDir })
+    into(layout.buildDirectory.dir("generated/commonComposeResources"))
+}
+
+compose.resources {
+    customDirectory(
+        sourceSetName = "commonMain",
+        directoryProvider = mergedCommonResources.map { it.destinationDir }.let { provider ->
+            layout.dir(provider)
+        },
+    )
+}

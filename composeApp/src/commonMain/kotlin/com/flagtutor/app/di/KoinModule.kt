@@ -1,5 +1,6 @@
 package com.flagtutor.app.di
 
+import com.flagtutor.app.data.local.FlagColorDataSource
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.ui.feature.crashes.CrashesViewModel
@@ -12,6 +13,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {
+    singleOf(::FlagColorDataSource)
     singleOf(::WikipediaLinkDataSource)
     singleOf(::CountryRepository)
     viewModelOf(::HomeViewModel)

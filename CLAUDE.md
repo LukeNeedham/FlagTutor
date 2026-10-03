@@ -108,6 +108,13 @@ As screens are added, give each one:
   `./gradlew :composeApp:wasmJsBrowserDistribution` produces the static site in
   `composeApp/build/dist/wasmJs/productionExecutable`.
 
+### Flag colours
+
+- Each flag's dominant colours are extracted at build time by `buildSrc`'s
+  `GenerateFlagColorsTask` (`./gradlew :composeApp:generateFlagColors`) into
+  `files/flag_colors.json`, registered as a compose resource directory. At runtime
+  `FlagColorDataSource` just reads that file, so there is no per-platform image analysis.
+
 ## Build, run & test
 
 ```bash
@@ -140,7 +147,8 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
   1. Builds `assembleDebug`.
   2. Creates a draft GitHub Release tagged with the branch/run info and uploads the debug APK as an asset.
   3. Posts/updates a sticky PR comment with a direct download link to the APK.
-  4. On a separate `macos-14` runner, builds the iOS app for the simulator via `xcodebuild`.
+  4. The `macos-14` iOS simulator build (`build-ios`) is skipped on PRs; it only runs when the
+     workflow is dispatched manually.
 
 ## General conventions for changes
 

@@ -58,14 +58,15 @@ import androidx.compose.ui.unit.dp
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.component.CountryMapHighlight
+import com.flagtutor.app.data.local.FlagColorDataSource
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
 import com.flagtutor.app.ui.util.ExtractedColor
 import com.flagtutor.app.ui.util.decodeImageBitmap
-import com.flagtutor.app.ui.util.extractColorsFromImage
 import flagtutor.composeapp.generated.resources.Res
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.koin.compose.koinInject
 
 private data class FlagData(val bitmap: ImageBitmap, val colors: List<ExtractedColor>)
 
@@ -159,13 +160,14 @@ fun PickCountryNameGamePageContent(
                             modifier = Modifier.fillMaxWidth().weight(1f),
                         ) { state ->
                             var flagData by remember { mutableStateOf<FlagData?>(null) }
+                            val flagColorDataSource = koinInject<FlagColorDataSource>()
 
                             LaunchedEffect(state.flag.alpha2Code) {
                                 flagData = withContext(Dispatchers.Default) {
                                     val bytes = Res.readBytes("files/flags/${state.flag.alpha2Code}.png")
                                     FlagData(
                                         bitmap = decodeImageBitmap(bytes),
-                                        colors = extractColorsFromImage(bytes, 4),
+                                        colors = flagColorDataSource.getColors(state.flag.alpha2Code),
                                     )
                                 }
                             }
