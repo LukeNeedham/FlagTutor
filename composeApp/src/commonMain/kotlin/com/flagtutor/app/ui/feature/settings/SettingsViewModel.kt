@@ -8,5 +8,5 @@ class SettingsViewModel(private val themeRepository: ThemeRepository) : ViewMode
 
     val themeMode: ThemeMode get() = themeRepository.themeMode
 
-    fun onThemeModeSelected(mode: ThemeMode) = themeRepository.setThemeMode(mode)
+    fun onThemeModeSelected(mode: ThemeMode) = themeRepository.selectThemeMode(mode)
 }

@@ -12,7 +12,7 @@ class ThemeRepository(private val store: ThemePreferenceStore) {
     )
         private set
 
-    fun setThemeMode(mode: ThemeMode) {
+    fun selectThemeMode(mode: ThemeMode) {
         themeMode = mode
         store.save(mode.name)
     }
