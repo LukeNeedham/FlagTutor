@@ -20,7 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -59,17 +59,17 @@ fun CrashesPageContent(
                             Icon(
                                 imageVector = Icons.Filled.DeleteForever,
                                 contentDescription = "Clear all crashes",
-                                tint = MaterialTheme.colorScheme.error,
+                                tint = AppTheme.colors.error,
                             )
                         }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = AppTheme.colors.background,
                 ),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colors.background,
     ) { innerPadding ->
         if (crashes.isEmpty()) {
             Box(
@@ -78,8 +78,8 @@ fun CrashesPageContent(
             ) {
                 Text(
                     text = "No crashes recorded",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTheme.typography.bodyLarge,
+                    color = AppTheme.colors.textSecondary,
                 )
             }
         } else {
@@ -104,7 +104,7 @@ private fun CrashCard(index: Int, crash: CrashEntry, onClick: () -> Unit) {
             .fillMaxWidth()
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = AppTheme.colors.card,
         ),
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
@@ -114,20 +114,20 @@ private fun CrashCard(index: Int, crash: CrashEntry, onClick: () -> Unit) {
             ) {
                 Text(
                     text = "Crash #$index",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.error,
+                    style = AppTheme.typography.titleSmall,
+                    color = AppTheme.colors.error,
                 )
                 Text(
                     text = crash.timestamp,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = AppTheme.typography.labelMedium,
+                    color = AppTheme.colors.textSecondary,
                 )
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
             Text(
                 text = previewLines,
-                style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
-                color = MaterialTheme.colorScheme.onSurface,
+                style = AppTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                color = AppTheme.colors.text,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
             )

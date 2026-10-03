@@ -16,7 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -48,11 +48,11 @@ fun FlagAttemptsPageContent(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = AppTheme.colors.background,
                 ),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colors.background,
     ) { innerPadding ->
         when {
             isLoading -> {
@@ -60,7 +60,7 @@ fun FlagAttemptsPageContent(
                     modifier = Modifier.fillMaxSize().padding(innerPadding),
                     contentAlignment = Alignment.Center,
                 ) {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    CircularProgressIndicator(color = AppTheme.colors.primary)
                 }
             }
 
@@ -71,8 +71,8 @@ fun FlagAttemptsPageContent(
                 ) {
                     Text(
                         text = "No flag attempts recorded",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = AppTheme.typography.bodyLarge,
+                        color = AppTheme.colors.textSecondary,
                     )
                 }
             }
@@ -80,10 +80,10 @@ fun FlagAttemptsPageContent(
             else -> {
                 LazyColumn(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
                     item { FlagAttemptHeaderRow() }
-                    item { HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant) }
+                    item { HorizontalDivider(color = AppTheme.colors.divider) }
                     items(attempts) { attempt ->
                         FlagAttemptRow(attempt)
-                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                        HorizontalDivider(color = AppTheme.colors.divider)
                     }
                 }
             }
@@ -99,20 +99,20 @@ private fun FlagAttemptHeaderRow() {
     ) {
         Text(
             text = "Country",
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AppTheme.typography.labelMedium,
+            color = AppTheme.colors.textSecondary,
             modifier = Modifier.weight(1f),
         )
         Text(
             text = "Guesses",
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AppTheme.typography.labelMedium,
+            color = AppTheme.colors.textSecondary,
             modifier = Modifier.weight(1f),
         )
         Text(
             text = "Timestamp",
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AppTheme.typography.labelMedium,
+            color = AppTheme.colors.textSecondary,
             modifier = Modifier.weight(2f),
         )
     }
@@ -129,20 +129,20 @@ private fun FlagAttemptRow(attempt: FlagAttempt) {
     ) {
         Text(
             text = attempt.alpha2Code.uppercase(),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = AppTheme.typography.bodyMedium,
+            color = AppTheme.colors.text,
             modifier = Modifier.weight(1f),
         )
         Text(
             text = attempt.guessCount.toString(),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = AppTheme.typography.bodyMedium,
+            color = AppTheme.colors.text,
             modifier = Modifier.weight(1f),
         )
         Text(
             text = formatTimestamp(attempt.timestamp),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AppTheme.typography.bodyMedium,
+            color = AppTheme.colors.textSecondary,
             modifier = Modifier.weight(2f),
         )
     }

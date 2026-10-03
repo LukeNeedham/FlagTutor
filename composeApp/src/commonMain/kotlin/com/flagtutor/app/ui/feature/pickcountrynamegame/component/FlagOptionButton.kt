@@ -11,7 +11,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,7 +47,7 @@ fun FlagOptionButton(
     enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    shape: Shape = MaterialTheme.shapes.large,
+    shape: Shape = AppTheme.shapes.large,
     containerColor: Color? = null,
     contentColor: Color? = null,
 ) {
@@ -56,24 +56,27 @@ fun FlagOptionButton(
 
     val colors = when {
         isCorrectAnswer -> ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.tertiary,
-            contentColor = MaterialTheme.colorScheme.onTertiary,
+            containerColor = AppTheme.colors.correct,
+            contentColor = AppTheme.colors.onCorrect,
         )
         containerColor != null -> ButtonDefaults.buttonColors(
             containerColor = containerColor,
-            contentColor = contentColor ?: MaterialTheme.colorScheme.onPrimary,
+            contentColor = contentColor ?: AppTheme.colors.onPrimary,
         )
-        else -> ButtonDefaults.filledTonalButtonColors()
+        else -> ButtonDefaults.buttonColors(
+            containerColor = AppTheme.colors.option,
+            contentColor = AppTheme.colors.onOption,
+        )
     }
 
     val effectiveContainerColor = when {
-        isCorrectAnswer -> MaterialTheme.colorScheme.tertiary
+        isCorrectAnswer -> AppTheme.colors.correct
         containerColor != null -> containerColor
-        else -> MaterialTheme.colorScheme.secondaryContainer
+        else -> AppTheme.colors.option
     }
-    val backgroundColor = MaterialTheme.colorScheme.background
+    val backgroundColor = AppTheme.colors.background
     val border = if (isSimilarColor(effectiveContainerColor, backgroundColor)) {
-        BorderStroke(BorderWidth, MaterialTheme.colorScheme.onBackground)
+        BorderStroke(BorderWidth, AppTheme.colors.onBackground)
     } else null
 
     Box(modifier = modifier) {
@@ -96,8 +99,8 @@ fun FlagOptionButton(
         }
 
         if (isCrumbled) {
-            val pieceContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-            val pieceContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+            val pieceContainerColor = AppTheme.colors.text.copy(alpha = 0.12f)
+            val pieceContentColor = AppTheme.colors.text.copy(alpha = 0.38f)
 
             CrumblePieces(
                 state = crumbleState,

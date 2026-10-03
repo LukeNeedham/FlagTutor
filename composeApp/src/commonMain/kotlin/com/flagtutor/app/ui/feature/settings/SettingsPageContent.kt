@@ -16,7 +16,7 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -51,11 +51,11 @@ fun SettingsPageContent(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = AppTheme.colors.background,
                 ),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colors.background,
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -72,8 +72,8 @@ fun SettingsPageContent(
             ) {
                 Text(
                     text = "Theme",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    style = AppTheme.typography.titleMedium,
+                    color = AppTheme.colors.onBackground,
                 )
                 SingleChoiceSegmentedButtonRow {
                     ThemeMode.entries.forEachIndexed { index, mode ->
