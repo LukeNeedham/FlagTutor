@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -58,6 +59,9 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 // Next button occupies 24dp top padding + 64dp height + 24dp bottom padding; leave at least 30dp above that.
 private val NextButtonReservedHeight = 142.dp
+
+// IconButton's default size.
+private val InfoButtonSize = 48.dp
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -201,24 +205,29 @@ fun PickCountryNameGamePageContent(
                                                     modifier = Modifier.fillMaxSize(),
                                                 ) {
                                                     Spacer(modifier = Modifier.height(30.dp))
+                                                    // The icon (and an equal spacer opposite, keeping the name centred)
+                                                    // keep their full size; a long name wraps onto more lines instead.
                                                     Row(
                                                         verticalAlignment = Alignment.CenterVertically,
+                                                        horizontalArrangement = Arrangement.Center,
                                                         modifier = Modifier.fillMaxWidth(),
                                                     ) {
-                                                        Spacer(modifier = Modifier.weight(1f))
+                                                        Spacer(modifier = Modifier.size(InfoButtonSize))
                                                         Text(
                                                             text = state.flag.name,
                                                             style = MaterialTheme.typography.headlineLarge,
                                                             color = MaterialTheme.colorScheme.onBackground,
                                                             textAlign = TextAlign.Center,
-                                                            modifier = Modifier.clickable(
-                                                                enabled = state.flag.wikipediaUrl.isNotEmpty(),
-                                                                onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                            ),
+                                                            modifier = Modifier
+                                                                .weight(1f, fill = false)
+                                                                .clickable(
+                                                                    enabled = state.flag.wikipediaUrl.isNotEmpty(),
+                                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                                ),
                                                         )
                                                         Box(
-                                                            modifier = Modifier.weight(1f),
-                                                            contentAlignment = Alignment.CenterStart,
+                                                            modifier = Modifier.size(InfoButtonSize),
+                                                            contentAlignment = Alignment.Center,
                                                         ) {
                                                             if (state.flag.wikipediaUrl.isNotEmpty()) {
                                                                 IconButton(
