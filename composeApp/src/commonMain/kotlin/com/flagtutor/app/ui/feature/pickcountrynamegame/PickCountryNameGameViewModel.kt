@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.flagtutor.app.data.local.IdenticalFlagDataSource
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.data.repository.FlagImageRepository
+import com.flagtutor.app.data.repository.GamePreloader
 import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
@@ -19,6 +20,7 @@ class PickCountryNameGameViewModel(
     private val countryRepository: CountryRepository,
     private val flagAttemptRepository: FlagAttemptRepository,
     private val flagImageRepository: FlagImageRepository,
+    private val gamePreloader: GamePreloader,
     private val identicalFlagDataSource: IdenticalFlagDataSource,
 ) : ViewModel() {
 
@@ -27,6 +29,7 @@ class PickCountryNameGameViewModel(
 
     // Chosen one flag ahead so its images can load while the current flag is being guessed.
     private var upcoming: Country? = null
+    private var queuedAfter: Country? = null
     private var isLoadingNext = false
 
     var uiState by mutableStateOf<PickCountryNameGameUiState>(PickCountryNameGameUiState.Loading)
@@ -43,6 +46,11 @@ class PickCountryNameGameViewModel(
             try {
                 countries = countryRepository.getCountries()
                 identicalFlags = identicalFlagDataSource.getIdenticalFlags()
+                // Use the countries whose images were loaded at app start, if available.
+                gamePreloader.takeInitialCountries()?.let { (first, second) ->
+                    upcoming = first
+                    queuedAfter = second
+                }
                 showNextFlag(previous = null)
             } catch (e: CancellationException) {
                 throw e
@@ -89,7 +97,8 @@ class PickCountryNameGameViewModel(
 
     private suspend fun showNextFlag(previous: Country?) {
         val next = upcoming ?: randomCountry(excluding = previous)
-        val after = randomCountry(excluding = next)
+        val after = queuedAfter ?: randomCountry(excluding = next)
+        queuedAfter = null
         upcoming = after
 
         // Kick both off together so the following flag loads while this one is awaited.
