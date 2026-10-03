@@ -5,7 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.flagtutor.app.domain.model.AnimationSpeed
 
-/** Debug-only settings. Held in memory, so they reset to defaults when the app restarts. */
-class DebugSettings {
-    var animationSpeed by mutableStateOf(AnimationSpeed.X1)
+/** Debug-only settings, persisted through [animationSpeedStore]. */
+class DebugSettings(private val animationSpeedStore: AnimationSpeedPreferenceStore) {
+
+    var animationSpeed by mutableStateOf(
+        AnimationSpeed.entries.firstOrNull { it.name == animationSpeedStore.load() } ?: AnimationSpeed.X1,
+    )
+        private set
+
+    fun selectAnimationSpeed(speed: AnimationSpeed) {
+        animationSpeed = speed
+        animationSpeedStore.save(speed.name)
+    }
 }

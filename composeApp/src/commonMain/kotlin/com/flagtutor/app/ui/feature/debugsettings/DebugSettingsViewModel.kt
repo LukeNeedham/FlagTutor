@@ -9,6 +9,6 @@ class DebugSettingsViewModel(private val settings: DebugSettings) : ViewModel() 
     val animationSpeed: AnimationSpeed get() = settings.animationSpeed
 
     fun onAnimationSpeedSelected(speed: AnimationSpeed) {
-        settings.animationSpeed = speed
+        settings.selectAnimationSpeed(speed)
     }
 }
