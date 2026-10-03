@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.flagtutor.app.ui.util.LocalAnimationSpeed
+import com.flagtutor.app.ui.util.scaledBy
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -48,12 +50,14 @@ fun rememberCrumbleState(): CrumbleState {
 @Composable
 fun AnimateCrumble(isCrumbled: Boolean, state: CrumbleState) {
     val density = LocalDensity.current
+    val speed = LocalAnimationSpeed.current
     LaunchedEffect(isCrumbled) {
         if (isCrumbled) {
-            launch { state.baseAlpha.animateTo(0f, tween(BASE_FADE_DURATION_MS)) }
+            val fallDurationMs = CRUMBLE_FALL_DURATION_MS.scaledBy(speed)
+            launch { state.baseAlpha.animateTo(0f, tween(BASE_FADE_DURATION_MS.scaledBy(speed))) }
             state.pieces.forEachIndexed { index, piece ->
                 launch {
-                    delay(index * CRUMBLE_STAGGER_MS)
+                    delay((index * CRUMBLE_STAGGER_MS).scaledBy(speed))
                     val direction = if (index % 2 == 0) 1f else -1f
                     val fallDistancePx = with(density) { (50 + index * 22).dp.toPx() }
                     val driftPx = with(density) { (10 + index * 6).dp.toPx() } * direction
@@ -62,12 +66,12 @@ fun AnimateCrumble(isCrumbled: Boolean, state: CrumbleState) {
                     launch {
                         piece.translationY.animateTo(
                             fallDistancePx,
-                            tween(CRUMBLE_FALL_DURATION_MS, easing = AccelerateEasing),
+                            tween(fallDurationMs, easing = AccelerateEasing),
                         )
                     }
-                    launch { piece.translationX.animateTo(driftPx, tween(CRUMBLE_FALL_DURATION_MS)) }
-                    launch { piece.rotation.animateTo(rotationDegrees, tween(CRUMBLE_FALL_DURATION_MS)) }
-                    launch { piece.alpha.animateTo(0f, tween(CRUMBLE_FALL_DURATION_MS)) }
+                    launch { piece.translationX.animateTo(driftPx, tween(fallDurationMs)) }
+                    launch { piece.rotation.animateTo(rotationDegrees, tween(fallDurationMs)) }
+                    launch { piece.alpha.animateTo(0f, tween(fallDurationMs)) }
                 }
             }
         }

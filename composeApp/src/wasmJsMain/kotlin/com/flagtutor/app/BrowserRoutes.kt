@@ -5,6 +5,7 @@ import com.flagtutor.app.ui.navigation.CountriesOverviewScreen
 import com.flagtutor.app.ui.navigation.CreditsScreen
 import com.flagtutor.app.ui.navigation.CrashesScreen
 import com.flagtutor.app.ui.navigation.DebugScreen
+import com.flagtutor.app.ui.navigation.DebugSettingsScreen
 import com.flagtutor.app.ui.navigation.FlagAttemptsScreen
 import com.flagtutor.app.ui.navigation.HomeScreen
 import com.flagtutor.app.ui.navigation.PickCountryNameGameScreen
@@ -25,6 +26,7 @@ object BrowserRoutes {
         "/debug/countries" to CountriesOverviewScreen,
         "/debug/attempts" to FlagAttemptsScreen,
         "/debug/crashes" to CrashesScreen,
+        "/debug/settings" to DebugSettingsScreen,
     )
 
     // Debug pages are only reachable from debug builds, so their URLs only work there too.

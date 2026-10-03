@@ -50,6 +50,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.flagtutor.app.ui.util.LocalAnimationSpeed
+import com.flagtutor.app.ui.util.scaledBy
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
@@ -74,6 +76,7 @@ fun PickCountryNameGamePageContent(
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
+    val animationSpeed = LocalAnimationSpeed.current
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -139,10 +142,10 @@ fun PickCountryNameGamePageContent(
                             contentKey = { it.flag.alpha2Code },
                             transitionSpec = {
                                 slideInHorizontally(
-                                    animationSpec = tween(durationMillis = 300),
+                                    animationSpec = tween(durationMillis = 300.scaledBy(animationSpeed)),
                                 ) { fullWidth -> fullWidth }.togetherWith(
                                     slideOutHorizontally(
-                                        animationSpec = tween(durationMillis = 300),
+                                        animationSpec = tween(durationMillis = 300.scaledBy(animationSpeed)),
                                     ) { fullWidth -> -fullWidth },
                                 )
                             },
@@ -188,13 +191,13 @@ fun PickCountryNameGamePageContent(
                                                 (
                                                     slideIntoContainer(
                                                         towards = SlideDirection.Down,
-                                                        animationSpec = tween(400),
-                                                    ) + fadeIn(tween(400))
+                                                        animationSpec = tween(400.scaledBy(animationSpeed)),
+                                                    ) + fadeIn(tween(400.scaledBy(animationSpeed)))
                                                     ).togetherWith(
                                                     slideOutOfContainer(
                                                         towards = SlideDirection.Down,
-                                                        animationSpec = tween(400),
-                                                    ) + fadeOut(tween(400)),
+                                                        animationSpec = tween(400.scaledBy(animationSpeed)),
+                                                    ) + fadeOut(tween(400.scaledBy(animationSpeed))),
                                                 )
                                             },
                                             modifier = Modifier.fillMaxSize(),
@@ -321,11 +324,11 @@ fun PickCountryNameGamePageContent(
 
                     androidx.compose.animation.AnimatedVisibility(
                         visible = uiState.isAnswerRevealed,
-                        enter = fadeIn(animationSpec = tween(400)) +
-                            slideInVertically(animationSpec = tween(400)) { fullHeight -> fullHeight },
-                        exit = fadeOut(animationSpec = tween(durationMillis = 90)) +
+                        enter = fadeIn(animationSpec = tween(400.scaledBy(animationSpeed))) +
+                            slideInVertically(animationSpec = tween(400.scaledBy(animationSpeed))) { fullHeight -> fullHeight },
+                        exit = fadeOut(animationSpec = tween(durationMillis = 90.scaledBy(animationSpeed))) +
                             slideOutHorizontally(
-                                animationSpec = tween(durationMillis = 90),
+                                animationSpec = tween(durationMillis = 90.scaledBy(animationSpeed)),
                             ) { width -> -width / 3 },
                         modifier = Modifier
                             .align(Alignment.BottomCenter)

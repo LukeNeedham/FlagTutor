@@ -12,6 +12,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +32,7 @@ fun DebugPageContent(
     onCountriesOverviewClick: () -> Unit,
     onFlagAttemptsClick: () -> Unit,
     onCrashesClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -85,6 +87,15 @@ fun DebugPageContent(
                 Icon(imageVector = Icons.Filled.BugReport, contentDescription = null)
                 Spacer(modifier = Modifier.padding(horizontal = 8.dp))
                 Text("Crashes")
+            }
+            OutlinedButton(
+                onClick = onSettingsClick,
+                modifier = Modifier.fillMaxWidth().height(56.dp),
+                shape = MaterialTheme.shapes.large,
+            ) {
+                Icon(imageVector = Icons.Filled.Settings, contentDescription = null)
+                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+                Text("Settings")
             }
         }
     }

@@ -11,6 +11,7 @@ import com.flagtutor.app.ui.feature.crashes.CrashesPage
 import com.flagtutor.app.ui.feature.credits.CreditsPage
 import com.flagtutor.app.ui.feature.debug.CountriesOverviewPage
 import com.flagtutor.app.ui.feature.debug.DebugPage
+import com.flagtutor.app.ui.feature.debugsettings.DebugSettingsPage
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsPage
 import com.flagtutor.app.ui.feature.home.HomePage
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGamePage
@@ -60,6 +61,17 @@ object DebugScreen : Screen {
             onNavigateToCountriesOverview = { navigator.push(CountriesOverviewScreen) },
             onNavigateToFlagAttempts = { navigator.push(FlagAttemptsScreen) },
             onNavigateToCrashes = { navigator.push(CrashesScreen) },
+            onNavigateToSettings = { navigator.push(DebugSettingsScreen) },
+        )
+    }
+}
+
+object DebugSettingsScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        DebugSettingsPage(
+            onNavigateBack = { navigator.pop() },
         )
     }
 }
