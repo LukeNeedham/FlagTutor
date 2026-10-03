@@ -1,6 +1,5 @@
 package com.flagtutor.app.di
 
-import android.content.Context
 import com.flagtutor.app.data.crash.CrashRepository
 import com.flagtutor.app.data.crash.CrashRepositoryImpl
 import com.flagtutor.app.data.stats.DatabaseBuilderFactory
@@ -10,9 +9,9 @@ import com.flagtutor.app.data.stats.FlagTutorDatabase
 import com.flagtutor.app.data.stats.createDatabase
 import org.koin.dsl.module
 
-fun androidModule(context: Context) = module {
-    single<CrashRepository> { CrashRepositoryImpl(context) }
-    single { createDatabase(DatabaseBuilderFactory(context).create()) }
+fun iosModule() = module {
+    single<CrashRepository> { CrashRepositoryImpl() }
+    single { createDatabase(DatabaseBuilderFactory().create()) }
     single { get<FlagTutorDatabase>().flagAttemptDao() }
     single<FlagAttemptRepository> { FlagAttemptRepositoryImpl(get()) }
 }

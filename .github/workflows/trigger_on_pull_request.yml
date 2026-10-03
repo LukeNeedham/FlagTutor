@@ -80,3 +80,26 @@ jobs:
 
                 * **Triggered by:** PR Commit `${{ github.sha }}`
                 * **Built at:** ${{ env.CURRENT_TIME }}
+
+    # iOS targets can only be compiled on a macOS host (Xcode ships the Apple platform SDKs the
+    # Kotlin/Native compiler needs), so this runs on a separate macos runner rather than as part
+    # of the `build` job above.
+    build-ios:
+        runs-on: macos-14
+
+        steps:
+          - uses: actions/checkout@v4
+
+          - name: set up JDK 17
+            uses: actions/setup-java@v4
+            with:
+              java-version: '17'
+              distribution: 'zulu'
+              cache: 'gradle'
+
+          - name: Build iOS app for the simulator
+            shell: bash
+            working-directory: iosApp
+            run: |
+              xcodebuild -project iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator \
+                -destination 'generic/platform=iOS Simulator' build
