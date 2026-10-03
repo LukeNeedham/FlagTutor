@@ -24,7 +24,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.ui.component.AppLogo
@@ -77,8 +76,8 @@ fun HomePageContent(
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = MaterialTheme.shapes.large,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black,
+                    containerColor = MaterialTheme.colorScheme.onBackground,
+                    contentColor = MaterialTheme.colorScheme.background,
                 ),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             ) {
@@ -93,7 +92,7 @@ fun HomePageContent(
                     .fillMaxWidth()
                     .height(48.dp),
                 shape = MaterialTheme.shapes.large,
-                colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
             ) {
                 Icon(imageVector = Icons.Filled.Settings, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -106,7 +105,7 @@ fun HomePageContent(
                     .fillMaxWidth()
                     .height(48.dp),
                 shape = MaterialTheme.shapes.large,
-                colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
             ) {
                 Icon(imageVector = Icons.Filled.Info, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -120,7 +119,7 @@ fun HomePageContent(
                         .fillMaxWidth()
                         .height(48.dp),
                     shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
                 ) {
                     Icon(imageVector = Icons.Filled.Build, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))

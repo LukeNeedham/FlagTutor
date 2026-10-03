@@ -337,8 +337,8 @@ fun PickCountryNameGamePageContent(
                             onClick = onNextFlag,
                             shape = MaterialTheme.shapes.large,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.White,
-                                contentColor = Color.Black,
+                                containerColor = MaterialTheme.colorScheme.onBackground,
+                                contentColor = MaterialTheme.colorScheme.background,
                             ),
                             contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
                             modifier = Modifier
