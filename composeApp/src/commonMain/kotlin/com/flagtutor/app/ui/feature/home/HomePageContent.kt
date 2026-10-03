@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -34,6 +35,7 @@ fun HomePageContent(
     subtitle: String,
     onGuessCountryClick: () -> Unit,
     onCreditsClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     onDebugClick: (() -> Unit)? = null,
 ) {
     Surface(
@@ -83,6 +85,19 @@ fun HomePageContent(
                 Icon(imageVector = Icons.Filled.Public, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "Guess Country", style = MaterialTheme.typography.titleMedium)
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            TextButton(
+                onClick = onSettingsClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = MaterialTheme.shapes.large,
+                colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+            ) {
+                Icon(imageVector = Icons.Filled.Settings, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "Settings", style = MaterialTheme.typography.titleMedium)
             }
             Spacer(modifier = Modifier.height(12.dp))
             TextButton(

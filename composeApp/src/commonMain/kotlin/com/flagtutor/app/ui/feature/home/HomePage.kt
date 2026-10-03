@@ -7,6 +7,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun HomePage(
     onNavigateToPickCountryNameGame: () -> Unit,
     onNavigateToCredits: () -> Unit,
+    onNavigateToSettings: () -> Unit,
     onNavigateToDebug: (() -> Unit)? = null,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
@@ -15,6 +16,7 @@ fun HomePage(
         subtitle = viewModel.subtitle,
         onGuessCountryClick = onNavigateToPickCountryNameGame,
         onCreditsClick = onNavigateToCredits,
+        onSettingsClick = onNavigateToSettings,
         onDebugClick = onNavigateToDebug,
     )
 }
