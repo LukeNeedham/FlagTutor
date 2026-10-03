@@ -45,11 +45,13 @@ jobs:
 
           - name: Deploy PR preview
             uses: rossjrw/pr-preview-action@v1
+            # The action stamps its comment with the runner's `date`, which follows TZ.
+            env:
+              TZ: Europe/Amsterdam
             with:
               source-dir: ./composeApp/build/dist/wasmJs/productionExecutable
               preview-branch: gh-pages
               umbrella-dir: .
-              timezone: Europe/Amsterdam
               action: auto
 
           # GitHub Pages can't serve app routes like /pr-37/play directly. A 404.html at the site
