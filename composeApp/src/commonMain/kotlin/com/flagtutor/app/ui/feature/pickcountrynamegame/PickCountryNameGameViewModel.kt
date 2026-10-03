@@ -39,6 +39,11 @@ class PickCountryNameGameViewModel(
         loadCountries()
     }
 
+    override fun onCleared() {
+        // The user has left the game: get the next game's first two flags ready straight away.
+        gamePreloader.prepareNext()
+    }
+
     fun loadCountries() {
         uiState = PickCountryNameGameUiState.Loading
         upcoming = null

@@ -25,6 +25,12 @@ class GamePreloader(
     /** Begins preloading if it hasn't started yet. */
     fun start() {
         if (initial != null) return
+        prepareNext()
+    }
+
+    /** Discards any earlier preparation and starts loading two new countries for the next game. */
+    fun prepareNext() {
+        initial?.cancel()
         initial = scope.async {
             try {
                 val picks = countryRepository.getCountries().shuffled().take(INITIAL_COUNT)
