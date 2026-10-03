@@ -1,5 +1,6 @@
 package com.flagtutor.app.data.repository
 
+import com.flagtutor.app.data.local.IdenticalFlagDataSource
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -16,6 +17,7 @@ import kotlinx.coroutines.async
  */
 class GamePreloader(
     private val countryRepository: CountryRepository,
+    private val identicalFlagDataSource: IdenticalFlagDataSource,
     private val flagImageRepository: FlagImageRepository,
 ) {
 
@@ -33,6 +35,8 @@ class GamePreloader(
         initial?.cancel()
         initial = scope.async {
             try {
+                // Cached by the data sources, so the game itself doesn't fetch them on first start.
+                identicalFlagDataSource.getIdenticalFlags()
                 val picks = countryRepository.getCountries().shuffled().take(INITIAL_COUNT)
                 picks.forEach { flagImageRepository.preload(it.alpha2Code) }
                 picks
