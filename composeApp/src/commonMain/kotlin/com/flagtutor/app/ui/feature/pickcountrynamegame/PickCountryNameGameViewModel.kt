@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flagtutor.app.data.repository.CountryRepository
+import com.flagtutor.app.data.repository.FlagImageRepository
 import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
@@ -16,9 +17,14 @@ private const val OPTIONS_COUNT = 4
 class PickCountryNameGameViewModel(
     private val countryRepository: CountryRepository,
     private val flagAttemptRepository: FlagAttemptRepository,
+    private val flagImageRepository: FlagImageRepository,
 ) : ViewModel() {
 
     private var countries: List<Country> = emptyList()
+
+    // Chosen one flag ahead so its images can load while the current flag is being guessed.
+    private var upcoming: Country? = null
+    private var isLoadingNext = false
 
     var uiState by mutableStateOf<PickCountryNameGameUiState>(PickCountryNameGameUiState.Loading)
         private set
@@ -29,10 +35,11 @@ class PickCountryNameGameViewModel(
 
     fun loadCountries() {
         uiState = PickCountryNameGameUiState.Loading
+        upcoming = null
         viewModelScope.launch {
             try {
                 countries = countryRepository.getCountries()
-                showRandomFlag()
+                showNextFlag(previous = null)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -43,8 +50,19 @@ class PickCountryNameGameViewModel(
 
     fun onNextFlag() {
         val state = uiState as? PickCountryNameGameUiState.Success ?: return
-        if (!state.isAnswerRevealed) return
-        showRandomFlag(previous = state.flag)
+        if (!state.isAnswerRevealed || isLoadingNext) return
+        isLoadingNext = true
+        viewModelScope.launch {
+            try {
+                showNextFlag(previous = state.flag)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                uiState = PickCountryNameGameUiState.Error
+            } finally {
+                isLoadingNext = false
+            }
+        }
     }
 
     fun onOptionSelected(country: Country) {
@@ -65,17 +83,33 @@ class PickCountryNameGameViewModel(
         }
     }
 
-    private fun showRandomFlag(previous: Country? = null) {
-        var next = countries.random()
-        while (next.alpha2Code == previous?.alpha2Code) {
-            next = countries.random()
-        }
+    private suspend fun showNextFlag(previous: Country?) {
+        val next = upcoming ?: randomCountry(excluding = previous)
+        val after = randomCountry(excluding = next)
+        upcoming = after
+
+        // Kick both off together so the following flag loads while this one is awaited.
+        flagImageRepository.preload(next.alpha2Code)
+        flagImageRepository.preload(after.alpha2Code)
+        val assets = flagImageRepository.load(next.alpha2Code)
+
         uiState = PickCountryNameGameUiState.Success(
             flag = next,
+            flagImage = assets.flag,
+            mapImage = assets.map,
+            colors = assets.colors,
             options = generateOptions(next),
             incorrectAlpha2Codes = emptySet(),
             isAnswerRevealed = false,
         )
+    }
+
+    private fun randomCountry(excluding: Country?): Country {
+        var candidate = countries.random()
+        while (countries.size > 1 && candidate.alpha2Code == excluding?.alpha2Code) {
+            candidate = countries.random()
+        }
+        return candidate
     }
 
     private fun generateOptions(correct: Country): List<Country> {

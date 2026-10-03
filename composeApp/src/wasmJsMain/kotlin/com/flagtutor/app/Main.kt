@@ -9,7 +9,10 @@ import com.flagtutor.app.ui.navigation.NavGraph
 fun main() {
     ComposeViewport {
         App(extraModules = listOf(webModule())) {
-            NavGraph()
+            NavGraph(
+                initialScreens = BrowserRoutes.initialScreens(),
+                navigatorHook = { navigator -> BrowserNavigationSync(navigator) },
+            )
         }
     }
 }

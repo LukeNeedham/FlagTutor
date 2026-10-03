@@ -104,6 +104,12 @@ As screens are added, give each one:
 - Room has no web support, so the persistence code (`data/stats` entity/DAO/database) lives in
   `roomMain`, an intermediate source set that `androidMain` and `iosMain` depend on (web does not). Web uses
   `LocalStorageFlagAttemptRepository` instead. Anything using Room must go in `roomMain`.
+- Browser URLs follow in-app navigation (`/`, `/play`, `/credits`; see `BrowserRoutes`,
+  `BrowserNavigationSync`), so the back button works. GitHub Pages can't serve those paths, so
+  `.github/pages/404.html` (published to the `gh-pages` root by the preview workflow) redirects them
+  to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes`.
+- Game images are loaded ahead of time by `FlagImageRepository` (current + next country), so the
+  game screen never shows a spinner between flags.
 - `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` serves it locally;
   `./gradlew :composeApp:wasmJsBrowserDistribution` produces the static site in
   `composeApp/build/dist/wasmJs/productionExecutable`.

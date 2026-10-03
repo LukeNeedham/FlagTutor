@@ -45,3 +45,24 @@ jobs:
               preview-branch: gh-pages
               umbrella-dir: .
               action: auto
+
+          # GitHub Pages can't serve app routes like /pr-37/play directly. A 404.html at the site
+          # root redirects them to the app's index.html, which then routes on the URL.
+          - name: Publish SPA fallback page
+            if: github.event.action != 'closed'
+            shell: bash
+            run: |
+              git clone --quiet --branch gh-pages --depth 1 \
+                "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "$RUNNER_TEMP/gh-pages"
+              cd "$RUNNER_TEMP/gh-pages"
+              cp "$GITHUB_WORKSPACE/.github/pages/404.html" 404.html
+              if [ -n "$(git status --porcelain 404.html)" ]; then
+                git config user.name "github-actions[bot]"
+                git config user.email "github-actions[bot]@users.noreply.github.com"
+                git add 404.html
+                git commit --quiet -m "Update SPA fallback 404.html"
+                for attempt in 1 2 3; do
+                  git push --quiet origin gh-pages && break
+                  git pull --quiet --rebase origin gh-pages
+                done
+              fi

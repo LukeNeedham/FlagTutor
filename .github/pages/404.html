@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlagTutor</title>
+    <script>
+        // Served by GitHub Pages for any unknown path, e.g. /FlagTutor/pr-37/play. The site is a
+        // single-page app, so redirect to the app's index with the route in the query string; its
+        // index.html turns that back into the real URL. The app lives under /<repo>/, or under
+        // /<repo>/pr-<n>/ for PR previews.
+        (function (l) {
+            var segments = l.pathname.split('/');
+            var previewIndex = segments.findIndex(function (s) { return /^pr-\d+$/.test(s); });
+            var keep = previewIndex >= 0 ? previewIndex + 1 : 2;
+            var base = segments.slice(0, keep).join('/');
+            var route = segments.slice(keep).join('/');
+            var query = l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '';
+            l.replace(base + '/?/' + route + query + l.hash);
+        }(window.location));
+    </script>
+</head>
+<body></body>
+</html>

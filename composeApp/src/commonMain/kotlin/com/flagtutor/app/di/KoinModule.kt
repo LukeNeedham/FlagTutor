@@ -3,6 +3,7 @@ package com.flagtutor.app.di
 import com.flagtutor.app.data.local.FlagColorDataSource
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.data.repository.CountryRepository
+import com.flagtutor.app.data.repository.FlagImageRepository
 import com.flagtutor.app.ui.feature.crashes.CrashesViewModel
 import com.flagtutor.app.ui.feature.debug.CountriesOverviewViewModel
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsViewModel
@@ -16,6 +17,7 @@ val appModule = module {
     singleOf(::FlagColorDataSource)
     singleOf(::WikipediaLinkDataSource)
     singleOf(::CountryRepository)
+    singleOf(::FlagImageRepository)
     viewModelOf(::HomeViewModel)
     viewModelOf(::CountriesOverviewViewModel)
     viewModelOf(::CrashesViewModel)
