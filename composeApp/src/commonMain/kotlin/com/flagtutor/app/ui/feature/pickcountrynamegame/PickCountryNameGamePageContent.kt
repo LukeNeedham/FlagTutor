@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -42,35 +43,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
-import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
+import com.flagtutor.app.ui.component.BoundedCountryMap
 import com.flagtutor.app.ui.util.ExtractedColor
-import com.flagtutor.app.ui.util.decodeImageBitmap
-import com.flagtutor.app.ui.util.extractColorsFromImage
-import flagtutor.composeapp.generated.resources.Res
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-
-private data class FlagData(val bitmap: ImageBitmap, val colors: List<ExtractedColor>)
 
 // Next button occupies 24dp top padding + 64dp height + 24dp bottom padding; leave at least 30dp above that.
 private val NextButtonReservedHeight = 142.dp
+
+// IconButton's default size.
+private val InfoButtonSize = 48.dp
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -158,18 +149,6 @@ fun PickCountryNameGamePageContent(
                             label = "flag-transition",
                             modifier = Modifier.fillMaxWidth().weight(1f),
                         ) { state ->
-                            var flagData by remember { mutableStateOf<FlagData?>(null) }
-
-                            LaunchedEffect(state.flag.alpha2Code) {
-                                flagData = withContext(Dispatchers.Default) {
-                                    val bytes = Res.readBytes("files/flags/${state.flag.alpha2Code}.png")
-                                    FlagData(
-                                        bitmap = decodeImageBitmap(bytes),
-                                        colors = extractColorsFromImage(bytes, 4),
-                                    )
-                                }
-                            }
-
                             BoxWithConstraints(
                                 modifier = Modifier
                                     .fillMaxSize()
@@ -183,26 +162,17 @@ fun PickCountryNameGamePageContent(
                                     modifier = Modifier.fillMaxSize(),
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
-                                    flagData?.bitmap?.let { bmp ->
-                                        val bitmapAspectRatio = bmp.width.toFloat() / bmp.height.toFloat()
-                                        val flagWidth = minOf(flagMaxWidth, flagMaxHeight * bitmapAspectRatio)
-                                        Image(
-                                            bitmap = bmp,
-                                            contentDescription = null,
-                                            contentScale = ContentScale.Fit,
-                                            modifier = Modifier
-                                                .width(flagWidth)
-                                                .aspectRatio(bitmapAspectRatio),
-                                        )
-                                    } ?: run {
-                                        val placeholderAspectRatio = 3f / 2f
-                                        val placeholderWidth = minOf(flagMaxWidth, flagMaxHeight * placeholderAspectRatio)
-                                        Spacer(
-                                            modifier = Modifier
-                                                .width(placeholderWidth)
-                                                .aspectRatio(placeholderAspectRatio),
-                                        )
-                                    }
+                                    val bmp = state.flagImage
+                                    val bitmapAspectRatio = bmp.width.toFloat() / bmp.height.toFloat()
+                                    val flagWidth = minOf(flagMaxWidth, flagMaxHeight * bitmapAspectRatio)
+                                    Image(
+                                        bitmap = bmp,
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Fit,
+                                        modifier = Modifier
+                                            .width(flagWidth)
+                                            .aspectRatio(bitmapAspectRatio),
+                                    )
                                     val revealTransition = updateTransition(
                                         targetState = state.isAnswerRevealed,
                                         label = "reveal-transition",
@@ -235,24 +205,29 @@ fun PickCountryNameGamePageContent(
                                                     modifier = Modifier.fillMaxSize(),
                                                 ) {
                                                     Spacer(modifier = Modifier.height(30.dp))
+                                                    // The icon (and an equal spacer opposite, keeping the name centred)
+                                                    // keep their full size; a long name wraps onto more lines instead.
                                                     Row(
                                                         verticalAlignment = Alignment.CenterVertically,
+                                                        horizontalArrangement = Arrangement.Center,
                                                         modifier = Modifier.fillMaxWidth(),
                                                     ) {
-                                                        Spacer(modifier = Modifier.weight(1f))
+                                                        Spacer(modifier = Modifier.size(InfoButtonSize))
                                                         Text(
                                                             text = state.flag.name,
                                                             style = MaterialTheme.typography.headlineLarge,
                                                             color = MaterialTheme.colorScheme.onBackground,
                                                             textAlign = TextAlign.Center,
-                                                            modifier = Modifier.clickable(
-                                                                enabled = state.flag.wikipediaUrl.isNotEmpty(),
-                                                                onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                            ),
+                                                            modifier = Modifier
+                                                                .weight(1f, fill = false)
+                                                                .clickable(
+                                                                    enabled = state.flag.wikipediaUrl.isNotEmpty(),
+                                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                                ),
                                                         )
                                                         Box(
-                                                            modifier = Modifier.weight(1f),
-                                                            contentAlignment = Alignment.CenterStart,
+                                                            modifier = Modifier.size(InfoButtonSize),
+                                                            contentAlignment = Alignment.Center,
                                                         ) {
                                                             if (state.flag.wikipediaUrl.isNotEmpty()) {
                                                                 IconButton(
@@ -268,18 +243,13 @@ fun PickCountryNameGamePageContent(
                                                         }
                                                     }
                                                     Spacer(modifier = Modifier.height(12.dp))
-                                                    Box(
+                                                    BoundedCountryMap(
+                                                        bitmap = state.mapImage,
                                                         modifier = Modifier
                                                             .weight(1f)
                                                             .fillMaxWidth(),
-                                                        contentAlignment = Alignment.TopCenter,
-                                                    ) {
-                                                        CountryMapHighlight(
-                                                            alpha2Code = state.flag.alpha2Code,
-                                                            modifier = Modifier.fillMaxWidth(0.85f),
-                                                            onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
-                                                        )
-                                                    }
+                                                        onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
+                                                    )
                                                     Spacer(modifier = Modifier.height(NextButtonReservedHeight))
                                                 }
                                             } else {
@@ -297,15 +267,7 @@ fun PickCountryNameGamePageContent(
                                                                 .fillMaxWidth(),
                                                             verticalArrangement = Arrangement.spacedBy(12.dp),
                                                         ) {
-                                                            val loadedFlagData = flagData
-                                                            if (loadedFlagData == null) {
-                                                                Box(
-                                                                    modifier = Modifier.fillMaxSize(),
-                                                                    contentAlignment = Alignment.Center,
-                                                                ) {
-                                                                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-                                                                }
-                                                            } else {
+                                                            run {
                                                                 val cornerRadius = 24.dp
                                                                 val gridShapes = arrayOf(
                                                                     arrayOf(
@@ -317,7 +279,7 @@ fun PickCountryNameGamePageContent(
                                                                         RoundedCornerShape(bottomEnd = cornerRadius),
                                                                     ),
                                                                 )
-                                                                val buttonColors = loadedFlagData.colors
+                                                                val buttonColors = state.colors
                                                                 val colorOrder = checkerboardColorOrder(buttonColors)
                                                                 state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
                                                                     Row(

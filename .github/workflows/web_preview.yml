@@ -1,0 +1,73 @@
+name: Web Preview
+
+# Builds the Compose web (Wasm) app and publishes it to GitHub Pages under /pr-<number>/ so each
+# PR can be tested in a browser. Previews are served from the `gh-pages` branch.
+on:
+    workflow_dispatch: {}
+    pull_request:
+        types: [opened, reopened, synchronize, closed]
+        branches:
+            - main
+
+permissions:
+    contents: write        # push to the gh-pages branch
+    pull-requests: write   # sticky preview comment
+
+concurrency:
+    group: web-preview-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    deploy-preview:
+        runs-on: ubuntu-latest
+
+        steps:
+          - uses: actions/checkout@v4
+
+          # No build is needed when the PR is closed - the action only removes the preview.
+          - name: set up JDK 17
+            if: github.event.action != 'closed'
+            uses: actions/setup-java@v4
+            with:
+              java-version: '17'
+              distribution: 'zulu'
+              cache: 'gradle'
+
+          - name: Build web distribution
+            if: github.event.action != 'closed'
+            shell: bash
+            run: ./gradlew :composeApp:wasmJsBrowserDistribution
+
+          # PR previews are debug builds (shows the debug menu); production is not.
+          - name: Mark build as debug
+            if: github.event.action != 'closed'
+            run: echo 'window.flagTutorDebug = true;' > composeApp/build/dist/wasmJs/productionExecutable/config.js
+
+          - name: Deploy PR preview
+            uses: rossjrw/pr-preview-action@v1
+            with:
+              source-dir: ./composeApp/build/dist/wasmJs/productionExecutable
+              preview-branch: gh-pages
+              umbrella-dir: .
+              action: auto
+
+          # GitHub Pages can't serve app routes like /pr-37/play directly. A 404.html at the site
+          # root redirects them to the app's index.html, which then routes on the URL.
+          - name: Publish SPA fallback page
+            if: github.event.action != 'closed'
+            shell: bash
+            run: |
+              git clone --quiet --branch gh-pages --depth 1 \
+                "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "$RUNNER_TEMP/gh-pages"
+              cd "$RUNNER_TEMP/gh-pages"
+              cp "$GITHUB_WORKSPACE/.github/pages/404.html" 404.html
+              if [ -n "$(git status --porcelain 404.html)" ]; then
+                git config user.name "github-actions[bot]"
+                git config user.email "github-actions[bot]@users.noreply.github.com"
+                git add 404.html
+                git commit --quiet -m "Update SPA fallback 404.html"
+                for attempt in 1 2 3; do
+                  git push --quiet origin gh-pages && break
+                  git pull --quiet --rebase origin gh-pages
+                done
+              fi

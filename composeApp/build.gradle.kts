@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -16,6 +17,20 @@ kotlin {
         }
     }
 
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        outputModuleName.set("composeApp")
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
+        binaries.executable()
+    }
+
+    // Explicit because the manual dependsOn edges below disable the implicit default template.
+    applyDefaultHierarchyTemplate()
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -33,6 +48,17 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.room.ktx)
         }
+        // Room has no web support, so the persistence code lives in this source set, shared only
+        // by Android and iOS; the web target supplies its own FlagAttemptRepository.
+        val roomMain by creating {
+            dependsOn(commonMain.get())
+            dependencies {
+                implementation(libs.room.runtime)
+                implementation(libs.sqlite.bundled)
+            }
+        }
+        androidMain.get().dependsOn(roomMain)
+        iosMain.get().dependsOn(roomMain)
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -47,8 +73,6 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.voyager.navigator)
-            implementation(libs.room.runtime)
-            implementation(libs.sqlite.bundled)
         }
     }
 }
@@ -144,4 +168,32 @@ tasks.register("downloadWikipediaMaps") {
             commandLine("python3", script.absolutePath)
         }
     }
+}
+
+// ─── Flag colour extraction ──────────────────────────────────────────────────
+
+// Dominant colours are computed once at build time and shipped as a compose resource, so no
+// platform needs its own image-decoding implementation.
+val generateFlagColors = tasks.register<GenerateFlagColorsTask>("generateFlagColors") {
+    description = "Extracts each flag's dominant colours into a compose resource."
+    group = "build"
+    flagsDir.set(layout.projectDirectory.dir("src/commonMain/composeResources/files/flags"))
+    outputDir.set(layout.buildDirectory.dir("generated/flagColors"))
+}
+
+// customDirectory replaces commonMain's default composeResources directory rather than adding to
+// it, so the generated file is merged with the checked-in resources into one directory.
+val mergedCommonResources = tasks.register<Sync>("mergeCommonResources") {
+    from(layout.projectDirectory.dir("src/commonMain/composeResources"))
+    from(generateFlagColors.flatMap { it.outputDir })
+    into(layout.buildDirectory.dir("generated/commonComposeResources"))
+}
+
+compose.resources {
+    customDirectory(
+        sourceSetName = "commonMain",
+        directoryProvider = mergedCommonResources.map { it.destinationDir }.let { provider ->
+            layout.dir(provider)
+        },
+    )
 }

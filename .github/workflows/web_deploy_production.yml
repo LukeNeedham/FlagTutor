@@ -1,0 +1,51 @@
+name: Web Production Deploy
+
+# Builds the web app and publishes it to the root of GitHub Pages (the `gh-pages` branch) on every
+# push to main, as a non-debug build. PR previews live under /pr-<number>/ on the same branch and
+# are left untouched.
+on:
+    workflow_dispatch: {}
+    push:
+        branches:
+            - main
+
+permissions:
+    contents: write
+
+concurrency:
+    group: web-production
+    cancel-in-progress: true
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+          - uses: actions/checkout@v4
+
+          - name: set up JDK 17
+            uses: actions/setup-java@v4
+            with:
+              java-version: '17'
+              distribution: 'zulu'
+              cache: 'gradle'
+
+          # config.js ships with flagTutorDebug = false, so this is a release-mode site.
+          - name: Build web distribution
+            run: ./gradlew :composeApp:wasmJsBrowserDistribution
+
+          - name: Add SPA fallback page
+            run: |
+              cp .github/pages/404.html composeApp/build/dist/wasmJs/productionExecutable/404.html
+              touch composeApp/build/dist/wasmJs/productionExecutable/.nojekyll
+
+          - name: Deploy to GitHub Pages
+            uses: JamesIves/github-pages-deploy-action@v4
+            with:
+              branch: gh-pages
+              folder: composeApp/build/dist/wasmJs/productionExecutable
+              clean: true
+              # Keep PR previews (and the preview workflow's own files) when replacing the site.
+              clean-exclude: |
+                pr-*
+                .nojekyll

@@ -22,7 +22,7 @@ learn the flags of the world.
 - **Build**: Gradle Kotlin DSL, dependency versions centralized in `gradle/libs.versions.toml` (version catalog)
 - **Min/Target/Compile SDK**: minSdk 24, targetSdk/compileSdk 35
 - **Versions**: Kotlin 2.1.0, AGP 8.7.3, Compose Multiplatform 1.7.3, Java 11 target
-- Targets Android and iOS, structured as a Kotlin Multiplatform project (`commonMain` /
+- Targets Android, iOS and web (Kotlin/Wasm), structured as a Kotlin Multiplatform project (`commonMain` /
   `androidMain` / `iosMain`). Building and running the iOS app requires a macOS host with Xcode
   installed (Kotlin/Native's iOS targets can only be compiled there).
 
@@ -98,6 +98,33 @@ As screens are added, give each one:
   - `Logger.warning(...)` — expected-but-notable error states
   - `Logger.error(...)` — unexpected errors / likely bugs
 
+### Web target
+
+- `wasmJsMain` holds the browser entry point (`Main.kt`), `webModule()` and the web `actual`s.
+- Room has no web support, so the persistence code (`data/stats` entity/DAO/database) lives in
+  `roomMain`, an intermediate source set that `androidMain` and `iosMain` depend on (web does not). Web uses
+  `LocalStorageFlagAttemptRepository` instead. Anything using Room must go in `roomMain`.
+- Browser URLs follow in-app navigation (`/`, `/play`, `/credits`; see `BrowserRoutes`,
+  `BrowserNavigationSync`), so the back button works. GitHub Pages can't serve those paths, so
+  `.github/pages/404.html` (published to the `gh-pages` root by the preview workflow) redirects them
+  to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes` (debug pages are at `/debug/...`, debug builds only).
+- `isDebugBuild` on web is read from `config.js` (`window.flagTutorDebug`), which is `false` in the
+  repo. PR previews overwrite it with `true`; the production deploy
+  (`.github/workflows/web_deploy_production.yml`, on every push to `main`, to the `gh-pages` root)
+  leaves it `false`. Previews live under `/pr-<n>/` and survive production deploys.
+- Game images are loaded ahead of time by `FlagImageRepository` (current + next country), so the
+  game screen never shows a spinner between flags.
+- `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` serves it locally;
+  `./gradlew :composeApp:wasmJsBrowserDistribution` produces the static site in
+  `composeApp/build/dist/wasmJs/productionExecutable`.
+
+### Flag colours
+
+- Each flag's dominant colours are extracted at build time by `buildSrc`'s
+  `GenerateFlagColorsTask` (`./gradlew :composeApp:generateFlagColors`) into
+  `files/flag_colors.json`, registered as a compose resource directory. At runtime
+  `FlagColorDataSource` just reads that file, so there is no per-platform image analysis.
+
 ## Build, run & test
 
 ```bash
@@ -130,7 +157,8 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
   1. Builds `assembleDebug`.
   2. Creates a draft GitHub Release tagged with the branch/run info and uploads the debug APK as an asset.
   3. Posts/updates a sticky PR comment with a direct download link to the APK.
-  4. On a separate `macos-14` runner, builds the iOS app for the simulator via `xcodebuild`.
+  4. The `macos-14` iOS simulator build (`build-ios`) is skipped on PRs; it only runs when the
+     workflow is dispatched manually.
 
 ## General conventions for changes
 
@@ -140,3 +168,7 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
   where possible.
 - Add new dependencies to `gradle/libs.versions.toml` rather than hardcoding versions in
   `build.gradle.kts` files.
+- `.github/workflows/web_preview.yml` builds the web app on each PR and deploys it to GitHub Pages
+  at `https://<owner>.github.io/<repo>/pr-<number>/` (via the `gh-pages` branch), with a sticky PR
+  comment linking to it. The preview is removed when the PR closes. One-time setup: in repo
+  Settings → Pages, set the source to "Deploy from a branch" → `gh-pages` / root.
