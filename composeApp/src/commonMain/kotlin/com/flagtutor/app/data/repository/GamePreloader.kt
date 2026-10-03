@@ -1,5 +1,6 @@
 package com.flagtutor.app.data.repository
 
+import com.flagtutor.app.data.local.FlagColorDataSource
 import com.flagtutor.app.data.local.IdenticalFlagDataSource
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
@@ -8,6 +9,8 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * Loads the game data and the images for the first two flags as soon as the app starts, so the
@@ -18,6 +21,7 @@ import kotlinx.coroutines.async
 class GamePreloader(
     private val countryRepository: CountryRepository,
     private val identicalFlagDataSource: IdenticalFlagDataSource,
+    private val flagColorDataSource: FlagColorDataSource,
     private val flagImageRepository: FlagImageRepository,
 ) {
 
@@ -35,11 +39,15 @@ class GamePreloader(
         initial?.cancel()
         initial = scope.async {
             try {
-                // Cached by the data sources, so the game itself doesn't fetch them on first start.
-                identicalFlagDataSource.getIdenticalFlags()
-                val picks = countryRepository.getCountries().shuffled().take(INITIAL_COUNT)
-                picks.forEach { flagImageRepository.preload(it.alpha2Code) }
-                picks
+                // The data files are cached by their data sources, so the game itself doesn't fetch
+                // them on first start. Fetched alongside the country list rather than one by one.
+                coroutineScope {
+                    launch { identicalFlagDataSource.getIdenticalFlags() }
+                    launch { flagColorDataSource.getColors("") }
+                    val picks = countryRepository.getCountries().shuffled().take(INITIAL_COUNT)
+                    picks.forEach { flagImageRepository.preload(it.alpha2Code) }
+                    picks
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (_: Exception) {

@@ -11,6 +11,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 // Enough to hold the current and upcoming country with room to spare, without keeping every
@@ -59,19 +60,19 @@ class FlagImageRepository(private val flagColorDataSource: FlagColorDataSource) 
     }
 
     @OptIn(ExperimentalResourceApi::class)
-    private suspend fun loadAssets(alpha2Code: String): FlagAssets {
-        val flag = decodeImageBitmap(Res.readBytes("files/flags/$alpha2Code.png"))
-        val map = try {
-            decodeImageBitmap(Res.readBytes("files/maps/${alpha2Code.lowercase()}.png"))
-        } catch (e: CancellationException) {
-            throw e
-        } catch (_: Exception) {
-            null
+    private suspend fun loadAssets(alpha2Code: String): FlagAssets = coroutineScope {
+        // Each is a separate fetch (on web, a network request), so run them side by side.
+        val flag = async { decodeImageBitmap(Res.readBytes("files/flags/$alpha2Code.png")) }
+        val map = async {
+            try {
+                decodeImageBitmap(Res.readBytes("files/maps/${alpha2Code.lowercase()}.png"))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
+                null
+            }
         }
-        return FlagAssets(
-            flag = flag,
-            map = map,
-            colors = flagColorDataSource.getColors(alpha2Code),
-        )
+        val colors = async { flagColorDataSource.getColors(alpha2Code) }
+        FlagAssets(flag = flag.await(), map = map.await(), colors = colors.await())
     }
 }
