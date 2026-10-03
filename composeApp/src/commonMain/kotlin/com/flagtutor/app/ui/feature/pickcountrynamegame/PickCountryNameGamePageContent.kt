@@ -14,6 +14,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -332,7 +333,9 @@ fun PickCountryNameGamePageContent(
                     }
 
                     // Slides with the rest of the screen, never fading. The padding lives inside the
-                    // content so the slide distance covers it and the button is fully off screen.
+                    // content so the slide distance covers it and the button is fully off screen. The
+                    // background is opaque from the button's top edge down, so the outgoing option buttons
+                    // slide under it instead of showing through the gaps around the button.
                     androidx.compose.animation.AnimatedVisibility(
                         visible = uiState.isAnswerRevealed,
                         enter = slideInVertically(
@@ -345,7 +348,12 @@ fun PickCountryNameGamePageContent(
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth(),
                     ) {
-                        Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(AppTheme.colors.background)
+                                .padding(start = 24.dp, end = 24.dp, bottom = 24.dp),
+                        ) {
                             Button(
                                 onClick = onNextFlag,
                                 shape = AppTheme.shapes.large,
