@@ -2,7 +2,7 @@ package com.flagtutor.app.data.repository
 
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.domain.model.Country
-import flagtutor.composeapp.generated.resources.Res
+import vexed.composeapp.generated.resources.Res
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive

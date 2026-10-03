@@ -2,7 +2,7 @@ package com.flagtutor.app.data.local
 
 import androidx.compose.ui.graphics.Color
 import com.flagtutor.app.ui.util.ExtractedColor
-import flagtutor.composeapp.generated.resources.Res
+import vexed.composeapp.generated.resources.Res
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
