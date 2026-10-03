@@ -64,6 +64,11 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 // Next button occupies 24dp top padding + 64dp height + 24dp bottom padding; leave at least 30dp above that.
 private val NextButtonReservedHeight = 142.dp
 
+// Horizontal inset shared by the option buttons and the Next button, so the two are the same width.
+private val ContentHorizontalPadding = 24.dp
+
+private val NextButtonHeight = 64.dp
+
 // IconButton's default size.
 private val InfoButtonSize = 48.dp
 
@@ -157,7 +162,7 @@ fun PickCountryNameGamePageContent(
                             BoxWithConstraints(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(horizontal = 24.dp),
+                                    .padding(horizontal = ContentHorizontalPadding),
                             ) {
                                 val buttonsPanelHeight = maxHeight * 0.7f
                                 val flagMaxWidth = maxWidth * 0.85f
@@ -333,9 +338,9 @@ fun PickCountryNameGamePageContent(
                     }
 
                     // Slides with the rest of the screen, never fading. The padding lives inside the
-                    // content so the slide distance covers it and the button is fully off screen. The
-                    // background is opaque from the button's top edge down, so the outgoing option buttons
-                    // slide under it instead of showing through the gaps around the button.
+                    // content so the slide distance covers it and the button is fully off screen. Behind the
+                    // button is an opaque background starting halfway down it (below its rounded corners), so
+                    // the outgoing option buttons slide behind the button's shape.
                     androidx.compose.animation.AnimatedVisibility(
                         visible = uiState.isAnswerRevealed,
                         enter = slideInVertically(
@@ -348,33 +353,42 @@ fun PickCountryNameGamePageContent(
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth(),
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(AppTheme.colors.background)
-                                .padding(start = 24.dp, end = 24.dp, bottom = 24.dp),
-                        ) {
-                            Button(
-                                onClick = onNextFlag,
-                                shape = AppTheme.shapes.large,
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = AppTheme.colors.onBackground,
-                                    contentColor = AppTheme.colors.background,
-                                ),
-                                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            Box(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(64.dp),
+                                    .matchParentSize()
+                                    .padding(top = NextButtonHeight / 2)
+                                    .background(AppTheme.colors.background),
+                            )
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = ContentHorizontalPadding,
+                                    end = ContentHorizontalPadding,
+                                    bottom = 24.dp,
+                                ),
                             ) {
-                                Text(
-                                    text = "Next",
-                                    style = AppTheme.typography.titleMedium,
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                    contentDescription = null,
-                                )
+                                Button(
+                                    onClick = onNextFlag,
+                                    shape = AppTheme.shapes.large,
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = AppTheme.colors.onBackground,
+                                        contentColor = AppTheme.colors.background,
+                                    ),
+                                    contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(NextButtonHeight),
+                                ) {
+                                    Text(
+                                        text = "Next",
+                                        style = AppTheme.typography.titleMedium,
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                        contentDescription = null,
+                                    )
+                                }
                             }
                         }
                     }
