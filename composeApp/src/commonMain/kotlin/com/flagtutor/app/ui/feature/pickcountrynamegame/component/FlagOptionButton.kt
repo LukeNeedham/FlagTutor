@@ -53,13 +53,12 @@ fun FlagOptionButton(
         containerColor != null -> contentColor ?: AppTheme.colors.onPrimary
         else -> AppTheme.colors.onOption
     }
-    // The button is disabled once the answer is revealed, but it must keep its colours (it animates
-    // out straight away). Only a crumbled (wrong) option takes on the default disabled look.
+    // The button is disabled once answered or crumbled, but it must keep its colours as it animates out.
     val colors = ButtonDefaults.buttonColors(
         containerColor = activeContainerColor,
         contentColor = activeContentColor,
-        disabledContainerColor = if (isCrumbled) Color.Unspecified else activeContainerColor,
-        disabledContentColor = if (isCrumbled) Color.Unspecified else activeContentColor,
+        disabledContainerColor = activeContainerColor,
+        disabledContentColor = activeContentColor,
     )
 
     val backgroundColor = AppTheme.colors.background
@@ -83,17 +82,14 @@ fun FlagOptionButton(
         }
 
         if (isCrumbled) {
-            val pieceContainerColor = AppTheme.colors.text.copy(alpha = 0.12f)
-            val pieceContentColor = AppTheme.colors.text.copy(alpha = 0.38f)
-
             CrumblePieces(
                 state = crumbleState,
                 shape = shape,
                 modifier = Modifier.matchParentSize(),
             ) {
                 Surface(
-                    color = pieceContainerColor,
-                    contentColor = pieceContentColor,
+                    color = activeContainerColor,
+                    contentColor = activeContentColor,
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
