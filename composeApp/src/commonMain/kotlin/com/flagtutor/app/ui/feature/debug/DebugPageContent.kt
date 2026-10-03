@@ -91,7 +91,7 @@ fun DebugPageContent(
             OutlinedButton(
                 onClick = onSettingsClick,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = MaterialTheme.shapes.large,
+                shape = AppTheme.shapes.large,
             ) {
                 Icon(imageVector = Icons.Filled.Settings, contentDescription = null)
                 Spacer(modifier = Modifier.padding(horizontal = 8.dp))
