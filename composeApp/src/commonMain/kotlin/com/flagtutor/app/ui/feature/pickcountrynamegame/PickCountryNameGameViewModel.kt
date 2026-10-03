@@ -12,7 +12,6 @@ import com.flagtutor.app.data.repository.GamePreloader
 import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.domain.model.Country
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 private const val OPTIONS_COUNT = 4
@@ -40,35 +39,15 @@ class PickCountryNameGameViewModel(
         loadCountries()
     }
 
-    private var loadJob: Job? = null
-    private var nextFlagJob: Job? = null
-    private var needsReload = false
-
-    /** Starts a fresh game if the previous one was left. */
-    fun onPageShown() {
-        if (!needsReload) return
-        needsReload = false
-        loadCountries()
-    }
-
-    /** Discards the game state and gets the next game's first two flags ready straight away. */
-    fun onPageLeft() {
-        loadJob?.cancel()
-        nextFlagJob?.cancel()
-        isLoadingNext = false
-        upcoming = null
-        queuedAfter = null
-        uiState = PickCountryNameGameUiState.Loading
-        needsReload = true
+    override fun onCleared() {
+        // The user has left the game: get the next game's first two flags ready straight away.
         gamePreloader.prepareNext()
     }
 
     fun loadCountries() {
         uiState = PickCountryNameGameUiState.Loading
         upcoming = null
-        queuedAfter = null
-        loadJob?.cancel()
-        loadJob = viewModelScope.launch {
+        viewModelScope.launch {
             try {
                 countries = countryRepository.getCountries()
                 identicalFlags = identicalFlagDataSource.getIdenticalFlags()
@@ -90,7 +69,7 @@ class PickCountryNameGameViewModel(
         val state = uiState as? PickCountryNameGameUiState.Success ?: return
         if (!state.isAnswerRevealed || isLoadingNext) return
         isLoadingNext = true
-        nextFlagJob = viewModelScope.launch {
+        viewModelScope.launch {
             try {
                 showNextFlag(previous = state.flag)
             } catch (e: CancellationException) {

@@ -74,6 +74,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.voyager.navigator)
+            implementation(libs.voyager.lifecycle.kmp)
         }
     }
 }
