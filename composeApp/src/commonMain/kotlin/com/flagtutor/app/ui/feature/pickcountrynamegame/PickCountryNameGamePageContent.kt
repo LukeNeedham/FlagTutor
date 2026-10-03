@@ -2,10 +2,10 @@ package com.flagtutor.app.ui.feature.pickcountrynamegame
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
@@ -46,6 +46,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -146,7 +148,7 @@ fun PickCountryNameGamePageContent(
                                     slideOutHorizontally(
                                         animationSpec = tween(durationMillis = 300.scaledBy(animationSpeed)),
                                     ) { fullWidth -> -fullWidth },
-                                )
+                                ).using(SizeTransform(clip = false))
                             },
                             label = "flag-transition",
                             modifier = Modifier.fillMaxWidth().weight(1f),
@@ -182,7 +184,15 @@ fun PickCountryNameGamePageContent(
                                     Box(
                                         modifier = Modifier
                                             .weight(1f)
-                                            .fillMaxWidth(),
+                                            .fillMaxWidth()
+                                            // Clip the top and sides, so the incoming info panel appears from the
+                                            // container's edge, but not the bottom, so the exiting option buttons
+                                            // slide all the way off screen.
+                                            .drawWithContent {
+                                                clipRect(right = size.width, bottom = size.height * 3) {
+                                                    this@drawWithContent.drawContent()
+                                                }
+                                            },
                                     ) {
                                         revealTransition.AnimatedContent(
                                             contentAlignment = Alignment.TopCenter,
@@ -196,8 +206,8 @@ fun PickCountryNameGamePageContent(
                                                     slideOutOfContainer(
                                                         towards = SlideDirection.Down,
                                                         animationSpec = tween(400.scaledBy(animationSpeed)),
-                                                    ) + fadeOut(tween(400.scaledBy(animationSpeed))),
-                                                )
+                                                    ),
+                                                ).using(SizeTransform(clip = false))
                                             },
                                             modifier = Modifier.fillMaxSize(),
                                         ) { revealed ->
@@ -321,40 +331,43 @@ fun PickCountryNameGamePageContent(
                         }
                     }
 
+                    // Slides with the rest of the screen, never fading. The padding lives inside the
+                    // content so the slide distance covers it and the button is fully off screen.
                     androidx.compose.animation.AnimatedVisibility(
                         visible = uiState.isAnswerRevealed,
-                        enter = fadeIn(animationSpec = tween(400.scaledBy(animationSpeed))) +
-                            slideInVertically(animationSpec = tween(400.scaledBy(animationSpeed))) { fullHeight -> fullHeight },
-                        exit = fadeOut(animationSpec = tween(durationMillis = 90.scaledBy(animationSpeed))) +
-                            slideOutHorizontally(
-                                animationSpec = tween(durationMillis = 90.scaledBy(animationSpeed)),
-                            ) { width -> -width / 3 },
+                        enter = slideInVertically(
+                            animationSpec = tween(400.scaledBy(animationSpeed)),
+                        ) { fullHeight -> fullHeight },
+                        exit = slideOutHorizontally(
+                            animationSpec = tween(300.scaledBy(animationSpeed)),
+                        ) { fullWidth -> -fullWidth },
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 24.dp),
+                            .fillMaxWidth(),
                     ) {
-                        Button(
-                            onClick = onNextFlag,
-                            shape = AppTheme.shapes.large,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppTheme.colors.onBackground,
-                                contentColor = AppTheme.colors.background,
-                            ),
-                            contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(64.dp),
-                        ) {
-                            Text(
-                                text = "Next",
-                                style = AppTheme.typography.titleMedium,
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                contentDescription = null,
-                            )
+                        Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)) {
+                            Button(
+                                onClick = onNextFlag,
+                                shape = AppTheme.shapes.large,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = AppTheme.colors.onBackground,
+                                    contentColor = AppTheme.colors.background,
+                                ),
+                                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(64.dp),
+                            ) {
+                                Text(
+                                    text = "Next",
+                                    style = AppTheme.typography.titleMedium,
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                    contentDescription = null,
+                                )
+                            }
                         }
                     }
                 }
