@@ -5,6 +5,7 @@ import com.flagtutor.app.data.local.IdenticalFlagDataSource
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.data.repository.FlagImageRepository
+import com.flagtutor.app.data.repository.GamePreloader
 import com.flagtutor.app.data.settings.ThemeRepository
 import com.flagtutor.app.ui.feature.crashes.CrashesViewModel
 import com.flagtutor.app.ui.feature.debug.CountriesOverviewViewModel
@@ -22,6 +23,7 @@ val appModule = module {
     singleOf(::WikipediaLinkDataSource)
     singleOf(::CountryRepository)
     singleOf(::FlagImageRepository)
+    singleOf(::GamePreloader)
     singleOf(::ThemeRepository)
     viewModelOf(::HomeViewModel)
     viewModelOf(::SettingsViewModel)
