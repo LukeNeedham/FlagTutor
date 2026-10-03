@@ -15,7 +15,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -46,11 +46,11 @@ fun DebugPageContent(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = AppTheme.colors.background,
                 ),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colors.background,
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -62,7 +62,7 @@ fun DebugPageContent(
             OutlinedButton(
                 onClick = onCountriesOverviewClick,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = MaterialTheme.shapes.large,
+                shape = AppTheme.shapes.large,
             ) {
                 Icon(imageVector = Icons.Filled.List, contentDescription = null)
                 Spacer(modifier = Modifier.padding(horizontal = 8.dp))
@@ -71,7 +71,7 @@ fun DebugPageContent(
             OutlinedButton(
                 onClick = onFlagAttemptsClick,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = MaterialTheme.shapes.large,
+                shape = AppTheme.shapes.large,
             ) {
                 Icon(imageVector = Icons.Filled.Flag, contentDescription = null)
                 Spacer(modifier = Modifier.padding(horizontal = 8.dp))
@@ -80,7 +80,7 @@ fun DebugPageContent(
             OutlinedButton(
                 onClick = onCrashesClick,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = MaterialTheme.shapes.large,
+                shape = AppTheme.shapes.large,
             ) {
                 Icon(imageVector = Icons.Filled.BugReport, contentDescription = null)
                 Spacer(modifier = Modifier.padding(horizontal = 8.dp))

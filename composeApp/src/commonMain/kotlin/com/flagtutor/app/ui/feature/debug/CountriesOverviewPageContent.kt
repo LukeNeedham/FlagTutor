@@ -27,7 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -78,11 +78,11 @@ fun CountriesOverviewPageContent(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = AppTheme.colors.background,
                 ),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colors.background,
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             when {
@@ -92,12 +92,12 @@ fun CountriesOverviewPageContent(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
                     ) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        CircularProgressIndicator(color = AppTheme.colors.primary)
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = "Loading countries…",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = AppTheme.typography.bodyLarge,
+                            color = AppTheme.colors.textSecondary,
                         )
                     }
                 }
@@ -113,17 +113,17 @@ fun CountriesOverviewPageContent(
                         Icon(
                             imageVector = Icons.Filled.WifiOff,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error,
+                            tint = AppTheme.colors.error,
                             modifier = Modifier.height(48.dp),
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = "Couldn't load countries.",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = AppTheme.typography.bodyLarge,
+                            color = AppTheme.colors.textSecondary,
                         )
                         Spacer(modifier = Modifier.height(24.dp))
-                        Button(onClick = onRetry, shape = MaterialTheme.shapes.large) {
+                        Button(onClick = onRetry, shape = AppTheme.shapes.large) {
                             Icon(imageVector = Icons.Filled.Refresh, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Retry")
@@ -148,7 +148,7 @@ fun CountriesOverviewPageContent(
                                     enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.MAP)
                                 },
                             )
-                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                            HorizontalDivider(color = AppTheme.colors.divider)
                         }
                     }
                 }
@@ -199,8 +199,8 @@ private fun CountryOverviewRow(
         ) {
             Text(
                 text = country.name,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+                style = AppTheme.typography.bodyMedium,
+                color = AppTheme.colors.text,
                 modifier = Modifier.weight(1f),
             )
             if (country.wikipediaUrl.isNotEmpty()) {
@@ -211,7 +211,7 @@ private fun CountryOverviewRow(
                     Icon(
                         imageVector = Icons.Filled.Info,
                         contentDescription = "More info",
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = AppTheme.colors.primary,
                         modifier = Modifier.size(20.dp),
                     )
                 }
@@ -234,8 +234,8 @@ private fun CountryOverviewRow(
         }
         Text(
             text = attemptStats?.toSummaryText() ?: "No attempts yet",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = AppTheme.typography.labelSmall,
+            color = AppTheme.colors.textSecondary,
         )
     }
 }

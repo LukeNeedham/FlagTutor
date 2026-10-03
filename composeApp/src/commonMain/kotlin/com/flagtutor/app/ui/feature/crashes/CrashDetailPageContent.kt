@@ -10,7 +10,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -40,11 +40,11 @@ fun CrashDetailPageContent(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = AppTheme.colors.background,
                 ),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colors.background,
     ) { innerPadding ->
         SelectionContainer(
             modifier = Modifier
@@ -55,8 +55,8 @@ fun CrashDetailPageContent(
         ) {
             Text(
                 text = crash.stackTrace,
-                style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
-                color = MaterialTheme.colorScheme.onSurface,
+                style = AppTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
+                color = AppTheme.colors.text,
             )
         }
     }

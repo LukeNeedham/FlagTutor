@@ -11,7 +11,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -42,11 +42,11 @@ fun CreditsPageContent(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = AppTheme.colors.background,
                 ),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colors.background,
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -58,28 +58,28 @@ fun CreditsPageContent(
         ) {
             Text(
                 text = "Country maps",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
+                style = AppTheme.typography.titleMedium,
+                color = AppTheme.colors.onBackground,
             )
             Text(
                 text = "Each country's map image is sourced from its Wikipedia article and hosted on " +
                     "Wikimedia Commons. These images are created by Wikipedia contributors and are " +
                     "licensed under Creative Commons Attribution-ShareAlike or the GNU Free " +
                     "Documentation License.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AppTheme.typography.bodyMedium,
+                color = AppTheme.colors.textSecondary,
             )
             Text(
                 text = "For the author and full license of a specific map, open that country's " +
                     "Wikipedia page (available from its flag screen) and view the image's file " +
                     "description page.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = AppTheme.typography.bodyMedium,
+                color = AppTheme.colors.textSecondary,
             )
             TextButton(onClick = { onLinkClick(COMMONS_LICENSING_URL) }) {
                 Text(
                     text = "commons.wikimedia.org/wiki/Commons:Licensing",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = AppTheme.typography.bodyMedium,
                 )
             }
         }
