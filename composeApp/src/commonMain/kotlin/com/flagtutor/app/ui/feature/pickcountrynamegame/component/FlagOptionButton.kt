@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import com.flagtutor.app.ui.theme.AppTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -66,20 +64,30 @@ fun FlagOptionButton(
         BorderStroke(BorderWidth, AppTheme.colors.onBackground)
     } else null
 
-    Box(modifier = modifier) {
+    // The falling pieces render the same (inert) button as the base, so they match it exactly: text
+    // style, padding, border and shape.
+    val buttonContent: @Composable (Boolean, () -> Unit, Modifier) -> Unit = { isEnabled, onButtonClick, buttonModifier ->
         Button(
-            onClick = onClick,
-            enabled = enabled,
+            onClick = onButtonClick,
+            enabled = isEnabled,
             colors = colors,
             shape = shape,
             border = border,
             contentPadding = PaddingValues(vertical = 16.dp, horizontal = 24.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer { alpha = crumbleState.baseAlpha.value },
+            modifier = buttonModifier,
         ) {
             Text(country.name, textAlign = TextAlign.Center)
         }
+    }
+
+    Box(modifier = modifier) {
+        buttonContent(
+            enabled,
+            onClick,
+            Modifier
+                .fillMaxSize()
+                .graphicsLayer { alpha = crumbleState.baseAlpha.value },
+        )
 
         if (isCrumbled) {
             CrumblePieces(
@@ -87,15 +95,7 @@ fun FlagOptionButton(
                 shape = shape,
                 modifier = Modifier.matchParentSize(),
             ) {
-                Surface(
-                    color = activeContainerColor,
-                    contentColor = activeContentColor,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(country.name, textAlign = TextAlign.Center)
-                    }
-                }
+                buttonContent(false, {}, Modifier.fillMaxSize())
             }
         }
     }
