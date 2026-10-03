@@ -47,6 +47,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.room.ktx)
+            implementation(libs.datastore.preferences)
         }
         // Room has no web support, so the persistence code lives in this source set, shared only
         // by Android and iOS; the web target supplies its own FlagAttemptRepository.

@@ -5,6 +5,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import com.flagtutor.app.domain.model.ThemeMode
 
 private val LightColorScheme = lightColorScheme(
     primary = LightPrimary,
@@ -30,6 +32,7 @@ private val LightColorScheme = lightColorScheme(
     surfaceVariant = LightSurfaceVariant,
     onSurfaceVariant = LightOnSurfaceVariant,
     outline = LightOutline,
+    outlineVariant = LightOutlineVariant,
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -56,17 +59,25 @@ private val DarkColorScheme = darkColorScheme(
     surfaceVariant = DarkSurfaceVariant,
     onSurfaceVariant = DarkOnSurfaceVariant,
     outline = DarkOutline,
+    outlineVariant = DarkOutlineVariant,
 )
 
 @Composable
 fun FlagTutorTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeMode: ThemeMode = ThemeMode.System,
     content: @Composable () -> Unit,
 ) {
-    MaterialTheme(
-        colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
-        typography = FlagTutorTypography,
-        shapes = FlagTutorShapes,
-        content = content,
-    )
+    val darkTheme = when (themeMode) {
+        ThemeMode.System -> isSystemInDarkTheme()
+        ThemeMode.Light -> false
+        ThemeMode.Dark -> true
+    }
+    CompositionLocalProvider(LocalAppColors provides if (darkTheme) DarkAppColors else LightAppColors) {
+        MaterialTheme(
+            colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
+            typography = FlagTutorTypography,
+            shapes = FlagTutorShapes,
+            content = content,
+        )
+    }
 }

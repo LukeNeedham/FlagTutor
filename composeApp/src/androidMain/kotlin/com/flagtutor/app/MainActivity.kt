@@ -14,6 +14,7 @@ class MainActivity : ComponentActivity() {
         crashRepository.installUncaughtExceptionHandler()
         setContent {
             App(extraModules = listOf(androidModule(applicationContext))) {
+                SystemBarsAppearance()
                 NavGraph()
             }
         }

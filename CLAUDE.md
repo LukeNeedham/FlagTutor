@@ -118,6 +118,20 @@ As screens are added, give each one:
   `./gradlew :composeApp:wasmJsBrowserDistribution` produces the static site in
   `composeApp/build/dist/wasmJs/productionExecutable`.
 
+### Colours
+
+- Never hardcode colours (`Color.White`, `Color(0xFF...)`, hex in composables) in UI code. Always read
+  them from the theme: `MaterialTheme.colorScheme.*`, or `MaterialTheme.appColors.*` (`ui/theme/AppColors.kt`)
+  for app-specific colours with no Material slot. Define raw values only in `ui/theme/Color.kt`, with a
+  light and a dark variant, and check contrast in both themes.
+- Exceptions: colours that are data rather than styling (per-flag colours from `FlagColorDataSource`)
+  and the Android launcher icon resources.
+
+### Preferences
+
+- On Android, always use Jetpack DataStore (`datastore-preferences`) for key/value preferences, never
+  `SharedPreferences`. See `DataStoreThemePreferenceStore` for the pattern.
+
 ### Flag colours
 
 - Each flag's dominant colours are extracted at build time by `buildSrc`'s

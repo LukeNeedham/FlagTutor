@@ -46,7 +46,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -337,8 +336,8 @@ fun PickCountryNameGamePageContent(
                             onClick = onNextFlag,
                             shape = MaterialTheme.shapes.large,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.White,
-                                contentColor = Color.Black,
+                                containerColor = MaterialTheme.colorScheme.onBackground,
+                                contentColor = MaterialTheme.colorScheme.background,
                             ),
                             contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
                             modifier = Modifier

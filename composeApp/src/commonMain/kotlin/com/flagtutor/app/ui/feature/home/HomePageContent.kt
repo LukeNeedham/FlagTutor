@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -23,7 +24,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.flagtutor.app.ui.component.AppLogo
@@ -34,6 +34,7 @@ fun HomePageContent(
     subtitle: String,
     onGuessCountryClick: () -> Unit,
     onCreditsClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     onDebugClick: (() -> Unit)? = null,
 ) {
     Surface(
@@ -75,8 +76,8 @@ fun HomePageContent(
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = MaterialTheme.shapes.large,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black,
+                    containerColor = MaterialTheme.colorScheme.onBackground,
+                    contentColor = MaterialTheme.colorScheme.background,
                 ),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             ) {
@@ -86,12 +87,25 @@ fun HomePageContent(
             }
             Spacer(modifier = Modifier.height(12.dp))
             TextButton(
+                onClick = onSettingsClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = MaterialTheme.shapes.large,
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
+            ) {
+                Icon(imageVector = Icons.Filled.Settings, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "Settings", style = MaterialTheme.typography.titleMedium)
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            TextButton(
                 onClick = onCreditsClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
                 shape = MaterialTheme.shapes.large,
-                colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
             ) {
                 Icon(imageVector = Icons.Filled.Info, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -105,7 +119,7 @@ fun HomePageContent(
                         .fillMaxWidth()
                         .height(48.dp),
                     shape = MaterialTheme.shapes.large,
-                    colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+                    colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.onBackground),
                 ) {
                     Icon(imageVector = Icons.Filled.Build, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
