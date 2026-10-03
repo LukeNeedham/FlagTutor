@@ -118,6 +118,11 @@ As screens are added, give each one:
   `./gradlew :composeApp:wasmJsBrowserDistribution` produces the static site in
   `composeApp/build/dist/wasmJs/productionExecutable`.
 
+### Preferences
+
+- On Android, always use Jetpack DataStore (`datastore-preferences`) for key/value preferences, never
+  `SharedPreferences`. See `DataStoreThemePreferenceStore` for the pattern.
+
 ### Flag colours
 
 - Each flag's dominant colours are extracted at build time by `buildSrc`'s
