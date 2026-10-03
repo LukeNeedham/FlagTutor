@@ -48,23 +48,22 @@ fun FlagOptionButton(
     val crumbleState = rememberCrumbleState()
     AnimateCrumble(isCrumbled, crumbleState)
 
-    val colors = when {
-        containerColor != null -> ButtonDefaults.buttonColors(
-            containerColor = containerColor,
-            contentColor = contentColor ?: AppTheme.colors.onPrimary,
-        )
-        else -> ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.option,
-            contentColor = AppTheme.colors.onOption,
-        )
+    val activeContainerColor = containerColor ?: AppTheme.colors.option
+    val activeContentColor = when {
+        containerColor != null -> contentColor ?: AppTheme.colors.onPrimary
+        else -> AppTheme.colors.onOption
     }
+    // The button is disabled once the answer is revealed, but it must keep its colours (it animates
+    // out straight away). Only a crumbled (wrong) option takes on the default disabled look.
+    val colors = ButtonDefaults.buttonColors(
+        containerColor = activeContainerColor,
+        contentColor = activeContentColor,
+        disabledContainerColor = if (isCrumbled) Color.Unspecified else activeContainerColor,
+        disabledContentColor = if (isCrumbled) Color.Unspecified else activeContentColor,
+    )
 
-    val effectiveContainerColor = when {
-        containerColor != null -> containerColor
-        else -> AppTheme.colors.option
-    }
     val backgroundColor = AppTheme.colors.background
-    val border = if (isSimilarColor(effectiveContainerColor, backgroundColor)) {
+    val border = if (isSimilarColor(activeContainerColor, backgroundColor)) {
         BorderStroke(BorderWidth, AppTheme.colors.onBackground)
     } else null
 
