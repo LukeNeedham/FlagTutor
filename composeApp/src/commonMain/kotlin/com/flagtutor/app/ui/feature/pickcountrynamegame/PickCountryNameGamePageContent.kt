@@ -2,18 +2,19 @@ package com.flagtutor.app.ui.feature.pickcountrynamegame
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -43,12 +44,18 @@ import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.flagtutor.app.ui.util.LocalScaledAnimation
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
@@ -58,6 +65,11 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 // Next button occupies 24dp top padding + 64dp height + 24dp bottom padding; leave at least 30dp above that.
 private val NextButtonReservedHeight = 142.dp
+
+// Horizontal inset shared by the option buttons and the Next button, so the two are the same width.
+private val ContentHorizontalPadding = 24.dp
+
+private val NextButtonHeight = 64.dp
 
 // IconButton's default size.
 private val InfoButtonSize = 48.dp
@@ -73,6 +85,7 @@ fun PickCountryNameGamePageContent(
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
+    val animation = LocalScaledAnimation.current
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = AppTheme.colors.background,
@@ -127,6 +140,22 @@ fun PickCountryNameGamePageContent(
                 }
 
                 is PickCountryNameGameUiState.Success -> {
+                    // The Next button's slide, as fractions of its own size: it enters from below and leaves
+                    // to the left. This is driven by hand rather than with AnimatedVisibility, because that
+                    // swaps in a default spring for the exit if it interrupts a half-finished enter, so the
+                    // button would then leave at a different speed to the rest of the content.
+                    val nextButtonSlideX = remember { Animatable(-1f) }
+                    val nextButtonSlideY = remember { Animatable(1f) }
+                    val isAnswerRevealed = uiState.isAnswerRevealed
+                    LaunchedEffect(isAnswerRevealed) {
+                        if (isAnswerRevealed) {
+                            nextButtonSlideX.snapTo(0f)
+                            nextButtonSlideY.snapTo(1f)
+                            nextButtonSlideY.animateTo(0f, tween(animation.long))
+                        } else {
+                            nextButtonSlideX.animateTo(-1f, tween(animation.medium))
+                        }
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -138,12 +167,12 @@ fun PickCountryNameGamePageContent(
                             contentKey = { it.flag.alpha2Code },
                             transitionSpec = {
                                 slideInHorizontally(
-                                    animationSpec = tween(durationMillis = 300),
+                                    animationSpec = tween(animation.medium),
                                 ) { fullWidth -> fullWidth }.togetherWith(
                                     slideOutHorizontally(
-                                        animationSpec = tween(durationMillis = 300),
+                                        animationSpec = tween(animation.medium),
                                     ) { fullWidth -> -fullWidth },
-                                )
+                                ).using(SizeTransform(clip = false))
                             },
                             label = "flag-transition",
                             modifier = Modifier.fillMaxWidth().weight(1f),
@@ -151,7 +180,7 @@ fun PickCountryNameGamePageContent(
                             BoxWithConstraints(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(horizontal = 24.dp),
+                                    .padding(horizontal = ContentHorizontalPadding),
                             ) {
                                 val buttonsPanelHeight = maxHeight * 0.7f
                                 val flagMaxWidth = maxWidth * 0.85f
@@ -179,7 +208,15 @@ fun PickCountryNameGamePageContent(
                                     Box(
                                         modifier = Modifier
                                             .weight(1f)
-                                            .fillMaxWidth(),
+                                            .fillMaxWidth()
+                                            // Clip the top and sides, so the incoming info panel appears from the
+                                            // container's edge, but not the bottom, so the exiting option buttons
+                                            // slide all the way off screen.
+                                            .drawWithContent {
+                                                clipRect(right = size.width, bottom = size.height * 3) {
+                                                    this@drawWithContent.drawContent()
+                                                }
+                                            },
                                     ) {
                                         revealTransition.AnimatedContent(
                                             contentAlignment = Alignment.TopCenter,
@@ -187,14 +224,14 @@ fun PickCountryNameGamePageContent(
                                                 (
                                                     slideIntoContainer(
                                                         towards = SlideDirection.Down,
-                                                        animationSpec = tween(400),
-                                                    ) + fadeIn(tween(400))
+                                                        animationSpec = tween(animation.long),
+                                                    ) + fadeIn(tween(animation.long))
                                                     ).togetherWith(
                                                     slideOutOfContainer(
                                                         towards = SlideDirection.Down,
-                                                        animationSpec = tween(400),
-                                                    ) + fadeOut(tween(400)),
-                                                )
+                                                        animationSpec = tween(animation.long),
+                                                    ),
+                                                ).using(SizeTransform(clip = false))
                                             },
                                             modifier = Modifier.fillMaxSize(),
                                         ) { revealed ->
@@ -294,7 +331,6 @@ fun PickCountryNameGamePageContent(
                                                                             key(country.alpha2Code) {
                                                                                 FlagOptionButton(
                                                                                     country = country,
-                                                                                    isCorrectAnswer = state.isAnswerRevealed && country.alpha2Code == state.flag.alpha2Code,
                                                                                     isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
                                                                                     enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
                                                                                     onClick = { onOptionSelected(country) },
@@ -319,40 +355,56 @@ fun PickCountryNameGamePageContent(
                         }
                     }
 
-                    androidx.compose.animation.AnimatedVisibility(
-                        visible = uiState.isAnswerRevealed,
-                        enter = fadeIn(animationSpec = tween(400)) +
-                            slideInVertically(animationSpec = tween(400)) { fullHeight -> fullHeight },
-                        exit = fadeOut(animationSpec = tween(durationMillis = 90)) +
-                            slideOutHorizontally(
-                                animationSpec = tween(durationMillis = 90),
-                            ) { width -> -width / 3 },
+                    // Slides with the rest of the screen, never fading. The padding lives inside the
+                    // content so the slide distance covers it and the button is fully off screen. Behind the
+                    // button is an opaque background starting halfway down it (below its rounded corners), so
+                    // the outgoing option buttons slide behind the button's shape.
+                    Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 24.dp),
+                            .graphicsLayer {
+                                translationX = nextButtonSlideX.value * size.width
+                                translationY = nextButtonSlideY.value * size.height
+                            },
                     ) {
-                        Button(
-                            onClick = onNextFlag,
-                            shape = AppTheme.shapes.large,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = AppTheme.colors.onBackground,
-                                contentColor = AppTheme.colors.background,
-                            ),
-                            contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(64.dp),
-                        ) {
-                            Text(
-                                text = "Next",
-                                style = AppTheme.typography.titleMedium,
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            Box(
+                                modifier = Modifier
+                                    .matchParentSize()
+                                    .padding(top = NextButtonHeight / 2)
+                                    .background(AppTheme.colors.background),
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                                contentDescription = null,
-                            )
+                            Box(
+                                modifier = Modifier.padding(
+                                    start = ContentHorizontalPadding,
+                                    end = ContentHorizontalPadding,
+                                    bottom = 24.dp,
+                                ),
+                            ) {
+                                Button(
+                                    onClick = onNextFlag,
+                                    shape = AppTheme.shapes.large,
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = AppTheme.colors.onBackground,
+                                        contentColor = AppTheme.colors.background,
+                                    ),
+                                    contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(NextButtonHeight),
+                                ) {
+                                    Text(
+                                        text = "Next",
+                                        style = AppTheme.typography.titleMedium,
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                        contentDescription = null,
+                                    )
+                                }
+                            }
                         }
                     }
                 }

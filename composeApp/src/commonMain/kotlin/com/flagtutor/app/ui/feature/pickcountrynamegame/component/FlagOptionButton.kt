@@ -3,14 +3,9 @@ package com.flagtutor.app.ui.feature.pickcountrynamegame.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -42,7 +37,6 @@ private fun isSimilarColor(a: Color, b: Color): Boolean {
 @Composable
 fun FlagOptionButton(
     country: Country,
-    isCorrectAnswer: Boolean,
     isCrumbled: Boolean,
     enabled: Boolean,
     onClick: () -> Unit,
@@ -54,28 +48,21 @@ fun FlagOptionButton(
     val crumbleState = rememberCrumbleState()
     AnimateCrumble(isCrumbled, crumbleState)
 
-    val colors = when {
-        isCorrectAnswer -> ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.correct,
-            contentColor = AppTheme.colors.onCorrect,
-        )
-        containerColor != null -> ButtonDefaults.buttonColors(
-            containerColor = containerColor,
-            contentColor = contentColor ?: AppTheme.colors.onPrimary,
-        )
-        else -> ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.option,
-            contentColor = AppTheme.colors.onOption,
-        )
+    val activeContainerColor = containerColor ?: AppTheme.colors.option
+    val activeContentColor = when {
+        containerColor != null -> contentColor ?: AppTheme.colors.onPrimary
+        else -> AppTheme.colors.onOption
     }
+    // The button is disabled once answered or crumbled, but it must keep its colours as it animates out.
+    val colors = ButtonDefaults.buttonColors(
+        containerColor = activeContainerColor,
+        contentColor = activeContentColor,
+        disabledContainerColor = activeContainerColor,
+        disabledContentColor = activeContentColor,
+    )
 
-    val effectiveContainerColor = when {
-        isCorrectAnswer -> AppTheme.colors.correct
-        containerColor != null -> containerColor
-        else -> AppTheme.colors.option
-    }
     val backgroundColor = AppTheme.colors.background
-    val border = if (isSimilarColor(effectiveContainerColor, backgroundColor)) {
+    val border = if (isSimilarColor(activeContainerColor, backgroundColor)) {
         BorderStroke(BorderWidth, AppTheme.colors.onBackground)
     } else null
 
@@ -91,25 +78,18 @@ fun FlagOptionButton(
                 .fillMaxSize()
                 .graphicsLayer { alpha = crumbleState.baseAlpha.value },
         ) {
-            if (isCorrectAnswer) {
-                Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-            }
             Text(country.name, textAlign = TextAlign.Center)
         }
 
         if (isCrumbled) {
-            val pieceContainerColor = AppTheme.colors.text.copy(alpha = 0.12f)
-            val pieceContentColor = AppTheme.colors.text.copy(alpha = 0.38f)
-
             CrumblePieces(
                 state = crumbleState,
                 shape = shape,
                 modifier = Modifier.matchParentSize(),
             ) {
                 Surface(
-                    color = pieceContainerColor,
-                    contentColor = pieceContentColor,
+                    color = activeContainerColor,
+                    contentColor = activeContentColor,
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

@@ -128,6 +128,12 @@ As screens are added, give each one:
 - Exceptions: colours that are data rather than styling (per-flag colours from `FlagColorDataSource`)
   and the Android launcher icon resources.
 
+### Animations
+
+- Never hardcode an animation duration (`tween(300)`, `delay(60)`, ...). Take it from `LocalScaledAnimation.current`
+  (`ui/util/ScaledAnimation.kt`), which defines the allowed durations with the debug animation speed setting
+  already applied. To add a new duration, add a property there.
+
 ### Preferences
 
 - On Android, always use Jetpack DataStore (`datastore-preferences`) for key/value preferences, never
