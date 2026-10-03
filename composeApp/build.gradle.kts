@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -29,17 +28,8 @@ kotlin {
         binaries.executable()
     }
 
-    // Room has no web support, so the persistence code lives in a source set shared only by the
-    // targets that can use it; the web target supplies its own FlagAttemptRepository.
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    applyDefaultHierarchyTemplate {
-        common {
-            group("room") {
-                withAndroidTarget()
-                withIos()
-            }
-        }
-    }
+    // Explicit because the manual dependsOn edges below disable the implicit default template.
+    applyDefaultHierarchyTemplate()
 
     listOf(
         iosX64(),
@@ -58,12 +48,17 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.room.ktx)
         }
-        val roomMain by getting {
+        // Room has no web support, so the persistence code lives in this source set, shared only
+        // by Android and iOS; the web target supplies its own FlagAttemptRepository.
+        val roomMain by creating {
+            dependsOn(commonMain.get())
             dependencies {
                 implementation(libs.room.runtime)
                 implementation(libs.sqlite.bundled)
             }
         }
+        androidMain.get().dependsOn(roomMain)
+        iosMain.get().dependsOn(roomMain)
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)

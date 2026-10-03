@@ -102,7 +102,7 @@ As screens are added, give each one:
 
 - `wasmJsMain` holds the browser entry point (`Main.kt`), `webModule()` and the web `actual`s.
 - Room has no web support, so the persistence code (`data/stats` entity/DAO/database) lives in
-  `roomMain`, an intermediate source set shared by Android and iOS only. Web uses
+  `roomMain`, an intermediate source set that `androidMain` and `iosMain` depend on (web does not). Web uses
   `LocalStorageFlagAttemptRepository` instead. Anything using Room must go in `roomMain`.
 - `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` serves it locally;
   `./gradlew :composeApp:wasmJsBrowserDistribution` produces the static site in
