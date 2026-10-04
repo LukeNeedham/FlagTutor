@@ -16,6 +16,7 @@ import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGameViewM
 import com.flagtutor.app.ui.feature.home.HomeViewModel
 import com.flagtutor.app.ui.feature.settings.SettingsViewModel
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -33,6 +34,15 @@ val appModule = module {
     viewModelOf(::SettingsViewModel)
     viewModelOf(::CountriesOverviewViewModel)
     viewModelOf(::CrashesViewModel)
-    viewModelOf(::PickCountryNameGameViewModel)
+    viewModel { params ->
+        PickCountryNameGameViewModel(
+            countryRepository = get(),
+            flagAttemptRepository = get(),
+            flagImageRepository = get(),
+            gamePreloader = get(),
+            identicalFlagDataSource = get(),
+            forcedAlpha2Code = params.getOrNull(),
+        )
+    }
     viewModelOf(::FlagAttemptsViewModel)
 }

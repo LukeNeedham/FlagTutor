@@ -22,6 +22,8 @@ class PickCountryNameGameViewModel(
     private val flagImageRepository: FlagImageRepository,
     private val gamePreloader: GamePreloader,
     private val identicalFlagDataSource: IdenticalFlagDataSource,
+    // Debug only: the first flag shown is this country, instead of a random one.
+    private val forcedAlpha2Code: String? = null,
 ) : ViewModel() {
 
     private var countries: List<Country> = emptyList()
@@ -52,9 +54,15 @@ class PickCountryNameGameViewModel(
                 countries = countryRepository.getCountries()
                 identicalFlags = identicalFlagDataSource.getIdenticalFlags()
                 // Use the countries whose images were loaded at app start, if available.
-                gamePreloader.takeInitialCountries()?.let { (first, second) ->
-                    upcoming = first
-                    queuedAfter = second
+                val forced = forcedAlpha2Code?.let { code -> countries.firstOrNull { it.alpha2Code == code } }
+                if (forced != null) {
+                    upcoming = forced
+                    queuedAfter = null
+                } else {
+                    gamePreloader.takeInitialCountries()?.let { (first, second) ->
+                        upcoming = first
+                        queuedAfter = second
+                    }
                 }
                 showNextFlag(previous = null)
             } catch (e: CancellationException) {

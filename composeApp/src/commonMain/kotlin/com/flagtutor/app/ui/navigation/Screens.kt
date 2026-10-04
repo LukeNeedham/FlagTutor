@@ -43,6 +43,18 @@ object PickCountryNameGameScreen : Screen {
     }
 }
 
+/** Debug only: the game with [alpha2Code] as the first flag. Has no browser route. */
+data class DebugPickCountryNameGameScreen(val alpha2Code: String) : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        PickCountryNameGamePage(
+            onNavigateBack = { navigator.pop() },
+            forcedAlpha2Code = alpha2Code,
+        )
+    }
+}
+
 object CreditsScreen : Screen {
     @Composable
     override fun Content() {
@@ -82,6 +94,7 @@ object CountriesOverviewScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         CountriesOverviewPage(
             onNavigateBack = { navigator.pop() },
+            onNavigateToGame = { code -> navigator.push(DebugPickCountryNameGameScreen(code)) },
         )
     }
 }
