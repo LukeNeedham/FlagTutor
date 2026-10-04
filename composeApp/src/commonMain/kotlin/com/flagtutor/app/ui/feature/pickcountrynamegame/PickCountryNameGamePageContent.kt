@@ -1,15 +1,11 @@
 package com.flagtutor.app.ui.feature.pickcountrynamegame
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -45,11 +41,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.ContentScale
@@ -62,14 +63,25 @@ import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButt
 import com.flagtutor.app.ui.component.BoundedCountryMap
 import com.flagtutor.app.ui.util.ExtractedColor
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import kotlin.math.max
+import kotlin.math.sqrt
 
-// Next button occupies 24dp top padding + 64dp height + 24dp bottom padding; leave at least 30dp above that.
-private val NextButtonReservedHeight = 142.dp
+// Next button occupies 10dp top margin + 64dp height + 10dp bottom margin; leave at least 30dp above that.
+private val NextButtonReservedHeight = 114.dp
 
 // Horizontal inset shared by the option buttons and the Next button, so the two are the same width.
 private val ContentHorizontalPadding = 24.dp
 
 private val NextButtonHeight = 64.dp
+
+// The Next button's margin from the left, right and bottom edges of the answer panel it sits in.
+private val NextButtonMargin = 10.dp
+
+// The answer panel (the flooded area) sits this far above the bottom of the screen.
+private val AnswerPanelBottomInset = 16.dp
+
+// The corner radius of the option buttons grid, and so of the answer panel that floods it.
+private val AnswerPanelCornerRadius = 24.dp
 
 // IconButton's default size.
 private val InfoButtonSize = 48.dp
@@ -145,21 +157,34 @@ fun PickCountryNameGamePageContent(
                     // swaps in a default spring for the exit if it interrupts a half-finished enter, so the
                     // button would then leave at a different speed to the rest of the content.
                     val nextButtonSlideX = remember { Animatable(-1f) }
-                    val nextButtonSlideY = remember { Animatable(1f) }
+                    val nextButtonAlpha = remember { Animatable(0f) }
                     val isAnswerRevealed = uiState.isAnswerRevealed
+                    // True once the colour flood has covered the option buttons: only then does the Next
+                    // button come in, along with the answer content.
+                    var isFloodDone by remember { mutableStateOf(false) }
+                    // The Next button's colours come from the flood of the flag whose answer is showing, so
+                    // they stay put while it slides away after the next flag has loaded.
+                    val currentFloodColors = floodColorsFor(uiState)
+                    var nextButtonColors by remember { mutableStateOf(currentFloodColors) }
+                    LaunchedEffect(isFloodDone) {
+                        if (isFloodDone) nextButtonColors = currentFloodColors
+                    }
                     LaunchedEffect(isAnswerRevealed) {
-                        if (isAnswerRevealed) {
+                        if (!isAnswerRevealed) isFloodDone = false
+                    }
+                    LaunchedEffect(isFloodDone, isAnswerRevealed) {
+                        if (isFloodDone) {
                             nextButtonSlideX.snapTo(0f)
-                            nextButtonSlideY.snapTo(1f)
-                            nextButtonSlideY.animateTo(0f, tween(animation.long))
-                        } else {
+                            nextButtonAlpha.animateTo(1f, tween(animation.long))
+                        } else if (!isAnswerRevealed) {
                             nextButtonSlideX.animateTo(-1f, tween(animation.medium))
+                            nextButtonAlpha.snapTo(0f)
                         }
                     }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(bottom = 16.dp),
+                            .padding(bottom = AnswerPanelBottomInset),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         AnimatedContent(
@@ -186,6 +211,35 @@ fun PickCountryNameGamePageContent(
                                 val flagMaxWidth = maxWidth * 0.85f
                                 val flagMaxHeight = maxHeight * 0.3f
 
+                                val gridCornerRadius = AnswerPanelCornerRadius
+                                val gridGap = 12.dp
+                                val gridShape = RoundedCornerShape(gridCornerRadius)
+                                val colorOrder = checkerboardColorOrder(state.colors)
+                                val correctIndex = state.options.indexOfFirst { it.alpha2Code == state.flag.alpha2Code }
+                                // The flood is the colour of the correct option's button.
+                                val (floodColor, floodContentColor) = floodColorsFor(state)
+                                // Where the correct option was tapped, within its button: the flood spreads out from here.
+                                var floodTouchPoint by remember { mutableStateOf<Offset?>(null) }
+                                // Fills from the correct option's button across the whole grid of options, and
+                                // only then does the answer content come in on top of it.
+                                val floodProgress = remember { Animatable(if (state.isAnswerRevealed) 1f else 0f) }
+                                var showAnswer by remember { mutableStateOf(state.isAnswerRevealed) }
+                                // Once the flood has covered the option buttons they are no longer drawn, and the
+                                // answer content fades in over the flood colour.
+                                val answerAlpha = remember { Animatable(if (state.isAnswerRevealed) 1f else 0f) }
+                                LaunchedEffect(showAnswer) {
+                                    if (showAnswer) answerAlpha.animateTo(1f, tween(animation.long))
+                                }
+                                LaunchedEffect(state.isAnswerRevealed) {
+                                    if (state.isAnswerRevealed) {
+                                        if (!showAnswer) {
+                                            floodProgress.animateTo(1f, tween(animation.flood))
+                                            showAnswer = true
+                                        }
+                                        isFloodDone = true
+                                    }
+                                }
+
                                 Column(
                                     modifier = Modifier.fillMaxSize(),
                                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -201,46 +255,36 @@ fun PickCountryNameGamePageContent(
                                             .width(flagWidth)
                                             .aspectRatio(bitmapAspectRatio),
                                     )
-                                    val revealTransition = updateTransition(
-                                        targetState = state.isAnswerRevealed,
-                                        label = "reveal-transition",
-                                    )
                                     Box(
                                         modifier = Modifier
                                             .weight(1f)
-                                            .fillMaxWidth()
-                                            // Clip the top and sides, so the incoming info panel appears from the
-                                            // container's edge, but not the bottom, so the exiting option buttons
-                                            // slide all the way off screen.
-                                            .drawWithContent {
-                                                clipRect(right = size.width, bottom = size.height * 3) {
-                                                    this@drawWithContent.drawContent()
-                                                }
-                                            },
+                                            .fillMaxWidth(),
                                     ) {
-                                        revealTransition.AnimatedContent(
-                                            contentAlignment = Alignment.TopCenter,
-                                            transitionSpec = {
-                                                (
-                                                    slideIntoContainer(
-                                                        towards = SlideDirection.Down,
-                                                        animationSpec = tween(animation.long),
-                                                    ) + fadeIn(tween(animation.long))
-                                                    ).togetherWith(
-                                                    slideOutOfContainer(
-                                                        towards = SlideDirection.Down,
-                                                        animationSpec = tween(animation.long),
-                                                    ),
-                                                ).using(SizeTransform(clip = false))
-                                            },
-                                            modifier = Modifier.fillMaxSize(),
-                                        ) { revealed ->
-                                            if (revealed) {
+                                        // The flood stays behind the answer content once the option buttons are gone.
+                                        if (showAnswer) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .align(Alignment.BottomCenter)
+                                                    .fillMaxWidth()
+                                                    .height(buttonsPanelHeight)
+                                                    .padding(top = 16.dp)
+                                                    .clip(gridShape)
+                                                    .background(floodColor),
+                                            )
+                                        }
+                                        run {
+                                            if (showAnswer) {
+                                                Box(modifier = Modifier.fillMaxSize()) {
                                                 Column(
                                                     horizontalAlignment = Alignment.CenterHorizontally,
-                                                    modifier = Modifier.fillMaxSize(),
+                                                    modifier = Modifier
+                                                        .align(Alignment.BottomCenter)
+                                                        .fillMaxWidth()
+                                                        .height(buttonsPanelHeight)
+                                                        .graphicsLayer { alpha = answerAlpha.value }
+                                                        .padding(top = 16.dp, start = 16.dp, end = 16.dp),
                                                 ) {
-                                                    Spacer(modifier = Modifier.height(30.dp))
+                                                    Spacer(modifier = Modifier.height(14.dp))
                                                     // The icon (and an equal spacer opposite, keeping the name centred)
                                                     // keep their full size; a long name wraps onto more lines instead.
                                                     Row(
@@ -252,7 +296,7 @@ fun PickCountryNameGamePageContent(
                                                         Text(
                                                             text = state.flag.name,
                                                             style = AppTheme.typography.headlineLarge,
-                                                            color = AppTheme.colors.onBackground,
+                                                            color = floodContentColor,
                                                             textAlign = TextAlign.Center,
                                                             modifier = Modifier
                                                                 .weight(1f, fill = false)
@@ -272,7 +316,7 @@ fun PickCountryNameGamePageContent(
                                                                     Icon(
                                                                         imageVector = Icons.Filled.Info,
                                                                         contentDescription = "More Info",
-                                                                        tint = AppTheme.colors.textSecondary,
+                                                                        tint = floodContentColor,
                                                                     )
                                                                 }
                                                             }
@@ -288,6 +332,7 @@ fun PickCountryNameGamePageContent(
                                                     )
                                                     Spacer(modifier = Modifier.height(NextButtonReservedHeight))
                                                 }
+                                                }
                                             } else {
                                                 Box(modifier = Modifier.fillMaxSize()) {
                                                     Column(
@@ -300,11 +345,31 @@ fun PickCountryNameGamePageContent(
                                                         Column(
                                                             modifier = Modifier
                                                                 .weight(1f)
-                                                                .fillMaxWidth(),
-                                                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                                                                .fillMaxWidth()
+                                                                .clip(gridShape)
+                                                                // Paint the flood over the buttons, in a circle growing from the
+                                                                // tap point on the correct one until every button is covered.
+                                                                .drawWithContent {
+                                                                    drawContent()
+                                                                    val progress = floodProgress.value
+                                                                    if (progress <= 0f || correctIndex < 0) return@drawWithContent
+                                                                    val gap = gridGap.toPx()
+                                                                    val cellWidth = (size.width - gap) / 2f
+                                                                    val cellHeight = (size.height - gap) / 2f
+                                                                    val touch = floodTouchPoint ?: Offset(cellWidth / 2f, cellHeight / 2f)
+                                                                    val origin = Offset(
+                                                                        x = (correctIndex % 2) * (cellWidth + gap) + touch.x,
+                                                                        y = (correctIndex / 2) * (cellHeight + gap) + touch.y,
+                                                                    )
+                                                                    val farthestX = max(origin.x, size.width - origin.x)
+                                                                    val farthestY = max(origin.y, size.height - origin.y)
+                                                                    val fullRadius = sqrt(farthestX * farthestX + farthestY * farthestY)
+                                                                    drawCircle(color = floodColor, radius = fullRadius * progress, center = origin)
+                                                                },
+                                                            verticalArrangement = Arrangement.spacedBy(gridGap),
                                                         ) {
                                                             run {
-                                                                val cornerRadius = 24.dp
+                                                                val cornerRadius = gridCornerRadius
                                                                 val gridShapes = arrayOf(
                                                                     arrayOf(
                                                                         RoundedCornerShape(topStart = cornerRadius),
@@ -316,7 +381,6 @@ fun PickCountryNameGamePageContent(
                                                                     ),
                                                                 )
                                                                 val buttonColors = state.colors
-                                                                val colorOrder = checkerboardColorOrder(buttonColors)
                                                                 state.options.chunked(2).forEachIndexed { rowIndex, rowOptions ->
                                                                     Row(
                                                                         modifier = Modifier.weight(1f).fillMaxWidth(),
@@ -334,6 +398,9 @@ fun PickCountryNameGamePageContent(
                                                                                     isErased = country.alpha2Code in state.incorrectAlpha2Codes,
                                                                                     enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
                                                                                     onClick = { onOptionSelected(country) },
+                                                                                    onTouch = { point ->
+                                                                                        if (country.alpha2Code == state.flag.alpha2Code) floodTouchPoint = point
+                                                                                    },
                                                                                     shape = gridShapes[rowIndex][colIndex],
                                                                                     containerColor = extractedColor?.containerColor,
                                                                                     contentColor = extractedColor?.contentColor,
@@ -355,39 +422,36 @@ fun PickCountryNameGamePageContent(
                         }
                     }
 
-                    // Slides with the rest of the screen, never fading. The padding lives inside the
-                    // content so the slide distance covers it and the button is fully off screen. Behind the
-                    // button is an opaque background starting halfway down it (below its rounded corners), so
-                    // the outgoing option buttons slide behind the button's shape.
+                    // Fades in over the flooded answer panel, and leaves by sliding with the rest of the screen.
+                    // The padding lives inside the content so the slide distance covers it and the button is
+                    // fully off screen.
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
                             .graphicsLayer {
                                 translationX = nextButtonSlideX.value * size.width
-                                translationY = nextButtonSlideY.value * size.height
+                                alpha = nextButtonAlpha.value
                             },
                     ) {
                         Box(modifier = Modifier.fillMaxWidth()) {
                             Box(
-                                modifier = Modifier
-                                    .matchParentSize()
-                                    .padding(top = NextButtonHeight / 2)
-                                    .background(AppTheme.colors.background),
-                            )
-                            Box(
                                 modifier = Modifier.padding(
-                                    start = ContentHorizontalPadding,
-                                    end = ContentHorizontalPadding,
-                                    bottom = 24.dp,
+                                    start = ContentHorizontalPadding + NextButtonMargin,
+                                    end = ContentHorizontalPadding + NextButtonMargin,
+                                    bottom = AnswerPanelBottomInset + NextButtonMargin,
                                 ),
                             ) {
                                 Button(
                                     onClick = onNextFlag,
-                                    shape = AppTheme.shapes.large,
+                                    // Square at the top, and concentric with the panel's rounded corners at the bottom.
+                                    shape = RoundedCornerShape(
+                                        bottomStart = AnswerPanelCornerRadius - NextButtonMargin,
+                                        bottomEnd = AnswerPanelCornerRadius - NextButtonMargin,
+                                    ),
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = AppTheme.colors.onBackground,
-                                        contentColor = AppTheme.colors.background,
+                                        containerColor = nextButtonColors.second,
+                                        contentColor = nextButtonColors.first,
                                     ),
                                     contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
                                     modifier = Modifier
@@ -412,6 +476,19 @@ fun PickCountryNameGamePageContent(
             }
         }
     }
+}
+
+/** The flood colour (the correct option button's colour) and the colour to draw on top of it. */
+@Composable
+private fun floodColorsFor(state: PickCountryNameGameUiState.Success): Pair<Color, Color> {
+    val correctIndex = state.options.indexOfFirst { it.alpha2Code == state.flag.alpha2Code }
+    val extracted = if (state.colors.isNotEmpty() && correctIndex >= 0) {
+        state.colors[checkerboardColorOrder(state.colors)[correctIndex]]
+    } else null
+    return Pair(
+        extracted?.containerColor ?: AppTheme.colors.option,
+        extracted?.contentColor ?: AppTheme.colors.onOption,
+    )
 }
 
 private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {

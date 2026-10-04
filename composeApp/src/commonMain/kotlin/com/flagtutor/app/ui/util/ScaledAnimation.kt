@@ -25,6 +25,9 @@ class ScaledAnimation(private val speed: Float) {
     /** Panels and the Next button entering, and the ripple that erases a wrong option. */
     val long: Int = scaled(400)
 
+    /** The colour flood that covers the option buttons when the answer is correct. */
+    val flood: Int = scaled(600)
+
     private fun scaled(durationMs: Int): Int = (durationMs / speed).roundToInt()
 }
 
