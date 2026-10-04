@@ -1,5 +1,8 @@
 package com.flagtutor.app.ui.feature.debug
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +22,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.WifiOff
@@ -41,12 +45,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.flagtutor.app.domain.model.Country
+import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.component.FlagImage
+import com.flagtutor.app.ui.component.SearchField
+import com.flagtutor.app.ui.util.LocalScaledAnimation
 import kotlin.math.round
 
 private enum class DebugImageType { FLAG, MAP }
@@ -66,6 +74,11 @@ fun CountriesOverviewPageContent(
     onBackClick: () -> Unit,
 ) {
     var enlargedImage by remember { mutableStateOf<EnlargedImage?>(null) }
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredCountries = remember(countries, searchQuery) {
+        val query = searchQuery.trim()
+        if (query.isEmpty()) countries else countries.filter { it.name.contains(query, ignoreCase = true) }
+    }
 
     Scaffold(
         topBar = {
@@ -134,24 +147,32 @@ fun CountriesOverviewPageContent(
                 }
 
                 else -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                    ) {
-                        items(countries, key = { it.alpha2Code }) { country ->
-                            CountryOverviewRow(
-                                country = country,
-                                attemptStats = attemptStatsByCountry[country.alpha2Code],
-                                onMoreInfo = onMoreInfo,
-                                onPlay = onPlay,
-                                onFlagClick = {
-                                    enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.FLAG)
-                                },
-                                onMapClick = {
-                                    enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.MAP)
-                                },
-                            )
-                            HorizontalDivider(color = AppTheme.colors.divider)
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        SearchField(
+                            value = searchQuery,
+                            onValueChange = { searchQuery = it },
+                            placeholder = "Search countries",
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        )
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                        ) {
+                            items(filteredCountries, key = { it.alpha2Code }) { country ->
+                                CountryOverviewRow(
+                                    country = country,
+                                    attemptStats = attemptStatsByCountry[country.alpha2Code],
+                                    onMoreInfo = onMoreInfo,
+                                    onPlay = onPlay,
+                                    onFlagClick = {
+                                        enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.FLAG)
+                                    },
+                                    onMapClick = {
+                                        enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.MAP)
+                                    },
+                                )
+                            }
                         }
                     }
                 }
@@ -195,12 +216,25 @@ private fun CountryOverviewRow(
     onFlagClick: () -> Unit,
     onMapClick: () -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(AppTheme.colors.card, AppTheme.shapes.medium)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            FlagImage(
+                alpha2Code = country.alpha2Code,
+                modifier = Modifier
+                    .height(40.dp)
+                    .aspectRatio(3f / 2f)
+                    .clickable(onClick = onFlagClick),
+            )
             Text(
                 text = country.name,
                 style = AppTheme.typography.bodyMedium,
@@ -221,6 +255,17 @@ private fun CountryOverviewRow(
                 }
             }
             IconButton(
+                onClick = { onMoreInfo(GoogleMapsLinkBuilder.searchUrl(country.name)) },
+                modifier = Modifier.size(32.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Place,
+                    contentDescription = "Open in maps",
+                    tint = AppTheme.colors.primary,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+            IconButton(
                 onClick = { onPlay(country.alpha2Code) },
                 modifier = Modifier.size(32.dp),
             ) {
@@ -231,12 +276,23 @@ private fun CountryOverviewRow(
                     modifier = Modifier.size(20.dp),
                 )
             }
-            FlagImage(
-                alpha2Code = country.alpha2Code,
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            var isExpanded by remember { mutableStateOf(false) }
+            Text(
+                text = country.flagDescription,
+                style = AppTheme.typography.bodySmall,
+                color = AppTheme.colors.text,
+                maxLines = if (isExpanded) Int.MAX_VALUE else 2,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
-                    .height(32.dp)
-                    .aspectRatio(3f / 2f)
-                    .clickable(onClick = onFlagClick),
+                    .weight(1f)
+                    .clickable { isExpanded = !isExpanded }
+                    .animateContentSize(tween(LocalScaledAnimation.current.short)),
             )
             CountryMapHighlight(
                 alpha2Code = country.alpha2Code,
@@ -247,16 +303,38 @@ private fun CountryOverviewRow(
                     .clickable(onClick = onMapClick),
             )
         }
+        HorizontalDivider(color = AppTheme.colors.divider)
+        if (attemptStats == null) {
+            Text(
+                text = "No attempts yet",
+                style = AppTheme.typography.labelSmall,
+                color = AppTheme.colors.textSecondary,
+            )
+        } else {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                val totalGuesses = attemptStats.totalAttempts + attemptStats.totalIncorrectAnswers
+                val accuracyPercent = round(attemptStats.totalAttempts * 100.0 / totalGuesses).toInt()
+                StatItem("Attempts", attemptStats.totalAttempts.toString(), Modifier.weight(1f))
+                StatItem("Incorrect", attemptStats.totalIncorrectAnswers.toString(), Modifier.weight(1f))
+                StatItem("Accuracy", "$accuracyPercent%", Modifier.weight(1f))
+                StatItem("Streak", attemptStats.currentStreak.toString(), Modifier.weight(1f))
+            }
+        }
+    }
+}
+
+@Composable
+private fun StatItem(label: String, value: String, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = attemptStats?.toSummaryText() ?: "No attempts yet",
+            text = value,
+            style = AppTheme.typography.bodyMedium,
+            color = AppTheme.colors.text,
+        )
+        Text(
+            text = label,
             style = AppTheme.typography.labelSmall,
             color = AppTheme.colors.textSecondary,
         )
     }
-}
-
-private fun FlagAttemptStats.toSummaryText(): String {
-    val roundedAverage = round(averageIncorrectPerAttempt * 100) / 100
-    return "$totalAttempts attempts · $totalIncorrectAnswers incorrect · " +
-        "avg $roundedAverage incorrect/attempt · streak $currentStreak"
 }
