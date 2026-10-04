@@ -1,15 +1,11 @@
 package com.flagtutor.app.ui.feature.pickcountrynamegame
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -54,7 +50,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.ContentScale
@@ -70,13 +65,19 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import kotlin.math.max
 import kotlin.math.sqrt
 
-// Next button occupies 24dp top padding + 64dp height + 24dp bottom padding; leave at least 30dp above that.
-private val NextButtonReservedHeight = 142.dp
+// Next button occupies 15dp top margin + 64dp height + 15dp bottom margin; leave at least 30dp above that.
+private val NextButtonReservedHeight = 124.dp
 
 // Horizontal inset shared by the option buttons and the Next button, so the two are the same width.
 private val ContentHorizontalPadding = 24.dp
 
 private val NextButtonHeight = 64.dp
+
+// The Next button's margin from the left, right and bottom edges of the answer panel it sits in.
+private val NextButtonMargin = 15.dp
+
+// The answer panel (the flooded area) sits this far above the bottom of the screen.
+private val AnswerPanelBottomInset = 16.dp
 
 // IconButton's default size.
 private val InfoButtonSize = 48.dp
@@ -152,7 +153,7 @@ fun PickCountryNameGamePageContent(
                     // swaps in a default spring for the exit if it interrupts a half-finished enter, so the
                     // button would then leave at a different speed to the rest of the content.
                     val nextButtonSlideX = remember { Animatable(-1f) }
-                    val nextButtonSlideY = remember { Animatable(1f) }
+                    val nextButtonAlpha = remember { Animatable(0f) }
                     val isAnswerRevealed = uiState.isAnswerRevealed
                     // True once the colour flood has covered the option buttons: only then does the Next
                     // button come in, along with the answer content.
@@ -163,16 +164,16 @@ fun PickCountryNameGamePageContent(
                     LaunchedEffect(isFloodDone, isAnswerRevealed) {
                         if (isFloodDone) {
                             nextButtonSlideX.snapTo(0f)
-                            nextButtonSlideY.snapTo(1f)
-                            nextButtonSlideY.animateTo(0f, tween(animation.long))
+                            nextButtonAlpha.animateTo(1f, tween(animation.long))
                         } else if (!isAnswerRevealed) {
                             nextButtonSlideX.animateTo(-1f, tween(animation.medium))
+                            nextButtonAlpha.snapTo(0f)
                         }
                     }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(bottom = 16.dp),
+                            .padding(bottom = AnswerPanelBottomInset),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         AnimatedContent(
@@ -214,6 +215,12 @@ fun PickCountryNameGamePageContent(
                                 // only then does the answer content come in on top of it.
                                 val floodProgress = remember { Animatable(if (state.isAnswerRevealed) 1f else 0f) }
                                 var showAnswer by remember { mutableStateOf(state.isAnswerRevealed) }
+                                // Once the flood has covered the option buttons they are no longer drawn, and the
+                                // answer content fades in over the flood colour.
+                                val answerAlpha = remember { Animatable(if (state.isAnswerRevealed) 1f else 0f) }
+                                LaunchedEffect(showAnswer) {
+                                    if (showAnswer) answerAlpha.animateTo(1f, tween(animation.long))
+                                }
                                 LaunchedEffect(state.isAnswerRevealed) {
                                     if (state.isAnswerRevealed) {
                                         if (!showAnswer) {
@@ -239,22 +246,10 @@ fun PickCountryNameGamePageContent(
                                             .width(flagWidth)
                                             .aspectRatio(bitmapAspectRatio),
                                     )
-                                    val revealTransition = updateTransition(
-                                        targetState = showAnswer,
-                                        label = "reveal-transition",
-                                    )
                                     Box(
                                         modifier = Modifier
                                             .weight(1f)
-                                            .fillMaxWidth()
-                                            // Clip the top and sides, so the incoming info panel appears from the
-                                            // container's edge, but not the bottom, so the exiting option buttons
-                                            // slide all the way off screen.
-                                            .drawWithContent {
-                                                clipRect(right = size.width, bottom = size.height * 3) {
-                                                    this@drawWithContent.drawContent()
-                                                }
-                                            },
+                                            .fillMaxWidth(),
                                     ) {
                                         // The flood stays behind the answer content once the option buttons are gone.
                                         if (showAnswer) {
@@ -268,24 +263,8 @@ fun PickCountryNameGamePageContent(
                                                     .background(floodColor),
                                             )
                                         }
-                                        revealTransition.AnimatedContent(
-                                            contentAlignment = Alignment.TopCenter,
-                                            transitionSpec = {
-                                                (
-                                                    slideIntoContainer(
-                                                        towards = SlideDirection.Down,
-                                                        animationSpec = tween(animation.long),
-                                                    ) + fadeIn(tween(animation.long))
-                                                    ).togetherWith(
-                                                    slideOutOfContainer(
-                                                        towards = SlideDirection.Down,
-                                                        animationSpec = tween(animation.long),
-                                                    ),
-                                                ).using(SizeTransform(clip = false))
-                                            },
-                                            modifier = Modifier.fillMaxSize(),
-                                        ) { revealed ->
-                                            if (revealed) {
+                                        run {
+                                            if (showAnswer) {
                                                 Box(modifier = Modifier.fillMaxSize()) {
                                                 Column(
                                                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -293,6 +272,7 @@ fun PickCountryNameGamePageContent(
                                                         .align(Alignment.BottomCenter)
                                                         .fillMaxWidth()
                                                         .height(buttonsPanelHeight)
+                                                        .graphicsLayer { alpha = answerAlpha.value }
                                                         .padding(top = 16.dp, start = 16.dp, end = 16.dp),
                                                 ) {
                                                     Spacer(modifier = Modifier.height(14.dp))
@@ -429,23 +409,24 @@ fun PickCountryNameGamePageContent(
                         }
                     }
 
-                    // Slides with the rest of the screen, never fading. The padding lives inside the
-                    // content so the slide distance covers it and the button is fully off screen.
+                    // Fades in over the flooded answer panel, and leaves by sliding with the rest of the screen.
+                    // The padding lives inside the content so the slide distance covers it and the button is
+                    // fully off screen.
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
                             .graphicsLayer {
                                 translationX = nextButtonSlideX.value * size.width
-                                translationY = nextButtonSlideY.value * size.height
+                                alpha = nextButtonAlpha.value
                             },
                     ) {
                         Box(modifier = Modifier.fillMaxWidth()) {
                             Box(
                                 modifier = Modifier.padding(
-                                    start = ContentHorizontalPadding,
-                                    end = ContentHorizontalPadding,
-                                    bottom = 24.dp,
+                                    start = ContentHorizontalPadding + NextButtonMargin,
+                                    end = ContentHorizontalPadding + NextButtonMargin,
+                                    bottom = AnswerPanelBottomInset + NextButtonMargin,
                                 ),
                             ) {
                                 Button(
