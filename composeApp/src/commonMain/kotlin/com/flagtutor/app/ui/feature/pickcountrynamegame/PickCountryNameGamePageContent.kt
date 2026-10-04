@@ -3,7 +3,6 @@ package com.flagtutor.app.ui.feature.pickcountrynamegame
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -83,11 +82,6 @@ private val AnswerPanelBottomInset = 16.dp
 
 // The corner radius of the option buttons grid, and so of the answer panel that floods it.
 private val AnswerPanelCornerRadius = 24.dp
-
-// The fraction of the content height taken by the option buttons, and then by the answer panel, which is
-// smaller so the flag can grow once the answer is revealed.
-private const val OptionsPanelFraction = 0.7f
-private const val AnswerPanelFraction = 0.64f
 
 // IconButton's default size.
 private val InfoButtonSize = 48.dp
@@ -232,15 +226,9 @@ fun PickCountryNameGamePageContent(
                                 LaunchedEffect(showAnswer) {
                                     if (showAnswer) answerAlpha.animateTo(1f, tween(animation.long))
                                 }
-                                // Once the answer is showing, the panel gives some of its height to the flag.
-                                val panelFraction by animateFloatAsState(
-                                    targetValue = if (showAnswer) AnswerPanelFraction else OptionsPanelFraction,
-                                    animationSpec = tween(animation.medium),
-                                    label = "panel-fraction",
-                                )
-                                val buttonsPanelHeight = maxHeight * panelFraction
-                                val flagMaxWidth = maxWidth
-                                val flagMaxHeight = maxHeight * (1f - panelFraction) - 4.dp
+                                val buttonsPanelHeight = maxHeight * 0.7f
+                                val flagMaxWidth = maxWidth * 0.85f
+                                val flagMaxHeight = maxHeight * 0.3f
                                 LaunchedEffect(state.isAnswerRevealed) {
                                     if (state.isAnswerRevealed) {
                                         if (!showAnswer) {
@@ -264,8 +252,7 @@ fun PickCountryNameGamePageContent(
                                         contentScale = ContentScale.Fit,
                                         modifier = Modifier
                                             .width(flagWidth)
-                                            .aspectRatio(bitmapAspectRatio)
-                                            .clip(RoundedCornerShape(12.dp)),
+                                            .aspectRatio(bitmapAspectRatio),
                                     )
                                     Box(
                                         modifier = Modifier
@@ -335,25 +322,39 @@ fun PickCountryNameGamePageContent(
                                                         }
                                                     }
                                                     if (state.flag.flagDescription.isNotEmpty()) {
-                                                        Spacer(modifier = Modifier.height(4.dp))
-                                                        Text(
-                                                            text = state.flag.flagDescription,
-                                                            style = AppTheme.typography.bodyMedium,
-                                                            color = floodContentColor.copy(alpha = 0.7f),
-                                                            textAlign = TextAlign.Center,
+                                                        // A softly tinted card, so the description reads as its own block.
+                                                        Box(
                                                             modifier = Modifier
                                                                 .fillMaxWidth()
-                                                                .padding(horizontal = 8.dp),
-                                                        )
+                                                                .clip(RoundedCornerShape(16.dp))
+                                                                .background(floodContentColor.copy(alpha = 0.12f))
+                                                                .padding(horizontal = 16.dp, vertical = 12.dp),
+                                                        ) {
+                                                            Text(
+                                                                text = state.flag.flagDescription,
+                                                                style = AppTheme.typography.bodyMedium,
+                                                                color = floodContentColor.copy(alpha = 0.7f),
+                                                                textAlign = TextAlign.Center,
+                                                                modifier = Modifier.fillMaxWidth(),
+                                                            )
+                                                        }
+                                                        Spacer(modifier = Modifier.height(12.dp))
                                                     }
-                                                    Spacer(modifier = Modifier.height(16.dp))
-                                                    BoundedCountryMap(
-                                                        bitmap = state.mapImage,
+                                                    // The map sits in its own tinted card, filling the remaining space.
+                                                    Box(
                                                         modifier = Modifier
                                                             .weight(1f)
-                                                            .fillMaxWidth(),
-                                                        onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
-                                                    )
+                                                            .fillMaxWidth()
+                                                            .clip(RoundedCornerShape(16.dp))
+                                                            .background(floodContentColor.copy(alpha = 0.12f))
+                                                            .padding(8.dp),
+                                                    ) {
+                                                        BoundedCountryMap(
+                                                            bitmap = state.mapImage,
+                                                            modifier = Modifier.fillMaxSize(),
+                                                            onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
+                                                        )
+                                                    }
                                                     Spacer(modifier = Modifier.height(NextButtonReservedHeight))
                                                 }
                                                 }

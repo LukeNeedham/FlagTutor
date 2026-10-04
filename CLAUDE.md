@@ -139,6 +139,10 @@ As screens are added, give each one:
 - On Android, always use Jetpack DataStore (`datastore-preferences`) for key/value preferences, never
   `SharedPreferences`. See `DataStoreThemePreferenceStore` for the pattern.
 
+### Flags
+
+- Never round the corners of (or clip to a rounded shape) the flag image: not all flags are rectangular.
+
 ### Flag colours
 
 - Each flag's dominant colours are extracted at build time by `buildSrc`'s
