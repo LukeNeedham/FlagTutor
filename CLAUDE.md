@@ -20,8 +20,8 @@ learn the flags of the world.
 - **Language**: Kotlin
 - **UI**: Compose Multiplatform (Material 3)
 - **Build**: Gradle Kotlin DSL, dependency versions centralized in `gradle/libs.versions.toml` (version catalog)
-- **Min/Target/Compile SDK**: minSdk 24, targetSdk/compileSdk 35
-- **Versions**: Kotlin 2.2.21, AGP 8.13.2, Compose Multiplatform 1.10.3, Java 11 target
+- **Min/Target/Compile SDK**: minSdk 24, targetSdk 35, compileSdk 37
+- **Versions**: Kotlin 2.3.21, AGP 9.4.1, Gradle 9.8.0, Compose Multiplatform 1.12.1, Java 11 target
 - Targets Android, iOS and web (Kotlin/Wasm), structured as a Kotlin Multiplatform project (`commonMain` /
   `androidMain` / `iosMain`). Building and running the iOS app requires a macOS host with Xcode
   installed (Kotlin/Native's iOS targets can only be compiled there).

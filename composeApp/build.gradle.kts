@@ -32,7 +32,6 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
     ).forEach { iosTarget ->
@@ -81,7 +80,7 @@ kotlin {
 
 android {
     namespace = "com.flagtutor.app"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.flagtutor.app"
@@ -124,7 +123,6 @@ android {
 
 dependencies {
     add("kspAndroid", libs.room.compiler)
-    add("kspIosX64", libs.room.compiler)
     add("kspIosArm64", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
 }
@@ -148,9 +146,9 @@ tasks.register("downloadFlags") {
     group = "setup"
     doLast {
         val script = rootProject.file("scripts/download_flags.py")
-        exec {
+        providers.exec {
             commandLine("python3", script.absolutePath)
-        }
+        }.result.get()
     }
 }
 
@@ -166,9 +164,9 @@ tasks.register("downloadWikipediaMaps") {
     outputs.dir("src/commonMain/composeResources/files/maps")
     doLast {
         val script = rootProject.file("scripts/download_wikipedia_maps.py")
-        exec {
+        providers.exec {
             commandLine("python3", script.absolutePath)
-        }
+        }.result.get()
     }
 }
 
