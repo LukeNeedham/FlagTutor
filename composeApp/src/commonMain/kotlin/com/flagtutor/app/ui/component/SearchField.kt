@@ -13,10 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.flagtutor.app.ui.theme.AppTheme
 
-/**
- * A single-line text field for filtering a list. On the web this is backed by a real HTML input, because the
- * canvas based text input of Compose can't bring up the soft keyboard on mobile browsers.
- */
+/** A single-line text field for filtering a list. */
 @Composable
 expect fun SearchField(
     value: String,
