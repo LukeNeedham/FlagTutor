@@ -7,6 +7,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CountriesOverviewPage(
     onNavigateBack: () -> Unit,
+    onNavigateToGame: (String) -> Unit,
     viewModel: CountriesOverviewViewModel = koinViewModel(),
 ) {
     val uriHandler = LocalUriHandler.current
@@ -16,6 +17,7 @@ fun CountriesOverviewPage(
         isLoading = viewModel.isLoading,
         isError = viewModel.isError,
         onMoreInfo = { url -> uriHandler.openUri(url) },
+        onPlay = onNavigateToGame,
         onRetry = viewModel::loadCountries,
         onBackClick = onNavigateBack,
     )

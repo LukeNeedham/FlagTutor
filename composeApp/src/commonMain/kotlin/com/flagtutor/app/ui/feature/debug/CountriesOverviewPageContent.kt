@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
@@ -60,6 +61,7 @@ fun CountriesOverviewPageContent(
     isLoading: Boolean,
     isError: Boolean,
     onMoreInfo: (String) -> Unit,
+    onPlay: (String) -> Unit,
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -141,6 +143,7 @@ fun CountriesOverviewPageContent(
                                 country = country,
                                 attemptStats = attemptStatsByCountry[country.alpha2Code],
                                 onMoreInfo = onMoreInfo,
+                                onPlay = onPlay,
                                 onFlagClick = {
                                     enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.FLAG)
                                 },
@@ -188,6 +191,7 @@ private fun CountryOverviewRow(
     country: Country,
     attemptStats: FlagAttemptStats?,
     onMoreInfo: (String) -> Unit,
+    onPlay: (String) -> Unit,
     onFlagClick: () -> Unit,
     onMapClick: () -> Unit,
 ) {
@@ -215,6 +219,17 @@ private fun CountryOverviewRow(
                         modifier = Modifier.size(20.dp),
                     )
                 }
+            }
+            IconButton(
+                onClick = { onPlay(country.alpha2Code) },
+                modifier = Modifier.size(32.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.PlayArrow,
+                    contentDescription = "Open in game",
+                    tint = AppTheme.colors.primary,
+                    modifier = Modifier.size(20.dp),
+                )
             }
             FlagImage(
                 alpha2Code = country.alpha2Code,
