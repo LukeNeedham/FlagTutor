@@ -1,5 +1,7 @@
 package com.flagtutor.app.ui.feature.debug
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +22,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
@@ -41,12 +44,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.flagtutor.app.domain.model.Country
+import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.component.FlagImage
+import com.flagtutor.app.ui.util.LocalScaledAnimation
 import kotlin.math.round
 
 private enum class DebugImageType { FLAG, MAP }
@@ -230,6 +236,17 @@ private fun CountryOverviewRow(
                     )
                 }
             }
+            IconButton(
+                onClick = { onMoreInfo(GoogleMapsLinkBuilder.searchUrl(country.name)) },
+                modifier = Modifier.size(32.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Place,
+                    contentDescription = "Open in maps",
+                    tint = AppTheme.colors.primary,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
             CountryMapHighlight(
                 alpha2Code = country.alpha2Code,
                 modifier = Modifier
@@ -240,10 +257,17 @@ private fun CountryOverviewRow(
             )
         }
         if (country.flagDescription.isNotEmpty()) {
+            var isExpanded by remember { mutableStateOf(false) }
             Text(
                 text = country.flagDescription,
                 style = AppTheme.typography.bodySmall,
                 color = AppTheme.colors.text,
+                maxLines = if (isExpanded) Int.MAX_VALUE else 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { isExpanded = !isExpanded }
+                    .animateContentSize(tween(LocalScaledAnimation.current.short)),
             )
         }
         HorizontalDivider(color = AppTheme.colors.divider)
