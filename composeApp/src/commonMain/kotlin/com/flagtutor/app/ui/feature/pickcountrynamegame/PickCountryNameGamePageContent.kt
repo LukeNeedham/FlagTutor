@@ -9,6 +9,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -50,6 +52,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.draw.drawWithContent
@@ -83,8 +86,8 @@ private val AnswerPanelBottomInset = 16.dp
 // The corner radius of the option buttons grid, and so of the answer panel that floods it.
 private val AnswerPanelCornerRadius = 24.dp
 
-// IconButton's default size.
-private val InfoButtonSize = 48.dp
+// The round buttons beside the name.
+private val AnswerActionButtonSize = 44.dp
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -275,7 +278,7 @@ fun PickCountryNameGamePageContent(
                                             if (showAnswer) {
                                                 Box(modifier = Modifier.fillMaxSize()) {
                                                 Column(
-                                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                                    horizontalAlignment = Alignment.Start,
                                                     modifier = Modifier
                                                         .align(Alignment.BottomCenter)
                                                         .fillMaxWidth()
@@ -283,78 +286,62 @@ fun PickCountryNameGamePageContent(
                                                         .graphicsLayer { alpha = answerAlpha.value }
                                                         .padding(top = 16.dp, start = 20.dp, end = 20.dp),
                                                 ) {
-                                                    Spacer(modifier = Modifier.height(8.dp))
-                                                    // The icon (and an equal spacer opposite, keeping the name centred)
-                                                    // keep their full size; a long name wraps onto more lines instead.
+                                                    Spacer(modifier = Modifier.height(12.dp))
+                                                    // The name is left aligned, with round buttons for the map and Wikipedia
+                                                    // at the end; a long name wraps instead of squeezing the buttons.
                                                     Row(
-                                                        verticalAlignment = Alignment.CenterVertically,
-                                                        horizontalArrangement = Arrangement.Center,
+                                                        verticalAlignment = Alignment.Top,
+                                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                                                         modifier = Modifier.fillMaxWidth(),
                                                     ) {
-                                                        Spacer(modifier = Modifier.size(InfoButtonSize))
                                                         Text(
                                                             text = state.flag.name,
                                                             style = AppTheme.typography.headlineLarge,
                                                             color = floodContentColor,
-                                                            textAlign = TextAlign.Center,
                                                             modifier = Modifier
-                                                                .weight(1f, fill = false)
-                                                                .clickable(
-                                                                    enabled = state.flag.wikipediaUrl.isNotEmpty(),
-                                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                                ),
+                                                                .weight(1f)
+                                                                .padding(top = 2.dp),
                                                         )
-                                                        Box(
-                                                            modifier = Modifier.size(InfoButtonSize),
-                                                            contentAlignment = Alignment.Center,
-                                                        ) {
-                                                            if (state.flag.wikipediaUrl.isNotEmpty()) {
-                                                                IconButton(
-                                                                    onClick = { onMoreInfo(state.flag.wikipediaUrl) },
-                                                                ) {
-                                                                    Icon(
-                                                                        imageVector = Icons.Filled.Info,
-                                                                        contentDescription = "More Info",
-                                                                        tint = floodContentColor,
-                                                                    )
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    if (state.flag.flagDescription.isNotEmpty()) {
-                                                        // A softly tinted card, so the description reads as its own block.
-                                                        Box(
-                                                            modifier = Modifier
-                                                                .fillMaxWidth()
-                                                                .clip(RoundedCornerShape(16.dp))
-                                                                .background(floodContentColor.copy(alpha = 0.12f))
-                                                                .padding(horizontal = 16.dp, vertical = 12.dp),
-                                                        ) {
-                                                            Text(
-                                                                text = state.flag.flagDescription,
-                                                                style = AppTheme.typography.bodyMedium,
-                                                                color = floodContentColor.copy(alpha = 0.7f),
-                                                                textAlign = TextAlign.Center,
-                                                                modifier = Modifier.fillMaxWidth(),
-                                                            )
-                                                        }
-                                                        Spacer(modifier = Modifier.height(12.dp))
-                                                    }
-                                                    // The map sits in its own tinted card, filling the remaining space.
-                                                    Box(
-                                                        modifier = Modifier
-                                                            .weight(1f)
-                                                            .fillMaxWidth()
-                                                            .clip(RoundedCornerShape(16.dp))
-                                                            .background(floodContentColor.copy(alpha = 0.12f))
-                                                            .padding(8.dp),
-                                                    ) {
-                                                        BoundedCountryMap(
-                                                            bitmap = state.mapImage,
-                                                            modifier = Modifier.fillMaxSize(),
+                                                        AnswerActionButton(
+                                                            icon = Icons.Filled.LocationOn,
+                                                            contentDescription = "Show location in Maps",
+                                                            tint = floodContentColor,
                                                             onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
                                                         )
+                                                        if (state.flag.wikipediaUrl.isNotEmpty()) {
+                                                            AnswerActionButton(
+                                                                icon = Icons.Filled.Info,
+                                                                contentDescription = "More Info",
+                                                                tint = floodContentColor,
+                                                                onClick = { onMoreInfo(state.flag.wikipediaUrl) },
+                                                            )
+                                                        }
                                                     }
+                                                    Spacer(modifier = Modifier.height(16.dp))
+                                                    Box(
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .height(1.dp)
+                                                            .background(floodContentColor.copy(alpha = 0.2f)),
+                                                    )
+                                                    if (state.flag.flagDescription.isNotEmpty()) {
+                                                        Spacer(modifier = Modifier.height(16.dp))
+                                                        Text(
+                                                            text = state.flag.flagDescription,
+                                                            style = AppTheme.typography.bodyLarge,
+                                                            color = floodContentColor.copy(alpha = 0.7f),
+                                                            modifier = Modifier.fillMaxWidth(),
+                                                        )
+                                                    }
+                                                    Spacer(modifier = Modifier.height(20.dp))
+                                                    // The map image carries its own background, so it is drawn bare.
+                                                    BoundedCountryMap(
+                                                        bitmap = state.mapImage,
+                                                        modifier = Modifier
+                                                            .weight(1f)
+                                                            .fillMaxWidth(),
+                                                        onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
+                                                    )
                                                     Spacer(modifier = Modifier.height(NextButtonReservedHeight))
                                                 }
                                                 }
@@ -500,6 +487,25 @@ fun PickCountryNameGamePageContent(
             }
             }
         }
+    }
+}
+
+/** A round button, tinted from [tint], shown beside the answer's name. */
+@Composable
+private fun AnswerActionButton(
+    icon: ImageVector,
+    contentDescription: String,
+    tint: Color,
+    onClick: () -> Unit,
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier
+            .size(AnswerActionButtonSize)
+            .clip(CircleShape)
+            .background(tint.copy(alpha = 0.16f)),
+    ) {
+        Icon(imageVector = icon, contentDescription = contentDescription, tint = tint)
     }
 }
 
