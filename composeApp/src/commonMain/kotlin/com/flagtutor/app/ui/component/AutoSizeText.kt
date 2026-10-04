@@ -41,7 +41,8 @@ fun AutoSizeText(
             softWrap = false,
             onTextLayout = { result ->
                 if (result.didOverflowWidth && fontSize > minFontSize) {
-                    fontSize = maxOf(fontSize * SHRINK_FACTOR, minFontSize)
+                    val shrunk = fontSize * SHRINK_FACTOR
+                    fontSize = if (shrunk < minFontSize) minFontSize else shrunk
                 } else {
                     isSettled = true
                 }
