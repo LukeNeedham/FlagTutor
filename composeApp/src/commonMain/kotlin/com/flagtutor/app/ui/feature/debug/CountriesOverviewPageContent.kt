@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.debug
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -135,6 +136,7 @@ fun CountriesOverviewPageContent(
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         items(countries, key = { it.alpha2Code }) { country ->
                             CountryOverviewRow(
@@ -148,7 +150,6 @@ fun CountriesOverviewPageContent(
                                     enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.MAP)
                                 },
                             )
-                            HorizontalDivider(color = AppTheme.colors.divider)
                         }
                     }
                 }
@@ -191,12 +192,25 @@ private fun CountryOverviewRow(
     onFlagClick: () -> Unit,
     onMapClick: () -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(AppTheme.colors.card, AppTheme.shapes.medium)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            FlagImage(
+                alpha2Code = country.alpha2Code,
+                modifier = Modifier
+                    .height(40.dp)
+                    .aspectRatio(3f / 2f)
+                    .clickable(onClick = onFlagClick),
+            )
             Text(
                 text = country.name,
                 style = AppTheme.typography.bodyMedium,
@@ -216,13 +230,6 @@ private fun CountryOverviewRow(
                     )
                 }
             }
-            FlagImage(
-                alpha2Code = country.alpha2Code,
-                modifier = Modifier
-                    .height(32.dp)
-                    .aspectRatio(3f / 2f)
-                    .clickable(onClick = onFlagClick),
-            )
             CountryMapHighlight(
                 alpha2Code = country.alpha2Code,
                 modifier = Modifier
@@ -232,16 +239,44 @@ private fun CountryOverviewRow(
                     .clickable(onClick = onMapClick),
             )
         }
+        if (country.flagDescription.isNotEmpty()) {
+            Text(
+                text = country.flagDescription,
+                style = AppTheme.typography.bodySmall,
+                color = AppTheme.colors.text,
+            )
+        }
+        HorizontalDivider(color = AppTheme.colors.divider)
+        if (attemptStats == null) {
+            Text(
+                text = "No attempts yet",
+                style = AppTheme.typography.labelSmall,
+                color = AppTheme.colors.textSecondary,
+            )
+        } else {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                val roundedAverage = round(attemptStats.averageIncorrectPerAttempt * 100) / 100
+                StatItem("Attempts", attemptStats.totalAttempts.toString(), Modifier.weight(1f))
+                StatItem("Incorrect", attemptStats.totalIncorrectAnswers.toString(), Modifier.weight(1f))
+                StatItem("Avg wrong", roundedAverage.toString(), Modifier.weight(1f))
+                StatItem("Streak", attemptStats.currentStreak.toString(), Modifier.weight(1f))
+            }
+        }
+    }
+}
+
+@Composable
+private fun StatItem(label: String, value: String, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = attemptStats?.toSummaryText() ?: "No attempts yet",
+            text = value,
+            style = AppTheme.typography.bodyMedium,
+            color = AppTheme.colors.text,
+        )
+        Text(
+            text = label,
             style = AppTheme.typography.labelSmall,
             color = AppTheme.colors.textSecondary,
         )
     }
-}
-
-private fun FlagAttemptStats.toSummaryText(): String {
-    val roundedAverage = round(averageIncorrectPerAttempt * 100) / 100
-    return "$totalAttempts attempts · $totalIncorrectAnswers incorrect · " +
-        "avg $roundedAverage incorrect/attempt · streak $currentStreak"
 }
