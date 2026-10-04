@@ -66,8 +66,8 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import kotlin.math.max
 import kotlin.math.sqrt
 
-// Next button occupies 15dp top margin + 64dp height + 15dp bottom margin; leave at least 30dp above that.
-private val NextButtonReservedHeight = 124.dp
+// Next button occupies 10dp top margin + 64dp height + 10dp bottom margin; leave at least 30dp above that.
+private val NextButtonReservedHeight = 114.dp
 
 // Horizontal inset shared by the option buttons and the Next button, so the two are the same width.
 private val ContentHorizontalPadding = 24.dp
@@ -75,10 +75,13 @@ private val ContentHorizontalPadding = 24.dp
 private val NextButtonHeight = 64.dp
 
 // The Next button's margin from the left, right and bottom edges of the answer panel it sits in.
-private val NextButtonMargin = 15.dp
+private val NextButtonMargin = 10.dp
 
 // The answer panel (the flooded area) sits this far above the bottom of the screen.
 private val AnswerPanelBottomInset = 16.dp
+
+// The corner radius of the option buttons grid, and so of the answer panel that floods it.
+private val AnswerPanelCornerRadius = 24.dp
 
 // IconButton's default size.
 private val InfoButtonSize = 48.dp
@@ -208,7 +211,7 @@ fun PickCountryNameGamePageContent(
                                 val flagMaxWidth = maxWidth * 0.85f
                                 val flagMaxHeight = maxHeight * 0.3f
 
-                                val gridCornerRadius = 24.dp
+                                val gridCornerRadius = AnswerPanelCornerRadius
                                 val gridGap = 12.dp
                                 val gridShape = RoundedCornerShape(gridCornerRadius)
                                 val colorOrder = checkerboardColorOrder(state.colors)
@@ -441,7 +444,11 @@ fun PickCountryNameGamePageContent(
                             ) {
                                 Button(
                                     onClick = onNextFlag,
-                                    shape = RoundedCornerShape(5.dp),
+                                    // Square at the top, and concentric with the panel's rounded corners at the bottom.
+                                    shape = RoundedCornerShape(
+                                        bottomStart = AnswerPanelCornerRadius - NextButtonMargin,
+                                        bottomEnd = AnswerPanelCornerRadius - NextButtonMargin,
+                                    ),
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = nextButtonColors.second,
                                         contentColor = nextButtonColors.first,
