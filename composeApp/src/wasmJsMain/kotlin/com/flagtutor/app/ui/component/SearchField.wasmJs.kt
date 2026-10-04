@@ -34,6 +34,7 @@ import kotlinx.browser.document
 import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
+import org.w3c.dom.events.MouseEvent
 import kotlin.math.roundToInt
 
 private const val INPUT_CLASS = "app-search-input"
@@ -55,6 +56,9 @@ actual fun SearchField(
     val caretColor = AppTheme.colors.primary.toCss()
     val currentOnValueChange by rememberUpdatedState(onValueChange)
     var bounds by remember { mutableStateOf<Rect?>(null) }
+    var clearButtonBounds by remember { mutableStateOf<Rect?>(null) }
+    val currentClearButtonBounds by rememberUpdatedState(clearButtonBounds)
+    val currentDensity by rememberUpdatedState(density)
 
     val input = remember {
         installPlaceholderStyle()
@@ -88,10 +92,26 @@ actual fun SearchField(
         document.documentElement?.appendChild(input)
         // Dismissing the soft keyboard leaves the input focused, so the browser would raise it again on any later
         // tap. Taps elsewhere (on the Compose canvas) must therefore take focus away.
-        val blurOnOutsideTap: (Event) -> Unit = { event -> if (event.target != input) input.blur() }
+        // The clear button is drawn on the canvas, so it can only be recognised by where the tap landed.
+        fun isOnClearButton(event: Event): Boolean {
+            val rect = currentClearButtonBounds ?: return false
+            val mouseEvent = event as MouseEvent
+            val x = mouseEvent.clientX * currentDensity
+            val y = mouseEvent.clientY * currentDensity
+            return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom
+        }
+        val blurOnOutsideTap: (Event) -> Unit = { event ->
+            if (event.target != input && !isOnClearButton(event)) input.blur()
+        }
+        // Without this the browser moves focus off the input when the canvas is pressed, closing the keyboard.
+        val keepFocusOnClearButton: (Event) -> Unit = { event ->
+            if (isOnClearButton(event)) event.preventDefault()
+        }
         document.addEventListener("pointerdown", blurOnOutsideTap, true)
+        document.addEventListener("mousedown", keepFocusOnClearButton, true)
         onDispose {
             document.removeEventListener("pointerdown", blurOnOutsideTap, true)
+            document.removeEventListener("mousedown", keepFocusOnClearButton, true)
             input.remove()
         }
     }
@@ -136,7 +156,12 @@ actual fun SearchField(
                 .onGloballyPositioned { bounds = it.boundsInWindow() },
         )
         if (value.isNotEmpty()) {
-            IconButton(onClick = { onValueChange("") }, modifier = Modifier.size(32.dp)) {
+            IconButton(
+                onClick = { onValueChange("") },
+                modifier = Modifier
+                    .size(32.dp)
+                    .onGloballyPositioned { clearButtonBounds = it.boundsInWindow() },
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Close,
                     contentDescription = "Clear search",
