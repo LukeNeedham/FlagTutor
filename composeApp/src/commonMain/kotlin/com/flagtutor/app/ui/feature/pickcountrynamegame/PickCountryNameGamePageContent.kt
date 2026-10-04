@@ -10,6 +10,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -59,11 +60,11 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.flagtutor.app.ui.util.LocalScaledAnimation
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
-import com.flagtutor.app.ui.component.AutoSizeText
 import com.flagtutor.app.ui.component.BoundedCountryMap
 import com.flagtutor.app.ui.util.ExtractedColor
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -295,10 +296,15 @@ fun PickCountryNameGamePageContent(
                                                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                                                         modifier = Modifier.fillMaxWidth(),
                                                     ) {
-                                                        AutoSizeText(
+                                                        Text(
                                                             text = state.flag.name,
                                                             style = AppTheme.typography.headlineLarge,
                                                             color = floodContentColor,
+                                                            maxLines = 1,
+                                                            autoSize = TextAutoSize.StepBased(
+                                                                minFontSize = 12.sp,
+                                                                maxFontSize = AppTheme.typography.headlineLarge.fontSize,
+                                                            ),
                                                             modifier = Modifier.weight(1f),
                                                         )
                                                         AnswerActionButton(
