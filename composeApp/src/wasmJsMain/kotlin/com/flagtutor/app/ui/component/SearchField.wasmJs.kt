@@ -136,13 +136,7 @@ actual fun SearchField(
                 .onGloballyPositioned { bounds = it.boundsInWindow() },
         )
         if (value.isNotEmpty()) {
-            IconButton(
-                onClick = {
-                    onValueChange("")
-                    input.focus()
-                },
-                modifier = Modifier.size(32.dp),
-            ) {
+            IconButton(onClick = { onValueChange("") }, modifier = Modifier.size(32.dp)) {
                 Icon(
                     imageVector = Icons.Filled.Close,
                     contentDescription = "Clear search",
