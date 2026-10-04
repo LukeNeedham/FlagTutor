@@ -304,16 +304,12 @@ private fun CountryOverviewRow(
                     modifier = Modifier.size(20.dp),
                 )
             }
-            CountryMapHighlight(
-                alpha2Code = country.alpha2Code,
-                modifier = Modifier
-                    .height(40.dp)
-                    .aspectRatio(16f / 10f)
-                    .clipToBounds()
-                    .clickable(onClick = onMapClick),
-            )
         }
-        if (country.flagDescription.isNotEmpty()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
             var isExpanded by remember { mutableStateOf(false) }
             Text(
                 text = country.flagDescription,
@@ -322,9 +318,17 @@ private fun CountryOverviewRow(
                 maxLines = if (isExpanded) Int.MAX_VALUE else 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .weight(1f)
                     .clickable { isExpanded = !isExpanded }
                     .animateContentSize(tween(LocalScaledAnimation.current.short)),
+            )
+            CountryMapHighlight(
+                alpha2Code = country.alpha2Code,
+                modifier = Modifier
+                    .height(40.dp)
+                    .aspectRatio(16f / 10f)
+                    .clipToBounds()
+                    .clickable(onClick = onMapClick),
             )
         }
         HorizontalDivider(color = AppTheme.colors.divider)
@@ -336,10 +340,11 @@ private fun CountryOverviewRow(
             )
         } else {
             Row(modifier = Modifier.fillMaxWidth()) {
-                val roundedAverage = round(attemptStats.averageIncorrectPerAttempt * 100) / 100
+                val totalGuesses = attemptStats.totalAttempts + attemptStats.totalIncorrectAnswers
+                val accuracyPercent = round(attemptStats.totalAttempts * 100.0 / totalGuesses).toInt()
                 StatItem("Attempts", attemptStats.totalAttempts.toString(), Modifier.weight(1f))
                 StatItem("Incorrect", attemptStats.totalIncorrectAnswers.toString(), Modifier.weight(1f))
-                StatItem("Avg wrong", roundedAverage.toString(), Modifier.weight(1f))
+                StatItem("Accuracy", "$accuracyPercent%", Modifier.weight(1f))
                 StatItem("Streak", attemptStats.currentStreak.toString(), Modifier.weight(1f))
             }
         }
