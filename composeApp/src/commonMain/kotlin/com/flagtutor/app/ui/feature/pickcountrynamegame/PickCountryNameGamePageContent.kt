@@ -278,6 +278,18 @@ fun PickCountryNameGamePageContent(
                                                             }
                                                         }
                                                     }
+                                                    if (state.flag.flagDescription.isNotEmpty()) {
+                                                        Spacer(modifier = Modifier.height(8.dp))
+                                                        Text(
+                                                            text = state.flag.flagDescription,
+                                                            style = AppTheme.typography.bodyMedium,
+                                                            color = AppTheme.colors.textSecondary,
+                                                            textAlign = TextAlign.Center,
+                                                            modifier = Modifier
+                                                                .fillMaxWidth()
+                                                                .padding(horizontal = 24.dp),
+                                                        )
+                                                    }
                                                     Spacer(modifier = Modifier.height(12.dp))
                                                     BoundedCountryMap(
                                                         bitmap = state.mapImage,

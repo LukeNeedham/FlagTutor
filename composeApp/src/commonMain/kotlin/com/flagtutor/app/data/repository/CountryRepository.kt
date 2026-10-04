@@ -1,5 +1,6 @@
 package com.flagtutor.app.data.repository
 
+import com.flagtutor.app.data.local.FlagDescriptionDataSource
 import com.flagtutor.app.data.local.LoadOnce
 import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.domain.model.Country
@@ -15,14 +16,16 @@ private val EXCLUDED_CODES = setOf("eu", "un")
 
 class CountryRepository(
     private val wikipediaLinkDataSource: WikipediaLinkDataSource,
+    private val flagDescriptionDataSource: FlagDescriptionDataSource,
 ) {
 
     private val countries = LoadOnce {
-        // Two separate fetches (on web, network requests), so run them side by side.
-        val (bytes, wikiLinks) = coroutineScope {
+        // Separate fetches (on web, network requests), so run them side by side.
+        val (bytes, wikiLinks, descriptions) = coroutineScope {
             val countriesFile = async { readFile("files/countries.json") }
             val links = async { wikipediaLinkDataSource.getLinks() }
-            countriesFile.await() to links.await()
+            val flagDescriptions = async { flagDescriptionDataSource.getDescriptions() }
+            Triple(countriesFile.await(), links.await(), flagDescriptions.await())
         }
         val codes = Json.decodeFromString<JsonObject>(bytes.decodeToString())
         codes.entries
@@ -32,6 +35,7 @@ class CountryRepository(
                     name = nameElement.jsonPrimitive.content,
                     alpha2Code = code,
                     wikipediaUrl = wikiLinks[code] ?: "",
+                    flagDescription = descriptions[code] ?: "",
                 )
             }
             .sortedBy { it.name }
