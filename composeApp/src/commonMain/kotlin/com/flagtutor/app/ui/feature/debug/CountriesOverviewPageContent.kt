@@ -21,12 +21,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -35,8 +33,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import com.flagtutor.app.ui.theme.AppTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -57,6 +53,7 @@ import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.component.FlagImage
+import com.flagtutor.app.ui.component.SearchField
 import com.flagtutor.app.ui.util.LocalScaledAnimation
 import kotlin.math.round
 
@@ -151,36 +148,11 @@ fun CountriesOverviewPageContent(
 
                 else -> {
                     Column(modifier = Modifier.fillMaxSize()) {
-                        OutlinedTextField(
+                        SearchField(
                             value = searchQuery,
                             onValueChange = { searchQuery = it },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            placeholder = { Text("Search countries") },
-                            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                            trailingIcon = {
-                                if (searchQuery.isNotEmpty()) {
-                                    IconButton(onClick = { searchQuery = "" }) {
-                                        Icon(Icons.Filled.Close, contentDescription = "Clear search")
-                                    }
-                                }
-                            },
-                            singleLine = true,
-                            shape = AppTheme.shapes.large,
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedTextColor = AppTheme.colors.text,
-                                unfocusedTextColor = AppTheme.colors.text,
-                                focusedBorderColor = AppTheme.colors.primary,
-                                unfocusedBorderColor = AppTheme.colors.divider,
-                                focusedLeadingIconColor = AppTheme.colors.textSecondary,
-                                unfocusedLeadingIconColor = AppTheme.colors.textSecondary,
-                                focusedTrailingIconColor = AppTheme.colors.textSecondary,
-                                unfocusedTrailingIconColor = AppTheme.colors.textSecondary,
-                                focusedPlaceholderColor = AppTheme.colors.textSecondary,
-                                unfocusedPlaceholderColor = AppTheme.colors.textSecondary,
-                                cursorColor = AppTheme.colors.primary,
-                            ),
+                            placeholder = "Search countries",
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         )
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
