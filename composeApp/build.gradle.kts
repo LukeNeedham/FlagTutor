@@ -172,6 +172,32 @@ tasks.register("downloadWikipediaMaps") {
     }
 }
 
+/**
+ * Replaces the bundled flag images with the lead image of each country's Wikipedia flag article
+ * (links in wikipedia_flag_links.json), so flags that have changed are picked up, e.g. Afghanistan.
+ * Needs network access to en.wikipedia.org and thumb.wikimedia.org (flag images are served from
+ * there; upload.wikimedia.org may also be needed if Wikimedia redirects).
+ *
+ *   ./gradlew downloadWikipediaFlags                      all countries
+ *   ./gradlew downloadWikipediaFlags -PflagCodes=af,sy    only these alpha-2 codes
+ *   ./gradlew downloadWikipediaFlags -PdryRun             list what would be downloaded
+ *
+ * The images come from Wikimedia Commons; the file each flag was taken from is recorded in
+ * files/flag_image_sources.json. Flag colours are derived from the images at build time
+ * (generateFlagColors), so nothing else needs regenerating.
+ */
+tasks.register<DownloadWikipediaFlagsTask>("downloadWikipediaFlags") {
+    description = "Downloads each country's current flag from its Wikipedia flag article."
+    group = "setup"
+    val files = layout.projectDirectory.dir("src/commonMain/composeResources/files")
+    linksFile.set(files.file("wikipedia_flag_links.json"))
+    flagsDir.set(files.dir("flags"))
+    sourcesFile.set(files.file("flag_image_sources.json"))
+    thumbnailWidth.set(320)
+    onlyCodes.set(providers.gradleProperty("flagCodes").orElse(""))
+    dryRun.set(providers.gradleProperty("dryRun").isPresent)
+}
+
 // ─── Flag colour extraction ──────────────────────────────────────────────────
 
 // Dominant colours are computed once at build time and shipped as a compose resource, so no

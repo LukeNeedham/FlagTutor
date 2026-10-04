@@ -1,0 +1,58 @@
+name: Update Wikipedia Flags
+
+on:
+  workflow_dispatch:
+    inputs:
+      codes:
+        description: "Only update these comma separated alpha-2 codes, e.g. af,sy (blank updates every country)"
+        type: string
+        default: ""
+  schedule:
+    # Monthly, so flag changes are picked up without anyone having to remember.
+    - cron: "17 4 1 * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-flags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "zulu"
+          cache: "gradle"
+
+      - name: Download current flags from Wikipedia
+        timeout-minutes: 45
+        env:
+          FLAG_CODES: ${{ inputs.codes }}
+        run: |
+          ./gradlew downloadWikipediaFlags -PflagCodes="$FLAG_CODES" --console=plain | tee download_flags.log
+          echo "## Wikipedia flag download results" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          grep -E "Flags changed|Flags already|Skipped|Failed" download_flags.log >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      # A pull request rather than a direct push: a new flag can need its description updated, and
+      # the lead image of an article is occasionally not the flag, so a human should look first.
+      - name: Open a pull request with the changes
+        uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: |
+            composeApp/src/commonMain/composeResources/files/flags
+            composeApp/src/commonMain/composeResources/files/flag_image_sources.json
+          branch: automation/update-wikipedia-flags
+          commit-message: "Update flags from Wikipedia"
+          title: "Update flags from Wikipedia"
+          body: |
+            Flag images refreshed from each country's Wikipedia flag article by `./gradlew downloadWikipediaFlags`.
+
+            Please check the changed images, and update `flag_descriptions.json` for any flag whose design changed.
+            The Wikimedia Commons file behind each flag is listed in `flag_image_sources.json`.
+          delete-branch: true
