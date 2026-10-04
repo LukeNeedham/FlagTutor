@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import com.flagtutor.app.ui.theme.AppTheme
 import kotlinx.browser.document
 import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.events.Event
+import org.w3c.dom.events.KeyboardEvent
 import kotlin.math.roundToInt
 
 private const val INPUT_CLASS = "app-search-input"
@@ -75,13 +77,23 @@ actual fun SearchField(
                 setProperty("z-index", "10")
             }
             addEventListener("input", { currentOnValueChange(this.value) })
+            addEventListener("keydown", { event ->
+                if ((event as KeyboardEvent).key == "Enter") blur()
+            })
         }
     }
 
     DisposableEffect(input) {
         // Not <body>: Compose attaches a shadow root to it, which stops any other children from rendering.
         document.documentElement?.appendChild(input)
-        onDispose { input.remove() }
+        // Dismissing the soft keyboard leaves the input focused, so the browser would raise it again on any later
+        // tap. Taps elsewhere (on the Compose canvas) must therefore take focus away.
+        val blurOnOutsideTap: (Event) -> Unit = { event -> if (event.target != input) input.blur() }
+        document.addEventListener("pointerdown", blurOnOutsideTap, true)
+        onDispose {
+            document.removeEventListener("pointerdown", blurOnOutsideTap, true)
+            input.remove()
+        }
     }
 
     input.placeholder = placeholder
@@ -124,7 +136,13 @@ actual fun SearchField(
                 .onGloballyPositioned { bounds = it.boundsInWindow() },
         )
         if (value.isNotEmpty()) {
-            IconButton(onClick = { onValueChange("") }, modifier = Modifier.size(32.dp)) {
+            IconButton(
+                onClick = {
+                    onValueChange("")
+                    input.focus()
+                },
+                modifier = Modifier.size(32.dp),
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Close,
                     contentDescription = "Clear search",
