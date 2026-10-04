@@ -331,7 +331,7 @@ fun PickCountryNameGamePageContent(
                                                                             key(country.alpha2Code) {
                                                                                 FlagOptionButton(
                                                                                     country = country,
-                                                                                    isCrumbled = country.alpha2Code in state.incorrectAlpha2Codes,
+                                                                                    isErased = country.alpha2Code in state.incorrectAlpha2Codes,
                                                                                     enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
                                                                                     onClick = { onOptionSelected(country) },
                                                                                     shape = gridShapes[rowIndex][colIndex],

@@ -22,14 +22,8 @@ class ScaledAnimation(private val speed: Float) {
     /** Slides between flags, and the Next button leaving. */
     val medium: Int = scaled(300)
 
-    /** Panels and the Next button entering. */
+    /** Panels and the Next button entering, and the ripple that erases a wrong option. */
     val long: Int = scaled(400)
-
-    /** Falling crumble pieces. */
-    val extraLong: Int = scaled(550)
-
-    /** The delay between one crumble piece starting to fall and the next. */
-    val stagger: Long = scaled(60).toLong()
 
     private fun scaled(durationMs: Int): Int = (durationMs / speed).roundToInt()
 }
