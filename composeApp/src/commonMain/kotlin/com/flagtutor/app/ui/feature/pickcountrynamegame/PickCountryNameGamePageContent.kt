@@ -63,6 +63,7 @@ import com.flagtutor.app.ui.util.LocalScaledAnimation
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
+import com.flagtutor.app.ui.component.AutoSizeText
 import com.flagtutor.app.ui.component.BoundedCountryMap
 import com.flagtutor.app.ui.util.ExtractedColor
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -287,20 +288,18 @@ fun PickCountryNameGamePageContent(
                                                         .padding(top = 16.dp, start = 20.dp, end = 20.dp),
                                                 ) {
                                                     Spacer(modifier = Modifier.height(12.dp))
-                                                    // The name is left aligned, with round buttons for the map and Wikipedia
-                                                    // at the end; a long name wraps instead of squeezing the buttons.
+                                                    // The name is left aligned and always on one line, shrinking to fit; round
+                                                    // buttons for the map and Wikipedia sit at the end, centred with it.
                                                     Row(
-                                                        verticalAlignment = Alignment.Top,
+                                                        verticalAlignment = Alignment.CenterVertically,
                                                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                                                         modifier = Modifier.fillMaxWidth(),
                                                     ) {
-                                                        Text(
+                                                        AutoSizeText(
                                                             text = state.flag.name,
                                                             style = AppTheme.typography.headlineLarge,
                                                             color = floodContentColor,
-                                                            modifier = Modifier
-                                                                .weight(1f)
-                                                                .padding(top = 2.dp),
+                                                            modifier = Modifier.weight(1f),
                                                         )
                                                         AnswerActionButton(
                                                             icon = Icons.Filled.LocationOn,
