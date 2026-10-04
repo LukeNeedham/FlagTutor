@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.sp
 data class AppTypography(
     val displaySmall: TextStyle,
     val headlineLarge: TextStyle,
+    val titleLarge: TextStyle,
     val titleMedium: TextStyle,
     val titleSmall: TextStyle,
     val bodyLarge: TextStyle,
@@ -21,6 +22,9 @@ data class AppTypography(
 internal val DefaultAppTypography = AppTypography(
     displaySmall = TextStyle(fontSize = 36.sp, lineHeight = 44.sp, fontWeight = FontWeight.Bold),
     headlineLarge = TextStyle(fontSize = 32.sp, lineHeight = 40.sp),
+    titleLarge = TextStyle(
+        fontSize = 20.sp, lineHeight = 28.sp, letterSpacing = 0.sp, fontWeight = FontWeight.SemiBold,
+    ),
     titleMedium = TextStyle(
         fontSize = 16.sp, lineHeight = 24.sp, letterSpacing = 0.15.sp, fontWeight = FontWeight.SemiBold,
     ),
