@@ -21,7 +21,7 @@ learn the flags of the world.
 - **UI**: Compose Multiplatform (Material 3)
 - **Build**: Gradle Kotlin DSL, dependency versions centralized in `gradle/libs.versions.toml` (version catalog)
 - **Min/Target/Compile SDK**: minSdk 24, targetSdk/compileSdk 35
-- **Versions**: Kotlin 2.1.0, AGP 8.7.3, Compose Multiplatform 1.7.3, Java 11 target
+- **Versions**: Kotlin 2.2.21, AGP 8.13.2, Compose Multiplatform 1.10.3, Java 11 target
 - Targets Android, iOS and web (Kotlin/Wasm), structured as a Kotlin Multiplatform project (`commonMain` /
   `androidMain` / `iosMain`). Building and running the iOS app requires a macOS host with Xcode
   installed (Kotlin/Native's iOS targets can only be compiled there).
@@ -138,6 +138,10 @@ As screens are added, give each one:
 
 - On Android, always use Jetpack DataStore (`datastore-preferences`) for key/value preferences, never
   `SharedPreferences`. See `DataStoreThemePreferenceStore` for the pattern.
+
+### Flags
+
+- Never round the corners of (or clip to a rounded shape) the flag image: not all flags are rectangular.
 
 ### Flag colours
 

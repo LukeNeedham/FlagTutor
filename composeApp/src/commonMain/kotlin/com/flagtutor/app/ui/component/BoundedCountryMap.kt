@@ -17,13 +17,13 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 
-private const val MAX_WIDTH_FRACTION = 0.85f
+private const val MAX_WIDTH_FRACTION = 1f
 private const val PLACEHOLDER_ASPECT_RATIO = 16f / 10f
 
 /**
  * Shows an already-loaded country map as large as fits in the space it is given: up to
- * [MAX_WIDTH_FRACTION] of the width, but never taller than the available height. It sits at the
- * top of that space.
+ * [MAX_WIDTH_FRACTION] of the width, but never taller than the available height. It is centred
+ * in that space. The image has no background or border of its own: it carries its own.
  */
 @Composable
 fun BoundedCountryMap(
@@ -31,7 +31,7 @@ fun BoundedCountryMap(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
 ) {
-    BoxWithConstraints(modifier = modifier, contentAlignment = Alignment.TopCenter) {
+    BoxWithConstraints(modifier = modifier, contentAlignment = Alignment.Center) {
         val aspectRatio = bitmap?.let { it.width.toFloat() / it.height.toFloat() } ?: PLACEHOLDER_ASPECT_RATIO
         val mapWidth = minOf(maxWidth * MAX_WIDTH_FRACTION, maxHeight * aspectRatio)
         val shapedModifier = Modifier

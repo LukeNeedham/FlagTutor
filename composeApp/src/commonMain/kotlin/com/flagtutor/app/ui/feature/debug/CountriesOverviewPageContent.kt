@@ -21,9 +21,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -32,6 +35,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import com.flagtutor.app.ui.theme.AppTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -67,10 +72,16 @@ fun CountriesOverviewPageContent(
     isLoading: Boolean,
     isError: Boolean,
     onMoreInfo: (String) -> Unit,
+    onPlay: (String) -> Unit,
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     var enlargedImage by remember { mutableStateOf<EnlargedImage?>(null) }
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredCountries = remember(countries, searchQuery) {
+        val query = searchQuery.trim()
+        if (query.isEmpty()) countries else countries.filter { it.name.contains(query, ignoreCase = true) }
+    }
 
     Scaffold(
         topBar = {
@@ -139,23 +150,57 @@ fun CountriesOverviewPageContent(
                 }
 
                 else -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                    ) {
-                        items(countries, key = { it.alpha2Code }) { country ->
-                            CountryOverviewRow(
-                                country = country,
-                                attemptStats = attemptStatsByCountry[country.alpha2Code],
-                                onMoreInfo = onMoreInfo,
-                                onFlagClick = {
-                                    enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.FLAG)
-                                },
-                                onMapClick = {
-                                    enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.MAP)
-                                },
-                            )
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        OutlinedTextField(
+                            value = searchQuery,
+                            onValueChange = { searchQuery = it },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            placeholder = { Text("Search countries") },
+                            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+                            trailingIcon = {
+                                if (searchQuery.isNotEmpty()) {
+                                    IconButton(onClick = { searchQuery = "" }) {
+                                        Icon(Icons.Filled.Close, contentDescription = "Clear search")
+                                    }
+                                }
+                            },
+                            singleLine = true,
+                            shape = AppTheme.shapes.large,
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = AppTheme.colors.text,
+                                unfocusedTextColor = AppTheme.colors.text,
+                                focusedBorderColor = AppTheme.colors.primary,
+                                unfocusedBorderColor = AppTheme.colors.divider,
+                                focusedLeadingIconColor = AppTheme.colors.textSecondary,
+                                unfocusedLeadingIconColor = AppTheme.colors.textSecondary,
+                                focusedTrailingIconColor = AppTheme.colors.textSecondary,
+                                unfocusedTrailingIconColor = AppTheme.colors.textSecondary,
+                                focusedPlaceholderColor = AppTheme.colors.textSecondary,
+                                unfocusedPlaceholderColor = AppTheme.colors.textSecondary,
+                                cursorColor = AppTheme.colors.primary,
+                            ),
+                        )
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                        ) {
+                            items(filteredCountries, key = { it.alpha2Code }) { country ->
+                                CountryOverviewRow(
+                                    country = country,
+                                    attemptStats = attemptStatsByCountry[country.alpha2Code],
+                                    onMoreInfo = onMoreInfo,
+                                    onPlay = onPlay,
+                                    onFlagClick = {
+                                        enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.FLAG)
+                                    },
+                                    onMapClick = {
+                                        enlargedImage = EnlargedImage(country.alpha2Code, DebugImageType.MAP)
+                                    },
+                                )
+                            }
                         }
                     }
                 }
@@ -195,6 +240,7 @@ private fun CountryOverviewRow(
     country: Country,
     attemptStats: FlagAttemptStats?,
     onMoreInfo: (String) -> Unit,
+    onPlay: (String) -> Unit,
     onFlagClick: () -> Unit,
     onMapClick: () -> Unit,
 ) {
@@ -243,6 +289,17 @@ private fun CountryOverviewRow(
                 Icon(
                     imageVector = Icons.Filled.Place,
                     contentDescription = "Open in maps",
+                    tint = AppTheme.colors.primary,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+            IconButton(
+                onClick = { onPlay(country.alpha2Code) },
+                modifier = Modifier.size(32.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.PlayArrow,
+                    contentDescription = "Open in game",
                     tint = AppTheme.colors.primary,
                     modifier = Modifier.size(20.dp),
                 )
