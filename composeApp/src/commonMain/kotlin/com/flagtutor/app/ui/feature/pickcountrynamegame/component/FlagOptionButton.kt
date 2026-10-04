@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +55,8 @@ fun FlagOptionButton(
     shape: Shape = AppTheme.shapes.large,
     containerColor: Color? = null,
     contentColor: Color? = null,
+    /** Called with the position, within this button, of each touch down on it. */
+    onTouch: ((Offset) -> Unit)? = null,
 ) {
     val animation = LocalScaledAnimation.current
     // Where the button was last touched: the ripple that erases it spreads out from here.
@@ -63,6 +66,7 @@ fun FlagOptionButton(
         if (isErased) rippleProgress.animateTo(1f, tween(animation.long))
     }
 
+    val currentOnTouch by rememberUpdatedState(onTouch)
     val activeContainerColor = containerColor ?: AppTheme.colors.option
     val activeContentColor = when {
         containerColor != null -> contentColor ?: AppTheme.colors.onPrimary
@@ -81,7 +85,10 @@ fun FlagOptionButton(
                 awaitPointerEventScope {
                     while (true) {
                         val event = awaitPointerEvent(PointerEventPass.Initial)
-                        event.changes.firstOrNull { it.pressed }?.let { touchPoint = it.position }
+                        event.changes.firstOrNull { it.pressed }?.let {
+                            touchPoint = it.position
+                            currentOnTouch?.invoke(it.position)
+                        }
                     }
                 }
             }

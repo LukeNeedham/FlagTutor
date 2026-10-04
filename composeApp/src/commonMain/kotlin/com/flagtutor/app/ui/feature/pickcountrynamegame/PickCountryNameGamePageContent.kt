@@ -49,6 +49,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.draw.drawWithContent
@@ -158,6 +159,13 @@ fun PickCountryNameGamePageContent(
                     // True once the colour flood has covered the option buttons: only then does the Next
                     // button come in, along with the answer content.
                     var isFloodDone by remember { mutableStateOf(false) }
+                    // The Next button's colours come from the flood of the flag whose answer is showing, so
+                    // they stay put while it slides away after the next flag has loaded.
+                    val currentFloodColors = floodColorsFor(uiState)
+                    var nextButtonColors by remember { mutableStateOf(currentFloodColors) }
+                    LaunchedEffect(isFloodDone) {
+                        if (isFloodDone) nextButtonColors = currentFloodColors
+                    }
                     LaunchedEffect(isAnswerRevealed) {
                         if (!isAnswerRevealed) isFloodDone = false
                     }
@@ -206,11 +214,9 @@ fun PickCountryNameGamePageContent(
                                 val colorOrder = checkerboardColorOrder(state.colors)
                                 val correctIndex = state.options.indexOfFirst { it.alpha2Code == state.flag.alpha2Code }
                                 // The flood is the colour of the correct option's button.
-                                val floodColors = if (state.colors.isNotEmpty() && correctIndex >= 0) {
-                                    state.colors[colorOrder[correctIndex]]
-                                } else null
-                                val floodColor = floodColors?.containerColor ?: AppTheme.colors.option
-                                val floodContentColor = floodColors?.contentColor ?: AppTheme.colors.onOption
+                                val (floodColor, floodContentColor) = floodColorsFor(state)
+                                // Where the correct option was tapped, within its button: the flood spreads out from here.
+                                var floodTouchPoint by remember { mutableStateOf<Offset?>(null) }
                                 // Fills from the correct option's button across the whole grid of options, and
                                 // only then does the answer content come in on top of it.
                                 val floodProgress = remember { Animatable(if (state.isAnswerRevealed) 1f else 0f) }
@@ -339,7 +345,7 @@ fun PickCountryNameGamePageContent(
                                                                 .fillMaxWidth()
                                                                 .clip(gridShape)
                                                                 // Paint the flood over the buttons, in a circle growing from the
-                                                                // centre of the correct one until every button is covered.
+                                                                // tap point on the correct one until every button is covered.
                                                                 .drawWithContent {
                                                                     drawContent()
                                                                     val progress = floodProgress.value
@@ -347,9 +353,10 @@ fun PickCountryNameGamePageContent(
                                                                     val gap = gridGap.toPx()
                                                                     val cellWidth = (size.width - gap) / 2f
                                                                     val cellHeight = (size.height - gap) / 2f
+                                                                    val touch = floodTouchPoint ?: Offset(cellWidth / 2f, cellHeight / 2f)
                                                                     val origin = Offset(
-                                                                        x = (correctIndex % 2) * (cellWidth + gap) + cellWidth / 2f,
-                                                                        y = (correctIndex / 2) * (cellHeight + gap) + cellHeight / 2f,
+                                                                        x = (correctIndex % 2) * (cellWidth + gap) + touch.x,
+                                                                        y = (correctIndex / 2) * (cellHeight + gap) + touch.y,
                                                                     )
                                                                     val farthestX = max(origin.x, size.width - origin.x)
                                                                     val farthestY = max(origin.y, size.height - origin.y)
@@ -388,6 +395,9 @@ fun PickCountryNameGamePageContent(
                                                                                     isErased = country.alpha2Code in state.incorrectAlpha2Codes,
                                                                                     enabled = !state.isAnswerRevealed && country.alpha2Code !in state.incorrectAlpha2Codes,
                                                                                     onClick = { onOptionSelected(country) },
+                                                                                    onTouch = { point ->
+                                                                                        if (country.alpha2Code == state.flag.alpha2Code) floodTouchPoint = point
+                                                                                    },
                                                                                     shape = gridShapes[rowIndex][colIndex],
                                                                                     containerColor = extractedColor?.containerColor,
                                                                                     contentColor = extractedColor?.contentColor,
@@ -431,10 +441,10 @@ fun PickCountryNameGamePageContent(
                             ) {
                                 Button(
                                     onClick = onNextFlag,
-                                    shape = AppTheme.shapes.large,
+                                    shape = RoundedCornerShape(5.dp),
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = AppTheme.colors.onBackground,
-                                        contentColor = AppTheme.colors.background,
+                                        containerColor = nextButtonColors.second,
+                                        contentColor = nextButtonColors.first,
                                     ),
                                     contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp),
                                     modifier = Modifier
@@ -459,6 +469,19 @@ fun PickCountryNameGamePageContent(
             }
         }
     }
+}
+
+/** The flood colour (the correct option button's colour) and the colour to draw on top of it. */
+@Composable
+private fun floodColorsFor(state: PickCountryNameGameUiState.Success): Pair<Color, Color> {
+    val correctIndex = state.options.indexOfFirst { it.alpha2Code == state.flag.alpha2Code }
+    val extracted = if (state.colors.isNotEmpty() && correctIndex >= 0) {
+        state.colors[checkerboardColorOrder(state.colors)[correctIndex]]
+    } else null
+    return Pair(
+        extracted?.containerColor ?: AppTheme.colors.option,
+        extracted?.contentColor ?: AppTheme.colors.onOption,
+    )
 }
 
 private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
