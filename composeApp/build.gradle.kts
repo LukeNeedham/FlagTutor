@@ -173,29 +173,29 @@ tasks.register("downloadWikipediaMaps") {
 }
 
 /**
- * Replaces the bundled flag images with the lead image of each country's Wikipedia flag article
- * (links in wikipedia_flag_links.json), so flags that have changed are picked up, e.g. Afghanistan.
- * Needs network access to en.wikipedia.org and thumb.wikimedia.org (flag images are served from
- * there; upload.wikimedia.org may also be needed if Wikimedia redirects).
+ * Builds files/country_data.json from Wikipedia: the ISO 3166-1 country list, each country's article,
+ * its flag article, the flag image (downloaded into files/flags) and a short text on the flag's symbolism.
+ * Needs network access to en.wikipedia.org and thumb.wikimedia.org (where flag images are served from).
+ * Which countries have no official flag, and any flag article that cannot be found by its title, are
+ * listed in scripts/country_data_overrides.json. The symbolism texts are written by hand and kept by the task.
  *
- *   ./gradlew downloadWikipediaFlags                      all countries
- *   ./gradlew downloadWikipediaFlags -PflagCodes=af,sy    only these alpha-2 codes
- *   ./gradlew downloadWikipediaFlags -PdryRun             list what would be downloaded
+ *   ./gradlew generateCountryData                         rebuild everything
+ *   ./gradlew generateCountryData -PflagCodes=af,sy       only download the images for these alpha-2 codes
+ *   ./gradlew generateCountryData -PskipDownloads         rebuild the data file without downloading images
  *
- * The images come from Wikimedia Commons; the file each flag was taken from is recorded in
- * files/flag_image_sources.json. Flag colours are derived from the images at build time
- * (generateFlagColors), so nothing else needs regenerating.
+ * The images come from Wikimedia Commons; the file each one was taken from is recorded in the data file.
+ * Flag colours are derived from the images at build time (generateFlagColors), so nothing else needs regenerating.
  */
-tasks.register<DownloadWikipediaFlagsTask>("downloadWikipediaFlags") {
-    description = "Downloads each country's current flag from its Wikipedia flag article."
+tasks.register<BuildCountryDataTask>("generateCountryData") {
+    description = "Builds country_data.json and downloads each country's flag from Wikipedia."
     group = "setup"
     val files = layout.projectDirectory.dir("src/commonMain/composeResources/files")
-    linksFile.set(files.file("wikipedia_flag_links.json"))
+    overridesFile.set(rootProject.layout.projectDirectory.file("scripts/country_data_overrides.json"))
+    dataFile.set(files.file("country_data.json"))
     flagsDir.set(files.dir("flags"))
-    sourcesFile.set(files.file("flag_image_sources.json"))
     thumbnailWidth.set(320)
     onlyCodes.set(providers.gradleProperty("flagCodes").orElse(""))
-    dryRun.set(providers.gradleProperty("dryRun").isPresent)
+    skipDownloads.set(providers.gradleProperty("skipDownloads").isPresent)
 }
 
 // ─── Flag colour extraction ──────────────────────────────────────────────────

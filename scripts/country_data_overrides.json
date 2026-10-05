@@ -1,0 +1,28 @@
+{
+  "articles": {
+    "tw": "Taiwan"
+  },
+  "flagPages": {
+    "gg": "Flag of Guernsey",
+    "hm": "Flag of Australia",
+    "sj": "Flag of Norway",
+    "tw": "Flag of the Republic of China",
+    "um": "Flag of the United States"
+  },
+  "flagImageFiles": {
+    "cc": "Flag of the Cocos (Keeling) Islands.svg"
+  },
+  "noOfficialFlag": [
+    "aq",
+    "bl",
+    "bq",
+    "gf",
+    "gp",
+    "mf",
+    "pm",
+    "re",
+    "sh",
+    "wf",
+    "yt"
+  ]
+}
