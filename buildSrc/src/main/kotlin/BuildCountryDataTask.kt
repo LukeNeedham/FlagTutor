@@ -34,14 +34,15 @@ import java.time.Duration
  *  - `flagImage`: the flag's PNG, saved in [flagsDir] and referenced relative to its parent, taken
  *    from the lead image of the flag article; `null` for the countries in `noOfficialFlag`;
  *  - `flagImageSource`: the Wikimedia Commons file that PNG was rendered from, for attribution;
+ *  - `flagNote`: only for countries without a flag, why (copied from the overrides file);
  *  - `symbolism`: a short text on what the flag symbolises, written from the flag article.
  *
  * `symbolism` is prose, so it cannot be generated; the task keeps whatever is already in the data file
  * and lists the countries that are still missing it. It is `null` for countries without a flag.
  *
  * Whether a country has no official flag is a judgement the articles sometimes word differently
- * ("no official flag", "no flag of its own", "French flag used"), so the list lives in [overridesFile]
- * where a human can change it. The task only prints a hint for any country whose flag article says
+ * ("no official flag", "no flag of its own", "French flag used"), so the list, with a reason for each,
+ * lives in [overridesFile] where a human can change it. The task only prints a hint for any country whose flag article says
  * something similar and that is not on the list.
  *
  * A failed lookup or download never turns into a `null` flag: the task keeps the previous value where
@@ -56,7 +57,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
      * { "articles": { "<alpha2>": "Article title" },        country article, where the ISO table links somewhere odd
      *   "flagPages": { "<alpha2>": "Article title" },       flag article, where "Flag of <country>" does not exist
      *   "flagImageFiles": { "<alpha2>": "File name.svg" },  Commons file, where the flag article has no lead image
-     *   "noOfficialFlag": [ "<alpha2>" ] }                  countries whose flagImage is null
+     *   "noOfficialFlag": { "<alpha2>": "reason" } }        countries whose flagImage is null, and why (copied to flagNote)
      * ```
      */
     @get:InputFile
@@ -108,6 +109,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
         val flagWikipediaUrl: String?,
         val flagImage: String?,
         val flagImageSource: String?,
+        val flagNote: String?,
         val symbolism: String?,
     )
 
@@ -198,6 +200,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
                 flagWikipediaUrl = flagPage?.let { urlOf(it.title) },
                 flagImage = flagImage,
                 flagImageSource = flagImageSource,
+                flagNote = overrides.noOfficialFlag[code],
                 symbolism = if (flagImage == null) null else previous?.symbolism,
             )
         }
@@ -232,7 +235,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
         val articles: Map<String, String>,
         val flagPages: Map<String, String>,
         val flagImageFiles: Map<String, String>,
-        val noOfficialFlag: Set<String>,
+        val noOfficialFlag: Map<String, String>,
     )
 
     private fun readOverrides(): Overrides {
@@ -242,7 +245,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
             articles = (json["articles"] as? Map<String, String>).orEmpty(),
             flagPages = (json["flagPages"] as? Map<String, String>).orEmpty(),
             flagImageFiles = (json["flagImageFiles"] as? Map<String, String>).orEmpty(),
-            noOfficialFlag = (json["noOfficialFlag"] as? List<String>).orEmpty().toSet(),
+            noOfficialFlag = (json["noOfficialFlag"] as? Map<String, String>).orEmpty(),
         )
     }
 
@@ -258,6 +261,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
                 flagWikipediaUrl = value["flagWikipediaUrl"] as? String,
                 flagImage = value["flagImage"] as? String,
                 flagImageSource = value["flagImageSource"] as? String,
+                flagNote = value["flagNote"] as? String,
                 symbolism = value["symbolism"] as? String,
             )
         }
@@ -446,8 +450,9 @@ abstract class BuildCountryDataTask : DefaultTask() {
             "flagWikipediaUrl" to e.flagWikipediaUrl,
             "flagImage" to e.flagImage,
             "flagImageSource" to e.flagImageSource,
+            "flagNote" to e.flagNote,
             "symbolism" to e.symbolism,
-        ).joinToString(",\n", "  ${quote(code)}: {\n", "\n  }") { (key, value) -> "    ${quote(key)}: ${value?.let(::quote) ?: "null"}" }
+        ).filterNot { (key, value) -> key == "flagNote" && value == null }.joinToString(",\n", "  ${quote(code)}: {\n", "\n  }") { (key, value) -> "    ${quote(key)}: ${value?.let(::quote) ?: "null"}" }
     }
 
     private fun quote(text: String): String = buildString {

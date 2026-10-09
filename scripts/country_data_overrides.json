@@ -1,4 +1,12 @@
 {
+  "_comment": [
+    "Hand-maintained inputs to the generateCountryData Gradle task (see 'Country data' in CLAUDE.md).",
+    "articles: country article to use where the ISO table links to a page that is not the country.",
+    "flagPages: flag article to use where 'Flag of <country>' does not exist or is not the right page.",
+    "flagImageFiles: Commons file to use where a flag article has no lead image.",
+    "noOfficialFlag: country code -> why it has no official flag. These get flagImage null, and the reason is copied to flagNote in country_data.json.",
+    "Whether a country belongs in noOfficialFlag is a judgement from the Wikipedia flag articles, which word it differently; change it here."
+  ],
   "articles": {
     "tw": "Taiwan"
   },
@@ -12,17 +20,17 @@
   "flagImageFiles": {
     "cc": "Flag of the Cocos (Keeling) Islands.svg"
   },
-  "noOfficialFlag": [
-    "aq",
-    "bl",
-    "bq",
-    "gf",
-    "gp",
-    "mf",
-    "pm",
-    "re",
-    "sh",
-    "wf",
-    "yt"
-  ]
+  "noOfficialFlag": {
+    "aq": "Antarctica has no official flag: no country owns it and no institution can adopt one, so every flag in use is unofficial.",
+    "bl": "Uses the French national flag; the arms-on-white flag used locally is unofficial.",
+    "bq": "The three islands together have no flag; Bonaire, Sint Eustatius and Saba each have their own, and the Dutch national flag is used for the whole.",
+    "gf": "Uses the French national flag; the green and yellow flag used locally is unofficial.",
+    "gp": "Uses the French national flag; the locally used flags are unofficial.",
+    "mf": "Uses the French national flag; the logo flag used locally is unofficial.",
+    "pm": "Uses the French national flag; the Grande Hermine flag flown locally is unofficial.",
+    "re": "Uses the French national flag; Réunion has no separate official flag.",
+    "sh": "The territory has no flag of its own; Saint Helena, Ascension and Tristan da Cunha each have their own flag.",
+    "wf": "Uses the French national flag; the red saltire flag used locally is unofficial.",
+    "yt": "Uses the French national flag; Mayotte has no official flag of its own."
+  }
 }

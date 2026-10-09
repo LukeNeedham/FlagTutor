@@ -69,6 +69,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Antarctica",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Antarctica has no official flag: no country owns it and no institution can adopt one, so every flag in use is unofficial.",
     "symbolism": null
   },
   "ar": {
@@ -205,6 +206,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_and_coat_of_arms_of_Saint_Barthélemy",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the arms-on-white flag used locally is unofficial.",
     "symbolism": null
   },
   "bm": {
@@ -237,6 +239,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Netherlands",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "The three islands together have no flag; Bonaire, Sint Eustatius and Saba each have their own, and the Dutch national flag is used for the whole.",
     "symbolism": null
   },
   "br": {
@@ -637,6 +640,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_French_Guiana",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the green and yellow flag used locally is unofficial.",
     "symbolism": null
   },
   "gg": {
@@ -693,6 +697,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guadeloupe",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the locally used flags are unofficial.",
     "symbolism": null
   },
   "gq": {
@@ -1125,6 +1130,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Collectivity_of_Saint_Martin",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the logo flag used locally is unofficial.",
     "symbolism": null
   },
   "mg": {
@@ -1437,6 +1443,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Saint_Pierre_and_Miquelon",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the Grande Hermine flag flown locally is unofficial.",
     "symbolism": null
   },
   "pn": {
@@ -1501,6 +1508,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Réunion",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Uses the French national flag; Réunion has no separate official flag.",
     "symbolism": null
   },
   "ro": {
@@ -1589,6 +1597,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flags_of_Saint_Helena,_Ascension_and_Tristan_da_Cunha",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "The territory has no flag of its own; Saint Helena, Ascension and Tristan da Cunha each have their own flag.",
     "symbolism": null
   },
   "si": {
@@ -1941,6 +1950,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Wallis_and_Futuna",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the red saltire flag used locally is unofficial.",
     "symbolism": null
   },
   "ws": {
@@ -1965,6 +1975,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_and_coat_of_arms_of_Mayotte",
     "flagImage": null,
     "flagImageSource": null,
+    "flagNote": "Uses the French national flag; Mayotte has no official flag of its own.",
     "symbolism": null
   },
   "za": {
