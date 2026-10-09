@@ -186,7 +186,7 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
      workflow is dispatched manually.
 - `.github/workflows/on_pull_request_closed.yml` calls the shared `android_pr_cleanup.yml`, which
   deletes the PR's build pre-releases (and tags) when the PR merges.
-- The APK build/cleanup logic lives in the shared repo (`LukeNeedham/ci-workflows`), not here; change it there.
+- The APK build/cleanup logic lives in the shared repo (`LukeNeedham/ci-workflows`), not here, so change it there.
 
 ## General conventions for changes
 
