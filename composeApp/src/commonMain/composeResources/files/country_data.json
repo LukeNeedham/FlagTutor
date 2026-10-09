@@ -1,0 +1,2005 @@
+{
+  "ad": {
+    "name": "Andorra",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Andorra",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Andorra",
+    "flagImage": "flags/ad.png",
+    "flagImageSource": "Flag_of_Andorra.svg",
+    "symbolism": "The blue, yellow and red stripes match the colours of neighbouring France (blue, white, red) and Spain (red, yellow). The central coat of arms combines the symbols of the Bishop of Urgell, the Count of Foix, Catalonia and the two cows of Béarn."
+  },
+  "ae": {
+    "name": "United Arab Emirates",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/United_Arab_Emirates",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_United_Arab_Emirates",
+    "flagImage": "flags/ae.png",
+    "flagImageSource": "Flag_of_the_United_Arab_Emirates.svg",
+    "symbolism": "The four colours are the Pan-Arab colours, symbolising Arab unity. Red stands for the energy and sacrifices of the people, green for growth and prosperity, white for peace and purity, and black for dignity."
+  },
+  "af": {
+    "name": "Afghanistan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Afghanistan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Afghanistan",
+    "flagImage": "flags/af.png",
+    "flagImageSource": "Flag_of_the_Taliban.svg",
+    "symbolism": "The flag of the Islamic Emirate, adopted in 2021, is a plain white flag with the shahada, the Islamic declaration of faith, in black. White stands for the purity of faith and government, and the shahada has been part of the Taliban's flag since 1997."
+  },
+  "ag": {
+    "name": "Antigua and Barbuda",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Antigua_and_Barbuda",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Antigua_and_Barbuda",
+    "flagImage": "flags/ag.png",
+    "flagImageSource": "Flag_of_Antigua_and_Barbuda.svg",
+    "symbolism": "The red field stands for the energy of the people, and the black triangle for their African ancestry. The rising sun symbolises the dawn of a new era, blue stands for hope, and the black, yellow, blue and white bands also recall the soil, sun, sea and sand. The V shape represents victory."
+  },
+  "ai": {
+    "name": "Anguilla",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Anguilla",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Anguilla",
+    "flagImage": "flags/ai.png",
+    "flagImageSource": "Flag_of_Anguilla.svg",
+    "symbolism": "The Blue Ensign and Union Jack mark its British ties. The badge shows three dolphins in a circle, standing for unity, strength and endurance, on a white field for peace above a light blue wavy base representing the sea."
+  },
+  "al": {
+    "name": "Albania",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Albania",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Albania",
+    "flagImage": "flags/al.png",
+    "flagImageSource": "Flag_of_Albania.svg",
+    "symbolism": "The black double-headed eagle, the emblem of the hero Skanderbeg who led the revolt against the Ottomans, is the traditional symbol of the Albanians. The red field stands for bravery, strength, valour and bloodshed."
+  },
+  "am": {
+    "name": "Armenia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Armenia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Armenia",
+    "flagImage": "flags/am.png",
+    "flagImageSource": "Flag_of_Armenia.svg",
+    "symbolism": "Red stands for the Armenian highlands, the people's continued struggle for survival and the maintenance of the Christian faith. Blue is for the peaceful Armenian skies, and orange represents the nation's talent and hard work."
+  },
+  "ao": {
+    "name": "Angola",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Angola",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Angola",
+    "flagImage": "flags/ao.png",
+    "flagImageSource": "Flag_of_Angola_using_the_specifications_prescribed_in_\"Manual_Simbolos_Nacionais\",_V01.05.2021D.svg",
+    "symbolism": "The red stripe represents the blood shed in the fight against colonialism, and the black stripe stands for Africa. The yellow half cog and machete symbolise workers and farmers, and the star stands for progress and international solidarity."
+  },
+  "aq": {
+    "name": "Antarctica",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Antarctica",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Antarctica",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Antarctica has no official flag: no country owns it and no institution can adopt one, so every flag in use is unofficial.",
+    "symbolism": null
+  },
+  "ar": {
+    "name": "Argentina",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Argentina",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Argentina",
+    "flagImage": "flags/ar.png",
+    "flagImageSource": "Flag_of_Argentina.svg",
+    "symbolism": "The light blue and white stripes come from the cockade of the May Revolution. Popular belief links them to the sky and clouds, though historians point to loyalty to the Bourbon monarchy. The golden Sun of May has a human face and 32 rays, and is often read as a representation of the Inca sun god Inti."
+  },
+  "as": {
+    "name": "American Samoa",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/American_Samoa",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_American_Samoa",
+    "flagImage": "flags/as.png",
+    "flagImageSource": "Flag_of_American_Samoa.svg",
+    "symbolism": "The red, white and blue match the United States flag. The white triangle's bald eagle clutches a Samoan war club and a fly whisk, traditional symbols of Samoan chiefly authority."
+  },
+  "at": {
+    "name": "Austria",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Austria",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Austria",
+    "flagImage": "flags/at.png",
+    "flagImageSource": "Flag_of_Austria.svg",
+    "symbolism": "Legend says Duke Leopold V's white tunic was soaked in blood at the Siege of Acre, leaving only a white band where his belt had been, giving the red-white-red stripes. The colours come from the Babenberg dynasty's coat of arms."
+  },
+  "au": {
+    "name": "Australia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Australia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Australia",
+    "flagImage": "flags/au.png",
+    "flagImageSource": "Flag_of_Australia_(converted).svg",
+    "symbolism": "The Union Jack in the corner recalls Australia's British origins. The seven-pointed Commonwealth Star stands for the six states and the territories, and the five stars of the Southern Cross are a constellation visible in the southern sky."
+  },
+  "aw": {
+    "name": "Aruba",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Aruba",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Aruba",
+    "flagImage": "flags/aw.png",
+    "flagImageSource": "Flag_of_Aruba.svg",
+    "symbolism": "The light blue field represents the sea, and the two yellow stripes stand for abundance, such as gold and aloe farming and tourism. The red four-pointed star with a white border represents the four compass points that Aruba's people came from, with the white border standing for peace."
+  },
+  "ax": {
+    "name": "Åland Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Åland",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Åland",
+    "flagImage": "flags/ax.png",
+    "flagImageSource": "Flag_of_Åland.svg",
+    "symbolism": "The blue field and yellow outline echo the Swedish flag, reflecting the islands' Swedish-speaking culture, while the red cross within the Nordic cross symbolises Finland, to which Åland belongs."
+  },
+  "az": {
+    "name": "Azerbaijan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Azerbaijan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Azerbaijan",
+    "flagImage": "flags/az.png",
+    "flagImageSource": "Flag_of_Azerbaijan.svg",
+    "symbolism": "Blue represents Azerbaijan's Turkic identity, red progress, and green Islam. The white crescent and eight-pointed star echo the Ottoman flag that inspired the first Azerbaijani flag."
+  },
+  "ba": {
+    "name": "Bosnia and Herzegovina",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bosnia_and_Herzegovina",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Bosnia_and_Herzegovina",
+    "flagImage": "flags/ba.png",
+    "flagImageSource": "Flag_of_Bosnia_and_Herzegovina.svg",
+    "symbolism": "The three points of the yellow triangle stand for the three constituent peoples, the Bosniaks, Croats and Serbs, and the triangle also approximates the shape of the country. The blue field and white stars evoke the flag of Europe, and the stars are meant to be infinite in number."
+  },
+  "bb": {
+    "name": "Barbados",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Barbados",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Barbados",
+    "flagImage": "flags/bb.png",
+    "flagImageSource": "Flag_of_Barbados.svg",
+    "symbolism": "The ultramarine bands stand for the sea and sky and the gold band for the sand. The black trident head, broken from the old colonial badge, symbolises breaking away from the colonial past, and its three points stand for the principles of democracy."
+  },
+  "bd": {
+    "name": "Bangladesh",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bangladesh",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Bangladesh",
+    "flagImage": "flags/bd.png",
+    "flagImageSource": "Flag_of_Bangladesh.svg",
+    "symbolism": "The green field represents the lushness of the country's landscape, and the red disc the blood shed in the 1971 Liberation War, and is also read as the rising sun. The disc is set slightly off-centre toward the hoist so that it looks centred when the flag is flying."
+  },
+  "be": {
+    "name": "Belgium",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Belgium",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Belgium",
+    "flagImage": "flags/be.png",
+    "flagImageSource": "Flag_of_Belgium.svg",
+    "symbolism": "The black, yellow and red come from the coat of arms of the Duchy of Brabant, a gold lion on a black field with a red tongue and claws. The tricolour was adopted during the 1830 revolution, and its vertical design may be based on the flag of France."
+  },
+  "bf": {
+    "name": "Burkina Faso",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Burkina_Faso",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Burkina_Faso",
+    "flagImage": "flags/bf.png",
+    "flagImageSource": "Flag_of_Burkina_Faso.svg",
+    "symbolism": "Red represents the revolution and green the country's agriculture and wealth. The yellow star is the guiding light of the revolution, and the colours are Pan-African."
+  },
+  "bg": {
+    "name": "Bulgaria",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bulgaria",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Bulgaria",
+    "flagImage": "flags/bg.png",
+    "flagImageSource": "Flag_of_Bulgaria.svg",
+    "symbolism": "The white, green and red tricolour was first adopted after the 1877-78 Russo-Turkish War, when Bulgaria gained de facto independence. White is commonly said to stand for peace and freedom, green for agriculture and red for the blood shed in the struggle for independence."
+  },
+  "bh": {
+    "name": "Bahrain",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bahrain",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Bahrain",
+    "flagImage": "flags/bh.png",
+    "flagImageSource": "Flag_of_Bahrain.svg",
+    "symbolism": "The red stands for the blood of martyrs and Bahrain's battles, and the white for peace. The five white triangles of the serrated edge symbolise the five pillars of Islam."
+  },
+  "bi": {
+    "name": "Burundi",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Burundi",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Burundi",
+    "flagImage": "flags/bi.png",
+    "flagImageSource": "Flag_of_Burundi.svg",
+    "symbolism": "The white saltire stands for peace, the green for hope in the nation's future and the red for the suffering during the struggle for freedom. The three stars on the white disc stand for the Hutu, Twa and Tutsi peoples and for the national motto of unity, work and progress."
+  },
+  "bj": {
+    "name": "Benin",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Benin",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Benin",
+    "flagImage": "flags/bj.png",
+    "flagImageSource": "Flag_of_Benin.svg",
+    "symbolism": "The colours are the Pan-African colours: green for the hope of a new democracy, yellow for the treasures of the nation, and red for the courage of the ancestors."
+  },
+  "bl": {
+    "name": "Saint Barthélemy",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Saint_Barthélemy",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_and_coat_of_arms_of_Saint_Barthélemy",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the arms-on-white flag used locally is unofficial.",
+    "symbolism": null
+  },
+  "bm": {
+    "name": "Bermuda",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bermuda",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Bermuda",
+    "flagImage": "flags/bm.png",
+    "flagImageSource": "Flag_of_Bermuda.svg",
+    "symbolism": "The Red Ensign and Union Jack mark its British ties. The arms show a lion holding a shield depicting the wreck of the Sea Venture in 1609, which led to the island's settlement."
+  },
+  "bn": {
+    "name": "Brunei Darussalam",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Brunei",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Brunei",
+    "flagImage": "flags/bn.png",
+    "flagImageSource": "Flag_of_Brunei.svg",
+    "symbolism": "Yellow is traditionally the colour of royalty in Southeast Asia and here stands for the Sultan, while the white and black diagonal stripes represent the chief ministers, the wazirs. The red emblem shows a crescent for Islam, a parasol for the monarchy, and raised hands for the benevolence of the government."
+  },
+  "bo": {
+    "name": "Bolivia, Plurinational State of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bolivia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Bolivia",
+    "flagImage": "flags/bo.png",
+    "flagImageSource": "Flag_of_Bolivia.svg",
+    "symbolism": "According to an 1888 decree, red represents the blood shed by the nation's heroes for the birth and preservation of the Republic, yellow the country's wealth and resources, and green the richness of its natural areas and hope. The coat of arms sits on the yellow band."
+  },
+  "bq": {
+    "name": "Bonaire, Sint Eustatius and Saba",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Caribbean_Netherlands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Netherlands",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "The three islands together have no flag; Bonaire, Sint Eustatius and Saba each have their own, and the Dutch national flag is used for the whole.",
+    "symbolism": null
+  },
+  "br": {
+    "name": "Brazil",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Brazil",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Brazil",
+    "flagImage": "flags/br.png",
+    "flagImageSource": "Flag_of_Brazil.svg",
+    "symbolism": "The green and yellow come from the imperial flag, where they stood for the houses of Braganza and Habsburg, and are popularly read as forests and gold. The blue globe shows the sky over Rio de Janeiro on the day the republic was proclaimed, with 27 stars, one for each state and the Federal District, and the motto 'Ordem e Progresso'."
+  },
+  "bs": {
+    "name": "Bahamas",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/The_Bahamas",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Bahamas",
+    "flagImage": "flags/bs.png",
+    "flagImageSource": "Flag_of_the_Bahamas.svg",
+    "symbolism": "Aquamarine represents the surrounding sea and gold the sun and the land's natural resources. The black triangle stands for the strength, vigour and force of the Bahamian people."
+  },
+  "bt": {
+    "name": "Bhutan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bhutan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Bhutan",
+    "flagImage": "flags/bt.png",
+    "flagImageSource": "Flag_of_Bhutan.svg",
+    "symbolism": "The white Druk, the thunder dragon of Bhutanese myth, gives the country its name, 'Land of the Thunder Dragon', and its white colour signifies the purity of inner thoughts and deeds, with a jewel in each claw. Yellow signifies the civil authority of the king and orange the Buddhist spiritual tradition."
+  },
+  "bv": {
+    "name": "Bouvet Island",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bouvet_Island",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Norway",
+    "flagImage": "flags/bv.png",
+    "flagImageSource": "Flag_of_Norway.svg",
+    "symbolism": "Bouvet Island is an uninhabited Norwegian territory and uses the flag of Norway. Its designer Fredrik Meltzer chose red, white and blue as colours of freedom, as seen in the French, Dutch, American and British flags, on a cross design taken from the Danish flag."
+  },
+  "bw": {
+    "name": "Botswana",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Botswana",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Botswana",
+    "flagImage": "flags/bw.png",
+    "flagImageSource": "Flag_of_Botswana.svg",
+    "symbolism": "The light blue represents water and rainfall, which is crucial to the agriculture of the arid country. The black stripe with a white frame stands for racial harmony."
+  },
+  "by": {
+    "name": "Belarus",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Belarus",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Belarus",
+    "flagImage": "flags/by.png",
+    "flagImageSource": "Flag_of_Belarus.svg",
+    "symbolism": "The white-and-red ornament at the hoist is a traditional Belarusian embroidery pattern. There is no official interpretation of the colours, but President Lukashenko has said red represents freedom and the sacrifice of the nation's forefathers, and green life."
+  },
+  "bz": {
+    "name": "Belize",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Belize",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Belize",
+    "flagImage": "flags/bz.png",
+    "flagImageSource": "Flag_of_Belize.svg",
+    "symbolism": "Blue and red come from the colours of the country's two main political parties, the PUP's blue and the opposition UDP's red. The coat of arms recalls the logging industry with woodcutters, tools and mahogany trees, and its wreath of 50 leaves recalls 1950, the year the PUP came to power."
+  },
+  "ca": {
+    "name": "Canada",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Canada",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Canada",
+    "flagImage": "flags/ca.png",
+    "flagImageSource": "Flag_of_Canada_(Pantone).svg",
+    "symbolism": "Red and white are Canada's official colours. The single red maple leaf, a Canadian emblem since the 19th century, has 11 points chosen after wind tunnel tests rather than for any symbolic meaning."
+  },
+  "cc": {
+    "name": "Cocos (Keeling) Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Cocos_(Keeling)_Islands",
+    "flagImage": "flags/cc.png",
+    "flagImageSource": "Flag_of_the_Cocos_(Keeling)_Islands.svg",
+    "symbolism": "Green and gold are Australia's national colours. The palm tree on the gold disc represents the islands' tropical flora, the crescent the Cocos Malays and Islam, and the Southern Cross is a symbol of Australia and the Southern Hemisphere."
+  },
+  "cd": {
+    "name": "Congo, Democratic Republic of the",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Democratic_Republic_of_the_Congo",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Democratic_Republic_of_the_Congo",
+    "flagImage": "flags/cd.png",
+    "flagImageSource": "Flag_of_the_Democratic_Republic_of_the_Congo.svg",
+    "symbolism": "The sky blue field stands for peace, the red stripe for the blood of the country's martyrs, and the yellow edging for wealth. The yellow star symbolises a bright future."
+  },
+  "cf": {
+    "name": "Central African Republic",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Central_African_Republic",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Central_African_Republic",
+    "flagImage": "flags/cf.png",
+    "flagImageSource": "Flag_of_the_Central_African_Republic.svg",
+    "symbolism": "The colours stand for France (blue and white) and Africa (green and yellow), joined by the vertical red stripe, which symbolises blood and the respect Europeans and Africans should have for each other. The yellow star of independence stands for the country's aspirations for a vibrant future."
+  },
+  "cg": {
+    "name": "Congo",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Republic_of_the_Congo",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Republic_of_the_Congo",
+    "flagImage": "flags/cg.png",
+    "flagImageSource": "Flag_of_the_Republic_of_the_Congo.svg",
+    "symbolism": "The diagonal bands use the Pan-African colours. Green stands for the agriculture and forests of the Congo and yellow for the friendship and nobility of its people; the meaning of the red is officially left unexplained."
+  },
+  "ch": {
+    "name": "Switzerland",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Switzerland",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Switzerland",
+    "flagImage": "flags/ch.png",
+    "flagImageSource": "Flag_of_Switzerland_(Pantone).svg",
+    "symbolism": "The white cross is described by the Swiss Federal Council as both the Christian cross and the field sign of the Old Confederacy, set on a red field. It is one of only two square national flags, along with the Vatican."
+  },
+  "ci": {
+    "name": "Côte d'Ivoire",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Ivory_Coast",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Ivory_Coast",
+    "flagImage": "flags/ci.png",
+    "flagImageSource": "Flag_of_Côte_d'Ivoire.svg",
+    "symbolism": "Orange stands for the land, struggle and growth of the nation, white for peace and order, and green for hope for a better future. The savanna in the north and forests in the south are an unofficial added reading."
+  },
+  "ck": {
+    "name": "Cook Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Cook_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Cook_Islands",
+    "flagImage": "flags/ck.png",
+    "flagImageSource": "Flag_of_the_Cook_Islands.svg",
+    "symbolism": "The Union Jack in the canton recalls its British ties. The ring of 15 white stars represents the 15 islands, and the blue stands for the Pacific Ocean and the nation's peaceful character."
+  },
+  "cl": {
+    "name": "Chile",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Chile",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Chile",
+    "flagImage": "flags/cl.png",
+    "flagImageSource": "Flag_of_Chile.svg",
+    "symbolism": "White stands for the snow-covered Andes, red for the blood shed for independence, and blue for the sky and the Pacific Ocean. The white star, linked to the Mapuche symbol of Venus, is a guide to progress and honour."
+  },
+  "cm": {
+    "name": "Cameroon",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Cameroon",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Cameroon",
+    "flagImage": "flags/cm.png",
+    "flagImageSource": "Flag_of_Cameroon.svg",
+    "symbolism": "The colours are Pan-African. Green represents the forests of the south, red unity, and yellow the sun and savannas of the north. The yellow star on the red band is the star of unity."
+  },
+  "cn": {
+    "name": "China",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/China",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_China",
+    "flagImage": "flags/cn.png",
+    "flagImageSource": "Flag_of_the_People's_Republic_of_China.svg",
+    "symbolism": "The red field symbolises the Communist Revolution. The large star represents the Chinese Communist Party and the four smaller stars the unity of the people under it, originally the working class, the peasantry, the urban petty bourgeoisie and the national bourgeoisie."
+  },
+  "co": {
+    "name": "Colombia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Colombia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Colombia",
+    "flagImage": "flags/co.png",
+    "flagImageSource": "Flag_of_Colombia.svg",
+    "symbolism": "Yellow stands for sovereignty and justice, blue for loyalty and vigilance, and red for the victory of the battles for independence. The design follows the flag of Francisco de Miranda."
+  },
+  "cr": {
+    "name": "Costa Rica",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Costa_Rica",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Costa_Rica",
+    "flagImage": "flags/cr.png",
+    "flagImageSource": "Flag_of_Costa_Rica.svg",
+    "symbolism": "Blue stands for the sky, opportunity and perseverance, white for clear thinking and wisdom, and the wider red stripe for the warmth of the Costa Rican people and the first rays of true independence. The design was created in 1848, inspired by the French tricolour, and the coat of arms on the red band includes seven stars for the seven provinces."
+  },
+  "cu": {
+    "name": "Cuba",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Cuba",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Cuba",
+    "flagImage": "flags/cu.png",
+    "flagImageSource": "Flag_of_Cuba.svg",
+    "symbolism": "The three blue stripes represent the three departments the island was then divided into, and the white stripes the purity of the patriot cause. The red triangle symbolises strength and constancy, with Masonic associations of equality, and the lone white star comes from the flag of Narciso López."
+  },
+  "cv": {
+    "name": "Cabo Verde",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Cape_Verde",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Cape_Verde",
+    "flagImage": "flags/cv.png",
+    "flagImageSource": "Flag_of_Cape_Verde_(3-2).svg",
+    "symbolism": "The blue field stands for the ocean and sky, and the ten yellow stars represent the ten islands. The white and red stripes stand for the road to nation-building through peace and effort."
+  },
+  "cw": {
+    "name": "Curaçao",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Curaçao",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Curaçao",
+    "flagImage": "flags/cw.png",
+    "flagImageSource": "Flag_of_Curaçao.svg",
+    "symbolism": "Blue represents the sea and sky, with the yellow stripe between them for the bright sun. The two white stars stand for Curaçao and Klein Curaçao, and their five points for the five continents the people descend from."
+  },
+  "cx": {
+    "name": "Christmas Island",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Christmas_Island",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Christmas_Island",
+    "flagImage": "flags/cx.png",
+    "flagImageSource": "Flag_of_Christmas_Island.svg",
+    "symbolism": "Blue stands for the sea and green for the island's land. The golden bosun bird is native to the island, the Southern Cross of four large and one small white star marks its southern location, and the golden disc holds a green map of the island. It is an Australian territory."
+  },
+  "cy": {
+    "name": "Cyprus",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Cyprus",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Cyprus",
+    "flagImage": "flags/cy.png",
+    "flagImageSource": "Flag_of_Cyprus.svg",
+    "symbolism": "The copper-coloured silhouette of the island stands for its large copper deposits, long linked with its name. The two green olive branches symbolise peace between the Greek and Turkish Cypriot communities, and the white field is another symbol of peace."
+  },
+  "cz": {
+    "name": "Czechia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Czech_Republic",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Czech_Republic",
+    "flagImage": "flags/cz.png",
+    "flagImageSource": "Flag_of_the_Czech_Republic.svg",
+    "symbolism": "White is the traditional colour of Bohemia and red stands for Moravia and the bloodshed for the state's freedom. The blue triangle once stood for Slovakia and now stands for impartiality and sovereignty."
+  },
+  "de": {
+    "name": "Germany",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Germany",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Germany",
+    "flagImage": "flags/de.png",
+    "flagImageSource": "Flag_of_Germany.svg",
+    "symbolism": "Black, red and gold are associated with unity, freedom and democracy, and come from the liberal and nationalist movements. They are said to derive from the uniforms of Lützow's volunteer corps against Napoleon."
+  },
+  "dj": {
+    "name": "Djibouti",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Djibouti",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Djibouti",
+    "flagImage": "flags/dj.png",
+    "flagImageSource": "Flag_of_Djibouti.svg",
+    "symbolism": "Light blue stands for the sky and sea and for the Somalis, green for the earth and for the Afars, and white for peace. The red star represents unity, the blood shed by the martyrs of independence, and Djibouti as one of the five regions inhabited by Somali people."
+  },
+  "dk": {
+    "name": "Denmark",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Denmark",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Dannebrog",
+    "flagImage": "flags/dk.png",
+    "flagImageSource": "Flag_of_Denmark.svg",
+    "symbolism": "Known as the Dannebrog, it is the flag of the Kingdom of Denmark: a white Nordic cross on red, the cross representing Christianity. Legend connects it to the Battle of Lindanise in 1219, when the flag is said to have fallen from the sky and brought the Danes victory."
+  },
+  "dm": {
+    "name": "Dominica",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Dominica",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Dominica",
+    "flagImage": "flags/dm.png",
+    "flagImageSource": "Flag_of_Dominica.svg",
+    "symbolism": "Green stands for the island's lush vegetation, and the cross for the Trinity and Christianity, with its yellow, black and white bands standing for the native people, the fertile soil and the pure water. The red disc stands for justice and holds the Sisserou parrot, ringed by ten green stars for the parishes."
+  },
+  "do": {
+    "name": "Dominican Republic",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Dominican_Republic",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Dominican_Republic",
+    "flagImage": "flags/do.png",
+    "flagImageSource": "Flag_of_the_Dominican_Republic.svg",
+    "symbolism": "Blue stands for liberty, red for the blood of heroes, and the white cross for salvation and the unity of the people. The coat of arms shows an open Bible, and the flag is often said to be the only national flag to display one."
+  },
+  "dz": {
+    "name": "Algeria",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Algeria",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Algeria",
+    "flagImage": "flags/dz.png",
+    "flagImageSource": "Flag_of_Algeria.svg",
+    "symbolism": "Green is the colour of Islam and white stands for purity, while the red is linked to jihad and the blood of martyrs. The red crescent is a symbol of Islam, and its star is often read as the five pillars of Islam. Interpretations of the colours vary."
+  },
+  "ec": {
+    "name": "Ecuador",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Ecuador",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Ecuador",
+    "flagImage": "flags/ec.png",
+    "flagImageSource": "Flag_of_Ecuador.svg",
+    "symbolism": "The wide yellow stripe stands for crops and fertile soil, blue for the ocean and clear skies, and red for the blood spilled by the heroes who died for freedom. The coat of arms shows Mount Chimborazo, the Guayas River and a ship with a caduceus for trade, below a condor."
+  },
+  "ee": {
+    "name": "Estonia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Estonia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Estonia",
+    "flagImage": "flags/ee.png",
+    "flagImageSource": "Flag_of_Estonia.svg",
+    "symbolism": "A popular reading by the poet Martin Lipp has blue standing for the sky above Estonians, black for the soil of the homeland, and white for purity, hard work and commitment."
+  },
+  "eg": {
+    "name": "Egypt",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Egypt",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Egypt",
+    "flagImage": "flags/eg.png",
+    "flagImageSource": "Flag_of_Egypt.svg",
+    "symbolism": "The Pan-Arab colours were given meanings after the 1952 revolution: red for the Egyptians' blood shed in the war against colonisation, white for the purity of their hearts, and black for the darkness that was overcome. The golden Eagle of Saladin is the national emblem."
+  },
+  "eh": {
+    "name": "Western Sahara",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Western_Sahara",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Western_Sahara",
+    "flagImage": "flags/eh.png",
+    "flagImageSource": "Flag_of_the_Sahrawi_Arab_Democratic_Republic.svg",
+    "symbolism": "The Pan-Arab colours stand for hope of returning to their lands (green), peace and purity (white), grief for the martyrs (black) and the blood they spilled (red). The star represents an Arab republic and the crescent a Muslim country. It is the flag of the Sahrawi Arab Democratic Republic, which claims the territory."
+  },
+  "er": {
+    "name": "Eritrea",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Eritrea",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Eritrea",
+    "flagImage": "flags/er.png",
+    "flagImageSource": "Flag_of_Eritrea.svg",
+    "symbolism": "Green stands for the country's agriculture and livestock, blue for the bounty of the sea, and the red triangle for the bloodshed in the struggle for independence. The gold olive wreath has 30 leaves for the thirty years of that struggle."
+  },
+  "es": {
+    "name": "Spain",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Spain",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Spain",
+    "flagImage": "flags/es.png",
+    "flagImageSource": "Flag_of_the_Kingdom_of_Spain.svg",
+    "symbolism": "The red and yellow stripes come from the historic Aragonese crown. The coat of arms on the wide yellow band contains the pillars of Hercules and the symbols of the old kingdoms, including Castile, León, Aragon and Navarre."
+  },
+  "et": {
+    "name": "Ethiopia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Ethiopia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Ethiopia",
+    "flagImage": "flags/et.png",
+    "flagImageSource": "Flag_of_Ethiopia.svg",
+    "symbolism": "Red stands for the blood spilled in defence of Ethiopia, yellow for peace and harmony between its ethnic and religious groups, and green for hope or the fertile land. These colours inspired many other African flags. The star on the blue disc stands for a bright future, and its rays for the equality of all Ethiopians."
+  },
+  "fi": {
+    "name": "Finland",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Finland",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Finland",
+    "flagImage": "flags/fi.png",
+    "flagImageSource": "Flag_of_Finland.svg",
+    "symbolism": "The white represents the country's snow and the blue cross the thousands of lakes and the sky. The Nordic cross shows Finland's Christian heritage and its place in the Nordic family of countries."
+  },
+  "fj": {
+    "name": "Fiji",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Fiji",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Fiji",
+    "flagImage": "flags/fj.png",
+    "flagImageSource": "Flag_of_Fiji.svg",
+    "symbolism": "The light blue field represents the Pacific Ocean and the Union Jack the country's colonial history. The shield holds a lion with a cocoa pod, sugar cane, coconut palm, bananas and a dove of peace."
+  },
+  "fk": {
+    "name": "Falkland Islands (Malvinas)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Falkland_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Falkland_Islands",
+    "flagImage": "flags/fk.png",
+    "flagImageSource": "Flag_of_the_Falkland_Islands.svg",
+    "symbolism": "The Blue Ensign and Union Jack mark its British ties. The coat of arms shows a ram, standing for the sheep farming that has traditionally been the islands' main industry, above the ship Desire, with the motto 'Desire the Right'."
+  },
+  "fm": {
+    "name": "Micronesia, Federated States of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Federated_States_of_Micronesia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Federated_States_of_Micronesia",
+    "flagImage": "flags/fm.png",
+    "flagImageSource": "Flag_of_the_Federated_States_of_Micronesia.svg",
+    "symbolism": "The light blue field represents the Pacific Ocean, and the four white stars stand for the four states: Chuuk, Kosrae, Pohnpei and Yap."
+  },
+  "fo": {
+    "name": "Faroe Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Faroe_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Faroe_Islands",
+    "flagImage": "flags/fo.png",
+    "flagImageSource": "Flag_of_the_Faroe_Islands.svg",
+    "symbolism": "Known as Merkið, 'the banner', the red cross edged in blue is a Nordic cross showing ties to Scandinavia. White represents the sea foam and bright sky, while red and blue appear in traditional Faroese dress and echo the colours of other Nordic flags."
+  },
+  "fr": {
+    "name": "France",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/France",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_France",
+    "flagImage": "flags/fr.png",
+    "flagImageSource": "Flag_of_France.svg",
+    "symbolism": "Blue and red are the colours of Paris and white was the colour of the royal house of Bourbon. The tricolour became a symbol of the French Revolution and its ideals of liberty, equality and fraternity, and has inspired many other national flags."
+  },
+  "ga": {
+    "name": "Gabon",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Gabon",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Gabon",
+    "flagImage": "flags/ga.png",
+    "flagImageSource": "Flag_of_Gabon.svg",
+    "symbolism": "Green stands for the country's natural resources and extensive forests, yellow for the equator, which cuts across Gabon, and the sun, and blue for the South Atlantic Ocean along its coast."
+  },
+  "gb": {
+    "name": "United Kingdom of Great Britain and Northern Ireland",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/United_Kingdom",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Union_Jack",
+    "flagImage": "flags/gb.png",
+    "flagImageSource": "Flag_of_the_United_Kingdom.svg",
+    "symbolism": "The Union Jack combines the crosses of three patron saints: the red cross of St George of England, the white saltire of St Andrew of Scotland and the red saltire of St Patrick of Ireland. It represents the union of the kingdoms. Wales is not separately shown, as it was already part of England."
+  },
+  "gd": {
+    "name": "Grenada",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grenada",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Grenada",
+    "flagImage": "flags/gd.png",
+    "flagImageSource": "Flag_of_Grenada.svg",
+    "symbolism": "Red stands for harmony, unity, courage and vitality, yellow for the sun and the warmth and wisdom of the people, and green for vegetation and agriculture. The nutmeg at the hoist alludes to a main export. The six stars on the border stand for the parishes and the central star for Carriacou and Petite Martinique, counted as the seventh."
+  },
+  "ge": {
+    "name": "Georgia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Georgia_(country)",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Georgia_(country)",
+    "flagImage": "flags/ge.png",
+    "flagImageSource": "Flag_of_Georgia.svg",
+    "symbolism": "Known as the Five Cross Flag, it was used by the medieval Kingdom of Georgia and readopted in 2004. The large red cross is St George's cross, and the four smaller Bolnisi crosses are sometimes read as Christ and the four Evangelists."
+  },
+  "gf": {
+    "name": "French Guiana",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/French_Guiana",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_French_Guiana",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the green and yellow flag used locally is unofficial.",
+    "symbolism": null
+  },
+  "gg": {
+    "name": "Guernsey",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bailiwick_of_Guernsey",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guernsey",
+    "flagImage": "flags/gg.png",
+    "flagImageSource": "Flag_of_Guernsey.svg",
+    "symbolism": "The red St George's cross shows its English connection, and the gold cross inside it recalls William the Conqueror's banner, Guernsey's link to the Duchy of Normandy."
+  },
+  "gh": {
+    "name": "Ghana",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Ghana",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Ghana",
+    "flagImage": "flags/gh.png",
+    "flagImageSource": "Flag_of_Ghana.svg",
+    "symbolism": "The Pan-African colours stand for the blood of the forefathers who led the struggle for independence (red), the mineral wealth (gold) and the forests and natural wealth (green). The black star symbolises the emancipation of Africa and unity against colonialism."
+  },
+  "gi": {
+    "name": "Gibraltar",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Gibraltar",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Gibraltar",
+    "flagImage": "flags/gi.png",
+    "flagImageSource": "Flag_of_Gibraltar.svg",
+    "symbolism": "The red castle and golden key come from arms granted by Queen Isabella of Castile. The castle represents the fortress of Gibraltar, and the key its role as the key to Spain, later seen as the key to the Mediterranean."
+  },
+  "gl": {
+    "name": "Greenland",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Greenland",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Greenland",
+    "flagImage": "flags/gl.png",
+    "flagImageSource": "Flag_of_Greenland.svg",
+    "symbolism": "The white stripe represents the ice cap and the red stripe the ocean. The disc stands for the sun, its red half rising from the sea and its white half for icebergs and pack ice; the red and white also echo the flag of Denmark."
+  },
+  "gm": {
+    "name": "Gambia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/The_Gambia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Gambia",
+    "flagImage": "flags/gm.png",
+    "flagImageSource": "Flag_of_The_Gambia.svg",
+    "symbolism": "Red stands for the sun and the central savanna, blue for the Gambia River, which runs through the country, and green for the forests and agriculture. The thin white stripes stand for peace and unity."
+  },
+  "gn": {
+    "name": "Guinea",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Guinea",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guinea",
+    "flagImage": "flags/gn.png",
+    "flagImageSource": "Flag_of_Guinea.svg",
+    "symbolism": "Red stands for the blood of anti-colonial martyrs, the labour of the working classes and the wish for progress, yellow for Guinean gold, the sun and justice, and green for the vegetation and the country's natural wealth. Each corresponds to a part of the national motto: work, justice and solidarity."
+  },
+  "gp": {
+    "name": "Guadeloupe",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Guadeloupe",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guadeloupe",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the locally used flags are unofficial.",
+    "symbolism": null
+  },
+  "gq": {
+    "name": "Equatorial Guinea",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Equatorial_Guinea",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Equatorial_Guinea",
+    "flagImage": "flags/gq.png",
+    "flagImageSource": "Flag_of_Equatorial_Guinea.svg",
+    "symbolism": "Green stands for the country's vegetation, white for peace, red for the blood shed for independence, and the blue triangle for the ocean connecting the mainland to the islands. The arms show a silk-cotton tree and six stars for the mainland and the five islands."
+  },
+  "gr": {
+    "name": "Greece",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Greece",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Greece",
+    "flagImage": "flags/gr.png",
+    "flagImageSource": "Flag_of_Greece.svg",
+    "symbolism": "The nine stripes have no official meaning, but the popular reading is that they are the nine syllables of the motto 'Freedom or Death'. The blue and white may symbolise the Greek sea and sky, and the white cross in the blue canton symbolises Christianity."
+  },
+  "gs": {
+    "name": "South Georgia and the South Sandwich Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/South_Georgia_and_the_South_Sandwich_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_South_Georgia_and_the_South_Sandwich_Islands",
+    "flagImage": "flags/gs.png",
+    "flagImageSource": "Flag_of_South_Georgia_and_the_South_Sandwich_Islands.svg",
+    "symbolism": "The Blue Ensign and Union Jack mark its British ties. The arms show a lion holding a torch, for Britain and exploration, with a reindeer, seal and penguin local to the islands, and the motto 'Leo Terram Propriam Protegat', meaning 'let the lion protect its own land'."
+  },
+  "gt": {
+    "name": "Guatemala",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Guatemala",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guatemala",
+    "flagImage": "flags/gt.png",
+    "flagImageSource": "Flag_of_Guatemala.svg",
+    "symbolism": "The two sky-blue stripes stand for strength, justice, truth and loyalty, and the white for purity, integrity, firmness and light. The arms hold a quetzal, the national bird and symbol of liberty, a scroll with the date of independence, 15 September 1821, crossed rifles for the will to defend the country, a laurel crown for victory and crossed swords for honour."
+  },
+  "gu": {
+    "name": "Guam",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Guam",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guam",
+    "flagImage": "flags/gu.png",
+    "flagImageSource": "Flag_of_Guam.svg",
+    "symbolism": "The dark blue field links Guam to the United States, and the red border is said to recall the blood shed under Spanish rule and in World War II. The almond-shaped seal, recalling a Chamorro sling stone, shows a coconut palm and a proa, an outrigger canoe, in Hagåtña Bay."
+  },
+  "gw": {
+    "name": "Guinea-Bissau",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Guinea-Bissau",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guinea-Bissau",
+    "flagImage": "flags/gw.png",
+    "flagImageSource": "Flag_of_Guinea-Bissau.svg",
+    "symbolism": "Red stands for the blood shed in the revolution, yellow for the northern savannas, the sun or mineral wealth, and green for the southern forests and hope. The black star symbolises the leadership of the PAIGC and the people of Africa."
+  },
+  "gy": {
+    "name": "Guyana",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Guyana",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guyana",
+    "flagImage": "flags/gy.png",
+    "flagImageSource": "Flag_of_Guyana.svg",
+    "symbolism": "Known as the Golden Arrowhead, it stands for agriculture and forests (green), rivers and water (white), mineral wealth (gold), zeal and dynamism (red) and endurance (black)."
+  },
+  "hk": {
+    "name": "Hong Kong",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Hong_Kong",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Hong_Kong",
+    "flagImage": "flags/hk.png",
+    "flagImageSource": "Flag_of_Hong_Kong.svg",
+    "symbolism": "The white bauhinia flower is the emblem of Hong Kong, and the red field stands for the motherland. The five stars on its petals symbolise Hong Kong people's love for the motherland, and the red and white embody the principle of 'one country, two systems'."
+  },
+  "hm": {
+    "name": "Heard Island and McDonald Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Heard_Island_and_McDonald_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Australia",
+    "flagImage": "flags/hm.png",
+    "flagImageSource": "Flag_of_Australia_(converted).svg",
+    "symbolism": "Heard Island and McDonald Islands are an uninhabited Australian territory and use the flag of Australia. Its Union Jack, Commonwealth Star and Southern Cross stand for its British origins, the states and territories, and the southern sky."
+  },
+  "hn": {
+    "name": "Honduras",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Honduras",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Honduras",
+    "flagImage": "flags/hn.png",
+    "flagImageSource": "Flag_of_Honduras_(1949–2022,_2026–present).svg",
+    "symbolism": "Blue stands for the Pacific Ocean and the Caribbean Sea and the sky, and white for peace and prosperity. The five blue stars represent the five countries of the former Federal Republic of Central America."
+  },
+  "hr": {
+    "name": "Croatia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Croatia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Croatia",
+    "flagImage": "flags/hr.png",
+    "flagImageSource": "Flag_of_Croatia.svg",
+    "symbolism": "The red, white and blue are Pan-Slavic colours used since 1848. The arms show a red and white chequerboard shield, the šahovnica, topped by a crown of five shields for Croatia, Dubrovnik, Dalmatia, Istria and Slavonia."
+  },
+  "ht": {
+    "name": "Haiti",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Haiti",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Haiti",
+    "flagImage": "flags/ht.png",
+    "flagImageSource": "Flag_of_Haiti.svg",
+    "symbolism": "Blue stands for the Black population and red for the mixed-race people, uniting them as in the revolution, when the white band was removed from the French tricolour. The arms feature a palm tree topped by a liberty cap, with cannons and flags, and the motto 'Unity makes strength'."
+  },
+  "hu": {
+    "name": "Hungary",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Hungary",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Hungary",
+    "flagImage": "flags/hu.png",
+    "flagImageSource": "Flag_of_Hungary.svg",
+    "symbolism": "The colours come from the historic Hungarian coat of arms, and the tricolour layout follows the French flag. Since the 2012 constitution the official reading is red for strength, white for fidelity and green for hope."
+  },
+  "id": {
+    "name": "Indonesia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Indonesia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Indonesia",
+    "flagImage": "flags/id.png",
+    "flagImageSource": "Flag_of_Indonesia.svg",
+    "symbolism": "Red stands for courage and white for purity. Another reading takes red as the human body, or physical life, and white as the soul, or spiritual life, together making a complete human being."
+  },
+  "ie": {
+    "name": "Ireland",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Republic_of_Ireland",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Ireland",
+    "flagImage": "flags/ie.png",
+    "flagImageSource": "Flag_of_Ireland.svg",
+    "symbolism": "Green stands for Roman Catholics and orange for Protestants, the supporters of William of Orange. The white in the centre signifies a lasting truce and hope for union between them."
+  },
+  "il": {
+    "name": "Israel",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Israel",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Israel",
+    "flagImage": "flags/il.png",
+    "flagImageSource": "Flag_of_Israel.svg",
+    "symbolism": "The white field and blue stripes are based on the Jewish prayer shawl, the tallit. The blue Star of David is a symbol of Judaism and Jewish identity."
+  },
+  "im": {
+    "name": "Isle of Man",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Isle_of_Man",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Isle_of_Man",
+    "flagImage": "flags/im.png",
+    "flagImageSource": "Flag_of_the_Isle_of_Mann.svg",
+    "symbolism": "The triskelion, three armoured legs radiating from the centre, is an ancient symbol that has endured as the emblem of the Isle of Man since the 14th century. The island's Latin motto, shown with it on the coat of arms, means 'Whichever way you throw it, it will stand'."
+  },
+  "in": {
+    "name": "India",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/India",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_India",
+    "flagImage": "flags/in.png",
+    "flagImageSource": "Flag_of_India.svg",
+    "symbolism": "Saffron stands for renunciation and selflessness, white for light and the path of truth, and green for the people's relation to the soil and plant life. The navy blue Ashoka Chakra, with 24 spokes, is the wheel of the law of dharma and stands for motion rather than stagnation."
+  },
+  "io": {
+    "name": "British Indian Ocean Territory",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/British_Indian_Ocean_Territory",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_British_Indian_Ocean_Territory",
+    "flagImage": "flags/io.png",
+    "flagImageSource": "Flag_of_the_British_Indian_Ocean_Territory_2025.svg",
+    "symbolism": "The Union Jack shows its status as a British overseas territory. The blue and white wavy stripes represent the Indian Ocean, and the palm tree stands for the islands, below a gold crown representing the monarchy."
+  },
+  "iq": {
+    "name": "Iraq",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Iraq",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Iraq",
+    "flagImage": "flags/iq.png",
+    "flagImageSource": "Flag_of_Iraq.svg",
+    "symbolism": "The red, white and black are the Pan-Arab colours. The green words 'Allahu Akbar' on the white band mean 'God is the greatest'."
+  },
+  "ir": {
+    "name": "Iran, Islamic Republic of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Iran",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Iran",
+    "flagImage": "flags/ir.png",
+    "flagImageSource": "Flag_of_Iran.svg",
+    "symbolism": "The green, white and red are historically associated pan-Iranian colours. The red emblem is a stylised form of the word 'Allah', made of four crescents and a sword, and the Takbir 'Allahu Akbar' is repeated 11 times along the edge of each of the green and red bands, 22 times in all, recalling 22 Bahman, the date of the 1979 revolution."
+  },
+  "is": {
+    "name": "Iceland",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Iceland",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Iceland",
+    "flagImage": "flags/is.png",
+    "flagImageSource": "Flag_of_Iceland.svg",
+    "symbolism": "Red stands for the volcanic fire of the island, white for ice and snow, and blue for the mountains and surrounding sea. The Nordic cross shows the country's Nordic heritage."
+  },
+  "it": {
+    "name": "Italy",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Italy",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Italy",
+    "flagImage": "flags/it.png",
+    "flagImageSource": "Flag_of_Italy.svg",
+    "symbolism": "Inspired by the French tricolour, with green kept instead of blue as a symbol of nature and natural rights, it was first adopted as a national flag in 1797 by the Cispadane Republic. It became a leading symbol of Italian unification, culminating in the Kingdom of Italy in 1861."
+  },
+  "je": {
+    "name": "Jersey",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Jersey",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Jersey",
+    "flagImage": "flags/je.png",
+    "flagImageSource": "Flag_of_Jersey.svg",
+    "symbolism": "The origins of the red saltire are uncertain, though it may be linked to the cross of St Patrick or to signalling the island's neutrality in wars between England and France. The badge shows three leopards, the island's heraldic device since its medieval ties to the Dukes of Normandy, below a gold Plantagenet crown."
+  },
+  "jm": {
+    "name": "Jamaica",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Jamaica",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Jamaica",
+    "flagImage": "flags/jm.png",
+    "flagImageSource": "Flag_of_Jamaica.svg",
+    "symbolism": "The gold diagonal cross stands for the wealth of the country and the golden sunshine, the black triangles for the strength and creativity of the people that has overcome difficulties, and the green triangles for the lush vegetation of the island and hope."
+  },
+  "jo": {
+    "name": "Jordan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Jordan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Jordan",
+    "flagImage": "flags/jo.png",
+    "flagImageSource": "Flag_of_Jordan.svg",
+    "symbolism": "The Pan-Arab colours stand for the Abbasid (black), Umayyad (white) and Fatimid (green) caliphates, and the red triangle for the Hashemite dynasty and the Arab Revolt. The seven points of the white star stand for the seven verses of the opening chapter of the Quran."
+  },
+  "jp": {
+    "name": "Japan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Japan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Japan",
+    "flagImage": "flags/jp.png",
+    "flagImageSource": "Flag_of_Japan.svg",
+    "symbolism": "Known as the Hinomaru, 'circle of the sun', the red disc represents the sun, which is central to Japan's name, 'Land of the Rising Sun', and to the legend that the imperial throne descended from the sun goddess Amaterasu. A sun-motif flag is recorded at the imperial court as early as 701."
+  },
+  "ke": {
+    "name": "Kenya",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Kenya",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Kenya",
+    "flagImage": "flags/ke.png",
+    "flagImageSource": "Flag_of_Kenya.svg",
+    "symbolism": "Black stands for the people of Kenya, red for the blood shed in the fight for independence, green for the land, and white for peace. The traditional African shield and two spears symbolise the country's will to defend itself."
+  },
+  "kg": {
+    "name": "Kyrgyzstan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Kyrgyzstan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Kyrgyzstan",
+    "flagImage": "flags/kg.png",
+    "flagImageSource": "Flag_of_Kyrgyzstan.svg",
+    "symbolism": "Red stands for bravery and the national hero Manas, and the yellow sun for peace and prosperity. Its forty rays represent the forty tribes united by Manas, and the tündük, the crown of a yurt, the home and the universe."
+  },
+  "kh": {
+    "name": "Cambodia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Cambodia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Cambodia",
+    "flagImage": "flags/kh.png",
+    "flagImageSource": "Flag_of_Cambodia.svg",
+    "symbolism": "Red and blue are traditionally the colours of Cambodia, representing the nation (red) and the king (blue). The white depiction of Angkor Wat sits on the double-width red band."
+  },
+  "ki": {
+    "name": "Kiribati",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Kiribati",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Kiribati",
+    "flagImage": "flags/ki.png",
+    "flagImageSource": "Flag_of_Kiribati.svg",
+    "symbolism": "The wavy blue and white bands show the Pacific Ocean and the three island groups, the Gilbert, Phoenix and Line Islands. The golden frigatebird stands for power and freedom, and the rising sun for the equatorial location."
+  },
+  "km": {
+    "name": "Comoros",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Comoros",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Comoros",
+    "flagImage": "flags/km.png",
+    "flagImageSource": "Flag_of_the_Comoros.svg",
+    "symbolism": "The four stripes and four stars represent the four islands, Grande Comore, Anjouan, Mohéli and Mayotte. The green triangle and white crescent represent Islam, the main religion."
+  },
+  "kn": {
+    "name": "Saint Kitts and Nevis",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Saint_Kitts_and_Nevis",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Saint_Kitts_and_Nevis",
+    "flagImage": "flags/kn.png",
+    "flagImageSource": "Flag_of_Saint_Kitts_and_Nevis.svg",
+    "symbolism": "Green stands for the fertile land, red for the struggle against slavery and colonialism, yellow for sunshine, and the black band for the African heritage. The two white stars represent hope and liberty, and the two islands."
+  },
+  "kp": {
+    "name": "Korea, Democratic People's Republic of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/North_Korea",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_North_Korea",
+    "flagImage": "flags/kp.png",
+    "flagImageSource": "Flag_of_North_Korea_(20-33).svg",
+    "symbolism": "According to the CIA World Factbook, red stands for revolutionary traditions, white for purity, strength and dignity, and blue for sovereignty, peace and friendship, while the red star represents socialism. North Korean state media gives a related reading, with red for the blood shed by Korean patriots."
+  },
+  "kr": {
+    "name": "Korea, Republic of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/South_Korea",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_South_Korea",
+    "flagImage": "flags/kr.png",
+    "flagImageSource": "Flag_of_South_Korea.svg",
+    "symbolism": "White stands for peace and purity. The red and blue taegeuk represents the balance of yin and yang, the harmony of opposites, and the four black trigrams stand for heaven, earth, fire and water."
+  },
+  "kw": {
+    "name": "Kuwait",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Kuwait",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Kuwait",
+    "flagImage": "flags/kw.png",
+    "flagImageSource": "Flag_of_Kuwait.svg",
+    "symbolism": "The Pan-Arab colours: green stands for fertile lands, white for purity and honour, red for the blood on the swords of the Kuwaiti people, and the black trapezoid for the battlefields and the defeat of enemies."
+  },
+  "ky": {
+    "name": "Cayman Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Cayman_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Cayman_Islands",
+    "flagImage": "flags/ky.png",
+    "flagImageSource": "Flag_of_the_Cayman_Islands.svg",
+    "symbolism": "The Blue Ensign and Union Jack mark its British ties. The shield shows three green stars for the three islands, blue and white waves evoking the Caribbean Sea, and a lion for England; the pineapple on the crest recalls the link with Jamaica, and the motto means 'He hath founded it upon the seas'."
+  },
+  "kz": {
+    "name": "Kazakhstan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Kazakhstan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Kazakhstan",
+    "flagImage": "flags/kz.png",
+    "flagImageSource": "Flag_of_Kazakhstan.svg",
+    "symbolism": "Sky blue is significant to the Turkic peoples and symbolises cultural and ethnic unity, as well as the endless sky and water. The golden sun, a source of life and energy, has 32 rays shaped like grain, the soaring steppe eagle stands for freedom, power and the flight to the future, and the gold ornament at the hoist is the traditional koshkar-muiz, the horns of the ram."
+  },
+  "la": {
+    "name": "Lao People's Democratic Republic",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Laos",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Laos",
+    "flagImage": "flags/la.png",
+    "flagImageSource": "Flag_of_Laos.svg",
+    "symbolism": "The red stripes stand for the blood shed by the Lao people on both banks of the Mekong in the struggle for freedom and independence, and the blue for the Mekong itself and the nation's prosperity. The white disc symbolises the unity of the Lao people and is also said to be a full moon over the river."
+  },
+  "lb": {
+    "name": "Lebanon",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Lebanon",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Lebanon",
+    "flagImage": "flags/lb.png",
+    "flagImageSource": "Flag_of_Lebanon.svg",
+    "symbolism": "The green cedar, the 'Land of the Cedars' emblem mentioned often in the Bible, stands for immortality, resilience and hope. The red stripes are commonly read as the blood shed in the struggle for independence, and the white as peace, purity and the snow-capped mountains."
+  },
+  "lc": {
+    "name": "Saint Lucia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Saint_Lucia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Saint_Lucia",
+    "flagImage": "flags/lc.png",
+    "flagImageSource": "Flag_of_Saint_Lucia.svg",
+    "symbolism": "Blue stands for the Atlantic Ocean and Caribbean Sea, gold for sunshine and prosperity, and black and white for the harmonious relationship between the black and white races. The triangles represent the island's twin volcanic Pitons and unity."
+  },
+  "li": {
+    "name": "Liechtenstein",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Liechtenstein",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Liechtenstein",
+    "flagImage": "flags/li.png",
+    "flagImageSource": "Flag_of_Liechtenstein.svg",
+    "symbolism": "The blue represents the sky and the red the evening fires lit inside houses. The golden crown was added in 1937 to show that Liechtenstein is a principality and to tell the flag apart from Haiti's."
+  },
+  "lk": {
+    "name": "Sri Lanka",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Sri_Lanka",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Sri_Lanka",
+    "flagImage": "flags/lk.png",
+    "flagImageSource": "Flag_of_Sri_Lanka.svg",
+    "symbolism": "The gold lion holding a sword on a maroon field represents the Sinhalese people. The orange stripe represents the Tamils and the green stripe the Moors, Sri Lanka's Muslims, while the yellow border stands for other minorities, and the four bo leaves for the Buddhist values of loving-kindness, compassion, joy and equanimity."
+  },
+  "lr": {
+    "name": "Liberia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Liberia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Liberia",
+    "flagImage": "flags/lr.png",
+    "flagImageSource": "Flag_of_Liberia.svg",
+    "symbolism": "It is modelled on the flag of the United States, reflecting Liberia's founding by free people of colour and former slaves from the United States. The eleven red and white stripes stand for the signers of the Declaration of Independence, and for courage and moral excellence. The white star represents the first independent republic in Africa, above a blue square for the African continent."
+  },
+  "ls": {
+    "name": "Lesotho",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Lesotho",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Lesotho",
+    "flagImage": "flags/ls.png",
+    "flagImageSource": "Flag_of_Lesotho.svg",
+    "symbolism": "Blue stands for the sky or rain, white for peace and green for prosperity. The black mokorotlo, the Basotho hat, was chosen in 2006 to represent Lesotho as a black nation."
+  },
+  "lt": {
+    "name": "Lithuania",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Lithuania",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Lithuania",
+    "flagImage": "flags/lt.png",
+    "flagImageSource": "Flag_of_Lithuania.svg",
+    "symbolism": "Yellow stands for the sun and prosperity, green for the forests, the countryside, liberty and hope, and red for the blood and bravery of those who died for Lithuania."
+  },
+  "lu": {
+    "name": "Luxembourg",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Luxembourg",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Luxembourg",
+    "flagImage": "flags/lu.png",
+    "flagImageSource": "Flag_of_Luxembourg.svg",
+    "symbolism": "The red, white and light blue are probably derived from the arms of the County and Duchy of Luxembourg, which combined the lion of the dukes of Limbourg with the striped banner of the early counts. The flag is often confused with the similar flag of the Netherlands."
+  },
+  "lv": {
+    "name": "Latvia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Latvia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Latvia",
+    "flagImage": "flags/lv.png",
+    "flagImageSource": "Flag_of_Latvia.svg",
+    "symbolism": "The dark red symbolises the Latvians' readiness to give their blood for freedom and to defend their sovereignty. According to one legend, a Latgalian leader was wounded in battle and laid on a white sheet, which was stained with his blood except for a narrow central stripe."
+  },
+  "ly": {
+    "name": "Libya",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Libya",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Libya",
+    "flagImage": "flags/ly.png",
+    "flagImageSource": "Flag_of_Libya.svg",
+    "symbolism": "Red stands for the blood shed for Libya's freedom, black for the dark days of Italian occupation, and green for agriculture and the country's wealth. The bands also recall the historic regions of Fezzan (red), Cyrenaica (black) and Tripolitania (green). The white crescent and star are symbols of Islam."
+  },
+  "ma": {
+    "name": "Morocco",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Morocco",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Morocco",
+    "flagImage": "flags/ma.png",
+    "flagImageSource": "Flag_of_Morocco.svg",
+    "symbolism": "Red is the traditional colour of the Alaouite dynasty and stands for the blood of the ancestors and unity. The green pentagram, the seal of Solomon, stands for the five pillars of Islam."
+  },
+  "mc": {
+    "name": "Monaco",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Monaco",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Monaco",
+    "flagImage": "flags/mc.png",
+    "flagImageSource": "Flag_of_Monaco.svg",
+    "symbolism": "Red and white have been the heraldic colours of the House of Grimaldi, the ruling family, since at least 1339."
+  },
+  "md": {
+    "name": "Moldova, Republic of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Moldova",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Moldova",
+    "flagImage": "flags/md.png",
+    "flagImageSource": "Flag_of_Moldova.svg",
+    "symbolism": "The blue, yellow and red tricolour is based on the flag of Romania, reflecting the two countries' national and cultural affinity. The arms show an eagle holding an olive branch for peace, with a shield bearing an aurochs head, the symbol of Moldavia, between a rose and a crescent and with a star between its horns."
+  },
+  "me": {
+    "name": "Montenegro",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Montenegro",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Montenegro",
+    "flagImage": "flags/me.png",
+    "flagImageSource": "Flag_of_Montenegro.svg",
+    "symbolism": "The flag is based on an old royal banner, with a red field and gold border around the coat of arms, which shows a double-headed eagle, a long-used Montenegrin heraldic symbol."
+  },
+  "mf": {
+    "name": "Saint Martin (French part)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Collectivity_of_Saint_Martin",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Collectivity_of_Saint_Martin",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the logo flag used locally is unofficial.",
+    "symbolism": null
+  },
+  "mg": {
+    "name": "Madagascar",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Madagascar",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Madagascar",
+    "flagImage": "flags/mg.png",
+    "flagImageSource": "Flag_of_Madagascar.svg",
+    "symbolism": "White stands for purity, red for sovereignty, and green for hope."
+  },
+  "mh": {
+    "name": "Marshall Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Marshall_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Marshall_Islands",
+    "flagImage": "flags/mh.png",
+    "flagImageSource": "Flag_of_the_Marshall_Islands.svg",
+    "symbolism": "Blue stands for the Pacific Ocean. The rising diagonal band represents the equator, and its white and orange parts the Ratak (sunrise) and Ralik (sunset) chains as well as peace and courage. The star above stands for the Northern Hemisphere location, its 24 points for the electoral districts and its four long rays for the cultural centres of Majuro, Jaluit, Wotje and Ebeye."
+  },
+  "mk": {
+    "name": "North Macedonia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/North_Macedonia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_North_Macedonia",
+    "flagImage": "flags/mk.png",
+    "flagImageSource": "Flag_of_North_Macedonia.svg",
+    "symbolism": "The yellow sun with eight rays reaching the flag's edges derives from the national emblem and represents the 'new sun of liberty' in the anthem 'Denes nad Makedonija', set on a red field."
+  },
+  "ml": {
+    "name": "Mali",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Mali",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Mali",
+    "flagImage": "flags/ml.png",
+    "flagImageSource": "Flag_of_Mali.svg",
+    "symbolism": "The Pan-African colours stand for the fertility of the land (green), the country's mineral wealth and purity (yellow), and the blood shed for independence (red)."
+  },
+  "mm": {
+    "name": "Myanmar",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Myanmar",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Myanmar",
+    "flagImage": "flags/mm.png",
+    "flagImageSource": "Flag_of_Myanmar.svg",
+    "symbolism": "The yellow, green and red recall the tricolours used in the independence struggle: yellow stands for solidarity and unity, green for peace, fertility and a lush environment, and red for bravery and decisiveness. The white star stands for purity, honesty, compassion and power."
+  },
+  "mn": {
+    "name": "Mongolia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Mongolia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Mongolia",
+    "flagImage": "flags/mn.png",
+    "flagImageSource": "Flag_of_Mongolia.svg",
+    "symbolism": "The blue stripe stands for the eternal blue sky and the red stripes for thriving for eternity, while the yellow symbolises Tibetan Buddhism. The Soyombo at the hoist is a geometric symbol of fire, sun, moon, earth, water and the yin-yang fish that never sleep."
+  },
+  "mo": {
+    "name": "Macao",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Macau",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Macau",
+    "flagImage": "flags/mo.png",
+    "flagImageSource": "Flag_of_Macau.svg",
+    "symbolism": "The emerald green field carries Macau's emblem, a white lotus above a stylised bridge and water recalling its role as a port, and the five gold stars echo the flag of China, symbolising its relationship with its sovereign state."
+  },
+  "mp": {
+    "name": "Northern Mariana Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Northern_Mariana_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Northern_Mariana_Islands",
+    "flagImage": "flags/mp.png",
+    "flagImageSource": "Flag_of_the_Northern_Mariana_Islands.svg",
+    "symbolism": "The white star represents the United States, the grey latte stone, a pillar used in ancient Chamorro houses, represents the Chamorro people, and the wreath is a mwarmwar, a flower lei, representing the Carolinians. The dark blue background represents the Pacific Ocean and the Mariana Trench."
+  },
+  "mq": {
+    "name": "Martinique",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Martinique",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Martinique",
+    "flagImage": "flags/mq.png",
+    "flagImageSource": "Flag-of-Martinique.svg",
+    "symbolism": "The French tricolour of blue, white and red is the national flag used in Martinique. The territory adopted its own flag in 2023, with a red triangle at the hoist and green and black bands, drawing on the Pan-African colours. The older snake flag, a white cross on blue with a viper in each corner, is no longer in official use."
+  },
+  "mr": {
+    "name": "Mauritania",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Mauritania",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Mauritania",
+    "flagImage": "flags/mr.png",
+    "flagImageSource": "Flag_of_Mauritania.svg",
+    "symbolism": "The star and crescent, as well as the colour green, are symbols of Islam, and the red stripes represent the blood shed by Mauritanians who fought for independence from France. The colours are also the Pan-African colours."
+  },
+  "ms": {
+    "name": "Montserrat",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Montserrat",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Montserrat",
+    "flagImage": "flags/ms.png",
+    "flagImageSource": "Flag_of_Montserrat.svg",
+    "symbolism": "The Blue Ensign and Union Jack mark its British ties. The arms show a woman in a green dress, Erin, the personification of Ireland, with a Celtic harp and a cross, honouring the island's Irish settlers from 1632."
+  },
+  "mt": {
+    "name": "Malta",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Malta",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Malta",
+    "flagImage": "flags/mt.png",
+    "flagImageSource": "Flag_of_Malta.svg",
+    "symbolism": "According to tradition, the red and white come from the chequered banner of Count Roger I of Sicily, said to have been given to Malta in 1091, though historians doubt the story. The George Cross in the corner was awarded by King George VI in 1942 for the island's bravery during the Second World War."
+  },
+  "mu": {
+    "name": "Mauritius",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Mauritius",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Mauritius",
+    "flagImage": "flags/mu.png",
+    "flagImageSource": "Flag_of_Mauritius.svg",
+    "symbolism": "Red stands for the struggle for freedom and blue for the Indian Ocean in which Mauritius lies. Yellow stands for the light of freedom shining over the island, and green for its agriculture and its colour throughout the year."
+  },
+  "mv": {
+    "name": "Maldives",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Maldives",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Maldives",
+    "flagImage": "flags/mv.png",
+    "flagImageSource": "Flag_of_Maldives.svg",
+    "symbolism": "The red stands for the blood of the nation's heroes and their willingness to sacrifice for the country. The green rectangle symbolises peace and prosperity, and the white crescent Islam, the state religion."
+  },
+  "mw": {
+    "name": "Malawi",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Malawi",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Malawi",
+    "flagImage": "flags/mw.png",
+    "flagImageSource": "Flag_of_Malawi.svg",
+    "symbolism": "Black stands for the indigenous people of Africa, red for the blood of their struggle, and green for nature. The red rising sun represents the dawn of hope and freedom for the continent."
+  },
+  "mx": {
+    "name": "Mexico",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Mexico",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Mexico",
+    "flagImage": "flags/mx.png",
+    "flagImageSource": "Flag_of_Mexico.svg",
+    "symbolism": "The flag law gives no official meaning to the colours, which have been read differently over time; commonly green stands for hope, white for unity and red for the blood of the national heroes. The arms show a golden eagle on a prickly pear cactus devouring a snake, recalling the legend of the founding of Tenochtitlan."
+  },
+  "my": {
+    "name": "Malaysia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Malaysia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Malaysia",
+    "flagImage": "flags/my.png",
+    "flagImageSource": "Flag_of_Malaysia.svg",
+    "symbolism": "The 14 stripes represent the equal status of the 13 states and the federal territories, and the star's 14 points their unity. The blue canton symbolises the unity of the Malaysian people, red stands for bravery, white for purity, and the yellow of the crescent and star is the royal colour of the Malay rulers. The crescent represents Islam."
+  },
+  "mz": {
+    "name": "Mozambique",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Mozambique",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Mozambique",
+    "flagImage": "flags/mz.png",
+    "flagImageSource": "Flag_of_Mozambique.svg",
+    "symbolism": "Red stands for anti-colonial resistance and national defence, green for the soil, golden yellow for the subsoil, black for the African continent, and white for peace and the justice of the struggle. The gun, hoe and book symbolise defence, production and education, and the star the spirit of international solidarity."
+  },
+  "na": {
+    "name": "Namibia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Namibia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Namibia",
+    "flagImage": "flags/na.png",
+    "flagImageSource": "Flag_of_Namibia.svg",
+    "symbolism": "Blue stands for the clear sky, the Atlantic Ocean and the country's water and rain, red for the people and their heroism, green for vegetation, and white for peace and unity. The golden sun stands for life, energy and the country's wealth, and its twelve rays for twelve ethnic groups."
+  },
+  "nc": {
+    "name": "New Caledonia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/New_Caledonia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flags_of_New_Caledonia",
+    "flagImage": "flags/nc.png",
+    "flagImageSource": "Flag_of_France.svg",
+    "symbolism": "The French tricolour of blue, white and red is the national flag. Flown alongside it since 2010 is the Kanak flag, with blue for the sky and Pacific Ocean, red for the blood shed in the Kanak struggle for independence, green for the land and the ancestors buried in it, and a yellow disc for the sun bearing a black flèche faîtière, the roof ornament of a Kanak house."
+  },
+  "ne": {
+    "name": "Niger",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Niger",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Niger",
+    "flagImage": "flags/ne.png",
+    "flagImageSource": "Flag_of_Niger.svg",
+    "symbolism": "Commonly given readings are that the orange band stands for the Sahara in the north, the white for the Sahel zone, and the green for the fertile south, with the orange disc as the sun; official sources have not confirmed the meanings."
+  },
+  "nf": {
+    "name": "Norfolk Island",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Norfolk_Island",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Norfolk_Island",
+    "flagImage": "flags/nf.png",
+    "flagImageSource": "Flag_of_Norfolk_Island.svg",
+    "symbolism": "The green Norfolk Island pine, the island's symbol and a native tree, stands in a white band between two green bands. The green symbolises the island's plentiful vegetation and fertile land. It is a territory of Australia."
+  },
+  "ng": {
+    "name": "Nigeria",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Nigeria",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Nigeria",
+    "flagImage": "flags/ng.png",
+    "flagImageSource": "Flag_of_Nigeria.svg",
+    "symbolism": "Green stands for the country's agriculture and natural wealth, and white for peace and unity."
+  },
+  "ni": {
+    "name": "Nicaragua",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Nicaragua",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Nicaragua",
+    "flagImage": "flags/ni.png",
+    "flagImageSource": "Flag_of_Nicaragua.svg",
+    "symbolism": "The blue and white bands come from the flag of the United Provinces of Central America, reflecting Nicaragua's hope for the rebirth of the union. The arms show a triangle with five volcanoes for the five member states, a Phrygian cap for liberty, and a rainbow and rays for a bright future."
+  },
+  "nl": {
+    "name": "Netherlands, Kingdom of the",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Kingdom_of_the_Netherlands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Netherlands",
+    "flagImage": "flags/nl.png",
+    "flagImageSource": "Flag_of_the_Netherlands.svg",
+    "symbolism": "It descends from the Dutch revolt against Spain and the orange-white-blue flag of William of Orange, with the orange turning red over time. It is the oldest tricolour in continuous use."
+  },
+  "no": {
+    "name": "Norway",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Norway",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Norway",
+    "flagImage": "flags/no.png",
+    "flagImageSource": "Flag_of_Norway.svg",
+    "symbolism": "The Nordic cross represents Christianity and was taken from the Danish flag. When the flag was designed in 1821, red, white and blue were chosen as colours of freedom, as seen in the flags of France, the Netherlands, the United States and Britain."
+  },
+  "np": {
+    "name": "Nepal",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Nepal",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Nepal",
+    "flagImage": "flags/np.png",
+    "flagImageSource": "Flag_of_Nepal.svg",
+    "symbolism": "The only non-rectangular national flag in the world. The crimson red stands for the bravery of the Nepalese people and the national flower, the rhododendron, and the blue border for peace and harmony. The moon and sun are said to stand for the cool Himalayas and the hot southern lowlands, and for the Hindu and Buddhist faiths."
+  },
+  "nr": {
+    "name": "Naoero",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Nauru",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Nauru",
+    "flagImage": "flags/nr.png",
+    "flagImageSource": "Flag_of_Nauru.svg",
+    "symbolism": "The dark blue field stands for the Pacific Ocean, and the thin gold stripe for the equator, with the island just south of it. The white twelve-pointed star represents Nauru itself and its twelve original tribes, and its white also recalls phosphate, a former major natural resource."
+  },
+  "nu": {
+    "name": "Niue",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Niue",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Niue",
+    "flagImage": "flags/nu.png",
+    "flagImageSource": "Flag_of_Niue.svg",
+    "symbolism": "The Union Jack symbolises the protection granted by the United Kingdom in 1900. The yellow field stands for the bright sunshine of Niue and the warm feelings of its people towards New Zealand, the four small stars depict the Southern Cross for the link with New Zealand, and the blue disc with a larger star represents the deep blue sea around the island."
+  },
+  "nz": {
+    "name": "New Zealand",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/New_Zealand",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_New_Zealand",
+    "flagImage": "flags/nz.png",
+    "flagImageSource": "Flag_of_New_Zealand.svg",
+    "symbolism": "The four red stars with white borders show the Southern Cross constellation, signifying New Zealand's place in the South Pacific. The Union Jack reflects its origins as a British colony, and the royal blue is reminiscent of the sea and sky."
+  },
+  "om": {
+    "name": "Oman",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Oman",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Oman",
+    "flagImage": "flags/om.png",
+    "flagImageSource": "Flag_of_Oman.svg",
+    "symbolism": "White symbolises peace, green is associated with the fertile Jebel Akhdar mountains, and red recalls the old flag of the Sultanate of Muscat and Oman and the battles fought by the Omani people. The white khanjar dagger and crossed swords are the national emblem."
+  },
+  "pa": {
+    "name": "Panama",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Panama",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Panama",
+    "flagImage": "flags/pa.png",
+    "flagImageSource": "Flag_of_Panama.svg",
+    "symbolism": "Blue and red stand for the two main political parties, the Conservatives and Liberals, and white for peace between them. The blue star stands for honesty and the red star for authority and law."
+  },
+  "pe": {
+    "name": "Peru",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Peru",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Peru",
+    "flagImage": "flags/pe.png",
+    "flagImageSource": "Flag_of_Peru.svg",
+    "symbolism": "Red represents the blood spilled by those who fought for independence, and white purity and peace. Legend says General José de San Martín was inspired by the colours of red-and-white flamingos seen on landing in Peru. The coat of arms shows a vicuña, a cinchona tree and a cornucopia."
+  },
+  "pf": {
+    "name": "French Polynesia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/French_Polynesia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_French_Polynesia",
+    "flagImage": "flags/pf.png",
+    "flagImageSource": "Flag_of_French_Polynesia.svg",
+    "symbolism": "The outrigger canoe carries a crew of five, shown as stars for the five island groups, on blue waves beneath a golden sun. Red and white are traditional Polynesian colours."
+  },
+  "pg": {
+    "name": "Papua New Guinea",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Papua_New_Guinea",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Papua_New_Guinea",
+    "flagImage": "flags/pg.png",
+    "flagImageSource": "Flag_of_Papua_New_Guinea.svg",
+    "symbolism": "The yellow bird of paradise, a symbol of tribal culture, soars to represent the nation's emergence, and red, black and yellow are colours traditionally used to represent Papua New Guinea. The white stars are the Southern Cross, signifying the country's relationship with other southern hemisphere nations."
+  },
+  "ph": {
+    "name": "Philippines",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Philippines",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Philippines",
+    "flagImage": "flags/ph.png",
+    "flagImageSource": "Flag_of_the_Philippines.svg",
+    "symbolism": "The white triangle stands for liberty, equality and fraternity, the golden sun with eight rays for the eight provinces that rose against Spain, and the three stars for the three main island groups: Luzon, Visayas and Mindanao. Blue stands for peace, truth and justice, and red for patriotism and valour. The flag is flown with red on top in wartime."
+  },
+  "pk": {
+    "name": "Pakistan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Pakistan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Pakistan",
+    "flagImage": "flags/pk.png",
+    "flagImageSource": "Flag_of_Pakistan.svg",
+    "symbolism": "Green stands for the Muslim majority, and the white band for religious minorities. The white crescent stands for progress and the star for light and knowledge."
+  },
+  "pl": {
+    "name": "Poland",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Poland",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Poland",
+    "flagImage": "flags/pl.png",
+    "flagImageSource": "Flag_of_Poland.svg",
+    "symbolism": "The colours come from the coat of arms of Poland, a white eagle on a red field, with white the colour of the eagle and red the colour of the field."
+  },
+  "pm": {
+    "name": "Saint Pierre and Miquelon",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Saint_Pierre_and_Miquelon",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Saint_Pierre_and_Miquelon",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the Grande Hermine flag flown locally is unofficial.",
+    "symbolism": null
+  },
+  "pn": {
+    "name": "Pitcairn",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Pitcairn_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_and_coat_of_arms_of_the_Pitcairn_Islands",
+    "flagImage": "flags/pn.png",
+    "flagImageSource": "Flag_of_the_Pitcairn_Islands.svg",
+    "symbolism": "The Blue Ensign and Union Jack mark its British ties. The arms use blue, yellow and green for the island rising from the Pacific, an anchor and a Bible from HMS Bounty, whose mutineers settled the island, and a wheelbarrow and a sprig of miro tree for the agriculture that helped them survive."
+  },
+  "pr": {
+    "name": "Puerto Rico",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Puerto_Rico",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Puerto_Rico",
+    "flagImage": "flags/pr.png",
+    "flagImageSource": "Flag_of_Puerto_Rico.svg",
+    "symbolism": "Modelled on the Cuban flag, from the shared fight against Spain, with the colours reversed. Red stands for the blood shed by warriors, white for liberty, victory and peace, and blue for the sky and coastal waters. The white star stands for the island, and the three sides of the triangle for the three branches of government."
+  },
+  "ps": {
+    "name": "Palestine, State of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Palestine",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Palestine",
+    "flagImage": "flags/ps.png",
+    "flagImageSource": "Flag_of_Palestine.svg",
+    "symbolism": "These are the Pan-Arab colours: black for the Abbasid Caliphate, white for the Umayyad Caliphate, green for the Fatimid Caliphate, and the red triangle for the Hashemite dynasty and the Arab Revolt. The flag is a symbol of Palestinian identity."
+  },
+  "pt": {
+    "name": "Portugal",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Portugal",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Portugal",
+    "flagImage": "flags/pt.png",
+    "flagImageSource": "Flag_of_Portugal_(official).svg",
+    "symbolism": "Green stands for hope and red for the blood of those who died for Portugal. The arms where they meet show a shield of five blue shields, the quinas, with seven castles, set on an armillary sphere recalling the Age of Discovery."
+  },
+  "pw": {
+    "name": "Palau",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Palau",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Palau",
+    "flagImage": "flags/pw.png",
+    "flagImageSource": "Flag_of_Palau.svg",
+    "symbolism": "Blue stands for the Pacific Ocean, and the golden disc, set slightly toward the hoist, for the full moon, a symbol of peace, love and tranquillity and a traditional time for celebrations and fishing."
+  },
+  "py": {
+    "name": "Paraguay",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Paraguay",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Paraguay",
+    "flagImage": "flags/py.png",
+    "flagImageSource": "Flag_of_Paraguay.svg",
+    "symbolism": "The red, white and blue triband was inspired by the French tricolour, believed to signify independence and liberty. It is the only national flag with a different design on each side: the front shows a star surrounded by a palm and olive branch, and the back the treasury seal with a lion beneath a red cap of liberty and the words 'Paz y Justicia'."
+  },
+  "qa": {
+    "name": "Qatar",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Qatar",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Qatar",
+    "flagImage": "flags/qa.png",
+    "flagImageSource": "Flag_of_Qatar.svg",
+    "symbolism": "The maroon reflects Qatar's heritage in purple dye production, and the white stands for the peace secured by treaties with the British. The nine points of the serrated edge represent Qatar as the ninth 'reconciled emirate' to sign the 1916 treaty."
+  },
+  "re": {
+    "name": "Réunion",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Réunion",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Réunion",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Uses the French national flag; Réunion has no separate official flag.",
+    "symbolism": null
+  },
+  "ro": {
+    "name": "Romania",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Romania",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Romania",
+    "flagImage": "flags/ro.png",
+    "flagImageSource": "Flag_of_Romania.svg",
+    "symbolism": "Blue stands for liberty, yellow for justice, and red for brotherhood, the ideals of the 1848 revolution. The same tricolour has been used since the 19th century."
+  },
+  "rs": {
+    "name": "Serbia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Serbia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Serbia",
+    "flagImage": "flags/rs.png",
+    "flagImageSource": "Flag_of_Serbia.svg",
+    "symbolism": "The red, blue and white tricolour dates to 1835, when Prince Miloš reportedly turned the Russian flag upside down to secure Ottoman approval. The arms show a double-headed eagle with a crown and a shield bearing a cross and four firesteels."
+  },
+  "ru": {
+    "name": "Russian Federation",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Russia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Russia",
+    "flagImage": "flags/ru.png",
+    "flagImageSource": "Flag_of_Russia.svg",
+    "symbolism": "The white, blue and red tricolour was modelled on the Dutch flag by Peter the Great. The imperial-era official reading was that white stands for nobility and frankness, blue for faithfulness and honesty, and red for courage, generosity and love."
+  },
+  "rw": {
+    "name": "Rwanda",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Rwanda",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Rwanda",
+    "flagImage": "flags/rw.png",
+    "flagImageSource": "Flag_of_Rwanda.svg",
+    "symbolism": "Blue stands for happiness and peace, yellow for economic development, and green for hope for prosperity. The golden sun represents national unity, transparency and the enlightenment of the Rwandan people."
+  },
+  "sa": {
+    "name": "Saudi Arabia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Saudi_Arabia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Saudi_Arabia",
+    "flagImage": "flags/sa.png",
+    "flagImageSource": "Flag_of_Saudi_Arabia.svg",
+    "symbolism": "The green background represents Islam, and the white Shahada reads: 'There is no god but God, and Muhammad is the Messenger of God.' The sword stands for safety and justice."
+  },
+  "sb": {
+    "name": "Solomon Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Solomon_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Solomon_Islands",
+    "flagImage": "flags/sb.png",
+    "flagImageSource": "Flag_of_the_Solomon_Islands.svg",
+    "symbolism": "The blue evokes the water of the rivers, rain and the Pacific Ocean, and the five white stars stand for the five provinces at independence: Central, Western, Eastern, Malaita and Honiara."
+  },
+  "sc": {
+    "name": "Seychelles",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Seychelles",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Seychelles",
+    "flagImage": "flags/sc.png",
+    "flagImageSource": "Flag_of_Seychelles.svg",
+    "symbolism": "The bands symbolise a dynamic new country moving into the future. Yellow is for the sun that gives light and life, red for the people's determination to work for the future in unity and love, and white for social justice and harmony."
+  },
+  "sd": {
+    "name": "Sudan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Sudan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Sudan",
+    "flagImage": "flags/sd.png",
+    "flagImageSource": "Flag_of_Sudan.svg",
+    "symbolism": "The Pan-Arab colours stand for Arab unity and independence. Red represents the struggle for independence and the sacrifice of martyrs, white the people, light and optimism, black Sudan itself and the Mahdist revolution, and the green triangle Islam, agriculture and prosperity."
+  },
+  "se": {
+    "name": "Sweden",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Sweden",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Sweden",
+    "flagImage": "flags/se.png",
+    "flagImageSource": "Flag_of_Sweden.svg",
+    "symbolism": "The blue and gold recall the national arms of three golden crowns on blue. The Nordic cross traditionally represents Christianity, and legend says King Eric IX saw the sun shine against a golden cross in the sky as he landed in Finland in 1157."
+  },
+  "sg": {
+    "name": "Singapore",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Singapore",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Singapore",
+    "flagImage": "flags/sg.png",
+    "flagImageSource": "Flag_of_Singapore.svg",
+    "symbolism": "Red stands for universal brotherhood and equality, and white for pure and lasting virtue. The crescent represents a young, rising nation, and the five stars its ideals: democracy, peace, progress, justice and equality."
+  },
+  "sh": {
+    "name": "Saint Helena, Ascension and Tristan da Cunha",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Saint_Helena,_Ascension_and_Tristan_da_Cunha",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flags_of_Saint_Helena,_Ascension_and_Tristan_da_Cunha",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "The territory has no flag of its own; Saint Helena, Ascension and Tristan da Cunha each have their own flag.",
+    "symbolism": null
+  },
+  "si": {
+    "name": "Slovenia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Slovenia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Slovenia",
+    "flagImage": "flags/si.png",
+    "flagImageSource": "Flag_of_Slovenia.svg",
+    "symbolism": "The white, blue and red come from the Carniolan tricolour, which became the symbol of the Slovene nation. The arms show Mount Triglav, the highest peak, above two wavy blue lines for the Adriatic Sea and rivers, and three golden stars from the arms of the Counts of Celje."
+  },
+  "sj": {
+    "name": "Svalbard and Jan Mayen",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Svalbard_and_Jan_Mayen",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Norway",
+    "flagImage": "flags/sj.png",
+    "flagImageSource": "Flag_of_Norway.svg",
+    "symbolism": "Svalbard and Jan Mayen are Norwegian territories and use the flag of Norway, whose red, white and blue were chosen in 1821 as colours of freedom."
+  },
+  "sk": {
+    "name": "Slovakia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Slovakia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Slovakia",
+    "flagImage": "flags/sk.png",
+    "flagImageSource": "Flag_of_Slovakia.svg",
+    "symbolism": "The white, blue and red are the Pan-Slavic colours. The arms show a white double cross, read as Slovakia being the heir and guardian of Christian tradition, on a blue three-peaked mountain for the Tatra, Fatra and Matra ranges."
+  },
+  "sl": {
+    "name": "Sierra Leone",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Sierra_Leone",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Sierra_Leone",
+    "flagImage": "flags/sl.png",
+    "flagImageSource": "Flag_of_Sierra_Leone.svg",
+    "symbolism": "Green stands for agriculture, natural resources and the mountains, white for unity and justice, and blue for the Atlantic Ocean and the natural harbour of Freetown, the capital."
+  },
+  "sm": {
+    "name": "San Marino",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/San_Marino",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_San_Marino",
+    "flagImage": "flags/sm.png",
+    "flagImageSource": "Flag_of_San_Marino.svg",
+    "symbolism": "The white stands for peace and the light blue for liberty. The arms show three towers on three peaks of Mount Titano, and the motto 'Libertas', meaning freedom."
+  },
+  "sn": {
+    "name": "Senegal",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Senegal",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Senegal",
+    "flagImage": "flags/sn.png",
+    "flagImageSource": "Flag_of_Senegal.svg",
+    "symbolism": "The Pan-African colours: green is the colour of the Prophet in Islam and of hope and fertility to others, yellow stands for wealth and the progress of the economy, and red for life and the nation's sacrifice and determination to fight underdevelopment. The green star recalls a human figure from the flag of the former Mali Federation, or the Serer star Yooniir."
+  },
+  "so": {
+    "name": "Somalia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Somalia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Somalia",
+    "flagImage": "flags/so.png",
+    "flagImageSource": "Flag_of_Somalia.svg",
+    "symbolism": "The light blue was chosen in tribute to the United Nations, which helped form Somalia as a trust territory, and also denotes the sky and the seas that flank the country. The five points of the white star represent the five regions where Somalis live."
+  },
+  "sr": {
+    "name": "Suriname",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Suriname",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Suriname",
+    "flagImage": "flags/sr.png",
+    "flagImageSource": "Flag_of_Suriname.svg",
+    "symbolism": "Green stands for fertility and hope, white for justice and freedom, and red for progress and love. The large yellow star on the wide red stripe stands for unity and a golden future."
+  },
+  "ss": {
+    "name": "South Sudan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/South_Sudan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_South_Sudan",
+    "flagImage": "flags/ss.png",
+    "flagImageSource": "Flag_of_South_Sudan.svg",
+    "symbolism": "Black stands for the people, red for the blood shed for freedom, green for the land, white for peace, and the blue triangle for the Nile. The yellow star stands for unity of the states."
+  },
+  "st": {
+    "name": "Sao Tome and Principe",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/São_Tomé_and_Príncipe",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_São_Tomé_and_Príncipe",
+    "flagImage": "flags/st.png",
+    "flagImageSource": "Flag_of_São_Tomé_and_Príncipe.svg",
+    "symbolism": "The green, yellow and red are the Pan-African colours and represent the independence movement: green for the lush vegetation, yellow for the sun or, in the CIA World Factbook, cocoa, and the red triangle for equality. The two black stars stand for the islands of São Tomé and Príncipe."
+  },
+  "sv": {
+    "name": "El Salvador",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/El_Salvador",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_El_Salvador",
+    "flagImage": "flags/sv.png",
+    "flagImageSource": "Flag_of_El_Salvador.svg",
+    "symbolism": "The top and bottom blue stripes symbolise the Pacific and Atlantic Oceans, the latter intended to represent Central America as a whole, and the white stripe symbolises peace. The arms show a triangle for the three branches of government with five volcanoes for the five original Central American states, a liberty cap, a rainbow for peace and rays of light, with the motto 'God, Union, Liberty'."
+  },
+  "sx": {
+    "name": "Sint Maarten (Dutch part)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Sint_Maarten",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Sint_Maarten",
+    "flagImage": "flags/sx.png",
+    "flagImageSource": "Flag_of_Sint_Maarten.svg",
+    "symbolism": "The red, white and blue evoke the flag of the Netherlands, Sint Maarten's mother country; blue represents the sea and sky and red the blood of the islanders. The arms show the courthouse in Philipsburg, with green for the fertility of the land and yellow for the energy of the islanders."
+  },
+  "sy": {
+    "name": "Syrian Arab Republic",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Syria",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Syria",
+    "flagImage": "flags/sy.png",
+    "flagImageSource": "Flag_of_Syria_(2025-).svg",
+    "symbolism": "Adopted in 2025, it is also known as the independence flag. Green stands for the Rashidun Caliphate, white for the Umayyad Caliphate, and black for the Abbasid Caliphate. The three red stars originally represented the districts of Aleppo, Damascus and Deir ez-Zor."
+  },
+  "sz": {
+    "name": "Eswatini",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Eswatini",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Eswatini",
+    "flagImage": "flags/sz.png",
+    "flagImageSource": "Flag_of_Eswatini.svg",
+    "symbolism": "The red stands for past battles, the blue for peace and stability, and the yellow for the country's resources. The central Nguni shield and two spears symbolise protection from the country's enemies."
+  },
+  "tc": {
+    "name": "Turks and Caicos Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Turks_and_Caicos_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Turks_and_Caicos_Islands",
+    "flagImage": "flags/tc.png",
+    "flagImageSource": "Flag_of_the_Turks_and_Caicos_Islands.svg",
+    "symbolism": "The Blue Ensign and Union Jack mark its British ties. The shield shows a queen conch shell and a spiny lobster, alluding to the fishing industry, and a Turk's head cactus, symbolising the islands' environment."
+  },
+  "td": {
+    "name": "Chad",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Chad",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Chad",
+    "flagImage": "flags/td.png",
+    "flagImageSource": "Flag_of_Chad.svg",
+    "symbolism": "The indigo blue represents Lake Chad and the Black African heritage, the yellow the sands of the Sahara desert, and the red the bloodshed for independence from France."
+  },
+  "tf": {
+    "name": "French Southern Territories",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/French_Southern_and_Antarctic_Lands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_French_Southern_and_Antarctic_Lands",
+    "flagImage": "flags/tf.png",
+    "flagImageSource": "Flag_of_the_French_Southern_and_Antarctic_Lands.svg",
+    "symbolism": "The blue field stands for the Southern Ocean, and the French tricolour in the corner marks the territory's link to France. The white monogram TAAF, shaped like an anchor, is surrounded by five stars, sometimes thought to represent the territory's five districts."
+  },
+  "tg": {
+    "name": "Togo",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Togo",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Togo",
+    "flagImage": "flags/tg.png",
+    "flagImageSource": "Flag_of_Togo.svg",
+    "symbolism": "Green stands for forests, agriculture and hope, yellow for natural resources, faith and maturity, and red for the blood shed by those who fought for independence. The white star stands for peace, intelligence and light, and the five stripes for the five regions of Togo."
+  },
+  "th": {
+    "name": "Thailand",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Thailand",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Thailand",
+    "flagImage": "flags/th.png",
+    "flagImageSource": "Flag_of_Thailand.svg",
+    "symbolism": "The colours are said to stand for nation, religion and king: red for the land and people, white for religion and blue for the monarchy, blue being the auspicious colour of King Rama VI. It is known as the Trairanga, the tricolour."
+  },
+  "tj": {
+    "name": "Tajikistan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Tajikistan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Tajikistan",
+    "flagImage": "flags/tj.png",
+    "flagImageSource": "Flag_of_Tajikistan.svg",
+    "symbolism": "Red stands for the unity of the nation, victory and the sunrise, white for purity and cotton, and green for the generosity of nature and fertile valleys. The crown represents the Samanid dynasty and the Tajik people, and the seven stars the number seven's meaning of perfection and happiness in Persian mythology."
+  },
+  "tk": {
+    "name": "Tokelau",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Tokelau",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Tokelau",
+    "flagImage": "flags/tk.png",
+    "flagImageSource": "Flag_of_Tokelau.svg",
+    "symbolism": "The yellow canoe symbolises Tokelau's journey towards finding the best governance structure for its people, and the Southern Cross is a navigational aid for that journey, on a blue field for the ocean."
+  },
+  "tl": {
+    "name": "Timor-Leste",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Timor-Leste",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Timor-Leste",
+    "flagImage": "flags/tl.png",
+    "flagImageSource": "Flag_of_East_Timor.svg",
+    "symbolism": "Red stands for the struggle for national liberation, black for the obscurantism that must be overcome, and yellow for the wealth of the country. The white star is the light that guides and represents peace."
+  },
+  "tm": {
+    "name": "Turkmenistan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Turkmenistan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Turkmenistan",
+    "flagImage": "flags/tm.png",
+    "flagImageSource": "Flag_of_Turkmenistan.svg",
+    "symbolism": "The five carpet guls on the red band at the hoist stand for the five major tribes and the art of carpet weaving, and the crossed olive branches were added in 1995 for the country's permanent neutrality. No official explanation is given for the colours, but the five stars are said to represent the five regions and the crescent a bright future."
+  },
+  "tn": {
+    "name": "Tunisia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Tunisia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Tunisia",
+    "flagImage": "flags/tn.png",
+    "flagImageSource": "Flag_of_Tunisia.svg",
+    "symbolism": "Red stands for the blood of martyrs, and the white disc for peace and the sun. The crescent and five-pointed star are symbols of Islam and the Ottoman era that the flag was based on."
+  },
+  "to": {
+    "name": "Tonga",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Tonga",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Tonga",
+    "flagImage": "flags/to.png",
+    "flagImageSource": "Flag_of_Tonga.svg",
+    "symbolism": "Red stands for the blood of Christ, and the red cross for Christianity, as Tonga is a deeply Christian country. The white canton stands for purity."
+  },
+  "tr": {
+    "name": "Türkiye",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Turkey",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Turkey",
+    "flagImage": "flags/tr.png",
+    "flagImageSource": "Flag_of_Turkey.svg",
+    "symbolism": "The flag is the Ottoman flag of 1844, a white crescent and star on red. The origin of the emblem is unclear, though it may derive from the symbol of ancient Constantinople. Red is said to stand for the blood of martyrs, and a popular legend says the crescent and star were the moon and a star reflected in blood after a battle."
+  },
+  "tt": {
+    "name": "Trinidad and Tobago",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Trinidad_and_Tobago",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Trinidad_and_Tobago",
+    "flagImage": "flags/tt.png",
+    "flagImageSource": "Flag_of_Trinidad_and_Tobago.svg",
+    "symbolism": "Red, black and white stand for fire (the sun and courage), earth (dedication) and water (purity and equality). The diagonal black band with white edges runs across the red field."
+  },
+  "tv": {
+    "name": "Tuvalu",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Tuvalu",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Tuvalu",
+    "flagImage": "flags/tv.png",
+    "flagImageSource": "Flag_of_Tuvalu.svg",
+    "symbolism": "Light blue stands for the Pacific Ocean, and the Union Jack for ties to the United Kingdom and the Commonwealth. The nine yellow stars represent the nine islands; the name Tuvalu means 'eight standing together', after the original eight inhabited islands."
+  },
+  "tw": {
+    "name": "Taiwan, Province of China",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Taiwan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Republic_of_China",
+    "flagImage": "flags/tw.png",
+    "flagImageSource": "Flag_of_the_Republic_of_China.svg",
+    "symbolism": "Red stands for the blood of the revolutionaries and for the people's livelihood and fraternity, blue for nationalism and liberty, and the white sun for democracy and equality. Its 12 rays stand for the 12 months and the 12 traditional Chinese hours of the day."
+  },
+  "tz": {
+    "name": "Tanzania, United Republic of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Tanzania",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Tanzania",
+    "flagImage": "flags/tz.png",
+    "flagImageSource": "Flag_of_Tanzania.svg",
+    "symbolism": "Green stands for the natural vegetation and rich agricultural resources, black for the Swahili people, and the thin yellow stripes for the country's mineral wealth. Blue stands for the Indian Ocean and lakes, and the colours combine those of the flags of Tanganyika and Zanzibar."
+  },
+  "ua": {
+    "name": "Ukraine",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Ukraine",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Ukraine",
+    "flagImage": "flags/ua.png",
+    "flagImageSource": "Flag_of_Ukraine.svg",
+    "symbolism": "Blue over yellow is popularly read as the sky above golden wheat fields, a reading that dates from the early 20th century. The colours themselves are older, common on the coats of arms of Galicia, and Lviv's arms are still a golden lion on blue."
+  },
+  "ug": {
+    "name": "Uganda",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Uganda",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Uganda",
+    "flagImage": "flags/ug.png",
+    "flagImageSource": "Flag_of_Uganda.svg",
+    "symbolism": "According to the vexillologist Whitney Smith, black symbolises the Ugandan people, yellow sunshine and red brotherhood. The crested crane is the national bird, a symbol of good fortune, longevity and wealth among the Baganda."
+  },
+  "um": {
+    "name": "United States Minor Outlying Islands",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/United_States_Minor_Outlying_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_United_States",
+    "flagImage": "flags/um.png",
+    "flagImageSource": "Flag_of_the_United_States_(DDD-F-416E_specifications).svg",
+    "symbolism": "The United States Minor Outlying Islands use the flag of the United States, whose stripes represent the original thirteen colonies and whose stars represent the states."
+  },
+  "us": {
+    "name": "United States of America",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/United_States",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_United_States",
+    "flagImage": "flags/us.png",
+    "flagImageSource": "Flag_of_the_United_States_(DDD-F-416E_specifications).svg",
+    "symbolism": "The thirteen stripes represent the original thirteen colonies and the 50 stars the 50 states. Red stands for valour and hardiness, white for purity and innocence, and blue for vigilance, perseverance and justice."
+  },
+  "uy": {
+    "name": "Uruguay",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Uruguay",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Uruguay",
+    "flagImage": "flags/uy.png",
+    "flagImageSource": "Flag_of_Uruguay.svg",
+    "symbolism": "The nine stripes stand for the nine original departments of Uruguay, modelled on the US flag, and the golden Sun of May, also on Argentina's flag, represents the May Revolution of 1810."
+  },
+  "uz": {
+    "name": "Uzbekistan",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Uzbekistan",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Uzbekistan",
+    "flagImage": "flags/uz.png",
+    "flagImageSource": "Flag_of_Uzbekistan.svg",
+    "symbolism": "There is no official meaning for the elements, but common readings are blue for the sky and clear water, white for peace and good luck, green for nature and harvest, and the thin red lines for the power of life. The crescent is a symbol of a new nation and the twelve stars recall the provinces and the traditional calendar."
+  },
+  "va": {
+    "name": "Holy See",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Vatican_City",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Vatican_City",
+    "flagImage": "flags/va.png",
+    "flagImageSource": "Flag_of_Vatican_City_(2023–present).svg",
+    "symbolism": "Yellow and white stand for the gold and silver keys of Saint Peter, shown crossed beneath the papal tiara as a symbol of papal authority. It is one of only two flags with a 1:1 ratio, along with Switzerland's."
+  },
+  "vc": {
+    "name": "Saint Vincent and the Grenadines",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Saint_Vincent_and_the_Grenadines",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Saint_Vincent_and_the_Grenadines",
+    "flagImage": "flags/vc.png",
+    "flagImageSource": "Flag_of_Saint_Vincent_and_the_Grenadines.svg",
+    "symbolism": "Blue stands for the sky and sea, gold for the sand, the sunshine and the bright spirit of the islanders, and green for the lush vegetation and vitality. The three diamonds evoke the islands' nicknames, the 'Gems of the Antilles' and the 'Jewels of the Caribbean'."
+  },
+  "ve": {
+    "name": "Venezuela, Bolivarian Republic of",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Venezuela",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Venezuela",
+    "flagImage": "flags/ve.png",
+    "flagImageSource": "Flag_of_Venezuela.svg",
+    "symbolism": "Traditionally, yellow stands for the wealth of the land, red for courage, and blue for independence from Spain, 'golden' America separated from bloody Spain by the sea. The eight stars stand for the seven provinces that signed the declaration of independence and Guayana."
+  },
+  "vg": {
+    "name": "Virgin Islands (British)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/British_Virgin_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_British_Virgin_Islands",
+    "flagImage": "flags/vg.png",
+    "flagImageSource": "Flag_of_the_British_Virgin_Islands.svg",
+    "symbolism": "The Blue Ensign and Union Jack mark its British ties. The shield shows Saint Ursula holding a flaming gold oil lamp, surrounded by eleven more lamps for her 11,000 virgin followers."
+  },
+  "vi": {
+    "name": "Virgin Islands (U.S.)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/United_States_Virgin_Islands",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_United_States_Virgin_Islands",
+    "flagImage": "flags/vi.png",
+    "flagImageSource": "Flag_of_the_United_States_Virgin_Islands.svg",
+    "symbolism": "The yellow eagle holds a sprig of laurel for victory in one talon and three blue arrows, for the three major islands, in the other, with a shield modelled on the US coat of arms. The letters V and I stand for Virgin Islands, and the design sits on a white field."
+  },
+  "vn": {
+    "name": "Viet Nam",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Vietnam",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Vietnam",
+    "flagImage": "flags/vn.png",
+    "flagImageSource": "Flag_of_Vietnam.svg",
+    "symbolism": "Red stands for the revolution and the blood shed for independence. The yellow star's five points stand for the main classes of society: workers, peasants, intellectuals, traders and soldiers."
+  },
+  "vu": {
+    "name": "Vanuatu",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Vanuatu",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Vanuatu",
+    "flagImage": "flags/vu.png",
+    "flagImageSource": "Flag_of_Vanuatu_(official).svg",
+    "symbolism": "Green stands for the richness of the islands, red for blood, which unites humanity, and black for the Melanesian ni-Vanuatu people. The yellow Y represents the shape of the islands on the map and the light of the Gospel, and the boar's tusk, a symbol of custom, tradition and prosperity, is shown with two namele leaves for peace; their 39 leaflets stand for the original 39 members of parliament."
+  },
+  "wf": {
+    "name": "Wallis and Futuna",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Wallis_and_Futuna",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Wallis_and_Futuna",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Uses the French national flag; the red saltire flag used locally is unofficial.",
+    "symbolism": null
+  },
+  "ws": {
+    "name": "Samoa",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Samoa",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Samoa",
+    "flagImage": "flags/ws.png",
+    "flagImageSource": "Flag_of_Samoa.svg",
+    "symbolism": "The flag law gives no official meaning to the design, but red is reported to stand for courage, white for purity and blue for freedom. The five white stars are the Southern Cross, showing where Samoa lies."
+  },
+  "ye": {
+    "name": "Yemen",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Yemen",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Yemen",
+    "flagImage": "flags/ye.png",
+    "flagImageSource": "Flag_of_Yemen.svg",
+    "symbolism": "The Pan-Arab colours: red stands for the blood of martyrs and the unity of the nation, white for a bright future, and black for the dark past."
+  },
+  "yt": {
+    "name": "Mayotte",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Mayotte",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_and_coat_of_arms_of_Mayotte",
+    "flagImage": null,
+    "flagImageSource": null,
+    "flagNote": "Uses the French national flag; Mayotte has no official flag of its own.",
+    "symbolism": null
+  },
+  "za": {
+    "name": "South Africa",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/South_Africa",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_South_Africa",
+    "flagImage": "flags/za.png",
+    "flagImageSource": "Flag_of_South_Africa.svg",
+    "symbolism": "The Y shape stands for the convergence of diverse elements into unity. The colours have no official meaning, though they are often linked to the land (green), the blood shed (red) and the sky (blue)."
+  },
+  "zm": {
+    "name": "Zambia",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Zambia",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Zambia",
+    "flagImage": "flags/zm.png",
+    "flagImageSource": "Flag_of_Zambia.svg",
+    "symbolism": "Green stands for the country's natural resources and vegetation, red for the struggle for freedom, black for the people, and orange for the mineral wealth, especially copper. The orange eagle stands for the people's ability to rise above problems."
+  },
+  "zw": {
+    "name": "Zimbabwe",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Zimbabwe",
+    "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Zimbabwe",
+    "flagImage": "flags/zw.png",
+    "flagImageSource": "Flag_of_Zimbabwe.svg",
+    "symbolism": "Green stands for agriculture, yellow for mineral wealth, red for the blood shed in the struggle for freedom, and black for the African majority. The white triangle stands for peace, the red star for the nation's hope, and the soapstone bird for the heritage of Great Zimbabwe."
+  }
+}

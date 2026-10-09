@@ -139,22 +139,6 @@ ksp {
 // ─── Asset generation tasks ──────────────────────────────────────────────────
 
 /**
- * Downloads country flag SVGs from hampusborgos/country-flags on GitHub and converts them
- * to 320px-wide PNGs. Requires Python 3 with cairosvg: pip3 install cairosvg
- * Only needed if flag images need to be regenerated; they are already committed to the repo.
- */
-tasks.register("downloadFlags") {
-    description = "Downloads and converts country flag images from GitHub into compose resources."
-    group = "setup"
-    doLast {
-        val script = rootProject.file("scripts/download_flags.py")
-        exec {
-            commandLine("python3", script.absolutePath)
-        }
-    }
-}
-
-/**
  * Downloads each country's globe/orthographic locator map from its Wikipedia infobox using
  * download_wikipedia_maps.py. Run once after checkout: ./gradlew downloadWikipediaMaps
  * These images are sourced from Wikimedia Commons; see the in-app credits screen for attribution.
@@ -170,6 +154,34 @@ tasks.register("downloadWikipediaMaps") {
             commandLine("python3", script.absolutePath)
         }
     }
+}
+
+/**
+ * Builds files/country_data.json from Wikipedia: the ISO 3166-1 country list, each country's article,
+ * its flag article, the flag image (downloaded into files/flags) and a short text on the flag's symbolism.
+ * Needs network access to en.wikipedia.org and thumb.wikimedia.org (where flag images are served from).
+ * Which countries have no official flag, and any flag article that cannot be found by its title, are
+ * listed in scripts/country_data_overrides.json. The symbolism texts are written by hand and kept by the task.
+ *
+ *   ./gradlew generateCountryData                         rebuild everything
+ *   ./gradlew generateCountryData -PflagCodes=af,sy       only download the images for these alpha-2 codes
+ *   ./gradlew generateCountryData -PskipDownloads         rebuild the data file without downloading images
+ *   ./gradlew generateCountryData -PpruneFlags            after downloading every flag, delete flag PNGs the data file no longer lists
+ *
+ * The images come from Wikimedia Commons; the file each one was taken from is recorded in the data file.
+ * Flag colours are derived from the images at build time (generateFlagColors), so nothing else needs regenerating.
+ */
+tasks.register<BuildCountryDataTask>("generateCountryData") {
+    description = "Builds country_data.json and downloads each country's flag from Wikipedia."
+    group = "setup"
+    val files = layout.projectDirectory.dir("src/commonMain/composeResources/files")
+    overridesFile.set(rootProject.layout.projectDirectory.file("scripts/country_data_overrides.json"))
+    dataFile.set(files.file("country_data.json"))
+    flagsDir.set(files.dir("flags"))
+    thumbnailWidth.set(320)
+    onlyCodes.set(providers.gradleProperty("flagCodes").orElse(""))
+    skipDownloads.set(providers.gradleProperty("skipDownloads").isPresent)
+    pruneFlags.set(providers.gradleProperty("pruneFlags").isPresent)
 }
 
 // ─── Flag colour extraction ──────────────────────────────────────────────────
