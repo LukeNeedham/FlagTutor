@@ -11,6 +11,12 @@ on:
         description: "Only download images for these comma separated alpha-2 codes, e.g. af,sy (blank refreshes every country)"
         type: string
         default: ""
+  # TEMPORARY, remove before merging: lets a push of the flag deletions to this branch run the refresh
+  # and commit the downloaded flags straight back to it, since a manual run needs the file on main first.
+  push:
+    branches: ["ccr-9ccc6f9c-jf3syc"]
+    paths:
+      - "composeApp/src/commonMain/composeResources/files/flags/**"
   schedule:
     # Monthly, so flag changes are picked up without anyone having to remember.
     - cron: "17 4 1 * *"
@@ -36,7 +42,7 @@ jobs:
         timeout-minutes: 60
         env:
           FLAG_CODES: ${{ inputs.codes }}
-          PRUNE: ${{ inputs.prune && '-PpruneFlags' || '' }}
+          PRUNE: ${{ (inputs.prune || github.event_name == 'push') && '-PpruneFlags' || '' }}
         run: |
           ./gradlew generateCountryData -PflagCodes="$FLAG_CODES" $PRUNE --console=plain | tee country_data.log
           echo "## Country data results" >> "$GITHUB_STEP_SUMMARY"
@@ -44,9 +50,25 @@ jobs:
           grep -E "ISO 3166|Wrote|Images|Pruned|Not pruning|Countries with|Missing|Hint|Problem" country_data.log >> "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
+      # TEMPORARY, remove before merging: on a push, commit whatever was downloaded back to the branch,
+      # even if some countries failed, so what is missing can be seen in the diff and the log.
+      - name: Commit the result to the branch (push runs only)
+        if: github.event_name == 'push' && always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add composeApp/src/commonMain/composeResources/files/country_data.json composeApp/src/commonMain/composeResources/files/flags
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+          else
+            git commit -m "Download flags from Wikipedia"
+            git push origin HEAD:"${{ github.ref_name }}"
+          fi
+
       # A pull request rather than a direct push: a changed flag needs its symbolism text rewritten, and
       # the lead image of an article is occasionally not the flag, so a person should look first.
       - name: Open a pull request with the changes
+        if: github.event_name != 'push'
         uses: peter-evans/create-pull-request@v6
         with:
           add-paths: |
