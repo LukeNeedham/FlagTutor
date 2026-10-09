@@ -44,7 +44,7 @@ class GamePreloader(
                 coroutineScope {
                     launch { identicalFlagDataSource.getIdenticalFlags() }
                     launch { flagColorDataSource.getColors("") }
-                    val picks = countryRepository.getCountries().shuffled().take(INITIAL_COUNT)
+                    val picks = countryRepository.getCountriesWithFlags().shuffled().take(INITIAL_COUNT)
                     picks.forEach { flagImageRepository.preload(it.alpha2Code) }
                     picks
                 }

@@ -171,6 +171,11 @@ As screens are added, give each one:
   only), `-PpruneFlags` (after a full download, delete PNGs the data file does not list). It needs network access to
   `en.wikipedia.org` and `thumb.wikimedia.org`, so run it from the **Update Country Data** workflow (monthly, or manually) rather than a
   sandbox that blocks those hosts. The workflow opens a PR so the changes can be reviewed.
+- **How the app uses it:** `CountryRepository` reads this one file and nothing else describes countries (the old `countries.json`,
+  `flag_descriptions.json` and `wikipedia_links.json` are gone). `getCountries()` returns all 249; the game and its preloader use
+  `getCountriesWithFlags()`, so a country without a flag is never shown or offered as an answer. The debug countries overview lists all
+  of them and shows "No flag" for those. `scripts/download_wikipedia_maps.py` also reads the country article URLs from it. Flags are
+  loaded from `files/flags/<code>.png`, which is what `flagImage` always says.
 - **Images are CC/public-domain files from Wikimedia Commons**; `flagImageSource` records each file for attribution.
 
 ### Flag colours

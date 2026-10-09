@@ -51,7 +51,7 @@ class PickCountryNameGameViewModel(
         upcoming = null
         viewModelScope.launch {
             try {
-                countries = countryRepository.getCountries()
+                countries = countryRepository.getCountriesWithFlags()
                 identicalFlags = identicalFlagDataSource.getIdenticalFlags()
                 // Use the countries whose images were loaded at app start, if available.
                 val forced = forcedAlpha2Code?.let { code -> countries.firstOrNull { it.alpha2Code == code } }

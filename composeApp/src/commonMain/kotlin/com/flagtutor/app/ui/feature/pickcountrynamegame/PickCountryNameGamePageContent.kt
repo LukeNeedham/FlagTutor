@@ -329,10 +329,10 @@ fun PickCountryNameGamePageContent(
                                                             .height(1.dp)
                                                             .background(floodContentColor.copy(alpha = 0.2f)),
                                                     )
-                                                    if (state.flag.flagDescription.isNotEmpty()) {
+                                                    if (!state.flag.flagSymbolism.isNullOrEmpty()) {
                                                         Spacer(modifier = Modifier.height(16.dp))
                                                         Text(
-                                                            text = state.flag.flagDescription,
+                                                            text = state.flag.flagSymbolism,
                                                             style = AppTheme.typography.bodyLarge,
                                                             color = floodContentColor.copy(alpha = 0.7f),
                                                             modifier = Modifier.fillMaxWidth(),

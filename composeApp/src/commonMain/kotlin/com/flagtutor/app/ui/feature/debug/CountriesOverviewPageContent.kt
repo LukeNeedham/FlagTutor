@@ -220,24 +220,33 @@ private fun CountryOverviewRow(
                     )
                 }
             }
-            IconButton(
-                onClick = { onPlay(country.alpha2Code) },
-                modifier = Modifier.size(32.dp),
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.PlayArrow,
-                    contentDescription = "Open in game",
-                    tint = AppTheme.colors.primary,
-                    modifier = Modifier.size(20.dp),
+            if (country.hasFlag) {
+                IconButton(
+                    onClick = { onPlay(country.alpha2Code) },
+                    modifier = Modifier.size(32.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.PlayArrow,
+                        contentDescription = "Open in game",
+                        tint = AppTheme.colors.primary,
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
+                FlagImage(
+                    alpha2Code = country.alpha2Code,
+                    modifier = Modifier
+                        .height(32.dp)
+                        .aspectRatio(3f / 2f)
+                        .clickable(onClick = onFlagClick),
+                )
+            } else {
+                // No official flag, so there is no image and the game never asks about it.
+                Text(
+                    text = "No flag",
+                    style = AppTheme.typography.labelSmall,
+                    color = AppTheme.colors.textSecondary,
                 )
             }
-            FlagImage(
-                alpha2Code = country.alpha2Code,
-                modifier = Modifier
-                    .height(32.dp)
-                    .aspectRatio(3f / 2f)
-                    .clickable(onClick = onFlagClick),
-            )
             CountryMapHighlight(
                 alpha2Code = country.alpha2Code,
                 modifier = Modifier

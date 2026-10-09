@@ -146,7 +146,7 @@ ksp {
 tasks.register("downloadWikipediaMaps") {
     description = "Downloads globe/orthographic map images for every country from Wikipedia."
     group = "setup"
-    inputs.file("src/commonMain/composeResources/files/wikipedia_links.json")
+    inputs.file("src/commonMain/composeResources/files/country_data.json")
     outputs.dir("src/commonMain/composeResources/files/maps")
     doLast {
         val script = rootProject.file("scripts/download_wikipedia_maps.py")

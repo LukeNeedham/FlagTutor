@@ -1,47 +1,42 @@
 package com.flagtutor.app.data.repository
 
-import com.flagtutor.app.data.local.FlagDescriptionDataSource
 import com.flagtutor.app.data.local.LoadOnce
-import com.flagtutor.app.data.local.WikipediaLinkDataSource
 import com.flagtutor.app.domain.model.Country
 import flagtutor.composeapp.generated.resources.Res
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonObject
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
-private val EXCLUDED_CODES = setOf("eu", "un")
-
-class CountryRepository(
-    private val wikipediaLinkDataSource: WikipediaLinkDataSource,
-    private val flagDescriptionDataSource: FlagDescriptionDataSource,
-) {
+/** Reads the countries from `files/country_data.json` (see [Country]). */
+class CountryRepository {
 
     private val countries = LoadOnce {
-        // Separate fetches (on web, network requests), so run them side by side.
-        val (bytes, wikiLinks, descriptions) = coroutineScope {
-            val countriesFile = async { readFile("files/countries.json") }
-            val links = async { wikipediaLinkDataSource.getLinks() }
-            val flagDescriptions = async { flagDescriptionDataSource.getDescriptions() }
-            Triple(countriesFile.await(), links.await(), flagDescriptions.await())
-        }
-        val codes = Json.decodeFromString<JsonObject>(bytes.decodeToString())
-        codes.entries
-            .filter { it.key.length == 2 && it.key !in EXCLUDED_CODES }
-            .map { (code, nameElement) ->
+        val bytes = readFile("files/country_data.json")
+        Json.decodeFromString<JsonObject>(bytes.decodeToString())
+            .map { (code, element) ->
+                val fields = element.jsonObject
+                fun text(key: String) = (fields[key] as? JsonPrimitive)?.contentOrNull
                 Country(
-                    name = nameElement.jsonPrimitive.content,
+                    name = text("name") ?: code,
                     alpha2Code = code,
-                    wikipediaUrl = wikiLinks[code] ?: "",
-                    flagDescription = descriptions[code] ?: "",
+                    wikipediaUrl = text("wikipediaUrl").orEmpty(),
+                    flagWikipediaUrl = text("flagWikipediaUrl").orEmpty(),
+                    flagImage = text("flagImage"),
+                    flagSymbolism = text("symbolism"),
+                    flagNote = text("flagNote"),
                 )
             }
             .sortedBy { it.name }
     }
 
+    /** Every country in the data, including those without a flag. */
     suspend fun getCountries(): List<Country> = countries.get()
+
+    /** The countries that have a flag image, which are the ones the game can show and ask about. */
+    suspend fun getCountriesWithFlags(): List<Country> = countries.get().filter { it.hasFlag }
 
     @OptIn(ExperimentalResourceApi::class)
     private suspend fun readFile(path: String) = Res.readBytes(path)
