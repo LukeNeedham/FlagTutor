@@ -20,6 +20,7 @@ jobs:
     android:
         uses: LukeNeedham/ci-workflows/.github/workflows/android_pr.yml@main
         with:
+            apk-path: composeApp/build/outputs/apk/debug/composeApp-debug.apk
             merged-only: false
 
     # iOS targets can only be compiled on a macOS host (Xcode ships the Apple platform SDKs the
