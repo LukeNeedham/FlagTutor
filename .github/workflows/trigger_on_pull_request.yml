@@ -20,7 +20,7 @@ jobs:
     android:
         uses: LukeNeedham/ci-workflows/.github/workflows/android_pr.yml@main
         with:
-            merged-only: false
+            apk-path: composeApp/build/outputs/apk/debug/composeApp-debug.apk
 
     # iOS targets can only be compiled on a macOS host (Xcode ships the Apple platform SDKs the
     # Kotlin/Native compiler needs), so this runs on a separate macos runner rather than as part
