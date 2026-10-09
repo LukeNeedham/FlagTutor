@@ -81,6 +81,14 @@ abstract class BuildCountryDataTask : DefaultTask() {
     @get:Input
     abstract val skipDownloads: Property<Boolean>
 
+    /**
+     * After a complete, problem-free download of every country, delete the PNGs in [flagsDir] that the data
+     * file does not reference (for example a country that was dropped, or one that now has no flag), so the
+     * directory holds exactly what Wikipedia provided. Ignored for partial or failed runs.
+     */
+    @get:Input
+    abstract val pruneFlags: Property<Boolean>
+
     init {
         // The result depends on live Wikipedia content, so never treat the task as up to date.
         outputs.upToDateWhen { false }
@@ -205,6 +213,16 @@ abstract class BuildCountryDataTask : DefaultTask() {
         logger.lifecycle("Countries with flagImage null (${noFlag.size}): ${noFlag.joinToString()}")
         if (missingSymbolism.isNotEmpty()) logger.warn("Missing symbolism text for: ${missingSymbolism.joinToString()}")
         problems.forEach { logger.warn("Problem $it") }
+        if (pruneFlags.get()) {
+            if (wanted.isNotEmpty() || skipDownloads.get() || circuitOpen || problems.isNotEmpty()) {
+                logger.warn("Not pruning flag images: the run was partial or had problems.")
+            } else {
+                val referenced = entries.values.mapNotNull { it.flagImage?.substringAfterLast('/') }.toSet()
+                val stale = outDir.listFiles { file -> file.extension == "png" && file.name !in referenced }.orEmpty().sortedBy { it.name }
+                stale.forEach { it.delete() }
+                logger.lifecycle("Pruned ${stale.size} flag images no longer in the data: ${stale.joinToString { it.name }}")
+            }
+        }
         if (problems.isNotEmpty()) throw GradleException("${problems.size} problem(s) while building the country data, see the warnings above.")
     }
 

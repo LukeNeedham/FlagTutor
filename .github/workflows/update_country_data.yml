@@ -3,6 +3,10 @@ name: Update Country Data
 on:
   workflow_dispatch:
     inputs:
+      prune:
+        description: "After a full refresh, delete flag images that are not in the data (a clean slate: every flag comes from Wikipedia)"
+        type: boolean
+        default: true
       codes:
         description: "Only download images for these comma separated alpha-2 codes, e.g. af,sy (blank refreshes every country)"
         type: string
@@ -32,11 +36,12 @@ jobs:
         timeout-minutes: 60
         env:
           FLAG_CODES: ${{ inputs.codes }}
+          PRUNE: ${{ inputs.prune && '-PpruneFlags' || '' }}
         run: |
-          ./gradlew generateCountryData -PflagCodes="$FLAG_CODES" --console=plain | tee country_data.log
+          ./gradlew generateCountryData -PflagCodes="$FLAG_CODES" $PRUNE --console=plain | tee country_data.log
           echo "## Country data results" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
-          grep -E "ISO 3166|Wrote|Images|Countries with|Missing|Hint|Problem" country_data.log >> "$GITHUB_STEP_SUMMARY" || true
+          grep -E "ISO 3166|Wrote|Images|Pruned|Not pruning|Countries with|Missing|Hint|Problem" country_data.log >> "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       # A pull request rather than a direct push: a changed flag needs its symbolism text rewritten, and

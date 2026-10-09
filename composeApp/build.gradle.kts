@@ -182,6 +182,7 @@ tasks.register("downloadWikipediaMaps") {
  *   ./gradlew generateCountryData                         rebuild everything
  *   ./gradlew generateCountryData -PflagCodes=af,sy       only download the images for these alpha-2 codes
  *   ./gradlew generateCountryData -PskipDownloads         rebuild the data file without downloading images
+ *   ./gradlew generateCountryData -PpruneFlags            after downloading every flag, delete flag PNGs the data file no longer lists
  *
  * The images come from Wikimedia Commons; the file each one was taken from is recorded in the data file.
  * Flag colours are derived from the images at build time (generateFlagColors), so nothing else needs regenerating.
@@ -196,6 +197,7 @@ tasks.register<BuildCountryDataTask>("generateCountryData") {
     thumbnailWidth.set(320)
     onlyCodes.set(providers.gradleProperty("flagCodes").orElse(""))
     skipDownloads.set(providers.gradleProperty("skipDownloads").isPresent)
+    pruneFlags.set(providers.gradleProperty("pruneFlags").isPresent)
 }
 
 // ─── Flag colour extraction ──────────────────────────────────────────────────
