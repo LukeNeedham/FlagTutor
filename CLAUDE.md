@@ -178,15 +178,19 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
 
 ## CI/CD
 
-- `.github/workflows/trigger_on_pull_request.yml` runs on PRs targeting `main`:
-  1. Calls the shared `android_pr_build.yml` from `LukeNeedham/ci-workflows` (`@main`), which builds
-     `assembleDebug`, creates a pre-release tagged with the branch/run info with the debug APK as an
-     asset, and posts/updates a sticky PR comment with a direct download link to the APK.
-  2. The `macos-14` iOS simulator build (`build-ios`) is skipped on PRs; it only runs when the
+- `.github/workflows/trigger_on_pull_request.yml` runs on PRs targeting `main` (opened, reopened,
+  pushed to, closed) and calls the shared `android_pr.yml` from `LukeNeedham/ci-workflows` (`@main`):
+  1. While the PR is open it builds `assembleDebug`, creates a pre-release tagged with the branch/run
+     info with the debug APK as an asset, and posts/updates a sticky PR comment with a direct
+     download link to the APK. A newer push cancels the running build.
+  2. When the PR is closed, merged or not (`merged-only: false`), it deletes the PR's build
+     pre-releases (and tags).
+  3. The `macos-14` iOS simulator build (`build-ios`) is skipped on PRs; it only runs when the
      workflow is dispatched manually.
-- `.github/workflows/on_pull_request_closed.yml` calls the shared `android_pr_cleanup.yml`, which
-  deletes the PR's build pre-releases (and tags) when the PR is closed, merged or not (`merged-only: false`).
-- The APK build/cleanup logic lives in the shared repo (`LukeNeedham/ci-workflows`), not here, so make changes there.
+- `.github/workflows/delete_prereleases.yml` (manual) calls the shared `delete_prereleases.yml`,
+  which deletes every pre-release and tag.
+- The APK build/cleanup logic and the input defaults live in the shared repo
+  (`LukeNeedham/ci-workflows`), not here, so make changes there.
 
 ## General conventions for changes
 
