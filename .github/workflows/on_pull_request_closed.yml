@@ -10,7 +10,9 @@ permissions:
   contents: write       # write to allow deleting Releases and tags
 
 jobs:
-    # Deletes the PR's build pre-releases once it merges.
+    # Deletes the PR's build pre-releases when it is closed, merged or not.
     # Shared across projects: https://github.com/LukeNeedham/ci-workflows
     cleanup:
         uses: LukeNeedham/ci-workflows/.github/workflows/android_pr_cleanup.yml@main
+        with:
+            merged-only: false

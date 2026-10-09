@@ -185,7 +185,7 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
   2. The `macos-14` iOS simulator build (`build-ios`) is skipped on PRs; it only runs when the
      workflow is dispatched manually.
 - `.github/workflows/on_pull_request_closed.yml` calls the shared `android_pr_cleanup.yml`, which
-  deletes the PR's build pre-releases (and tags) when the PR merges.
+  deletes the PR's build pre-releases (and tags) when the PR is closed, merged or not (`merged-only: false`).
 - The APK build/cleanup logic lives in the shared repo (`LukeNeedham/ci-workflows`), not here, so make changes there.
 
 ## General conventions for changes
