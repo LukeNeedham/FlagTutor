@@ -139,22 +139,6 @@ ksp {
 // ─── Asset generation tasks ──────────────────────────────────────────────────
 
 /**
- * Downloads country flag SVGs from hampusborgos/country-flags on GitHub and converts them
- * to 320px-wide PNGs. Requires Python 3 with cairosvg: pip3 install cairosvg
- * Only needed if flag images need to be regenerated; they are already committed to the repo.
- */
-tasks.register("downloadFlags") {
-    description = "Downloads and converts country flag images from GitHub into compose resources."
-    group = "setup"
-    doLast {
-        val script = rootProject.file("scripts/download_flags.py")
-        exec {
-            commandLine("python3", script.absolutePath)
-        }
-    }
-}
-
-/**
  * Downloads each country's globe/orthographic locator map from its Wikipedia infobox using
  * download_wikipedia_maps.py. Run once after checkout: ./gradlew downloadWikipediaMaps
  * These images are sourced from Wikimedia Commons; see the in-app credits screen for attribution.
