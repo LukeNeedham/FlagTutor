@@ -183,7 +183,7 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
   1. While the PR is open it builds `assembleDebug`, creates a pre-release tagged with the branch/run
      info with the debug APK as an asset, and posts/updates a sticky PR comment with a direct
      download link to the APK. A newer push cancels the running build.
-  2. When the PR is closed, merged or not (`merged-only: false`), it deletes the PR's build
+  2. When the PR is closed, merged or not, it deletes the PR's build
      pre-releases (and tags).
   3. The `macos-14` iOS simulator build (`build-ios`) is skipped on PRs; it only runs when the
      workflow is dispatched manually.
