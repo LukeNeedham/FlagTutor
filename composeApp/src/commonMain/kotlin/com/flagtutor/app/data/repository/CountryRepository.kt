@@ -34,6 +34,12 @@ class CountryRepository {
     }
 
     /**
+     * The countries the app shows and asks about: those with a flag, except territories that use their parent's flag,
+     * so each flag appears once, as its parent. Everything else is in [getExcludedCountries].
+     */
+    suspend fun getGameCountries(): List<Country> = countries.get().filter { it.hasFlag && it.flagSharedWith == null }
+
+    /**
      * The countries the app leaves out: those without a flag of their own, and territories that use their parent's flag
      * (which the game skips so that each flag appears once, as its parent).
      */
