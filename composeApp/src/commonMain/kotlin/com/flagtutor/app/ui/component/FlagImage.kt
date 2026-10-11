@@ -22,9 +22,14 @@ fun FlagImage(alpha2Code: String, modifier: Modifier = Modifier, contentScale: C
     var bitmap by remember(alpha2Code) { mutableStateOf<ImageBitmap?>(null) }
 
     LaunchedEffect(alpha2Code) {
-        bitmap = withContext(Dispatchers.Default) {
-            val bytes = Res.readBytes("files/flags/$alpha2Code.png")
-            decodeImageBitmap(bytes)
+        bitmap = try {
+            withContext(Dispatchers.Default) {
+                val bytes = Res.readBytes("files/flags/$alpha2Code.png")
+                decodeImageBitmap(bytes)
+            }
+        } catch (_: Exception) {
+            // No image for this country (e.g. one without an official flag): show nothing.
+            null
         }
     }
 
