@@ -32,11 +32,11 @@ class CountryRepository {
             .sortedBy { it.name }
     }
 
-    /** Every country in the data, including those without a flag. */
-    suspend fun getCountries(): List<Country> = countries.get()
-
     /** The countries that have a flag image, which are the ones the game can show and ask about. */
     suspend fun getCountriesWithFlags(): List<Country> = countries.get().filter { it.hasFlag }
+
+    /** The countries that have an ISO code but no official flag, so they are never shown in the app. */
+    suspend fun getCountriesWithoutFlags(): List<Country> = countries.get().filter { !it.hasFlag }
 
     @OptIn(ExperimentalResourceApi::class)
     private suspend fun readFile(path: String) = Res.readBytes(path)

@@ -38,7 +38,7 @@ class CountriesOverviewViewModel(
         isError = false
         viewModelScope.launch {
             try {
-                countries = countryRepository.getCountries()
+                countries = countryRepository.getCountriesWithFlags()
                 attemptStatsByCountry = flagAttemptRepository.getAttempts()
                     .groupBy { it.alpha2Code }
                     .mapValues { (_, attempts) -> attempts.toStats() }

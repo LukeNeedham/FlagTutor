@@ -228,15 +228,13 @@ private fun CountryOverviewRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            if (country.hasFlag) {
-                FlagImage(
-                    alpha2Code = country.alpha2Code,
-                    modifier = Modifier
-                        .height(40.dp)
-                        .aspectRatio(3f / 2f)
-                        .clickable(onClick = onFlagClick),
-                )
-            }
+            FlagImage(
+                alpha2Code = country.alpha2Code,
+                modifier = Modifier
+                    .height(40.dp)
+                    .aspectRatio(3f / 2f)
+                    .clickable(onClick = onFlagClick),
+            )
             Text(
                 text = country.name,
                 style = AppTheme.typography.bodyMedium,
@@ -267,24 +265,15 @@ private fun CountryOverviewRow(
                     modifier = Modifier.size(20.dp),
                 )
             }
-            if (country.hasFlag) {
-                IconButton(
-                    onClick = { onPlay(country.alpha2Code) },
-                    modifier = Modifier.size(32.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.PlayArrow,
-                        contentDescription = "Open in game",
-                        tint = AppTheme.colors.primary,
-                        modifier = Modifier.size(20.dp),
-                    )
-                }
-            } else {
-                // No official flag, so there is no image and the game never asks about it.
-                Text(
-                    text = "No flag",
-                    style = AppTheme.typography.labelSmall,
-                    color = AppTheme.colors.textSecondary,
+            IconButton(
+                onClick = { onPlay(country.alpha2Code) },
+                modifier = Modifier.size(32.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.PlayArrow,
+                    contentDescription = "Open in game",
+                    tint = AppTheme.colors.primary,
+                    modifier = Modifier.size(20.dp),
                 )
             }
         }
@@ -295,7 +284,7 @@ private fun CountryOverviewRow(
         ) {
             var isExpanded by remember { mutableStateOf(false) }
             Text(
-                text = country.flagSymbolism ?: country.flagNote.orEmpty(),
+                text = country.flagSymbolism.orEmpty(),
                 style = AppTheme.typography.bodySmall,
                 color = AppTheme.colors.text,
                 maxLines = if (isExpanded) Int.MAX_VALUE else 2,

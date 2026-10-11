@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Flag
+import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DebugPageContent(
     onCountriesOverviewClick: () -> Unit,
+    onCountriesWithoutFlagClick: () -> Unit,
     onFlagAttemptsClick: () -> Unit,
     onCrashesClick: () -> Unit,
     onBackClick: () -> Unit,
@@ -67,6 +69,15 @@ fun DebugPageContent(
                 Icon(imageVector = Icons.Filled.List, contentDescription = null)
                 Spacer(modifier = Modifier.padding(horizontal = 8.dp))
                 Text("Countries Overview")
+            }
+            OutlinedButton(
+                onClick = onCountriesWithoutFlagClick,
+                modifier = Modifier.fillMaxWidth().height(56.dp),
+                shape = AppTheme.shapes.large,
+            ) {
+                Icon(imageVector = Icons.Filled.Block, contentDescription = null)
+                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+                Text("Countries Without a Flag")
             }
             OutlinedButton(
                 onClick = onFlagAttemptsClick,
