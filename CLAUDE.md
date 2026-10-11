@@ -153,7 +153,7 @@ As screens are added, give each one:
   ISO is added. Kosovo (`xk`) is not an ISO code, so it is not included; the previous list had 250 entries because it included it.
   Territories and dependencies (Réunion, Antarctica, ...) are in ISO and so are included; England, Scotland and Wales are not
   (they are part of `gb`; only ISO 3166-2 gives them codes).
-- **Fields per country (keyed by lowercase alpha-2):** `name` (the ISO English short name, so formal, e.g. "Taiwan, Province of China"),
+- **Fields per country (keyed by lowercase alpha-2):** `name` (the name the app shows: the ISO English short name, unless `names` in `scripts/country_data_overrides.json` gives a better one, because the ISO names are formal, e.g. "Taiwan, Province of China", or oddly spelled, e.g. "Naoero"; the flag descriptions use the same name),
   `wikipediaUrl` (country article), `flagWikipediaUrl` (the article dedicated to its flag), `flagImage` (`flags/<code>.png`),
   `flagImageSource` (the Wikimedia Commons file it was rendered from), `flagNote` (only when there is no flag image), `flagSharedWith` (only for a territory that uses its parent's flag: the parent's code) and `symbolism`.
 - **Flag images:** the lead image of each flag article, downloaded as a ~330px PNG. They come from Wikipedia only. Wikipedia uses each
@@ -164,13 +164,14 @@ As screens are added, give each one:
   Guiana, Guadeloupe, Saint Martin, Saint-Pierre and Miquelon, Réunion, Saint Helena, Wallis and Futuna, and Mayotte. This is a judgement
   from the Wikipedia flag articles, which word it differently. The list, with a reason for each, is `noOfficialFlag` in
   `scripts/country_data_overrides.json`, and the reason is copied to `flagNote`. The same file also holds the exceptions for finding a
-  flag article (`flagPages`), a country article (`articles`) and a lead image (`flagImageFiles`), and `sharedFlags`, the territories that
+  flag article (`flagPages`), a country article (`articles`) and a lead image (`flagImageFiles`), `names`, and `sharedFlags`, the territories that
   use their parent's flag (Bouvet Island and Svalbard and Jan Mayen use Norway's, Heard Island and McDonald Islands Australia's, the US Minor
   Outlying Islands the US's, New Caledonia France's).
 - **Symbolism:** a short text on what the flag symbolises, written by hand from the flag article (it cannot be generated). The task keeps
   the existing text and lists countries that are missing one. When a flag's design changes, rewrite its text. **Every description must follow
   the rules in [`scripts/FLAG_DESCRIPTION_RULES.md`](scripts/FLAG_DESCRIPTION_RULES.md)** (short, no dates, no other flags or countries, no
-  historical flags, symbolism rather than literal description, and no sentence that only says what is on the flag), and be written while looking at the flag image.
+  historical flags, symbolism rather than literal description, and no sentence that only says what is on the flag), and be written while looking at the flag image. Country names in a description must match
+  the `name` fields; run `python3 scripts/check_country_names.py` to check.
 - **Running it:** `./gradlew generateCountryData` (all), `-PflagCodes=af,sy` (download only those images), `-PskipDownloads` (data file
   only), `-PpruneFlags` (after a full download, delete PNGs the data file does not list). It needs network access to
   `en.wikipedia.org` and `thumb.wikimedia.org`, so run it from the **Update Country Data** workflow (monthly, or manually) rather than a

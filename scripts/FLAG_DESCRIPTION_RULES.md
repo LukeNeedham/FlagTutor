@@ -28,6 +28,11 @@ These rules **must be followed for every flag description**, i.e. the `symbolism
    elements have no recorded meaning gets a shorter text (or only what its article does say, such as "the colours have no official
    meaning").
 
+7. **Use each country's name exactly as it is in the `name` field**, for the country itself and for any other country mentioned,
+   so the spelling is the same everywhere ("Nauru", not "Naoero"; "United States", not "US" or "America"). The names are set in
+   `country_data.json` (from the ISO list, overridden by `names` in `scripts/country_data_overrides.json`). Run
+   `python3 scripts/check_country_names.py` after editing; it lists any text that uses another spelling.
+
 ## Checking a text
 
 Read each sentence in turn and ask "what does this tell the reader the thing means?". If the answer is only "what it looks like",

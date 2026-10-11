@@ -27,7 +27,8 @@ import java.time.Duration
  * "Officially assigned code elements" section). Nothing outside that table is added. For each
  * country the task records:
  *
- *  - `name`: the ISO English short name, as written in that table;
+ *  - `name`: the name the app shows: the ISO English short name as written in that table, unless [overridesFile] gives a
+ *    better one under `names` (the ISO name is formal, e.g. "Korea, Republic of");
  *  - `wikipediaUrl`: the country's own article (the table links to it);
  *  - `flagWikipediaUrl`: the article dedicated to its flag, `Flag of <country>` by convention, with
  *    exceptions listed in [overridesFile] under `flagPages`;
@@ -56,6 +57,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
     /**
      * ```
      * { "articles": { "<alpha2>": "Article title" },        country article, where the ISO table links somewhere odd
+     *   "names": { "<alpha2>": "Name" },                    the name to show instead of the ISO short name (also used in the flag descriptions)
      *   "flagPages": { "<alpha2>": "Article title" },       flag article, where "Flag of <country>" does not exist
      *   "flagImageFiles": { "<alpha2>": "File name.svg" },  Commons file, where the flag article has no lead image
      *   "noOfficialFlag": { "<alpha2>": "reason" },         countries whose flagImage is null, and why (copied to flagNote)
@@ -198,7 +200,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
             }
 
             entries[code] = Entry(
-                name = row.name,
+                name = overrides.names[code] ?: row.name,
                 wikipediaUrl = country?.let { urlOf(it.title) },
                 flagWikipediaUrl = flagPage?.let { urlOf(it.title) },
                 flagImage = flagImage,
@@ -237,6 +239,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
 
     private data class Overrides(
         val articles: Map<String, String>,
+        val names: Map<String, String>,
         val flagPages: Map<String, String>,
         val flagImageFiles: Map<String, String>,
         val noOfficialFlag: Map<String, String>,
@@ -248,6 +251,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
         @Suppress("UNCHECKED_CAST")
         return Overrides(
             articles = (json["articles"] as? Map<String, String>).orEmpty(),
+            names = (json["names"] as? Map<String, String>).orEmpty(),
             flagPages = (json["flagPages"] as? Map<String, String>).orEmpty(),
             flagImageFiles = (json["flagImageFiles"] as? Map<String, String>).orEmpty(),
             noOfficialFlag = (json["noOfficialFlag"] as? Map<String, String>).orEmpty(),
