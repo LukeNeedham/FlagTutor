@@ -35,6 +35,7 @@ import java.time.Duration
  *    from the lead image of the flag article; `null` for the countries in `noOfficialFlag`;
  *  - `flagImageSource`: the Wikimedia Commons file that PNG was rendered from, for attribution;
  *  - `flagNote`: only for countries without a flag, why (copied from the overrides file);
+ *  - `flagSharedWith`: only for a territory whose flag is its parent country's, the parent's code (from the overrides file);
  *  - `symbolism`: a short text on what the flag symbolises, written from the flag article.
  *
  * `symbolism` is prose, so it cannot be generated; the task keeps whatever is already in the data file
@@ -57,7 +58,8 @@ abstract class BuildCountryDataTask : DefaultTask() {
      * { "articles": { "<alpha2>": "Article title" },        country article, where the ISO table links somewhere odd
      *   "flagPages": { "<alpha2>": "Article title" },       flag article, where "Flag of <country>" does not exist
      *   "flagImageFiles": { "<alpha2>": "File name.svg" },  Commons file, where the flag article has no lead image
-     *   "noOfficialFlag": { "<alpha2>": "reason" } }        countries whose flagImage is null, and why (copied to flagNote)
+     *   "noOfficialFlag": { "<alpha2>": "reason" },         countries whose flagImage is null, and why (copied to flagNote)
+     *   "sharedFlags": { "<alpha2>": "<parent alpha2>" } }  territories that use their parent's flag (copied to flagSharedWith)
      * ```
      */
     @get:InputFile
@@ -110,6 +112,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
         val flagImage: String?,
         val flagImageSource: String?,
         val flagNote: String?,
+        val flagSharedWith: String?,
         val symbolism: String?,
     )
 
@@ -201,6 +204,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
                 flagImage = flagImage,
                 flagImageSource = flagImageSource,
                 flagNote = overrides.noOfficialFlag[code],
+                flagSharedWith = overrides.sharedFlags[code],
                 symbolism = if (flagImage == null) null else previous?.symbolism,
             )
         }
@@ -236,6 +240,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
         val flagPages: Map<String, String>,
         val flagImageFiles: Map<String, String>,
         val noOfficialFlag: Map<String, String>,
+        val sharedFlags: Map<String, String>,
     )
 
     private fun readOverrides(): Overrides {
@@ -246,6 +251,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
             flagPages = (json["flagPages"] as? Map<String, String>).orEmpty(),
             flagImageFiles = (json["flagImageFiles"] as? Map<String, String>).orEmpty(),
             noOfficialFlag = (json["noOfficialFlag"] as? Map<String, String>).orEmpty(),
+            sharedFlags = (json["sharedFlags"] as? Map<String, String>).orEmpty(),
         )
     }
 
@@ -262,6 +268,7 @@ abstract class BuildCountryDataTask : DefaultTask() {
                 flagImage = value["flagImage"] as? String,
                 flagImageSource = value["flagImageSource"] as? String,
                 flagNote = value["flagNote"] as? String,
+                flagSharedWith = value["flagSharedWith"] as? String,
                 symbolism = value["symbolism"] as? String,
             )
         }
@@ -451,8 +458,9 @@ abstract class BuildCountryDataTask : DefaultTask() {
             "flagImage" to e.flagImage,
             "flagImageSource" to e.flagImageSource,
             "flagNote" to e.flagNote,
+            "flagSharedWith" to e.flagSharedWith,
             "symbolism" to e.symbolism,
-        ).filterNot { (key, value) -> key == "flagNote" && value == null }.joinToString(",\n", "  ${quote(code)}: {\n", "\n  }") { (key, value) -> "    ${quote(key)}: ${value?.let(::quote) ?: "null"}" }
+        ).filterNot { (key, value) -> (key == "flagNote" || key == "flagSharedWith") && value == null }.joinToString(",\n", "  ${quote(code)}: {\n", "\n  }") { (key, value) -> "    ${quote(key)}: ${value?.let(::quote) ?: "null"}" }
     }
 
     private fun quote(text: String): String = buildString {

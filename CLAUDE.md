@@ -155,7 +155,7 @@ As screens are added, give each one:
   (they are part of `gb`; only ISO 3166-2 gives them codes).
 - **Fields per country (keyed by lowercase alpha-2):** `name` (the ISO English short name, so formal, e.g. "Taiwan, Province of China"),
   `wikipediaUrl` (country article), `flagWikipediaUrl` (the article dedicated to its flag), `flagImage` (`flags/<code>.png`),
-  `flagImageSource` (the Wikimedia Commons file it was rendered from), `flagNote` (only when there is no flag image) and `symbolism`.
+  `flagImageSource` (the Wikimedia Commons file it was rendered from), `flagNote` (only when there is no flag image), `flagSharedWith` (only for a territory that uses its parent's flag: the parent's code) and `symbolism`.
 - **Flag images:** the lead image of each flag article, downloaded as a ~330px PNG. They come from Wikipedia only. Wikipedia uses each
   flag's official colour specification, so some shades differ from other flag sets, and a few lead images are a civil rather than a
   state flag (Bolivia, Costa Rica and Peru show no coat of arms).
@@ -164,7 +164,9 @@ As screens are added, give each one:
   Guiana, Guadeloupe, Saint Martin, Saint-Pierre and Miquelon, Réunion, Saint Helena, Wallis and Futuna, and Mayotte. This is a judgement
   from the Wikipedia flag articles, which word it differently. The list, with a reason for each, is `noOfficialFlag` in
   `scripts/country_data_overrides.json`, and the reason is copied to `flagNote`. The same file also holds the exceptions for finding a
-  flag article (`flagPages`), a country article (`articles`) and a lead image (`flagImageFiles`).
+  flag article (`flagPages`), a country article (`articles`) and a lead image (`flagImageFiles`), and `sharedFlags`, the territories that
+  use their parent's flag (Bouvet Island and Svalbard and Jan Mayen use Norway's, Heard Island and McDonald Islands Australia's, the US Minor
+  Outlying Islands the US's, New Caledonia France's).
 - **Symbolism:** a short text on what the flag symbolises, written by hand from the flag article (it cannot be generated). The task keeps
   the existing text and lists countries that are missing one. When a flag's design changes, rewrite its text. **Every description must follow
   the rules in [`scripts/FLAG_DESCRIPTION_RULES.md`](scripts/FLAG_DESCRIPTION_RULES.md)** (short, no dates, no other flags or countries, no
@@ -175,8 +177,9 @@ As screens are added, give each one:
   sandbox that blocks those hosts. The workflow opens a PR so the changes can be reviewed.
 - **How the app uses it:** `CountryRepository` reads this one file and nothing else describes countries (the old `countries.json`,
   `flag_descriptions.json` and `wikipedia_links.json` are gone). The app only ever uses the countries
-  that have a flag, via `getCountriesWithFlags()` (game, preloader and the debug countries overview), so a country without a flag is never
-  shown or offered as an answer. `getCountriesWithoutFlags()` feeds only the debug "Countries Without a Flag" page (`/debug/no-flag`).
+  that have a flag, so a country without a flag is never shown or offered as an answer. The game and its preloader use `getGameCountries()`,
+  which also leaves out the `flagSharedWith` territories so that each flag appears once, as its parent; the debug countries overview uses
+  `getCountriesWithFlags()` and so still lists them (without a play button). `getCountriesWithoutFlags()` feeds only the debug "Countries Without a Flag" page (`/debug/no-flag`).
   `scripts/download_wikipedia_maps.py` also reads the country article URLs from it. Flags are
   loaded from `files/flags/<code>.png`, which is what `flagImage` always says.
 - **Images are CC/public-domain files from Wikimedia Commons**; `flagImageSource` records each file for attribution.

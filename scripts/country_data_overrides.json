@@ -5,6 +5,7 @@
     "flagPages: flag article to use where 'Flag of <country>' does not exist or is not the right page.",
     "flagImageFiles: Commons file to use where a flag article has no lead image.",
     "noOfficialFlag: country code -> why it has no official flag. These get flagImage null, and the reason is copied to flagNote in country_data.json.",
+    "sharedFlags: territory code -> its parent's code, for territories whose flag is the parent country's. The territory keeps its flag image (and is listed in the debug overview) but is left out of the game, which only asks about the parent.",
     "Whether a country belongs in noOfficialFlag is a judgement from the Wikipedia flag articles, which word it differently; change it here."
   ],
   "articles": {
@@ -32,5 +33,12 @@
     "sh": "The territory has no flag of its own; Saint Helena, Ascension and Tristan da Cunha each have their own flag.",
     "wf": "Uses the French national flag; the red saltire flag used locally is unofficial.",
     "yt": "Uses the French national flag; Mayotte has no official flag of its own."
+  },
+  "sharedFlags": {
+    "bv": "no",
+    "sj": "no",
+    "hm": "au",
+    "um": "us",
+    "nc": "fr"
   }
 }

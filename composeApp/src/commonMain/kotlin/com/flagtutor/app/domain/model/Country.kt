@@ -13,6 +13,8 @@ import kotlinx.serialization.Serializable
  * country has no official flag of its own, in which case there is nothing to show or ask about.
  * @property flagSymbolism a short text on what the flag symbolises, null if there is no flag.
  * @property flagNote why the country has no flag image, null if it has one.
+ * @property flagSharedWith the code of the parent country whose flag this territory uses, null if the flag is its own.
+ * The game only asks about the parent.
  */
 @Serializable
 data class Country(
@@ -23,6 +25,7 @@ data class Country(
     val flagImage: String?,
     val flagSymbolism: String?,
     val flagNote: String?,
+    val flagSharedWith: String?,
 ) {
     val hasFlag: Boolean get() = flagImage != null
 }

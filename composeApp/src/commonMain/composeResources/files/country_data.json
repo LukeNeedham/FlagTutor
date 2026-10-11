@@ -272,6 +272,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Norway",
     "flagImage": "flags/bv.png",
     "flagImageSource": "Flag_of_Norway.svg",
+    "flagSharedWith": "no",
     "symbolism": "Bouvet Island is an uninhabited Norwegian territory and uses the flag of Norway. Its designer chose red, white and blue as colours of freedom, set on a Scandinavian cross."
   },
   "bw": {
@@ -770,6 +771,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Australia",
     "flagImage": "flags/hm.png",
     "flagImageSource": "Flag_of_Australia_(converted).svg",
+    "flagSharedWith": "au",
     "symbolism": "Heard Island and McDonald Islands are an uninhabited Australian territory and use the flag of Australia. Its Union Jack, Commonwealth Star and Southern Cross stand for its British origins, the states and territories, and the southern sky."
   },
   "hn": {
@@ -1291,6 +1293,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flags_of_New_Caledonia",
     "flagImage": "flags/nc.png",
     "flagImageSource": "Flag_of_France.svg",
+    "flagSharedWith": "fr",
     "symbolism": "This is the French tricolour, the national flag in New Caledonia. Blue and red are the colours of Paris and white was the colour of the royal house of Bourbon. The tricolour became a symbol of the French Revolution and its ideals of liberty, equality and fraternity."
   },
   "ne": {
@@ -1614,6 +1617,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Norway",
     "flagImage": "flags/sj.png",
     "flagImageSource": "Flag_of_Norway.svg",
+    "flagSharedWith": "no",
     "symbolism": "Svalbard and Jan Mayen are Norwegian territories and use the flag of Norway, whose red, white and blue were chosen as colours of freedom."
   },
   "sk": {
@@ -1862,6 +1866,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_United_States",
     "flagImage": "flags/um.png",
     "flagImageSource": "Flag_of_the_United_States_(DDD-F-416E_specifications).svg",
+    "flagSharedWith": "us",
     "symbolism": "The United States Minor Outlying Islands use the flag of the United States, whose stripes represent the original thirteen colonies and whose stars represent the states."
   },
   "us": {
