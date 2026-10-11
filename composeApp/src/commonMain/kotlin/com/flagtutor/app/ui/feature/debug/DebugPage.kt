@@ -6,13 +6,13 @@ import androidx.compose.runtime.Composable
 fun DebugPage(
     onNavigateBack: () -> Unit,
     onNavigateToCountriesOverview: () -> Unit,
-    onNavigateToCountriesWithoutFlag: () -> Unit,
+    onNavigateToExcludedCountries: () -> Unit,
     onNavigateToFlagAttempts: () -> Unit,
     onNavigateToCrashes: () -> Unit,
 ) {
     DebugPageContent(
         onCountriesOverviewClick = onNavigateToCountriesOverview,
-        onCountriesWithoutFlagClick = onNavigateToCountriesWithoutFlag,
+        onExcludedCountriesClick = onNavigateToExcludedCountries,
         onFlagAttemptsClick = onNavigateToFlagAttempts,
         onCrashesClick = onNavigateToCrashes,
         onBackClick = onNavigateBack,

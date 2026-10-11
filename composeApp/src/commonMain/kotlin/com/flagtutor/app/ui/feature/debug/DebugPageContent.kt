@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DebugPageContent(
     onCountriesOverviewClick: () -> Unit,
-    onCountriesWithoutFlagClick: () -> Unit,
+    onExcludedCountriesClick: () -> Unit,
     onFlagAttemptsClick: () -> Unit,
     onCrashesClick: () -> Unit,
     onBackClick: () -> Unit,
@@ -71,13 +71,13 @@ fun DebugPageContent(
                 Text("Countries Overview")
             }
             OutlinedButton(
-                onClick = onCountriesWithoutFlagClick,
+                onClick = onExcludedCountriesClick,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = AppTheme.shapes.large,
             ) {
                 Icon(imageVector = Icons.Filled.Block, contentDescription = null)
                 Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                Text("Countries Without a Flag")
+                Text("Excluded Countries")
             }
             OutlinedButton(
                 onClick = onFlagAttemptsClick,

@@ -5,12 +5,12 @@ import androidx.compose.ui.platform.LocalUriHandler
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun CountriesWithoutFlagPage(
+fun ExcludedCountriesPage(
     onNavigateBack: () -> Unit,
-    viewModel: CountriesWithoutFlagViewModel = koinViewModel(),
+    viewModel: ExcludedCountriesViewModel = koinViewModel(),
 ) {
     val uriHandler = LocalUriHandler.current
-    CountriesWithoutFlagPageContent(
+    ExcludedCountriesPageContent(
         countries = viewModel.countries,
         isLoading = viewModel.isLoading,
         isError = viewModel.isError,

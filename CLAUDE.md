@@ -177,9 +177,9 @@ As screens are added, give each one:
   sandbox that blocks those hosts. The workflow opens a PR so the changes can be reviewed.
 - **How the app uses it:** `CountryRepository` reads this one file and nothing else describes countries (the old `countries.json`,
   `flag_descriptions.json` and `wikipedia_links.json` are gone). The app only ever uses the countries
-  that have a flag, so a country without a flag is never shown or offered as an answer. The game and its preloader use `getGameCountries()`,
-  which also leaves out the `flagSharedWith` territories so that each flag appears once, as its parent; the debug countries overview uses
-  `getCountriesWithFlags()` and so still lists them (without a play button). `getCountriesWithoutFlags()` feeds only the debug "Countries Without a Flag" page (`/debug/no-flag`).
+  returned by `getGameCountries()`: those with a flag, except the `flagSharedWith` territories, so each flag appears once, as its parent. The game,
+  its preloader and the debug countries overview all use it. Everything else (no flag, or the parent's flag) is `getExcludedCountries()`, which
+  feeds only the debug "Excluded Countries" page (`/debug/excluded`) with the reason for each.
   `scripts/download_wikipedia_maps.py` also reads the country article URLs from it. Flags are
   loaded from `files/flags/<code>.png`, which is what `flagImage` always says.
 - **Images are CC/public-domain files from Wikimedia Commons**; `flagImageSource` records each file for attribution.

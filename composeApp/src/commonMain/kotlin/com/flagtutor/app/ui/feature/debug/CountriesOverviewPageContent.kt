@@ -265,19 +265,16 @@ private fun CountryOverviewRow(
                     modifier = Modifier.size(20.dp),
                 )
             }
-            // A territory that shares its parent's flag is not in the game, so there is nothing to open.
-            if (country.flagSharedWith == null) {
-                IconButton(
-                    onClick = { onPlay(country.alpha2Code) },
-                    modifier = Modifier.size(32.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.PlayArrow,
-                        contentDescription = "Open in game",
-                        tint = AppTheme.colors.primary,
-                        modifier = Modifier.size(20.dp),
-                    )
-                }
+            IconButton(
+                onClick = { onPlay(country.alpha2Code) },
+                modifier = Modifier.size(32.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.PlayArrow,
+                    contentDescription = "Open in game",
+                    tint = AppTheme.colors.primary,
+                    modifier = Modifier.size(20.dp),
+                )
             }
         }
         Row(

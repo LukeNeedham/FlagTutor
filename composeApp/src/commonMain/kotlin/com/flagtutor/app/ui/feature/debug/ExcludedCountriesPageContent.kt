@@ -33,14 +33,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.ui.theme.AppTheme
 
-/** Lists the countries that have an ISO 3166-1 code but no official flag, so the app leaves them out. */
+/** Lists the countries that have an ISO 3166-1 code but that the app leaves out: no official flag, or the parent country's flag. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CountriesWithoutFlagPageContent(
-    countries: List<Country>,
+fun ExcludedCountriesPageContent(
+    countries: List<ExcludedCountry>,
     isLoading: Boolean,
     isError: Boolean,
     onMoreInfo: (String) -> Unit,
@@ -50,7 +49,7 @@ fun CountriesWithoutFlagPageContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Countries Without a Flag") },
+                title = { Text("Excluded Countries") },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -117,8 +116,8 @@ fun CountriesWithoutFlagPageContent(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
-                        items(countries, key = { it.alpha2Code }) { country ->
-                            CountryWithoutFlagRow(country = country, onMoreInfo = onMoreInfo)
+                        items(countries, key = { it.country.alpha2Code }) { excluded ->
+                            ExcludedCountryRow(excluded = excluded, onMoreInfo = onMoreInfo)
                         }
                     }
                 }
@@ -128,7 +127,8 @@ fun CountriesWithoutFlagPageContent(
 }
 
 @Composable
-private fun CountryWithoutFlagRow(country: Country, onMoreInfo: (String) -> Unit) {
+private fun ExcludedCountryRow(excluded: ExcludedCountry, onMoreInfo: (String) -> Unit) {
+    val country = excluded.country
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -166,12 +166,10 @@ private fun CountryWithoutFlagRow(country: Country, onMoreInfo: (String) -> Unit
                 }
             }
         }
-        country.flagNote?.let {
-            Text(
-                text = it,
-                style = AppTheme.typography.bodySmall,
-                color = AppTheme.colors.text,
-            )
-        }
+        Text(
+            text = excluded.reason,
+            style = AppTheme.typography.bodySmall,
+            color = AppTheme.colors.text,
+        )
     }
 }

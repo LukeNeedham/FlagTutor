@@ -33,17 +33,11 @@ class CountryRepository {
             .sortedBy { it.name }
     }
 
-    /** The countries that have a flag image, including territories that share their parent's flag. */
-    suspend fun getCountriesWithFlags(): List<Country> = countries.get().filter { it.hasFlag }
-
     /**
-     * The countries the game can show and ask about: those with a flag, except territories that use their parent's flag,
-     * so each flag appears once, as its parent.
+     * The countries the app leaves out: those without a flag of their own, and territories that use their parent's flag
+     * (which the game skips so that each flag appears once, as its parent).
      */
-    suspend fun getGameCountries(): List<Country> = countries.get().filter { it.hasFlag && it.flagSharedWith == null }
-
-    /** The countries that have an ISO code but no official flag, so they are never shown in the app. */
-    suspend fun getCountriesWithoutFlags(): List<Country> = countries.get().filter { !it.hasFlag }
+    suspend fun getExcludedCountries(): List<Country> = countries.get().filter { !it.hasFlag || it.flagSharedWith != null }
 
     @OptIn(ExperimentalResourceApi::class)
     private suspend fun readFile(path: String) = Res.readBytes(path)
