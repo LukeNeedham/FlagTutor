@@ -37,7 +37,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Anguilla",
     "flagImage": "flags/ai.png",
     "flagImageSource": "Flag_of_Anguilla.svg",
-    "symbolism": "The Blue Ensign and Union Jack mark Anguilla's British ties. The badge shows three dolphins in a circle, standing for unity, strength and endurance, above a wavy base representing the sea."
+    "symbolism": "The Blue Ensign and Union Jack mark Anguilla's British ties. The three dolphins in a circle stand for unity, strength and endurance, the white background for peace, and the light blue for the sea, faith, youth and hope."
   },
   "al": {
     "name": "Albania",
@@ -273,7 +273,7 @@
     "flagImage": "flags/bv.png",
     "flagImageSource": "Flag_of_Norway.svg",
     "flagSharedWith": "no",
-    "symbolism": "Bouvet Island is an uninhabited Norwegian territory and uses the flag of Norway. Its designer chose red, white and blue as colours of freedom, set on a Scandinavian cross."
+    "symbolism": "Bouvet Island is an uninhabited Norwegian territory and uses the flag of Norway. The Nordic cross represents Christianity, and red, white and blue were chosen as colours of freedom."
   },
   "bw": {
     "name": "Botswana",
@@ -345,7 +345,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Switzerland",
     "flagImage": "flags/ch.png",
     "flagImageSource": "Flag_of_Switzerland_(Pantone).svg",
-    "symbolism": "The white cross is described by the Swiss Federal Council as both the Christian cross and the field sign of the Old Confederacy, set on a red field."
+    "symbolism": "The white cross is described by the Swiss Federal Council as both the Christian cross and the field sign of the Old Confederacy."
   },
   "ci": {
     "name": "Côte d'Ivoire",
@@ -569,7 +569,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Fiji",
     "flagImage": "flags/fj.png",
     "flagImageSource": "Flag_of_Fiji.svg",
-    "symbolism": "The light blue field represents the Pacific Ocean and the Union Jack the country's British ties. The shield holds a lion with a cocoa pod, sugar cane, coconut palm, bananas and a dove of peace."
+    "symbolism": "The light blue stands for the Pacific Ocean, which is central to the islanders' lives, and the Union Jack for the links with the United Kingdom. The shield stands for agriculture and those British ties: a British lion holds a cocoa pod above sugar cane, a coconut palm, bananas and a dove of peace."
   },
   "fk": {
     "name": "Falkland Islands (Malvinas)",
@@ -633,7 +633,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Georgia_(country)",
     "flagImage": "flags/ge.png",
     "flagImageSource": "Flag_of_Georgia.svg",
-    "symbolism": "Known as the Five Cross Flag, its large red cross is St George's cross, and the four smaller Bolnisi crosses are sometimes read as Christ and the four Evangelists."
+    "symbolism": "The large red cross is St George's cross, and the four smaller Bolnur-Katskhuri crosses are sometimes read as representing the Five Holy Wounds, or alternatively Christ and the four Evangelists."
   },
   "gf": {
     "name": "French Guiana",
@@ -739,7 +739,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Guam",
     "flagImage": "flags/gu.png",
     "flagImageSource": "Flag_of_Guam.svg",
-    "symbolism": "The dark blue links Guam to the United States, and the red border is said to recall the blood shed under Spanish rule and in World War II. The almond-shaped seal, recalling a Chamorro sling stone, shows a coconut palm and a proa, an outrigger canoe, in Hagåtña Bay."
+    "symbolism": "The red border represents the blood spilled during World War II and earlier Spanish sovereignty. The almond-shaped seal recalls a Chamorro sling stone."
   },
   "gw": {
     "name": "Guinea-Bissau",
@@ -788,7 +788,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Croatia",
     "flagImage": "flags/hr.png",
     "flagImageSource": "Flag_of_Croatia.svg",
-    "symbolism": "The red, white and blue are Pan-Slavic colours. The arms show a red and white chequerboard shield, the šahovnica, topped by a crown of five shields for Croatia, Dubrovnik, Dalmatia, Istria and Slavonia."
+    "symbolism": "The red, white and blue are pan-Slavic colours, widely associated with romantic nationalism. The chequerboard shield is Croatia's emblem, topped by a crown of five shields for Central Croatia, Dubrovnik, Dalmatia, Istria and Slavonia."
   },
   "ht": {
     "name": "Haiti",
@@ -796,7 +796,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Haiti",
     "flagImage": "flags/ht.png",
     "flagImageSource": "Flag_of_Haiti.svg",
-    "symbolism": "Blue stands for the Black population and red for the mixed-race people, uniting them in the revolution. The arms feature a palm tree topped by a liberty cap, with cannons and flags, and the motto 'Unity makes strength'."
+    "symbolism": "Blue represents the Black Africans and red the mixed-race people, united in the revolution. The arms show a trophy of weapons and a royal palm for independence, topped by the cap of liberty, above the motto 'Unity is strength'."
   },
   "hu": {
     "name": "Hungary",
@@ -892,7 +892,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Jersey",
     "flagImage": "flags/je.png",
     "flagImageSource": "Flag_of_Jersey.svg",
-    "symbolism": "The origins of the red saltire are uncertain, though it may be linked to the cross of St Patrick or to signalling the island's neutrality in wars between England and France. The badge shows three leopards, the island's heraldic device since its medieval ties to the Dukes of Normandy, below a gold Plantagenet crown."
+    "symbolism": "The red saltire is thought to have signalled the island's neutrality in wars between England and France. The badge of three leopards is Jersey's heraldic device, and the symbol most widely used for the island."
   },
   "jm": {
     "name": "Jamaica",
@@ -940,7 +940,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Cambodia",
     "flagImage": "flags/kh.png",
     "flagImageSource": "Flag_of_Cambodia.svg",
-    "symbolism": "Red and blue are traditionally the colours of Cambodia, representing the nation (red) and the king (blue). The white Angkor Wat temple sits on the red band."
+    "symbolism": "Red and blue are traditionally the colours of Cambodia, representing the nation (red) and the king (blue). Angkor Wat, the national temple, stands at the heart of the red band."
   },
   "ki": {
     "name": "Kiribati",
@@ -996,7 +996,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Cayman_Islands",
     "flagImage": "flags/ky.png",
     "flagImageSource": "Flag_of_the_Cayman_Islands.svg",
-    "symbolism": "The Blue Ensign and Union Jack mark the islands' British ties. The shield shows three green stars for the three islands, blue and white waves evoking the Caribbean Sea, and a lion for England; the pineapple on the crest recalls the link with Jamaica, and the motto means 'He hath founded it upon the seas'."
+    "symbolism": "The Blue Ensign and Union Jack mark the islands' British ties. In the arms, the waves evoke the Caribbean Sea, the three green stars the islands of Grand Cayman, Little Cayman and Cayman Brac, the lion England, the turtle the islands' seafaring and their original name Las Tortugas, and the pineapple the link with Jamaica."
   },
   "kz": {
     "name": "Kazakhstan",
@@ -1116,7 +1116,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Moldova",
     "flagImage": "flags/md.png",
     "flagImageSource": "Flag_of_Moldova.svg",
-    "symbolism": "The blue, yellow and red tricolour reflects the cultural kinship with Romania. The arms show an eagle holding an olive branch for peace, with a shield bearing an aurochs head, the symbol of Moldavia, between a rose and a crescent and with a star between its horns."
+    "symbolism": "The blue, yellow and red reflect Moldova's national and cultural affinity with Romania. The arms show an eagle holding an olive branch, symbolising peace, with a shield bearing an aurochs' head, the traditional symbol of Moldavia."
   },
   "me": {
     "name": "Montenegro",
@@ -1124,7 +1124,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Montenegro",
     "flagImage": "flags/me.png",
     "flagImageSource": "Flag_of_Montenegro.svg",
-    "symbolism": "The red field with a gold border carries the coat of arms, whose double-headed eagle is a long-used Montenegrin heraldic symbol."
+    "symbolism": "The double-headed eagle on the coat of arms is a long-used Montenegrin heraldic symbol, dating back to medieval times."
   },
   "mf": {
     "name": "Saint Martin (French part)",
@@ -1189,7 +1189,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Macau",
     "flagImage": "flags/mo.png",
     "flagImageSource": "Flag_of_Macau.svg",
-    "symbolism": "The emerald green field carries Macau's emblem, a white lotus above a stylised bridge and water recalling its role as a port, and the five gold stars echo the flag of China, symbolising its relationship with its sovereign state."
+    "symbolism": "The lotus is Macau's floral emblem. The bridge, one of the territory's best-known landmarks, and the water beneath it symbolise Macau's position as a port, and the five stars echo the flag of China, symbolising the relationship with its sovereign state."
   },
   "mp": {
     "name": "Northern Mariana Islands",
@@ -1334,7 +1334,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Netherlands",
     "flagImage": "flags/nl.png",
     "flagImageSource": "Flag_of_the_Netherlands.svg",
-    "symbolism": "The colours trace back to William of Orange, leader of the Dutch revolt against Spain, whose orange stripe turned red over time. It is the oldest tricolour in continuous use."
+    "symbolism": "The colours trace back to William of Orange, leader of the Dutch revolt against Spain, whose orange stripe turned red over time."
   },
   "no": {
     "name": "Norway",
@@ -1350,7 +1350,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Nepal",
     "flagImage": "flags/np.png",
     "flagImageSource": "Flag_of_Nepal.svg",
-    "symbolism": "The only non-rectangular national flag in the world. The crimson red stands for the bravery of the Nepalese people and the national flower, the rhododendron, and the blue border for peace and harmony. The moon and sun are said to stand for the cool Himalayas and the hot southern lowlands, and for the Hindu and Buddhist faiths."
+    "symbolism": "The crimson red stands for the bravery of the Nepalese people and the national flower, the rhododendron, and the blue border for peace and harmony. The moon and sun are said to stand for the cool Himalayas and the hot southern lowlands, and for the Hindu and Buddhist faiths."
   },
   "nr": {
     "name": "Naoero",
@@ -1382,7 +1382,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Oman",
     "flagImage": "flags/om.png",
     "flagImageSource": "Flag_of_Oman.svg",
-    "symbolism": "White symbolises peace, green is associated with the fertile Jebel Akhdar mountains, and red recalls the battles fought by the Omani people. The white khanjar dagger and crossed swords are the national emblem."
+    "symbolism": "White is associated with the Imam, the religious leader, and with peace; green with the fertile Jebel Akhdar, the 'Green Mountains'; and red with the battles fought by the Omani people. The national emblem, a khanjar over crossed swords, shows the traditional weapons of the Omani people."
   },
   "pa": {
     "name": "Panama",
@@ -1495,7 +1495,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Paraguay",
     "flagImage": "flags/py.png",
     "flagImageSource": "Flag_of_Paraguay.svg",
-    "symbolism": "Red, white and blue are believed to signify independence and liberty. The flag has a different design on each side: the front shows the national coat of arms, a star surrounded by a palm and olive branch, and the back the treasury seal with a lion beneath a red cap of liberty and the words 'Paz y Justicia'."
+    "symbolism": "The red, white and blue are believed to signify independence and liberty. The front shows the national seal, which represents Paraguay's independence, and the back the treasury seal, a lion beneath a Phrygian cap symbolising courage, with the words 'Paz y Justicia' (peace and justice)."
   },
   "qa": {
     "name": "Qatar",
@@ -1528,7 +1528,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_Serbia",
     "flagImage": "flags/rs.png",
     "flagImageSource": "Flag_of_Serbia.svg",
-    "symbolism": "The arms show a double-headed eagle with a crown and a shield bearing a cross and four firesteels, on the red, blue and white tricolour."
+    "symbolism": "The double-headed eagle on the coat of arms recalls the banners of the medieval Serbian kings."
   },
   "ru": {
     "name": "Russian Federation",
@@ -1722,7 +1722,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_Turks_and_Caicos_Islands",
     "flagImage": "flags/tc.png",
     "flagImageSource": "Flag_of_the_Turks_and_Caicos_Islands.svg",
-    "symbolism": "The Blue Ensign and Union Jack mark the islands' British ties. The shield shows a queen conch shell and a spiny lobster, alluding to the fishing industry, and a Turk's head cactus, symbolising the islands' environment."
+    "symbolism": "The Blue Ensign and Union Jack mark the islands' British ties. On the shield, the Turk's head cactus, which resembles a fez, gives the islands the first half of their name, and the queen conch shell and spiny lobster allude to the fishing industry."
   },
   "td": {
     "name": "Chad",
@@ -1931,7 +1931,7 @@
     "flagWikipediaUrl": "https://en.wikipedia.org/wiki/Flag_of_the_United_States_Virgin_Islands",
     "flagImage": "flags/vi.png",
     "flagImageSource": "Flag_of_the_United_States_Virgin_Islands.svg",
-    "symbolism": "The yellow eagle holds a sprig of laurel for victory in one talon and three blue arrows, for the three major islands, in the other, with a shield modelled on the US coat of arms. The letters V and I stand for Virgin Islands."
+    "symbolism": "The yellow eagle holds a sprig of laurel for victory in one talon and three blue arrows in the other, for the three major islands: Saint Croix, Saint Thomas and Saint John. The letters V and I stand for Virgin Islands."
   },
   "vn": {
     "name": "Viet Nam",
