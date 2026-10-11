@@ -6,7 +6,7 @@
     "flagImageFiles: Commons file to use where a flag article has no lead image.",
     "noOfficialFlag: country code -> why it has no official flag. These get flagImage null, and the reason is copied to flagNote in country_data.json.",
     "sharedFlags: territory code -> its parent's code, for territories whose flag is the parent country's. The territory keeps its flag image (and is listed in the debug overview) but is left out of the game, which only asks about the parent.",
-    "names: country code -> the name the app shows, where it differs from the ISO short name (which is formal, e.g. 'Korea, Republic of', or spelled unusually, e.g. 'Naoero'). Flag descriptions use these same names.",
+    "names: country code -> the name the app shows, where it differs from the ISO short name (which is formal, e.g. 'Korea, Republic of', or spelled unusually, e.g. 'Naoero'). Flag descriptions use these same names. Where a country has asked for a different English name (Türkiye, Cabo Verde, Côte d'Ivoire) that name is used.",
     "Whether a country belongs in noOfficialFlag is a judgement from the Wikipedia flag articles, which word it differently; change it here."
   ],
   "articles": {
@@ -18,7 +18,7 @@
     "bq": "Caribbean Netherlands",
     "cd": "DR Congo",
     "cg": "Republic of the Congo",
-    "cv": "Cape Verde",
+    "cv": "Cabo Verde",
     "fk": "Falkland Islands",
     "fm": "Federated States of Micronesia",
     "gb": "United Kingdom",
@@ -38,7 +38,7 @@
     "sx": "Sint Maarten",
     "sy": "Syria",
     "tf": "French Southern and Antarctic Lands",
-    "tr": "Turkey",
+    "tr": "Türkiye",
     "tw": "Taiwan",
     "tz": "Tanzania",
     "us": "United States",

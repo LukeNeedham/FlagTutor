@@ -19,7 +19,7 @@ OVERRIDES = "scripts/country_data_overrides.json"
 VARIANTS = {
     "UK": "gb", "Britain": "gb", "Great Britain": "gb", "US": "us", "USA": "us", "United States of America": "us",
     "Russian Federation": "ru", "Czech Republic": "cz", "Ivory Coast": "ci", "East Timor": "tl", "Burma": "mm",
-    "Swaziland": "sz", "Holland": "nl", "Naoero": "nr", "Macao": "mo", "Cabo Verde": "cv", "Türkiye": "tr", "Viet Nam": "vn",
+    "Swaziland": "sz", "Holland": "nl", "Naoero": "nr", "Macao": "mo", "Turkey": "tr", "Cape Verde": "cv", "Cote d'Ivoire": "ci", "Viet Nam": "vn",
     "Korea, Republic of": "kr", "Korea, Democratic People's Republic of": "kp", "Iran, Islamic Republic of": "ir",
     "Syrian Arab Republic": "sy", "Taiwan, Province of China": "tw", "Tanzania, United Republic of": "tz",
     "Lao People's Democratic Republic": "la", "Brunei Darussalam": "bn", "Holy See": "va", "Sao Tome and Principe": "st",
