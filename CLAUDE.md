@@ -166,7 +166,9 @@ As screens are added, give each one:
   `scripts/country_data_overrides.json`, and the reason is copied to `flagNote`. The same file also holds the exceptions for finding a
   flag article (`flagPages`), a country article (`articles`) and a lead image (`flagImageFiles`).
 - **Symbolism:** a short text on what the flag symbolises, written by hand from the flag article (it cannot be generated). The task keeps
-  the existing text and lists countries that are missing one. When a flag's design changes, rewrite its text.
+  the existing text and lists countries that are missing one. When a flag's design changes, rewrite its text. **Every description must follow
+  the rules in [`scripts/FLAG_DESCRIPTION_RULES.md`](scripts/FLAG_DESCRIPTION_RULES.md)** (short, no dates, no other flags or countries, no
+  historical flags, symbolism rather than literal description), and be written while looking at the flag image.
 - **Running it:** `./gradlew generateCountryData` (all), `-PflagCodes=af,sy` (download only those images), `-PskipDownloads` (data file
   only), `-PpruneFlags` (after a full download, delete PNGs the data file does not list). It needs network access to
   `en.wikipedia.org` and `thumb.wikimedia.org`, so run it from the **Update Country Data** workflow (monthly, or manually) rather than a
