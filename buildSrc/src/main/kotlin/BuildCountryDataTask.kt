@@ -221,6 +221,9 @@ abstract class BuildCountryDataTask : DefaultTask() {
         logger.lifecycle("Images already up to date: $unchanged")
         logger.lifecycle("Countries with flagImage null (${noFlag.size}): ${noFlag.joinToString()}")
         if (missingSymbolism.isNotEmpty()) logger.warn("Missing symbolism text for: ${missingSymbolism.joinToString()}")
+        // A new image means the design may have changed, so its description may no longer be true: it has to be looked at again.
+        val rewrite = changed.filter { !existing[it]?.symbolism.isNullOrBlank() }
+        if (rewrite.isNotEmpty()) logger.warn("Flag image changed, check the symbolism text against it and the flag article (scripts/FLAG_DESCRIPTION_RULES.md): ${rewrite.joinToString()}")
         problems.forEach { logger.warn("Problem $it") }
         if (pruneFlags.get()) {
             if (wanted.isNotEmpty() || skipDownloads.get() || circuitOpen || problems.isNotEmpty()) {

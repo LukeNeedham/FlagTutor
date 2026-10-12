@@ -41,7 +41,7 @@ jobs:
           ./gradlew generateCountryData -PflagCodes="$FLAG_CODES" $PRUNE --console=plain | tee country_data.log
           echo "## Country data results" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
-          grep -E "ISO 3166|Wrote|Images|Pruned|Not pruning|Countries with|Missing|Hint|Problem" country_data.log >> "$GITHUB_STEP_SUMMARY" || true
+          grep -E "ISO 3166|Wrote|Images|Pruned|Not pruning|Countries with|Missing|Flag image changed|Hint|Problem" country_data.log >> "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       # A pull request rather than a direct push: a changed flag needs its symbolism text rewritten, and
@@ -58,6 +58,8 @@ jobs:
           body: |
             Rebuilt by `./gradlew generateCountryData`.
 
-            Please check any changed flag images, and rewrite the `symbolism` text for a flag whose design changed.
+            Please check any changed flag images, and rewrite the `symbolism` text for a flag whose design changed, following
+            `scripts/FLAG_DESCRIPTION_RULES.md` (`python3 scripts/flag_sources.py <codes>` shows what each flag article says, and
+            `python3 scripts/check_flag_descriptions.py` lints the result).
             The Commons file behind each flag is listed in `flagImageSource`.
           delete-branch: true

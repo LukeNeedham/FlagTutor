@@ -29,7 +29,8 @@ VARIANTS = {
 }
 
 
-def main() -> int:
+def find_problems() -> list[str]:
+    """Every text in the data file that spells a country name differently from that country's `name`."""
     data = json.load(open(DATA))
     names = {code: entry["name"] for code, entry in data.items()}
     variants = dict(VARIANTS)
@@ -48,6 +49,11 @@ def main() -> int:
                     continue  # the correct name, or part of it (e.g. "Pitcairn" inside "Pitcairn Islands")
                 if re.search(r"(?<![\w])" + re.escape(variant) + r"(?![\w])", text):
                     problems.append(f"{code} {field}: uses {variant!r}, the name is {names[other]!r}")
+    return problems
+
+
+def main() -> int:
+    problems = find_problems()
     print("\n".join(problems) if problems else "Country names are consistent.")
     return 1 if problems else 0
 

@@ -170,8 +170,10 @@ As screens are added, give each one:
 - **Symbolism:** a short text on what the flag symbolises, written by hand from the flag article (it cannot be generated). The task keeps
   the existing text and lists countries that are missing one. When a flag's design changes, rewrite its text. **Every description must follow
   the rules in [`scripts/FLAG_DESCRIPTION_RULES.md`](scripts/FLAG_DESCRIPTION_RULES.md)** (short, no dates, no other flags or countries, no
-  historical flags, symbolism rather than literal description, and no sentence that only says what is on the flag), and be written while looking at the flag image. Country names in a description must match
-  the `name` fields; run `python3 scripts/check_country_names.py` to check.
+  historical flags, symbolism rather than literal description, and no sentence that only says what is on the flag), and be written while looking at the flag image and checked claim by claim against the flag article.
+  Country names in a description must match the `name` fields. The tools are in `scripts/`: `flag_sources.py` (what the article says), `flag_sheets.py`
+  (look at the flags), `check_flag_descriptions.py` (the lint, which also runs on pull requests as the **Check Country Data** workflow) and
+  `check_country_names.py`. The update workflow lists flags whose image changed ("Flag image changed"): their descriptions need checking again.
 - **Running it:** `./gradlew generateCountryData` (all), `-PflagCodes=af,sy` (download only those images), `-PskipDownloads` (data file
   only), `-PpruneFlags` (after a full download, delete PNGs the data file does not list). It needs network access to
   `en.wikipedia.org` and `thumb.wikimedia.org`, so run it from the **Update Country Data** workflow (monthly, or manually) rather than a

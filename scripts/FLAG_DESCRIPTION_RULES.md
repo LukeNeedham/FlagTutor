@@ -33,6 +33,32 @@ These rules **must be followed for every flag description**, i.e. the `symbolism
    `country_data.json` (from the ISO list, overridden by `names` in `scripts/country_data_overrides.json`). Run
    `python3 scripts/check_country_names.py` after editing; it lists any text that uses another spelling.
 
+## Sourcing and fact-checking
+
+A description is only as good as its source, and every claim in it has to be checked against that source, not remembered.
+
+- **The source is the flag article on Wikipedia** (`flagWikipediaUrl`). Run `python3 scripts/flag_sources.py <codes>` (or `--all`) to
+  print what the article says each colour, symbol and emblem means, next to the current description. It reads the article's
+  wikitext, because the plain-text view silently drops lists, tables and quotations, which is where many articles put the meanings.
+- **Look at the flag** before writing: `python3 scripts/flag_sheets.py <dir> [codes]` makes labelled contact sheets of the images
+  in the app. Describe what the image shows (a civil flag with no arms, a territory's own flag, a parent's flag).
+- **Check every sentence, claim by claim.** For each colour, shape and emblem, find the passage that gives its meaning. If none
+  does, delete the claim; do not keep it because it is widely repeated or you remember it. Typical failures found this way: a
+  meaning that is in no article, one historian's reading stated as general, "pan-Arab" meanings attached to the wrong colour, and
+  a detail described the wrong way round (which element sits above which).
+- **When the article gives no meaning for a flag** (Bulgaria, Türkiye), write only what it does say, even if that is one sentence.
+- **Where an article quotes more than one reading** (official, popular, a government's, the CIA World Factbook's), say which, or
+  use the official one.
+- **When the flag image changes** (the update workflow lists them as "Flag image changed"), the description may no longer be
+  true: check it again.
+
+## Linting
+
+`python3 scripts/check_flag_descriptions.py` checks what a script can: every flag has a description and no other country does, no
+year or date, a length limit, and country names (rule 7). It only warns about a sentence with no word that gives a meaning (rule 6)
+or one that compares the flag with another (rule 3), because a script cannot be sure; look at each warning. The same check runs on
+every pull request that touches the data or the scripts (`.github/workflows/check_country_data.yml`).
+
 ## Checking a text
 
 Read each sentence in turn and ask "what does this tell the reader the thing means?". If the answer is only "what it looks like",
