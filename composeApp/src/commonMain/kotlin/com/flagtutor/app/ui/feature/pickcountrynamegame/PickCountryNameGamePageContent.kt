@@ -78,8 +78,8 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import kotlin.math.max
 import kotlin.math.sqrt
 
-// Next button occupies 10dp top margin + 64dp height + 10dp bottom margin; leave at least 30dp above that.
-private val NextButtonReservedHeight = 114.dp
+// The page indicator sits this far above the Next button.
+private val PageIndicatorBottomGap = 20.dp
 
 // Horizontal inset shared by the option buttons and the Next button, so the two are the same width.
 private val ContentHorizontalPadding = 24.dp
@@ -347,6 +347,7 @@ fun PickCountryNameGamePageContent(
                                                     val textColor = floodContentColor.copy(alpha = 0.7f)
                                                     HorizontalPager(
                                                         state = pagerState,
+                                                        verticalAlignment = Alignment.Top,
                                                         modifier = Modifier
                                                             .weight(1f)
                                                             .fillMaxWidth(),
@@ -356,6 +357,7 @@ fun PickCountryNameGamePageContent(
                                                                 text = state.flag.flagSymbolism.orEmpty(),
                                                                 style = AppTheme.typography.bodyLarge,
                                                                 color = textColor,
+                                                                textAlign = TextAlign.Justify,
                                                                 modifier = Modifier
                                                                     .fillMaxWidth()
                                                                     .verticalScroll(rememberScrollState()),
@@ -380,7 +382,7 @@ fun PickCountryNameGamePageContent(
                                                         },
                                                         modifier = Modifier.align(Alignment.CenterHorizontally),
                                                     )
-                                                    Spacer(modifier = Modifier.height(NextButtonReservedHeight))
+                                                    Spacer(modifier = Modifier.height(NextButtonHeight + NextButtonMargin + PageIndicatorBottomGap))
                                                 }
                                                 }
                                             } else {
