@@ -8,7 +8,14 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -87,6 +94,12 @@ private val AnswerPanelBottomInset = 16.dp
 
 // The corner radius of the option buttons grid, and so of the answer panel that floods it.
 private val AnswerPanelCornerRadius = 24.dp
+
+// The answer panel's pages: the flag description, then the map.
+private const val AnswerPageCount = 2
+
+private val PageIndicatorDotSize = 10.dp
+private val PageIndicatorTouchSize = 28.dp
 
 // The round buttons beside the name.
 private val AnswerActionButtonSize = 44.dp
@@ -329,23 +342,43 @@ fun PickCountryNameGamePageContent(
                                                             .height(1.dp)
                                                             .background(floodContentColor.copy(alpha = 0.2f)),
                                                     )
-                                                    if (!state.flag.flagSymbolism.isNullOrEmpty()) {
-                                                        Spacer(modifier = Modifier.height(16.dp))
-                                                        Text(
-                                                            text = state.flag.flagSymbolism,
-                                                            style = AppTheme.typography.bodyLarge,
-                                                            color = floodContentColor.copy(alpha = 0.7f),
-                                                            modifier = Modifier.fillMaxWidth(),
-                                                        )
-                                                    }
-                                                    Spacer(modifier = Modifier.height(20.dp))
-                                                    // The map image carries its own background, so it is drawn bare.
-                                                    BoundedCountryMap(
-                                                        bitmap = state.mapImage,
+                                                    Spacer(modifier = Modifier.height(16.dp))
+                                                    val pagerState = rememberPagerState { AnswerPageCount }
+                                                    val textColor = floodContentColor.copy(alpha = 0.7f)
+                                                    HorizontalPager(
+                                                        state = pagerState,
                                                         modifier = Modifier
                                                             .weight(1f)
                                                             .fillMaxWidth(),
-                                                        onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
+                                                    ) { page ->
+                                                        when (page) {
+                                                            0 -> Text(
+                                                                text = state.flag.flagSymbolism.orEmpty(),
+                                                                style = AppTheme.typography.bodyLarge,
+                                                                color = textColor,
+                                                                modifier = Modifier
+                                                                    .fillMaxWidth()
+                                                                    .verticalScroll(rememberScrollState()),
+                                                            )
+
+                                                            else -> // The map image carries its own background, so it is drawn bare.
+                                                                BoundedCountryMap(
+                                                                    bitmap = state.mapImage,
+                                                                    modifier = Modifier.fillMaxSize(),
+                                                                    contentAlignment = Alignment.TopCenter,
+                                                                    onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
+                                                                )
+                                                        }
+                                                    }
+                                                    val pagerScope = rememberCoroutineScope()
+                                                    PageIndicator(
+                                                        pageCount = AnswerPageCount,
+                                                        currentPage = pagerState.currentPage,
+                                                        color = textColor,
+                                                        onPageClick = { page ->
+                                                            pagerScope.launch { pagerState.animateScrollToPage(page) }
+                                                        },
+                                                        modifier = Modifier.align(Alignment.CenterHorizontally),
                                                     )
                                                     Spacer(modifier = Modifier.height(NextButtonReservedHeight))
                                                 }
@@ -490,6 +523,38 @@ fun PickCountryNameGamePageContent(
                     }
                 }
             }
+            }
+        }
+    }
+}
+
+/** Dots for the answer pager: the current page is filled, the others are outlined. Tapping a dot selects its page. */
+@Composable
+private fun PageIndicator(
+    pageCount: Int,
+    currentPage: Int,
+    color: Color,
+    onPageClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(modifier = modifier, horizontalArrangement = Arrangement.Center) {
+        repeat(pageCount) { page ->
+            Box(
+                modifier = Modifier
+                    .size(PageIndicatorTouchSize)
+                    .clip(CircleShape)
+                    .clickable { onPageClick(page) },
+                contentAlignment = Alignment.Center,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(PageIndicatorDotSize)
+                        .clip(CircleShape)
+                        .let {
+                            if (page == currentPage) it.background(color)
+                            else it.border(1.5.dp, color, CircleShape)
+                        },
+                )
             }
         }
     }
