@@ -79,7 +79,7 @@ import kotlin.math.max
 import kotlin.math.sqrt
 
 // The page indicator sits this far above the Next button.
-private val PageIndicatorBottomGap = 20.dp
+private val PageIndicatorBottomGap = 10.dp
 
 // Horizontal inset shared by the option buttons and the Next button, so the two are the same width.
 private val ContentHorizontalPadding = 24.dp
@@ -357,7 +357,6 @@ fun PickCountryNameGamePageContent(
                                                                 text = state.flag.flagSymbolism.orEmpty(),
                                                                 style = AppTheme.typography.bodyLarge,
                                                                 color = textColor,
-                                                                textAlign = TextAlign.Justify,
                                                                 modifier = Modifier
                                                                     .fillMaxWidth()
                                                                     .verticalScroll(rememberScrollState()),
