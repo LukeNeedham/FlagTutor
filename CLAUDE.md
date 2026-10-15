@@ -143,6 +143,50 @@ As screens are added, give each one:
 
 - Never round the corners of (or clip to a rounded shape) the flag image: not all flags are rectangular.
 
+### Country data
+
+`composeApp/src/commonMain/composeResources/files/country_data.json` is the single data file describing the countries, built by
+`./gradlew generateCountryData` (`buildSrc/.../BuildCountryDataTask.kt`) from Wikipedia. Do not edit it by hand, except the
+`symbolism` texts (see below).
+
+- **Which countries:** exactly the ISO 3166-1 alpha-2 codes in Wikipedia's "ISO 3166-1 alpha-2" table (currently **249**). Nothing outside
+  ISO is added. Kosovo (`xk`) is not an ISO code, so it is not included; the previous list had 250 entries because it included it.
+  Territories and dependencies (Réunion, Antarctica, ...) are in ISO and so are included; England, Scotland and Wales are not
+  (they are part of `gb`; only ISO 3166-2 gives them codes).
+- **Fields per country (keyed by lowercase alpha-2):** `name` (the name the app shows: the ISO English short name, unless `names` in `scripts/country_data_overrides.json` gives a better one, because the ISO names are formal, e.g. "Taiwan, Province of China", or oddly spelled, e.g. "Naoero"; the flag descriptions use the same name),
+  `wikipediaUrl` (country article), `flagWikipediaUrl` (the article dedicated to its flag), `flagImage` (`flags/<code>.png`),
+  `flagImageSource` (the Wikimedia Commons file it was rendered from), `flagNote` (only when there is no flag image), `flagSharedWith` (only for a territory that uses its parent's flag: the parent's code) and `symbolism`.
+- **Flag images:** the lead image of each flag article, downloaded as a ~330px PNG. They come from Wikipedia only. Wikipedia uses each
+  flag's official colour specification, so some shades differ from other flag sets, and a few lead images are a civil rather than a
+  state flag (Bolivia, Costa Rica and Peru show no coat of arms).
+- **Countries without a flag:** `flagImage` is `null` (and so are `flagImageSource` and `symbolism`) for countries that have no official
+  flag of their own. Currently **11**, so 238 of the 249 have an image: Antarctica, Saint Barthélemy, Caribbean Netherlands, French
+  Guiana, Guadeloupe, Saint Martin, Saint-Pierre and Miquelon, Réunion, Saint Helena, Wallis and Futuna, and Mayotte. This is a judgement
+  from the Wikipedia flag articles, which word it differently. The list, with a reason for each, is `noOfficialFlag` in
+  `scripts/country_data_overrides.json`, and the reason is copied to `flagNote`. The same file also holds the exceptions for finding a
+  flag article (`flagPages`), a country article (`articles`) and a lead image (`flagImageFiles`), `names`, and `sharedFlags`, the territories that
+  use their parent's flag (Bouvet Island and Svalbard and Jan Mayen use Norway's, Heard Island and McDonald Islands Australia's, the US Minor
+  Outlying Islands the US's, New Caledonia France's).
+- **Symbolism:** a short text on what the flag symbolises, written by hand from the flag article (it cannot be generated). The task keeps
+  the existing text and lists countries that are missing one. When a flag's design changes, rewrite its text. **Every description must follow
+  the rules in [`scripts/FLAG_DESCRIPTION_RULES.md`](scripts/FLAG_DESCRIPTION_RULES.md)** (short, no dates, no other flags or countries, no
+  historical flags, symbolism rather than literal description, and no sentence that only says what is on the flag), and be written while looking at the flag image and checked claim by claim against the flag article.
+  Country names in a description must match the `name` fields. The tools are in `scripts/`: `flag_sources.py` (what the article says), `flag_sheets.py`
+  (look at the flags), `check_flag_descriptions.py` (the lint, which also runs on pull requests as the **Check Country Data** workflow) and
+  `check_country_names.py`. The update workflow lists flags whose image changed ("Flag image changed"): their descriptions need checking again.
+- **Running it:** `./gradlew generateCountryData` (all), `-PflagCodes=af,sy` (download only those images), `-PskipDownloads` (data file
+  only), `-PpruneFlags` (after a full download, delete PNGs the data file does not list). It needs network access to
+  `en.wikipedia.org` and `thumb.wikimedia.org`, so run it from the **Update Country Data** workflow (monthly, or manually) rather than a
+  sandbox that blocks those hosts. The workflow opens a PR so the changes can be reviewed.
+- **How the app uses it:** `CountryRepository` reads this one file and nothing else describes countries (the old `countries.json`,
+  `flag_descriptions.json` and `wikipedia_links.json` are gone). The app only ever uses the countries
+  returned by `getGameCountries()`: those with a flag, except the `flagSharedWith` territories, so each flag appears once, as its parent. The game,
+  its preloader and the debug countries overview all use it. Everything else (no flag, or the parent's flag) is `getExcludedCountries()`, which
+  feeds only the debug "Excluded Countries" page (`/debug/excluded`) with the reason for each.
+  `scripts/download_wikipedia_maps.py` also reads the country article URLs from it. Flags are
+  loaded from `files/flags/<code>.png`, which is what `flagImage` always says.
+- **Images are CC/public-domain files from Wikimedia Commons**; `flagImageSource` records each file for attribution.
+
 ### Flag colours
 
 - Each flag's dominant colours are extracted at build time by `buildSrc`'s

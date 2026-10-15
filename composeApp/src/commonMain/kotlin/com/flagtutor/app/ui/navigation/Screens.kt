@@ -10,6 +10,7 @@ import com.flagtutor.app.ui.feature.crashes.CrashDetailPage
 import com.flagtutor.app.ui.feature.crashes.CrashesPage
 import com.flagtutor.app.ui.feature.credits.CreditsPage
 import com.flagtutor.app.ui.feature.debug.CountriesOverviewPage
+import com.flagtutor.app.ui.feature.debug.ExcludedCountriesPage
 import com.flagtutor.app.ui.feature.debug.DebugPage
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsPage
 import com.flagtutor.app.ui.feature.home.HomePage
@@ -82,6 +83,7 @@ object DebugScreen : Screen {
         DebugPage(
             onNavigateBack = { navigator.pop() },
             onNavigateToCountriesOverview = { navigator.push(CountriesOverviewScreen) },
+            onNavigateToExcludedCountries = { navigator.push(ExcludedCountriesScreen) },
             onNavigateToFlagAttempts = { navigator.push(FlagAttemptsScreen) },
             onNavigateToCrashes = { navigator.push(CrashesScreen) },
         )
@@ -95,6 +97,16 @@ object CountriesOverviewScreen : Screen {
         CountriesOverviewPage(
             onNavigateBack = { navigator.pop() },
             onNavigateToGame = { code -> navigator.push(DebugPickCountryNameGameScreen(code)) },
+        )
+    }
+}
+
+object ExcludedCountriesScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        ExcludedCountriesPage(
+            onNavigateBack = { navigator.pop() },
         )
     }
 }

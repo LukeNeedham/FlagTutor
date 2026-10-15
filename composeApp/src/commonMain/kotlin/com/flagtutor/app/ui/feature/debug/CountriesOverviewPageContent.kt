@@ -284,7 +284,7 @@ private fun CountryOverviewRow(
         ) {
             var isExpanded by remember { mutableStateOf(false) }
             Text(
-                text = country.flagDescription,
+                text = country.flagSymbolism.orEmpty(),
                 style = AppTheme.typography.bodySmall,
                 color = AppTheme.colors.text,
                 maxLines = if (isExpanded) Int.MAX_VALUE else 2,

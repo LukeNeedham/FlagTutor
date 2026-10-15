@@ -1,0 +1,21 @@
+name: Check Country Data
+
+# Lints the flag descriptions against scripts/FLAG_DESCRIPTION_RULES.md. It is fast and needs only Python, so it runs on every PR
+# that touches the data or the scripts. A failure means a description breaks a rule a script can check (see the log).
+on:
+  pull_request:
+    paths:
+      - "composeApp/src/commonMain/composeResources/files/country_data.json"
+      - "scripts/**"
+  workflow_dispatch:
+
+jobs:
+  check-flag-descriptions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check the flag descriptions
+        run: python3 scripts/check_flag_descriptions.py

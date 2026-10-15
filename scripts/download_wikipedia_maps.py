@@ -13,7 +13,7 @@ Skips countries that have already been downloaded. Re-run to retry failures.
 import html, json, os, re, sys, time, urllib.parse, urllib.request, urllib.error
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-LINKS_PATH = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/wikipedia_links.json")
+COUNTRY_DATA_PATH = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/country_data.json")
 OUT_DIR = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/maps")
 
 USER_AGENT = "Vexed/1.0 (https://github.com/lukeneedham/flagtutor; contact via GitHub)"
@@ -53,8 +53,9 @@ FORCE = os.environ.get("FORCE_REDOWNLOAD") == "1"
 
 os.makedirs(OUT_DIR, exist_ok=True)
 
-with open(LINKS_PATH) as f:
-    links = json.load(f)
+# code -> the country's Wikipedia article, from country_data.json (built by ./gradlew generateCountryData)
+with open(COUNTRY_DATA_PATH, encoding="utf-8") as f:
+    links = {code: country["wikipediaUrl"] for code, country in json.load(f).items() if country.get("wikipediaUrl")}
 
 
 def retry_delay_for(error, default_delay):

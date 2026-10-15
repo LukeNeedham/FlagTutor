@@ -2,6 +2,7 @@ package com.flagtutor.app
 
 import cafe.adriel.voyager.core.screen.Screen
 import com.flagtutor.app.ui.navigation.CountriesOverviewScreen
+import com.flagtutor.app.ui.navigation.ExcludedCountriesScreen
 import com.flagtutor.app.ui.navigation.CreditsScreen
 import com.flagtutor.app.ui.navigation.CrashesScreen
 import com.flagtutor.app.ui.navigation.DebugScreen
@@ -24,6 +25,7 @@ object BrowserRoutes {
     private val debugRoutes: List<Pair<String, Screen>> = listOf(
         "/debug" to DebugScreen,
         "/debug/countries" to CountriesOverviewScreen,
+        "/debug/excluded" to ExcludedCountriesScreen,
         "/debug/attempts" to FlagAttemptsScreen,
         "/debug/crashes" to CrashesScreen,
     )
