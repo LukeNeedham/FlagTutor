@@ -109,6 +109,9 @@ private val PageIndicatorTouchSize = 28.dp
 private val CloseButtonInset = 5.dp
 private val CloseButtonSize = 48.dp
 
+// The gap between the top of the page and the flag.
+private val FlagTopMargin = 20.dp
+
 // Horizontal inset of the content inside the answer panel. The pager pages apply it themselves, so that
 // a page swiping in starts from the panel's edge.
 private val AnswerPanelContentPadding = 20.dp
@@ -133,7 +136,7 @@ fun PickCountryNameGamePageContent(
         color = AppTheme.colors.background,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            Box(modifier = Modifier.fillMaxSize().padding(top = CloseButtonInset)) {
+            Box(modifier = Modifier.fillMaxSize().padding(top = FlagTopMargin)) {
             when (uiState) {
                 is PickCountryNameGameUiState.Loading -> {
                     Column(
