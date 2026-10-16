@@ -360,8 +360,10 @@ fun PickCountryNameGamePageContent(
                                                                 text = state.flag.flagSymbolism.orEmpty(),
                                                                 style = AppTheme.typography.bodyLarge,
                                                                 color = textColor,
+                                                                // Scrolls within the pager's height, so long text stays clear of the page indicator.
                                                                 modifier = Modifier
-                                                                    .fillMaxWidth()
+                                                                    .fillMaxSize()
+                                                                    .padding(bottom = MapPageIndicatorGap)
                                                                     .verticalScroll(rememberScrollState()),
                                                             )
 
