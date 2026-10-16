@@ -23,15 +23,16 @@ private const val PLACEHOLDER_ASPECT_RATIO = 16f / 10f
 /**
  * Shows an already-loaded country map as large as fits in the space it is given: up to
  * [MAX_WIDTH_FRACTION] of the width, but never taller than the available height. It is centred
- * in that space. The image has no background or border of its own: it carries its own.
+ * in that space unless [contentAlignment] says otherwise. The image has no background or border of its own: it carries its own.
  */
 @Composable
 fun BoundedCountryMap(
     bitmap: ImageBitmap?,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
+    contentAlignment: Alignment = Alignment.Center,
 ) {
-    BoxWithConstraints(modifier = modifier, contentAlignment = Alignment.Center) {
+    BoxWithConstraints(modifier = modifier, contentAlignment = contentAlignment) {
         val aspectRatio = bitmap?.let { it.width.toFloat() / it.height.toFloat() } ?: PLACEHOLDER_ASPECT_RATIO
         val mapWidth = minOf(maxWidth * MAX_WIDTH_FRACTION, maxHeight * aspectRatio)
         val shapedModifier = Modifier
