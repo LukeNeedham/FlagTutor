@@ -78,6 +78,9 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import kotlin.math.max
 import kotlin.math.sqrt
 
+// The map's bottom edge sits this far above the page indicator.
+private val MapPageIndicatorGap = 20.dp
+
 // The page indicator sits this far above the Next button.
 private val PageIndicatorBottomGap = 10.dp
 
@@ -365,7 +368,10 @@ fun PickCountryNameGamePageContent(
                                                             else -> // The map image carries its own background, so it is drawn bare.
                                                                 BoundedCountryMap(
                                                                     bitmap = state.mapImage,
-                                                                    modifier = Modifier.fillMaxSize(),
+                                                                    // Bounded by the pager's height, less the gap above the page indicator.
+                                                                    modifier = Modifier
+                                                                        .fillMaxSize()
+                                                                        .padding(bottom = MapPageIndicatorGap),
                                                                     contentAlignment = Alignment.TopCenter,
                                                                     onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
                                                                 )
