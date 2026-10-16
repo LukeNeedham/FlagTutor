@@ -251,7 +251,7 @@ fun PickCountryNameGamePageContent(
                                 }
                                 val buttonsPanelHeight = maxHeight * 0.7f
                                 // The room left by the close button, and the same again on the right, so the flag is centred.
-                                val flagMaxWidth = maxWidth - 2 * (CloseButtonInset + CloseButtonSize - ContentHorizontalPadding)
+                                val flagMaxWidth = maxWidth - (CloseButtonInset + CloseButtonSize - ContentHorizontalPadding) * 2
                                 val flagMaxHeight = maxHeight * 0.3f
                                 LaunchedEffect(state.isAnswerRevealed) {
                                     if (state.isAnswerRevealed) {
