@@ -7,6 +7,7 @@ import com.flagtutor.app.ui.navigation.NavGraph
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+    initDebugKit()
     ComposeViewport {
         App(extraModules = listOf(webModule())) {
             NavGraph(

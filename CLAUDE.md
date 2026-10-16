@@ -89,14 +89,25 @@ As screens are added, give each one:
   `di/KoinModule.kt`, following the VideoDiary pattern (`factory { }` for most things, `single { }`
   for stateful singletons).
 
-### Logging
+### Logging, crashes and debug tools (shared library)
 
-- Use a `Logger` abstraction (mirroring `domain/util/logger/Logger.kt` in VideoDiary) rather than
-  calling platform logging APIs directly, so logging is consistent across platforms and doesn't
-  break tests.
-  - `Logger.debug(...)` — diagnostics
-  - `Logger.warning(...)` — expected-but-notable error states
-  - `Logger.error(...)` — unexpected errors / likely bugs
+Logging, the crash handler, the Logs / Crashes / Debug pages and the debug animation speed come from the
+shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `common/`; docs in its
+`docs/library.md` and `docs/using-the-library.md`). Do not write app-local versions of these.
+- The Maven repository is in `settings.gradle.kts`, the version is `common` in `gradle/libs.versions.toml`
+  (update it there to take a new release).
+- `initDebugKit()` (`DebugKitSetup.kt`) calls `DebugKit.init(DebugKitConfig(enabled = isDebugBuild))`. Every platform
+  calls it first thing: `FlagTutorApplication.onCreate` (Android), `MainViewController()` (iOS), `main()` (web).
+- Log with the library's `Logger` (`com.lukeneedham.common.logger.Logger`), never `println`/`Log`/`NSLog`/`console`:
+  - `Logger.d(...)` — diagnostics
+  - `Logger.i(...)` — notable events
+  - `Logger.w(msg, throwable)` — expected-but-notable error states
+  - `Logger.e(msg, throwable)` — unexpected errors / likely bugs
+- `DebugScreen` (`ui/navigation/Screens.kt`) shows the library's `DebugPage`, with the app's own entries (countries
+  overview, excluded countries, flag attempts: `AppDebugLinks`) passed as `extraContent`; `LogsScreen` and
+  `CrashesScreen` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific debug tools to `AppDebugLinks`.
+- The animation speed (saved by the library, only applied when `isDebugBuild`) reaches `ScaledAnimation` through
+  `ProvideAnimationSpeed` / `LocalAnimationSpeed` in `App.kt`.
 
 ### Web target
 
@@ -107,7 +118,7 @@ As screens are added, give each one:
 - Browser URLs follow in-app navigation (`/`, `/play`, `/credits`; see `BrowserRoutes`,
   `BrowserNavigationSync`), so the back button works. GitHub Pages can't serve those paths, so
   `.github/pages/404.html` (published to the `gh-pages` root by the preview workflow) redirects them
-  to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes` (debug pages are at `/debug/...`, debug builds only).
+  to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes` (debug pages, including the library's logs and crashes pages, are at `/debug/...`, debug builds only).
 - `isDebugBuild` on web is read from `config.js` (`window.appDebug`), which is `false` in the
   repo. PR previews overwrite it with `true`; the production deploy
   (`.github/workflows/web_deploy_production.yml`, on every push to `main`, to the `gh-pages` root)
@@ -132,7 +143,7 @@ As screens are added, give each one:
 
 - Never hardcode an animation duration (`tween(300)`, `delay(60)`, ...). Take it from `LocalScaledAnimation.current`
   (`ui/util/ScaledAnimation.kt`), which defines the allowed durations with the debug animation speed setting
-  already applied. To add a new duration, add a property there.
+  (from the shared library's `LocalAnimationSpeed`) already applied. To add a new duration, add a property there.
 
 ### Preferences
 

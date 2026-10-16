@@ -4,18 +4,18 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.flagtutor.app.data.crash.CrashEntry
 import com.flagtutor.app.isDebugBuild
-import com.flagtutor.app.ui.feature.crashes.CrashDetailPage
-import com.flagtutor.app.ui.feature.crashes.CrashesPage
 import com.flagtutor.app.ui.feature.credits.CreditsPage
 import com.flagtutor.app.ui.feature.debug.CountriesOverviewPage
 import com.flagtutor.app.ui.feature.debug.ExcludedCountriesPage
-import com.flagtutor.app.ui.feature.debug.DebugPage
+import com.flagtutor.app.ui.feature.debug.AppDebugLinks
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsPage
 import com.flagtutor.app.ui.feature.home.HomePage
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGamePage
 import com.flagtutor.app.ui.feature.settings.SettingsPage
+import com.lukeneedham.common.ui.CrashesPage
+import com.lukeneedham.common.ui.DebugPage
+import com.lukeneedham.common.ui.LogsPage
 
 object HomeScreen : Screen {
     @Composable
@@ -81,12 +81,16 @@ object DebugScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         DebugPage(
-            onNavigateBack = { navigator.pop() },
-            onNavigateToCountriesOverview = { navigator.push(CountriesOverviewScreen) },
-            onNavigateToExcludedCountries = { navigator.push(ExcludedCountriesScreen) },
-            onNavigateToFlagAttempts = { navigator.push(FlagAttemptsScreen) },
-            onNavigateToCrashes = { navigator.push(CrashesScreen) },
-        )
+            onBack = { navigator.pop() },
+            onOpenLogs = { navigator.push(LogsScreen) },
+            onOpenCrashes = { navigator.push(CrashesScreen) },
+        ) {
+            AppDebugLinks(
+                onCountriesOverviewClick = { navigator.push(CountriesOverviewScreen) },
+                onExcludedCountriesClick = { navigator.push(ExcludedCountriesScreen) },
+                onFlagAttemptsClick = { navigator.push(FlagAttemptsScreen) },
+            )
+        }
     }
 }
 
@@ -121,24 +125,18 @@ object FlagAttemptsScreen : Screen {
     }
 }
 
+object LogsScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        LogsPage(onBack = { navigator.pop() })
+    }
+}
+
 object CrashesScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        CrashesPage(
-            onNavigateBack = { navigator.pop() },
-            onNavigateToCrashDetail = { crash -> navigator.push(CrashDetailScreen(crash)) },
-        )
-    }
-}
-
-data class CrashDetailScreen(val crash: CrashEntry) : Screen {
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        CrashDetailPage(
-            crash = crash,
-            onNavigateBack = { navigator.pop() },
-        )
+        CrashesPage(onBack = { navigator.pop() })
     }
 }

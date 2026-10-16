@@ -5,7 +5,7 @@ import androidx.compose.runtime.compositionLocalOf
 import kotlin.math.roundToInt
 
 /**
- * The animation durations the app may use, with the debug animation speed already applied.
+ * The animation durations the app may use, with the debug animation speed (from the shared library's `LocalAnimationSpeed`) already applied.
  *
  * Every animation spec (`tween`, `delay`, ...) must take its duration from here, never from a raw
  * number, so the animation speed setting applies to all of them. Read it with [LocalScaledAnimation].

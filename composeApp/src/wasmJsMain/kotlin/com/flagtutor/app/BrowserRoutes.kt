@@ -3,18 +3,19 @@ package com.flagtutor.app
 import cafe.adriel.voyager.core.screen.Screen
 import com.flagtutor.app.ui.navigation.CountriesOverviewScreen
 import com.flagtutor.app.ui.navigation.ExcludedCountriesScreen
-import com.flagtutor.app.ui.navigation.CreditsScreen
 import com.flagtutor.app.ui.navigation.CrashesScreen
+import com.flagtutor.app.ui.navigation.CreditsScreen
 import com.flagtutor.app.ui.navigation.DebugScreen
 import com.flagtutor.app.ui.navigation.FlagAttemptsScreen
 import com.flagtutor.app.ui.navigation.HomeScreen
+import com.flagtutor.app.ui.navigation.LogsScreen
 import com.flagtutor.app.ui.navigation.PickCountryNameGameScreen
 import com.flagtutor.app.ui.navigation.SettingsScreen
 import kotlinx.browser.window
 
 /**
  * Maps screens to URL paths so the browser's address bar and back button follow in-app navigation.
- * Screens without a route (e.g. a crash's detail page, which can't be rebuilt from a URL) are left
+ * Screens without a route (e.g. the debug game opened from the countries overview, which can't be rebuilt from a URL) are left
  * off the URL.
  *
  * A route's parents are the routes for each shorter path prefix, so "/debug/countries" sits on top
@@ -27,6 +28,7 @@ object BrowserRoutes {
         "/debug/countries" to CountriesOverviewScreen,
         "/debug/excluded" to ExcludedCountriesScreen,
         "/debug/attempts" to FlagAttemptsScreen,
+        "/debug/logs" to LogsScreen,
         "/debug/crashes" to CrashesScreen,
     )
 

@@ -4,10 +4,8 @@ import com.flagtutor.app.data.local.FlagColorDataSource
 import com.flagtutor.app.data.local.IdenticalFlagDataSource
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.data.repository.FlagImageRepository
-import com.flagtutor.app.data.settings.DebugSettings
 import com.flagtutor.app.data.repository.GamePreloader
 import com.flagtutor.app.data.settings.ThemeRepository
-import com.flagtutor.app.ui.feature.crashes.CrashesViewModel
 import com.flagtutor.app.ui.feature.debug.CountriesOverviewViewModel
 import com.flagtutor.app.ui.feature.debug.ExcludedCountriesViewModel
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsViewModel
@@ -24,14 +22,12 @@ val appModule = module {
     singleOf(::IdenticalFlagDataSource)
     singleOf(::CountryRepository)
     singleOf(::FlagImageRepository)
-    singleOf(::DebugSettings)
     singleOf(::GamePreloader)
     singleOf(::ThemeRepository)
     viewModelOf(::HomeViewModel)
     viewModelOf(::SettingsViewModel)
     viewModelOf(::CountriesOverviewViewModel)
     viewModelOf(::ExcludedCountriesViewModel)
-    viewModelOf(::CrashesViewModel)
     viewModel { params ->
         PickCountryNameGameViewModel(
             countryRepository = get(),
