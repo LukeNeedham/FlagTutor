@@ -118,7 +118,7 @@ fun FlagOptionButton(
         Text(
             text = country.name,
             color = activeContentColor,
-            style = AppTheme.typography.titleLarge,
+            style = AppTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
         )
     }

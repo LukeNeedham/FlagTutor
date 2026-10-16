@@ -104,6 +104,15 @@ private const val AnswerPageCount = 2
 private val PageIndicatorDotSize = 10.dp
 private val PageIndicatorTouchSize = 28.dp
 
+// The close button's inset from the top and left edges of the screen, and the size of its (default) touch target.
+// The flag sits in the rest of that row, with the same width kept free on its right so it is centred.
+private val CloseButtonInset = 5.dp
+private val CloseButtonSize = 48.dp
+
+// Horizontal inset of the content inside the answer panel. The pager pages apply it themselves, so that
+// a page swiping in starts from the panel's edge.
+private val AnswerPanelContentPadding = 20.dp
+
 // The round buttons beside the name.
 private val AnswerActionButtonSize = 44.dp
 
@@ -123,15 +132,8 @@ fun PickCountryNameGamePageContent(
         modifier = Modifier.fillMaxSize(),
         color = AppTheme.colors.background,
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier.padding(start = 5.dp, top = 5.dp),
-            ) {
-                Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
-            }
-            Spacer(modifier = Modifier.height(5.dp))
-            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.fillMaxSize().padding(top = CloseButtonInset)) {
             when (uiState) {
                 is PickCountryNameGameUiState.Loading -> {
                     Column(
@@ -248,7 +250,8 @@ fun PickCountryNameGamePageContent(
                                     if (showAnswer) answerAlpha.animateTo(1f, tween(animation.long))
                                 }
                                 val buttonsPanelHeight = maxHeight * 0.7f
-                                val flagMaxWidth = maxWidth * 0.85f
+                                // The room left by the close button, and the same again on the right, so the flag is centred.
+                                val flagMaxWidth = maxWidth - 2 * (CloseButtonInset + CloseButtonSize - ContentHorizontalPadding)
                                 val flagMaxHeight = maxHeight * 0.3f
                                 LaunchedEffect(state.isAnswerRevealed) {
                                     if (state.isAnswerRevealed) {
@@ -302,7 +305,7 @@ fun PickCountryNameGamePageContent(
                                                         .fillMaxWidth()
                                                         .height(buttonsPanelHeight)
                                                         .graphicsLayer { alpha = answerAlpha.value }
-                                                        .padding(top = 16.dp, start = 20.dp, end = 20.dp),
+                                                        .padding(top = 16.dp),
                                                 ) {
                                                     Spacer(modifier = Modifier.height(12.dp))
                                                     // The name is left aligned and always on one line, shrinking to fit; round
@@ -310,7 +313,9 @@ fun PickCountryNameGamePageContent(
                                                     Row(
                                                         verticalAlignment = Alignment.CenterVertically,
                                                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                                        modifier = Modifier.fillMaxWidth(),
+                                                        modifier = Modifier
+                                                            .fillMaxWidth()
+                                                            .padding(horizontal = AnswerPanelContentPadding),
                                                     ) {
                                                         Text(
                                                             text = state.flag.name,
@@ -342,6 +347,7 @@ fun PickCountryNameGamePageContent(
                                                     Box(
                                                         modifier = Modifier
                                                             .fillMaxWidth()
+                                                            .padding(horizontal = AnswerPanelContentPadding)
                                                             .height(1.dp)
                                                             .background(floodContentColor.copy(alpha = 0.2f)),
                                                     )
@@ -363,6 +369,7 @@ fun PickCountryNameGamePageContent(
                                                                 // Scrolls within the pager's height, so long text stays clear of the page indicator.
                                                                 modifier = Modifier
                                                                     .fillMaxSize()
+                                                                    .padding(horizontal = AnswerPanelContentPadding)
                                                                     .padding(bottom = MapPageIndicatorGap)
                                                                     .verticalScroll(rememberScrollState()),
                                                             )
@@ -373,6 +380,7 @@ fun PickCountryNameGamePageContent(
                                                                     // Bounded by the pager's height, less the gap above the page indicator.
                                                                     modifier = Modifier
                                                                         .fillMaxSize()
+                                                                        .padding(horizontal = AnswerPanelContentPadding)
                                                                         .padding(bottom = MapPageIndicatorGap),
                                                                     contentAlignment = Alignment.TopCenter,
                                                                     onClick = { onOpenMap(GoogleMapsLinkBuilder.searchUrl(state.flag.name)) },
@@ -532,6 +540,15 @@ fun PickCountryNameGamePageContent(
                     }
                 }
             }
+            }
+            // On the same row as the flag, which is centred between this button and an equal gap on the right.
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(start = CloseButtonInset, top = CloseButtonInset),
+            ) {
+                Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
             }
         }
     }
