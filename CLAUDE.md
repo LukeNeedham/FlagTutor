@@ -107,7 +107,9 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
   overview, excluded countries, flag attempts: `AppDebugLinks`) passed as `extraContent`; `LogsScreen` and
   `CrashesScreen` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific debug tools to `AppDebugLinks`.
 - The animation speed (saved by the library, only applied when `isDebugBuild`) reaches `ScaledAnimation` through
-  `ProvideAnimationSpeed` / `LocalAnimationSpeed` in `App.kt`.
+  `ProvideDebugSettings` / `LocalAnimationSpeed` in `App.kt`.
+  `ProvideDebugSettings` is the library's single provider of debug composition locals: keep the whole UI inside it
+  (every app does), and read settings through `LocalDebugSettings` / `LocalAnimationSpeed`.
 
 ### Web target
 

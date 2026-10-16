@@ -13,7 +13,7 @@ import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import com.lukeneedham.common.ui.LocalAnimationSpeed
-import com.lukeneedham.common.ui.ProvideAnimationSpeed
+import com.lukeneedham.common.ui.ProvideDebugSettings
 import org.koin.core.module.Module
 
 @Composable
@@ -23,7 +23,7 @@ fun App(extraModules: List<Module> = emptyList(), content: @Composable () -> Uni
         val gamePreloader = koinInject<GamePreloader>()
         LaunchedEffect(Unit) { gamePreloader.start() }
         FlagTutorTheme(themeMode = themeRepository.themeMode) {
-            ProvideAnimationSpeed {
+            ProvideDebugSettings {
                 val speed = LocalAnimationSpeed.current
                 val scaledAnimation = remember(speed) { ScaledAnimation(speed.multiplier) }
                 CompositionLocalProvider(LocalScaledAnimation provides scaledAnimation) {
