@@ -108,10 +108,9 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
   (`AppDebugPageContent`, shown by `DebugScreen` in `ui/navigation/Screens.kt`), which has a button that opens the library's
   page (`SdkDebugScreen`); `LogsScreen` and `CrashesScreen` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific
   debug tools to `AppDebugPageContent`, never to the library's page.
-- The animation speed (saved by the library, only applied when `isDebugBuild`) reaches `ScaledAnimation` through
-  `ProvideDebugSettings` / `LocalAnimationSpeed` in `App.kt`.
-  `ProvideDebugSettings` is the library's single provider of debug composition locals: keep the whole UI inside it
-  (every app does), and read settings through `LocalDebugSettings` / `LocalAnimationSpeed`.
+- The animation speed is saved by the library and only applied when `isDebugBuild`. `ProvideDebugSettings` (in `App.kt`) is the
+  library's single provider of debug composition locals: keep the whole UI inside it (every app does), and read settings through
+  `LocalDebugSettings` / `LocalAnimationSpeed`. The app has no animation provider of its own.
 
 ### Web target
 
@@ -145,9 +144,10 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
 
 ### Animations
 
-- Never hardcode an animation duration (`tween(300)`, `delay(60)`, ...). Take it from `LocalScaledAnimation.current`
-  (`ui/util/ScaledAnimation.kt`), which defines the allowed durations with the debug animation speed setting
-  (from the shared library's `LocalAnimationSpeed`) already applied. To add a new duration, add a property there.
+- Never hardcode an animation duration (`tween(300)`, `delay(60)`, ...). Take it from `AnimationDurations`
+  (`ui/util/AnimationDurations.kt`) and pass it through the shared library's animation speed, so the debug speed setting applies:
+  `tween(LocalAnimationSpeed.current.scale(AnimationDurations.MEDIUM))` (`scale` is `com.lukeneedham.common.debug.scale`).
+  To add a new duration, add a constant to `AnimationDurations`.
 
 ### Preferences
 

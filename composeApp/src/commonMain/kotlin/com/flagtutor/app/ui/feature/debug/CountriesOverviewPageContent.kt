@@ -54,7 +54,9 @@ import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.component.CountryMapHighlight
 import com.flagtutor.app.ui.component.FlagImage
 import com.flagtutor.app.ui.component.SearchField
-import com.flagtutor.app.ui.util.LocalScaledAnimation
+import com.flagtutor.app.ui.util.AnimationDurations
+import com.lukeneedham.common.debug.scale
+import com.lukeneedham.common.ui.LocalAnimationSpeed
 import kotlin.math.round
 
 private enum class DebugImageType { FLAG, MAP }
@@ -292,7 +294,7 @@ private fun CountryOverviewRow(
                 modifier = Modifier
                     .weight(1f)
                     .clickable { isExpanded = !isExpanded }
-                    .animateContentSize(tween(LocalScaledAnimation.current.short)),
+                    .animateContentSize(tween(LocalAnimationSpeed.current.scale(AnimationDurations.SHORT))),
             )
             CountryMapHighlight(
                 alpha2Code = country.alpha2Code,
