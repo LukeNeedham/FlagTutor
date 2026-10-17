@@ -103,9 +103,11 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
   - `Logger.i(...)` — notable events
   - `Logger.w(msg, throwable)` — expected-but-notable error states
   - `Logger.e(msg, throwable)` — unexpected errors / likely bugs
-- `DebugScreen` (`ui/navigation/Screens.kt`) shows the library's `DebugPage`, with the app's own entries (countries
-  overview, excluded countries, flag attempts: `AppDebugLinks`) passed as `extraContent`; `LogsScreen` and
-  `CrashesScreen` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific debug tools to `AppDebugLinks`.
+- The shared library's `DebugPage` shows only the library's own things (animation speed, links to Logs and Crashes) and has
+  no slot for anything else. FlagTutor's own debug tools therefore live on the app's own debug page
+  (`AppDebugPageContent`, shown by `DebugScreen` in `ui/navigation/Screens.kt`), which has a button that opens the library's
+  page (`SdkDebugScreen`); `LogsScreen` and `CrashesScreen` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific
+  debug tools to `AppDebugPageContent`, never to the library's page.
 - The animation speed (saved by the library, only applied when `isDebugBuild`) reaches `ScaledAnimation` through
   `ProvideDebugSettings` / `LocalAnimationSpeed` in `App.kt`.
   `ProvideDebugSettings` is the library's single provider of debug composition locals: keep the whole UI inside it
@@ -120,7 +122,7 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
 - Browser URLs follow in-app navigation (`/`, `/play`, `/credits`; see `BrowserRoutes`,
   `BrowserNavigationSync`), so the back button works. GitHub Pages can't serve those paths, so
   `.github/pages/404.html` (published to the `gh-pages` root by the preview workflow) redirects them
-  to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes` (debug pages, including the library's logs and crashes pages, are at `/debug/...`, debug builds only).
+  to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes` (debug pages are at `/debug/...`, with the library's pages under `/debug/sdk`, `/debug/sdk/logs` and `/debug/sdk/crashes`, debug builds only).
 - `isDebugBuild` on web is read from `config.js` (`window.appDebug`), which is `false` in the
   repo. PR previews overwrite it with `true`; the production deploy
   (`.github/workflows/web_deploy_production.yml`, on every push to `main`, to the `gh-pages` root)

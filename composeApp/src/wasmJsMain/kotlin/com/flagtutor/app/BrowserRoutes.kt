@@ -10,6 +10,7 @@ import com.flagtutor.app.ui.navigation.FlagAttemptsScreen
 import com.flagtutor.app.ui.navigation.HomeScreen
 import com.flagtutor.app.ui.navigation.LogsScreen
 import com.flagtutor.app.ui.navigation.PickCountryNameGameScreen
+import com.flagtutor.app.ui.navigation.SdkDebugScreen
 import com.flagtutor.app.ui.navigation.SettingsScreen
 import kotlinx.browser.window
 
@@ -28,8 +29,9 @@ object BrowserRoutes {
         "/debug/countries" to CountriesOverviewScreen,
         "/debug/excluded" to ExcludedCountriesScreen,
         "/debug/attempts" to FlagAttemptsScreen,
-        "/debug/logs" to LogsScreen,
-        "/debug/crashes" to CrashesScreen,
+        "/debug/sdk" to SdkDebugScreen,
+        "/debug/sdk/logs" to LogsScreen,
+        "/debug/sdk/crashes" to CrashesScreen,
     )
 
     // Debug pages are only reachable from debug builds, so their URLs only work there too.

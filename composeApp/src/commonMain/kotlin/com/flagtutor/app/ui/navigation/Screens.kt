@@ -8,7 +8,7 @@ import com.flagtutor.app.isDebugBuild
 import com.flagtutor.app.ui.feature.credits.CreditsPage
 import com.flagtutor.app.ui.feature.debug.CountriesOverviewPage
 import com.flagtutor.app.ui.feature.debug.ExcludedCountriesPage
-import com.flagtutor.app.ui.feature.debug.AppDebugLinks
+import com.flagtutor.app.ui.feature.debug.AppDebugPageContent
 import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsPage
 import com.flagtutor.app.ui.feature.home.HomePage
 import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGamePage
@@ -76,7 +76,23 @@ object SettingsScreen : Screen {
     }
 }
 
+/** The app's own debug page. It links to [SdkDebugScreen], the shared library's debug page. */
 object DebugScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        AppDebugPageContent(
+            onOpenSdkDebug = { navigator.push(SdkDebugScreen) },
+            onCountriesOverviewClick = { navigator.push(CountriesOverviewScreen) },
+            onExcludedCountriesClick = { navigator.push(ExcludedCountriesScreen) },
+            onFlagAttemptsClick = { navigator.push(FlagAttemptsScreen) },
+            onBackClick = { navigator.pop() },
+        )
+    }
+}
+
+/** The shared library's debug page: animation speed, and links to its logs and crashes pages. */
+object SdkDebugScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -84,13 +100,7 @@ object DebugScreen : Screen {
             onBack = { navigator.pop() },
             onOpenLogs = { navigator.push(LogsScreen) },
             onOpenCrashes = { navigator.push(CrashesScreen) },
-        ) {
-            AppDebugLinks(
-                onCountriesOverviewClick = { navigator.push(CountriesOverviewScreen) },
-                onExcludedCountriesClick = { navigator.push(ExcludedCountriesScreen) },
-                onFlagAttemptsClick = { navigator.push(FlagAttemptsScreen) },
-            )
-        }
+        )
     }
 }
 
