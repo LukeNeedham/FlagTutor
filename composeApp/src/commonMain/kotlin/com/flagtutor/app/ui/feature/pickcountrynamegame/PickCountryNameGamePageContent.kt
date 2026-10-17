@@ -68,7 +68,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.flagtutor.app.ui.util.LocalScaledAnimation
+import com.flagtutor.app.ui.util.AnimationDurations
+import com.lukeneedham.common.debug.scale
+import com.lukeneedham.common.ui.LocalAnimationSpeed
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.util.GoogleMapsLinkBuilder
 import com.flagtutor.app.ui.feature.pickcountrynamegame.component.FlagOptionButton
@@ -130,7 +132,7 @@ fun PickCountryNameGamePageContent(
     onRetry: () -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val animation = LocalScaledAnimation.current
+    val speed = LocalAnimationSpeed.current
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = AppTheme.colors.background,
@@ -201,9 +203,9 @@ fun PickCountryNameGamePageContent(
                     LaunchedEffect(isFloodDone, isAnswerRevealed) {
                         if (isFloodDone) {
                             nextButtonSlideX.snapTo(0f)
-                            nextButtonAlpha.animateTo(1f, tween(animation.long))
+                            nextButtonAlpha.animateTo(1f, tween(speed.scale(AnimationDurations.LONG)))
                         } else if (!isAnswerRevealed) {
-                            nextButtonSlideX.animateTo(-1f, tween(animation.medium))
+                            nextButtonSlideX.animateTo(-1f, tween(speed.scale(AnimationDurations.MEDIUM)))
                             nextButtonAlpha.snapTo(0f)
                         }
                     }
@@ -218,10 +220,10 @@ fun PickCountryNameGamePageContent(
                             contentKey = { it.flag.alpha2Code },
                             transitionSpec = {
                                 slideInHorizontally(
-                                    animationSpec = tween(animation.medium),
+                                    animationSpec = tween(speed.scale(AnimationDurations.MEDIUM)),
                                 ) { fullWidth -> fullWidth }.togetherWith(
                                     slideOutHorizontally(
-                                        animationSpec = tween(animation.medium),
+                                        animationSpec = tween(speed.scale(AnimationDurations.MEDIUM)),
                                     ) { fullWidth -> -fullWidth },
                                 ).using(SizeTransform(clip = false))
                             },
@@ -250,7 +252,7 @@ fun PickCountryNameGamePageContent(
                                 // answer content fades in over the flood colour.
                                 val answerAlpha = remember { Animatable(if (state.isAnswerRevealed) 1f else 0f) }
                                 LaunchedEffect(showAnswer) {
-                                    if (showAnswer) answerAlpha.animateTo(1f, tween(animation.long))
+                                    if (showAnswer) answerAlpha.animateTo(1f, tween(speed.scale(AnimationDurations.LONG)))
                                 }
                                 val buttonsPanelHeight = maxHeight * 0.7f
                                 // The room left by the close button, and the same again on the right, so the flag is centred.
@@ -259,7 +261,7 @@ fun PickCountryNameGamePageContent(
                                 LaunchedEffect(state.isAnswerRevealed) {
                                     if (state.isAnswerRevealed) {
                                         if (!showAnswer) {
-                                            floodProgress.animateTo(1f, tween(animation.flood))
+                                            floodProgress.animateTo(1f, tween(speed.scale(AnimationDurations.FLOOD)))
                                             showAnswer = true
                                         }
                                         isFloodDone = true

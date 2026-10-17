@@ -7,16 +7,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,15 +25,22 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.flagtutor.app.ui.theme.AppTheme
 
+/**
+ * The app's own debug page: the debug tools that are specific to FlagTutor, and a button that opens
+ * the shared library's debug page (animation speed, logs, crashes). The library's page has no slot
+ * for app-specific tools, so they live here.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DebugPageContent(
+fun AppDebugPageContent(
+    onOpenSdkDebug: () -> Unit,
     onCountriesOverviewClick: () -> Unit,
     onExcludedCountriesClick: () -> Unit,
     onFlagAttemptsClick: () -> Unit,
-    onCrashesClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -58,45 +66,27 @@ fun DebugPageContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 24.dp, vertical = 16.dp),
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            OutlinedButton(
-                onClick = onCountriesOverviewClick,
-                modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = AppTheme.shapes.large,
-            ) {
-                Icon(imageVector = Icons.Filled.List, contentDescription = null)
-                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                Text("Countries Overview")
-            }
-            OutlinedButton(
-                onClick = onExcludedCountriesClick,
-                modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = AppTheme.shapes.large,
-            ) {
-                Icon(imageVector = Icons.Filled.Block, contentDescription = null)
-                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                Text("Excluded Countries")
-            }
-            OutlinedButton(
-                onClick = onFlagAttemptsClick,
-                modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = AppTheme.shapes.large,
-            ) {
-                Icon(imageVector = Icons.Filled.Flag, contentDescription = null)
-                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                Text("Flag Attempts")
-            }
-            OutlinedButton(
-                onClick = onCrashesClick,
-                modifier = Modifier.fillMaxWidth().height(56.dp),
-                shape = AppTheme.shapes.large,
-            ) {
-                Icon(imageVector = Icons.Filled.BugReport, contentDescription = null)
-                Spacer(modifier = Modifier.padding(horizontal = 8.dp))
-                Text("Crashes")
-            }
+            DebugLink(Icons.Filled.BugReport, "SDK debug (speed, logs, crashes)", onOpenSdkDebug)
+            DebugLink(Icons.Filled.List, "Countries Overview", onCountriesOverviewClick)
+            DebugLink(Icons.Filled.Block, "Excluded Countries", onExcludedCountriesClick)
+            DebugLink(Icons.Filled.Flag, "Flag Attempts", onFlagAttemptsClick)
         }
+    }
+}
+
+@Composable
+private fun DebugLink(icon: ImageVector, label: String, onClick: () -> Unit) {
+    OutlinedButton(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth().height(56.dp),
+        shape = AppTheme.shapes.large,
+    ) {
+        Icon(imageVector = icon, contentDescription = null)
+        Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+        Text(label)
     }
 }

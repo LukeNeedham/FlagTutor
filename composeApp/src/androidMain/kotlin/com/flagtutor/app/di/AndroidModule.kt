@@ -1,12 +1,8 @@
 package com.flagtutor.app.di
 
 import android.content.Context
-import com.flagtutor.app.data.crash.CrashRepository
-import com.flagtutor.app.data.crash.CrashRepositoryImpl
 import com.flagtutor.app.data.stats.DatabaseBuilderFactory
 import com.flagtutor.app.data.settings.DataStoreThemePreferenceStore
-import com.flagtutor.app.data.settings.AnimationSpeedPreferenceStore
-import com.flagtutor.app.data.settings.DataStoreAnimationSpeedPreferenceStore
 import com.flagtutor.app.data.settings.ThemePreferenceStore
 import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.data.stats.FlagAttemptRepositoryImpl
@@ -15,9 +11,7 @@ import com.flagtutor.app.data.stats.createDatabase
 import org.koin.dsl.module
 
 fun androidModule(context: Context) = module {
-    single<AnimationSpeedPreferenceStore> { DataStoreAnimationSpeedPreferenceStore(context) }
     single<ThemePreferenceStore> { DataStoreThemePreferenceStore(context) }
-    single<CrashRepository> { CrashRepositoryImpl(context) }
     single { createDatabase(DatabaseBuilderFactory(context).create()) }
     single { get<AppDatabase>().flagAttemptDao() }
     single<FlagAttemptRepository> { FlagAttemptRepositoryImpl(get()) }

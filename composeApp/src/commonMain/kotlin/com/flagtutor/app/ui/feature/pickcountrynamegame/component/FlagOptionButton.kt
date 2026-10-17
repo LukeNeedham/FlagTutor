@@ -25,7 +25,9 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
-import com.flagtutor.app.ui.util.LocalScaledAnimation
+import com.flagtutor.app.ui.util.AnimationDurations
+import com.lukeneedham.common.debug.scale
+import com.lukeneedham.common.ui.LocalAnimationSpeed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
@@ -58,12 +60,12 @@ fun FlagOptionButton(
     /** Called with the position, within this button, of each touch down on it. */
     onTouch: ((Offset) -> Unit)? = null,
 ) {
-    val animation = LocalScaledAnimation.current
+    val speed = LocalAnimationSpeed.current
     // Where the button was last touched: the ripple that erases it spreads out from here.
     var touchPoint by remember { mutableStateOf<Offset?>(null) }
     val rippleProgress = remember { Animatable(if (isErased) 1f else 0f) }
     LaunchedEffect(isErased) {
-        if (isErased) rippleProgress.animateTo(1f, tween(animation.long))
+        if (isErased) rippleProgress.animateTo(1f, tween(speed.scale(AnimationDurations.LONG)))
     }
 
     val currentOnTouch by rememberUpdatedState(onTouch)
