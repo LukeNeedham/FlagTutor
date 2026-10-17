@@ -10,7 +10,7 @@ room = "2.7.1"
 datastore = "1.1.7"
 sqlite = "2.5.1"
 ksp = "2.2.21-2.0.4"
-common = "0.3.0"
+common = "0.4.0"
 
 [libraries]
 common = { module = "com.lukeneedham:common", version.ref = "common" }
