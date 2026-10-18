@@ -6,9 +6,9 @@ import com.flagtutor.app.data.repository.GamePreloader
 import com.flagtutor.app.data.settings.ThemeRepository
 import com.flagtutor.app.di.appModule
 import com.flagtutor.app.ui.theme.FlagTutorTheme
+import com.flagtutor.app.ui.theme.ProvideAppDebugSettings
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
-import com.lukeneedham.common.ui.ProvideDebugSettings
 import org.koin.core.module.Module
 
 @Composable
@@ -18,7 +18,7 @@ fun App(extraModules: List<Module> = emptyList(), content: @Composable () -> Uni
         val gamePreloader = koinInject<GamePreloader>()
         LaunchedEffect(Unit) { gamePreloader.start() }
         FlagTutorTheme(themeMode = themeRepository.themeMode) {
-            ProvideDebugSettings {
+            ProvideAppDebugSettings {
                 content()
             }
         }
