@@ -1,0 +1,1 @@
+window.appDebug = true;
