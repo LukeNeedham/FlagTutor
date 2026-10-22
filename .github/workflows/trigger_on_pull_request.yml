@@ -1,48 +1,31 @@
+# Copy to .github/workflows/trigger_on_pull_request.yml in your project.
+# Lines marked CONFIGURE are the ones to adjust per project; leave the rest as is.
+# Setup guide: https://github.com/LukeNeedham/ci-workflows/blob/main/docs/setup.md
 name: On Pull Request
 
 on:
-    workflow_dispatch: {}
-    pull_request:
-        # `closed` triggers the release cleanup; the other types run the build
-        types: [opened, reopened, synchronize, closed]
-        branches:
-            # The following branches are worth running the checks on
-            - main
+  workflow_dispatch: {}
+  pull_request:
+    # `closed` runs the release cleanup, the other types run the build. Keep all four.
+    types: [opened, reopened, synchronize, closed]
+    branches:
+      - main   # CONFIGURE: the branch(es) your PRs target
 
 permissions:
-  contents: write       # write to allow creating and deleting Releases
-  pull-requests: write  # So we can write comments from the workflow
+  contents: write       # create the release that holds the APK, and delete it again
+  pull-requests: write  # post the sticky comment
 
 jobs:
-    # Builds the APK, publishes it as a pre-release and comments the link on the PR, then deletes
-    # the PR's pre-releases when it is closed (merged or not).
-    # Shared across projects: https://github.com/LukeNeedham/ci-workflows
-    android:
-        uses: LukeNeedham/ci-workflows/.github/workflows/android_pr.yml@main
-        with:
-            apk-path: composeApp/build/outputs/apk/debug/composeApp-debug.apk
+  android:
+    uses: LukeNeedham/ci-workflows/.github/workflows/android_pr.yml@main
+    with:
+      # CONFIGURE (required): path to the APK your build produces, relative to the repo root.
+      # Find it by running the build locally.
+      apk-path: composeApp/build/outputs/apk/debug/composeApp-debug.apk
 
-    # iOS targets can only be compiled on a macOS host (Xcode ships the Apple platform SDKs the
-    # Kotlin/Native compiler needs), so this runs on a separate macos runner rather than as part
-    # of the `android` job above.
-    build-ios:
-        # Opt-in: only runs from a manual dispatch, since nobody tests the iOS build on each PR.
-        if: github.event_name == 'workflow_dispatch'
-        runs-on: macos-14
-
-        steps:
-          - uses: actions/checkout@v4
-
-          - name: set up JDK 17
-            uses: actions/setup-java@v4
-            with:
-              java-version: '17'
-              distribution: 'zulu'
-              cache: 'gradle'
-
-          - name: Build iOS app for the simulator
-            shell: bash
-            working-directory: iosApp
-            run: |
-              xcodebuild -project iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator \
-                -destination 'generic/platform=iOS Simulator' build
+      # CONFIGURE (optional): the rest are only needed if your project differs. Defaults shown.
+      # gradle-task: assembleDebug
+      # java-version: '17'
+      # java-distribution: zulu
+      # timezone: Europe/Amsterdam       # used for the timestamps in the comment and release
+      comment-header: flagtutor-app-link # change only if a PR needs several APK comments
