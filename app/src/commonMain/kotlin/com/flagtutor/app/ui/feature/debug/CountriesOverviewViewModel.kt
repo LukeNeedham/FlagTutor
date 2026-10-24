@@ -9,6 +9,7 @@ import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.domain.model.Country
 import com.flagtutor.app.domain.model.FlagAttempt
+import com.lukeneedham.common.logger.Logger
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
@@ -46,6 +47,7 @@ class CountriesOverviewViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+                Logger.e("Could not load the countries overview", e)
                 isLoading = false
                 isError = true
             }

@@ -11,6 +11,7 @@ import com.flagtutor.app.data.repository.FlagImageRepository
 import com.flagtutor.app.data.repository.GamePreloader
 import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.domain.model.Country
+import com.lukeneedham.common.logger.Logger
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
@@ -68,6 +69,7 @@ class PickCountryNameGameViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+                Logger.e("Could not load the countries for the game", e)
                 uiState = PickCountryNameGameUiState.Error
             }
         }
@@ -83,6 +85,7 @@ class PickCountryNameGameViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+                Logger.e("Could not show the next flag", e)
                 uiState = PickCountryNameGameUiState.Error
             } finally {
                 isLoadingNext = false

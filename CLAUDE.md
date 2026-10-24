@@ -29,7 +29,7 @@ learn the flags of the world.
 ## Repository layout
 
 ```
-composeApp/                                Kotlin Multiplatform module
+app/                                Kotlin Multiplatform module
   src/
     commonMain/kotlin/com/flagtutor/app/
       App.kt                                Root Composable
@@ -128,9 +128,9 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
   leaves it `false`. Previews live under `/pr-<n>/` and survive production deploys.
 - Game images are loaded ahead of time by `FlagImageRepository` (current + next country), so the
   game screen never shows a spinner between flags.
-- `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` serves it locally;
-  `./gradlew :composeApp:wasmJsBrowserDistribution` produces the static site in
-  `composeApp/build/dist/wasmJs/productionExecutable`.
+- `./gradlew :app:wasmJsBrowserDevelopmentRun` serves it locally;
+  `./gradlew :app:wasmJsBrowserDistribution` produces the static site in
+  `app/build/dist/wasmJs/productionExecutable`.
 
 ### Colours
 
@@ -160,7 +160,7 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
 
 ### Country data
 
-`composeApp/src/commonMain/composeResources/files/country_data.json` is the single data file describing the countries, built by
+`app/src/commonMain/composeResources/files/country_data.json` is the single data file describing the countries, built by
 `./gradlew generateCountryData` (`buildSrc/.../BuildCountryDataTask.kt`) from Wikipedia. Do not edit it by hand, except the
 `symbolism` texts (see below).
 
@@ -205,7 +205,7 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
 ### Flag colours
 
 - Each flag's dominant colours are extracted at build time by `buildSrc`'s
-  `GenerateFlagColorsTask` (`./gradlew :composeApp:generateFlagColors`) into
+  `GenerateFlagColorsTask` (`./gradlew :app:generateFlagColors`) into
   `files/flag_colors.json`, registered as a compose resource directory. At runtime
   `FlagColorDataSource` just reads that file, so there is no per-platform image analysis.
 
@@ -227,7 +227,7 @@ for Apple targets). On such a machine:
 
 ```bash
 # Open the Xcode project directly - the "Compile Kotlin Framework" run script phase builds the
-# composeApp KMP framework automatically as part of the Xcode build/run.
+# app module's KMP framework automatically as part of the Xcode build/run.
 open iosApp/iosApp.xcodeproj
 
 # Or build from the command line, e.g. for the simulator:

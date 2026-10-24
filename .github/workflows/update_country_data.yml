@@ -50,8 +50,8 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           add-paths: |
-            composeApp/src/commonMain/composeResources/files/country_data.json
-            composeApp/src/commonMain/composeResources/files/flags
+            app/src/commonMain/composeResources/files/country_data.json
+            app/src/commonMain/composeResources/files/flags
           branch: automation/update-country-data
           commit-message: "Update country data from Wikipedia"
           title: "Update country data from Wikipedia"

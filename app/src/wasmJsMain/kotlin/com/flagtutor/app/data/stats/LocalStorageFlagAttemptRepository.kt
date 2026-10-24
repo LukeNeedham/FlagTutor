@@ -2,6 +2,7 @@ package com.flagtutor.app.data.stats
 
 import com.flagtutor.app.domain.model.FlagAttempt
 import com.flagtutor.app.ui.util.currentTimeMillis
+import com.lukeneedham.common.logger.Logger
 import kotlinx.browser.localStorage
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -26,7 +27,8 @@ class LocalStorageFlagAttemptRepository : FlagAttemptRepository {
         val raw = localStorage.getItem(STORAGE_KEY) ?: return emptyList()
         return try {
             Json.decodeFromString(serializer, raw)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Logger.e("Could not read the saved flag attempts, starting from none", e)
             emptyList()
         }
     }

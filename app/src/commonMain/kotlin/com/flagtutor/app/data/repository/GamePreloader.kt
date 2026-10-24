@@ -3,6 +3,7 @@ package com.flagtutor.app.data.repository
 import com.flagtutor.app.data.local.FlagColorDataSource
 import com.flagtutor.app.data.local.IdenticalFlagDataSource
 import com.flagtutor.app.domain.model.Country
+import com.lukeneedham.common.logger.Logger
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -50,7 +51,8 @@ class GamePreloader(
                 }
             } catch (e: CancellationException) {
                 throw e
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                Logger.w("Could not preload the first countries, the game picks its own", e)
                 null
             }
         }

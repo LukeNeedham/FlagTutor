@@ -16,7 +16,7 @@ jobs:
     uses: LukeNeedham/ci-workflows/.github/workflows/android_main_build.yml@main
     with:
       # CONFIGURE (required): same as in trigger_on_pull_request.yml
-      apk-path: composeApp/build/outputs/apk/debug/composeApp-debug.apk
+      apk-path: app/build/outputs/apk/debug/app-debug.apk
 
       # CONFIGURE (optional): only if your project differs. Defaults shown.
       # gradle-task: assembleDebug

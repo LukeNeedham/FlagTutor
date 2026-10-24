@@ -5,7 +5,7 @@ name: Check Country Data
 on:
   pull_request:
     paths:
-      - "composeApp/src/commonMain/composeResources/files/country_data.json"
+      - "app/src/commonMain/composeResources/files/country_data.json"
       - "scripts/**"
   workflow_dispatch:
 

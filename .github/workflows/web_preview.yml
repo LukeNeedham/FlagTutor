@@ -36,12 +36,12 @@ jobs:
           - name: Build web distribution
             if: github.event.action != 'closed'
             shell: bash
-            run: ./gradlew :composeApp:wasmJsBrowserDistribution
+            run: ./gradlew :app:wasmJsBrowserDistribution
 
           # PR previews are debug builds (shows the debug menu); production is not.
           - name: Mark build as debug
             if: github.event.action != 'closed'
-            run: echo 'window.appDebug = true;' > composeApp/build/dist/wasmJs/productionExecutable/config.js
+            run: echo 'window.appDebug = true;' > app/build/dist/wasmJs/productionExecutable/config.js
 
           - name: Deploy PR preview
             uses: rossjrw/pr-preview-action@v1
@@ -49,7 +49,7 @@ jobs:
             env:
               TZ: Europe/Amsterdam
             with:
-              source-dir: ./composeApp/build/dist/wasmJs/productionExecutable
+              source-dir: ./app/build/dist/wasmJs/productionExecutable
               preview-branch: gh-pages
               umbrella-dir: .
               action: auto

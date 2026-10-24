@@ -25,7 +25,7 @@ export ANDROID_SDK_ROOT="$ANDROID_SDK_DIR"
 
 yes | "$SDKMANAGER" --sdk_root="$ANDROID_SDK_DIR" --licenses >/dev/null 2>&1 || true
 
-# compileSdk/targetSdk 35 (composeApp/build.gradle.kts), plus build-tools 34 which AGP
+# compileSdk/targetSdk 35 (app/build.gradle.kts), plus build-tools 34 which AGP
 # pulls in automatically during the build.
 "$SDKMANAGER" --sdk_root="$ANDROID_SDK_DIR" \
   "platform-tools" \
