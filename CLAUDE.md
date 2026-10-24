@@ -248,8 +248,8 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
      workflow is dispatched manually.
 - `.github/workflows/delete_prereleases.yml` (manual) calls the shared `delete_prereleases.yml`,
   which deletes every pre-release and tag.
-- The APK build/cleanup logic and the input defaults live in the shared repo
-  (`LukeNeedham/ci-workflows`), not here, so make changes there.
+- The APK build/cleanup logic lives in the shared repo (`LukeNeedham/ci-workflows`), not here, so make changes
+  there. The callers hold no settings: every app is built the same way.
 
 ## General conventions for changes
 
