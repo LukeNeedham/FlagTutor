@@ -13,8 +13,8 @@ import sys
 
 from PIL import Image, ImageDraw
 
-DATA = "composeApp/src/commonMain/composeResources/files/country_data.json"
-FLAGS = "composeApp/src/commonMain/composeResources/files/"
+DATA = "app/src/commonMain/composeResources/files/country_data.json"
+FLAGS = "app/src/commonMain/composeResources/files/"
 PER_SHEET = 4
 
 

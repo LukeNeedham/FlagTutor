@@ -14,7 +14,7 @@ import json
 import re
 import sys
 
-DATA = "composeApp/src/commonMain/composeResources/files/country_data.json"
+DATA = "app/src/commonMain/composeResources/files/country_data.json"
 MAX_LENGTH = 500
 
 # A sentence should say what something means; these words are how the descriptions say it.

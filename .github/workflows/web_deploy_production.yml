@@ -32,18 +32,18 @@ jobs:
 
           # config.js ships with appDebug = false, so this is a release-mode site.
           - name: Build web distribution
-            run: ./gradlew :composeApp:wasmJsBrowserDistribution
+            run: ./gradlew :app:wasmJsBrowserDistribution
 
           - name: Add SPA fallback page
             run: |
-              cp .github/pages/404.html composeApp/build/dist/wasmJs/productionExecutable/404.html
-              touch composeApp/build/dist/wasmJs/productionExecutable/.nojekyll
+              cp .github/pages/404.html app/build/dist/wasmJs/productionExecutable/404.html
+              touch app/build/dist/wasmJs/productionExecutable/.nojekyll
 
           - name: Deploy to GitHub Pages
             uses: JamesIves/github-pages-deploy-action@v4
             with:
               branch: gh-pages
-              folder: composeApp/build/dist/wasmJs/productionExecutable
+              folder: app/build/dist/wasmJs/productionExecutable
               clean: true
               # Keep PR previews (and the preview workflow's own files) when replacing the site.
               clean-exclude: |

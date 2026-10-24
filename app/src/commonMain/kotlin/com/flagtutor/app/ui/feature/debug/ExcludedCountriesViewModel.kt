@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flagtutor.app.data.repository.CountryRepository
 import com.flagtutor.app.domain.model.Country
+import com.lukeneedham.common.logger.Logger
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
@@ -50,6 +51,7 @@ class ExcludedCountriesViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+                Logger.e("Could not load the excluded countries", e)
                 isLoading = false
                 isError = true
             }

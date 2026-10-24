@@ -13,8 +13,8 @@ Skips countries that have already been downloaded. Re-run to retry failures.
 import html, json, os, re, sys, time, urllib.parse, urllib.request, urllib.error
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-COUNTRY_DATA_PATH = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/country_data.json")
-OUT_DIR = os.path.join(SCRIPT_DIR, "../composeApp/src/commonMain/composeResources/files/maps")
+COUNTRY_DATA_PATH = os.path.join(SCRIPT_DIR, "../app/src/commonMain/composeResources/files/country_data.json")
+OUT_DIR = os.path.join(SCRIPT_DIR, "../app/src/commonMain/composeResources/files/maps")
 
 USER_AGENT = "Vexed/1.0 (https://github.com/lukeneedham/flagtutor; contact via GitHub)"
 THUMB_WIDTH = 600

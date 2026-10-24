@@ -30,4 +30,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Vexed"
-include(":composeApp")
+include(":app")

@@ -21,7 +21,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-DATA = "composeApp/src/commonMain/composeResources/files/country_data.json"
+DATA = "app/src/commonMain/composeResources/files/country_data.json"
 CACHE = "build/flag_sources"
 USER_AGENT = "FlagTutorBot/1.0 (https://github.com/LukeNeedham/FlagTutor; flag description fact check)"
 MEANING = re.compile(

@@ -12,7 +12,7 @@ import re
 import sys
 import urllib.parse
 
-DATA = "composeApp/src/commonMain/composeResources/files/country_data.json"
+DATA = "app/src/commonMain/composeResources/files/country_data.json"
 OVERRIDES = "scripts/country_data_overrides.json"
 
 # Spellings that are wrong in prose, mapped to the country they mean. The Wikipedia article title of each country is added too.

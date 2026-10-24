@@ -38,7 +38,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add composeApp/src/commonMain/composeResources/files/maps
+          git add app/src/commonMain/composeResources/files/maps
           if git diff --cached --quiet; then
             echo "No map changes to commit."
           else

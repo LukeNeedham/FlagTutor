@@ -2,6 +2,7 @@ package com.flagtutor.app
 
 import com.lukeneedham.common.DebugKit
 import com.lukeneedham.common.DebugKitConfig
+import com.lukeneedham.common.logger.Logger
 
 /**
  * Starts the shared library's logger and crash handler. Call it once, as early as possible, from
@@ -9,4 +10,5 @@ import com.lukeneedham.common.DebugKitConfig
  */
 fun initDebugKit() {
     DebugKit.init(DebugKitConfig(enabled = isDebugBuild))
+    Logger.i("App started")
 }
