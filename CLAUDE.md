@@ -105,8 +105,8 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
   - `Logger.e(msg, throwable)` — unexpected errors / likely bugs
 - The shared library's `DebugPage` shows only the library's own things (animation speed, links to Logs and Crashes) and has
   no slot for anything else. FlagTutor's own debug tools therefore live on the app's own debug page
-  (`AppDebugPage`, shown by `AppDebugNavKey` in `ui/navigation/NavKeys.kt`), which has a button that opens the library's
-  page (`DebugNavKey`); `LogsNavKey` and `CrashesNavKey` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific
+  (`AppDebugPage`, shown by `Route.AppDebug` in `ui/navigation/Route.kt`), which has a button that opens the library's
+  page (`Route.Debug`); `Route.Logs` and `Route.Crashes` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific
   debug tools to `AppDebugPage`, never to the library's page.
 - The animation speed is saved by the library and only applied when `isDebugBuild`. `ProvideDebugSettings` (in `App.kt`) is the
   library's single provider of debug composition locals: keep the whole UI inside it (every app does), and read settings through
