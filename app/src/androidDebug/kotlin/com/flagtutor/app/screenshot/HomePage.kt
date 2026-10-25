@@ -1,5 +1,6 @@
 package com.flagtutor.app.screenshot
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.flagtutor.app.ui.feature.home.HomePageContent
@@ -9,7 +10,7 @@ import com.flagtutor.app.ui.theme.AppTheme
 @Preview
 @Composable
 private fun HomePageScreenshot() {
-    AppTheme {
+    FlagTutorTheme {
         HomePageContent(
             title = "Vexed",
             subtitle = "Learn the flags of the world",

@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.debug
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -345,7 +346,7 @@ private fun StatItem(label: String, value: String, modifier: Modifier = Modifier
 @Preview
 @Composable
 private fun Preview() {
-    AppTheme {
+    FlagTutorTheme {
         CountriesOverviewPageContent(
             countries = emptyList(),
             attemptStatsByCountry = emptyMap(),

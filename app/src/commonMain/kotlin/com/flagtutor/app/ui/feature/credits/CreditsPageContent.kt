@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.credits
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -90,5 +91,5 @@ internal fun CreditsPageContent(
 @Preview
 @Composable
 private fun Preview() {
-    AppTheme { CreditsPageContent(onLinkClick = {}, onBackClick = {}) }
+    FlagTutorTheme { CreditsPageContent(onLinkClick = {}, onBackClick = {}) }
 }

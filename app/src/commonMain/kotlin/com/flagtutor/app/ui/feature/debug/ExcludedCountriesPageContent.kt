@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.debug
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -178,7 +179,7 @@ private fun ExcludedCountryRow(excluded: ExcludedCountry, onMoreInfo: (String) -
 @Preview
 @Composable
 private fun Preview() {
-    AppTheme {
+    FlagTutorTheme {
         ExcludedCountriesPageContent(
             countries = emptyList(),
             isLoading = true,

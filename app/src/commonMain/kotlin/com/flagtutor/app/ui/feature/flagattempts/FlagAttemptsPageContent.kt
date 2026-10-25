@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.flagattempts
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -152,7 +153,7 @@ private fun FlagAttemptRow(attempt: FlagAttempt) {
 @Preview
 @Composable
 private fun Preview() {
-    AppTheme {
+    FlagTutorTheme {
         FlagAttemptsPageContent(attempts = emptyList(), isLoading = false, onBackClick = {})
     }
 }

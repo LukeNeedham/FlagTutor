@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.pickcountrynamegame
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -664,7 +665,7 @@ private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
 @Preview
 @Composable
 private fun Preview() {
-    AppTheme {
+    FlagTutorTheme {
         PickCountryNameGamePageContent(
             uiState = PickCountryNameGameUiState.Loading,
             onOptionSelected = {},

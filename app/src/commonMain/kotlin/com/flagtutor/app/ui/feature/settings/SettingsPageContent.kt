@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.settings
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -105,7 +106,7 @@ private fun ThemeMode.icon(): ImageVector = when (this) {
 @Preview
 @Composable
 private fun Preview() {
-    AppTheme {
+    FlagTutorTheme {
         SettingsPageContent(themeMode = ThemeMode.entries.first(), onThemeModeSelected = {}, onBackClick = {})
     }
 }

@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.home
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -134,7 +135,7 @@ internal fun HomePageContent(
 @Preview
 @Composable
 private fun Preview() {
-    AppTheme {
+    FlagTutorTheme {
         HomePageContent(
             title = "FlagTutor",
             subtitle = "Learn the flags of the world",

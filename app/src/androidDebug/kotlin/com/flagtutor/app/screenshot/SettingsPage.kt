@@ -1,5 +1,6 @@
 package com.flagtutor.app.screenshot
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.flagtutor.app.domain.model.ThemeMode
@@ -10,7 +11,7 @@ import com.flagtutor.app.ui.theme.AppTheme
 @Preview
 @Composable
 private fun SettingsPageScreenshot() {
-    AppTheme {
+    FlagTutorTheme {
         SettingsPageContent(themeMode = ThemeMode.System, onThemeModeSelected = {}, onBackClick = {})
     }
 }
