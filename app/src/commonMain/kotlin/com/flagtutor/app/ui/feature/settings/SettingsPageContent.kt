@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.settings
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,7 +34,7 @@ import com.flagtutor.app.domain.model.ThemeMode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsPageContent(
+internal fun SettingsPageContent(
     themeMode: ThemeMode,
     onThemeModeSelected: (ThemeMode) -> Unit,
     onBackClick: () -> Unit,
@@ -99,4 +100,12 @@ private fun ThemeMode.icon(): ImageVector = when (this) {
     ThemeMode.System -> Icons.Filled.BrightnessAuto
     ThemeMode.Light -> Icons.Filled.LightMode
     ThemeMode.Dark -> Icons.Filled.DarkMode
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AppTheme {
+        SettingsPageContent(themeMode = ThemeMode.entries.first(), onThemeModeSelected = {}, onBackClick = {})
+    }
 }

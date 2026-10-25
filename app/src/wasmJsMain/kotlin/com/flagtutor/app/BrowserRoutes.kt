@@ -1,17 +1,17 @@
 package com.flagtutor.app
 
 import cafe.adriel.voyager.core.screen.Screen
-import com.flagtutor.app.ui.navigation.CountriesOverviewScreen
-import com.flagtutor.app.ui.navigation.ExcludedCountriesScreen
-import com.flagtutor.app.ui.navigation.CrashesScreen
-import com.flagtutor.app.ui.navigation.CreditsScreen
-import com.flagtutor.app.ui.navigation.DebugScreen
-import com.flagtutor.app.ui.navigation.FlagAttemptsScreen
-import com.flagtutor.app.ui.navigation.HomeScreen
-import com.flagtutor.app.ui.navigation.LogsScreen
-import com.flagtutor.app.ui.navigation.PickCountryNameGameScreen
-import com.flagtutor.app.ui.navigation.SdkDebugScreen
-import com.flagtutor.app.ui.navigation.SettingsScreen
+import com.flagtutor.app.ui.navigation.CountriesOverviewNavKey
+import com.flagtutor.app.ui.navigation.ExcludedCountriesNavKey
+import com.flagtutor.app.ui.navigation.CrashesNavKey
+import com.flagtutor.app.ui.navigation.CreditsNavKey
+import com.flagtutor.app.ui.navigation.AppDebugNavKey
+import com.flagtutor.app.ui.navigation.FlagAttemptsNavKey
+import com.flagtutor.app.ui.navigation.HomeNavKey
+import com.flagtutor.app.ui.navigation.LogsNavKey
+import com.flagtutor.app.ui.navigation.PickCountryNameGameNavKey
+import com.flagtutor.app.ui.navigation.DebugNavKey
+import com.flagtutor.app.ui.navigation.SettingsNavKey
 import kotlinx.browser.window
 
 /**
@@ -25,20 +25,20 @@ import kotlinx.browser.window
 object BrowserRoutes {
 
     private val debugRoutes: List<Pair<String, Screen>> = listOf(
-        "/debug" to DebugScreen,
-        "/debug/countries" to CountriesOverviewScreen,
-        "/debug/excluded" to ExcludedCountriesScreen,
-        "/debug/attempts" to FlagAttemptsScreen,
-        "/debug/sdk" to SdkDebugScreen,
-        "/debug/sdk/logs" to LogsScreen,
-        "/debug/sdk/crashes" to CrashesScreen,
+        "/debug" to AppDebugNavKey,
+        "/debug/countries" to CountriesOverviewNavKey,
+        "/debug/excluded" to ExcludedCountriesNavKey,
+        "/debug/attempts" to FlagAttemptsNavKey,
+        "/debug/sdk" to DebugNavKey,
+        "/debug/sdk/logs" to LogsNavKey,
+        "/debug/sdk/crashes" to CrashesNavKey,
     )
 
     // Debug pages are only reachable from debug builds, so their URLs only work there too.
     private val routes: List<Pair<String, Screen>> = listOf(
-        "/play" to PickCountryNameGameScreen,
-        "/credits" to CreditsScreen,
-        "/settings" to SettingsScreen,
+        "/play" to PickCountryNameGameNavKey,
+        "/credits" to CreditsNavKey,
+        "/settings" to SettingsNavKey,
     ) + if (isDebugBuild) debugRoutes else emptyList()
 
     /**
@@ -53,12 +53,12 @@ object BrowserRoutes {
 
     /** The route path for [screen], e.g. "/play"; "/" for home; null if it has no route. */
     fun pathFor(screen: Screen): String? = when (screen) {
-        HomeScreen -> "/"
+        HomeNavKey -> "/"
         else -> routes.firstOrNull { it.second == screen }?.first
     }
 
     fun screenFor(path: String): Screen =
-        routes.firstOrNull { it.first == path }?.second ?: HomeScreen
+        routes.firstOrNull { it.first == path }?.second ?: HomeNavKey
 
     /** The current route path, e.g. "/play", or "/" for anything unrecognised. */
     fun currentPath(): String {
@@ -76,6 +76,6 @@ object BrowserRoutes {
             .sortedBy { it.first.length }
             .map { it.second }
         val screen = screenFor(path)
-        return if (screen == HomeScreen) listOf(HomeScreen) else listOf(HomeScreen) + parents + screen
+        return if (screen == HomeNavKey) listOf(HomeNavKey) else listOf(HomeNavKey) + parents + screen
     }
 }

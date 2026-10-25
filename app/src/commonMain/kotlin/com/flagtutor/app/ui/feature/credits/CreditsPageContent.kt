@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.credits
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,7 +26,7 @@ private const val COMMONS_LICENSING_URL = "https://commons.wikimedia.org/wiki/Co
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreditsPageContent(
+internal fun CreditsPageContent(
     onLinkClick: (String) -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -84,4 +85,10 @@ fun CreditsPageContent(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AppTheme { CreditsPageContent(onLinkClick = {}, onBackClick = {}) }
 }

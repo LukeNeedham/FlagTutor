@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.home
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.flagtutor.app.ui.component.AppLogo
 
 @Composable
-fun HomePageContent(
+internal fun HomePageContent(
     title: String,
     subtitle: String,
     onGuessCountryClick: () -> Unit,
@@ -127,5 +128,19 @@ fun HomePageContent(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AppTheme {
+        HomePageContent(
+            title = "FlagTutor",
+            subtitle = "Learn the flags of the world",
+            onGuessCountryClick = {},
+            onCreditsClick = {},
+            onSettingsClick = {},
+        )
     }
 }

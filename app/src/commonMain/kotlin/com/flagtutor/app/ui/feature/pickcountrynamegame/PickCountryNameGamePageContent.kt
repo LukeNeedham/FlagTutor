@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.pickcountrynamegame
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.Animatable
@@ -123,7 +124,7 @@ private val AnswerActionButtonSize = 44.dp
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun PickCountryNameGamePageContent(
+internal fun PickCountryNameGamePageContent(
     uiState: PickCountryNameGameUiState,
     onOptionSelected: (Country) -> Unit,
     onNextFlag: () -> Unit,
@@ -658,4 +659,20 @@ private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
 
     val order = intArrayOf(best[0], best[2], best[3], best[1])
     return IntArray(4) { order[it] % colors.size }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AppTheme {
+        PickCountryNameGamePageContent(
+            uiState = PickCountryNameGameUiState.Loading,
+            onOptionSelected = {},
+            onNextFlag = {},
+            onMoreInfo = {},
+            onOpenMap = {},
+            onRetry = {},
+            onBackClick = {},
+        )
+    }
 }

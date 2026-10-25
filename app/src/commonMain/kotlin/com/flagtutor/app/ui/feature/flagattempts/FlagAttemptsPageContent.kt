@@ -1,5 +1,6 @@
 package com.flagtutor.app.ui.feature.flagattempts
 
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,7 +31,7 @@ import com.flagtutor.app.ui.util.formatTimestamp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FlagAttemptsPageContent(
+internal fun FlagAttemptsPageContent(
     attempts: List<FlagAttempt>,
     isLoading: Boolean,
     onBackClick: () -> Unit,
@@ -145,5 +146,13 @@ private fun FlagAttemptRow(attempt: FlagAttempt) {
             color = AppTheme.colors.textSecondary,
             modifier = Modifier.weight(2f),
         )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    AppTheme {
+        FlagAttemptsPageContent(attempts = emptyList(), isLoading = false, onBackClick = {})
     }
 }

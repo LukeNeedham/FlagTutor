@@ -15,7 +15,7 @@ import cafe.adriel.voyager.navigator.Navigator
 @OptIn(ExperimentalVoyagerApi::class)
 @Composable
 fun NavGraph(
-    initialScreens: List<Screen> = listOf(HomeScreen),
+    initialScreens: List<Screen> = listOf(HomeNavKey),
     navigatorHook: @Composable (Navigator) -> Unit = {},
 ) {
     // Gives every screen its own ViewModelStoreOwner, so view models are cleared when the screen

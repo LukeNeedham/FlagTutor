@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.navigator.Navigator
-import com.flagtutor.app.ui.navigation.HomeScreen
+import com.flagtutor.app.ui.navigation.HomeNavKey
 import kotlinx.browser.window
 import org.w3c.dom.events.Event
 import kotlin.js.toInt
@@ -65,8 +65,8 @@ private fun showBrowserLocation(navigator: Navigator) {
     if (navigator.lastItem == target) return
     if (navigator.items.contains(target)) {
         navigator.popUntil { it == target }
-    } else if (target == HomeScreen) {
-        navigator.replaceAll(HomeScreen)
+    } else if (target == HomeNavKey) {
+        navigator.replaceAll(HomeNavKey)
     } else {
         navigator.push(target)
     }

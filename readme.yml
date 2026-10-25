@@ -1,0 +1,23 @@
+# The data of this app's README.md. CI renders README.md from it (docs/readme.md in LukeNeedham/ci-workflows):
+# edit this file, never README.md.
+
+name: Vexed
+tagline: A game for learning the flags of the world.
+
+description: |
+  Vexed is a game for learning the flags of the world. It shows you a flag and you pick the country it belongs to, then
+  it tells you about the flag: what it symbolises and where the country is on a map. It runs on Android, on iOS and in
+  the browser, built with Kotlin Multiplatform and Compose Multiplatform.
+
+links:
+  web: https://lukeneedham.github.io/flagtutor/
+
+developer:
+  notes: |
+    The countries are the 249 ISO 3166-1 alpha-2 codes, described by one data file, `country_data.json`, which is built
+    from Wikipedia by `./gradlew generateCountryData` (run by the **Update Country Data** workflow). The flag
+    descriptions are written by hand and must follow `scripts/FLAG_DESCRIPTION_RULES.md`. See `CLAUDE.md` for the data
+    and the web target.
+
+    The iOS app can only be built on macOS with Xcode: open `iosApp/iosApp.xcodeproj`. The web app is served locally by
+    `./gradlew :app:wasmJsBrowserDevelopmentRun`.
