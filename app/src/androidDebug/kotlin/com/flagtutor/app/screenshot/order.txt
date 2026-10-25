@@ -1,4 +1,3 @@
-# the order of the README: home, then the pages it opens
 HomePage
 SettingsPage
 CreditsPage
