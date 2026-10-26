@@ -235,6 +235,9 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
   -destination 'generic/platform=iOS Simulator' build
 ```
 
+The iOS targets are `iosArm64` and `iosSimulatorArm64` only: there is no `iosX64` (Intel Mac simulator) target, because
+JetBrains' multiplatform `navigation3-ui` is not published for it. The simulator therefore needs an Apple Silicon Mac.
+
 ## CI/CD
 
 - `.github/workflows/trigger_on_pull_request.yml` runs on PRs targeting `main` (opened, reopened,
