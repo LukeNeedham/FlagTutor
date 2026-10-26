@@ -277,7 +277,8 @@ xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator 
   from `docs/readme-template.yml` in `LukeNeedham/ci-workflows` if it is missing) and keep it accurate. Every app
   has a `LICENSE` file. The skill has the details.
 - **Every page is an `XPage` plus a stateless `internal` `XPageContent`, always** (`XPage` gets its
-  `XViewModel`; its navigation key is always `XNavKey`; never `XScreen`). The README screenshots are private
+  `XViewModel`; its route is always `Route.X`, a member of the one `sealed interface Route`; each of `XPage`,
+  `XPageContent`, `XViewModel` and `XUiState` is in its own file; never `XScreen`). The README screenshots are private
   `@Preview`s in the package `screenshot` (in `src/debug`), each owning its mock data (a page can have several,
   or none; nothing is shared); CI renders them into `docs/screenshots/`, never by hand. The skill has the details.
 <!-- ci-workflows:end -->
