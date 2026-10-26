@@ -21,7 +21,7 @@ learn the flags of the world.
 - **UI**: Compose Multiplatform (Material 3)
 - **Build**: Gradle Kotlin DSL, dependency versions centralized in `gradle/libs.versions.toml` (version catalog)
 - **Min/Target/Compile SDK**: minSdk 24, targetSdk/compileSdk 35
-- **Versions**: Kotlin 2.2.21, AGP 8.13.2, Compose Multiplatform 1.10.3, Java 11 target
+- **Versions**: Kotlin 2.3.21 (JetBrains' web Navigation 3 needs a 2.3 compiler), AGP 8.13.2, Compose Multiplatform 1.10.3, Java 11 target
 - Targets Android, iOS and web (Kotlin/Wasm), structured as a Kotlin Multiplatform project (`commonMain` /
   `androidMain` / `iosMain`). Building and running the iOS app requires a macOS host with Xcode
   installed (Kotlin/Native's iOS targets can only be compiled there).
@@ -105,8 +105,8 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
   - `Logger.e(msg, throwable)` — unexpected errors / likely bugs
 - The shared library's `DebugPage` shows only the library's own things (animation speed, links to Logs and Crashes) and has
   no slot for anything else. FlagTutor's own debug tools therefore live on the app's own debug page
-  (`AppDebugPage`, shown by `Route.AppDebug` in `ui/navigation/Route.kt`), which has a button that opens the library's
-  page (`Route.Debug`); `Route.Logs` and `Route.Crashes` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific
+  (`AppDebugPage`, shown by `Route.AppDebug`, shown by `ui/navigation/Router.kt`), which has a button that opens the library's
+  page (`Route.Debug`); `Route.Logs` and `Route.Crashes` show the library's `LogsPage` / `CrashesPage`. Add new app-specific
   debug tools to `AppDebugPage`, never to the library's page.
 - The animation speed is saved by the library and only applied when `isDebugBuild`. `ProvideDebugSettings` (in `App.kt`) is the
   library's single provider of debug composition locals: keep the whole UI inside it (every app does), and read settings through
@@ -121,7 +121,7 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
 - Browser URLs follow in-app navigation (`/`, `/play`, `/credits`; see `BrowserRoutes`,
   `BrowserNavigationSync`), so the back button works. GitHub Pages can't serve those paths, so
   `.github/pages/404.html` (published to the `gh-pages` root by the preview workflow) redirects them
-  to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes` (debug pages are at `/debug/...`, with the library's pages under `/debug/sdk`, `/debug/sdk/logs` and `/debug/sdk/crashes`, debug builds only).
+  to `index.html`, which restores the URL. The back stack is Navigation 3 (JetBrains' multiplatform `navigation3-ui`): `AppNavigation` owns it, `Router` is the exhaustive `when` over `Route`, and every new `Route` member is also registered in `AppNavigation`'s `backStackConfig` (iOS and the web have no reflection to save the back stack). New routable screens need an entry in `BrowserRoutes` (debug pages are at `/debug/...`, with the library's pages under `/debug/sdk`, `/debug/sdk/logs` and `/debug/sdk/crashes`, debug builds only).
 - `isDebugBuild` on web is read from `config.js` (`window.appDebug`), which is `false` in the
   repo. PR previews overwrite it with `true`; the production deploy
   (`.github/workflows/web_deploy_production.yml`, on every push to `main`, to the `gh-pages` root)
@@ -234,6 +234,9 @@ open iosApp/iosApp.xcodeproj
 xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -sdk iphonesimulator \
   -destination 'generic/platform=iOS Simulator' build
 ```
+
+The iOS targets are `iosArm64` and `iosSimulatorArm64` only: there is no `iosX64` (Intel Mac simulator) target, because
+JetBrains' multiplatform `navigation3-ui` is not published for it. The simulator therefore needs an Apple Silicon Mac.
 
 ## CI/CD
 

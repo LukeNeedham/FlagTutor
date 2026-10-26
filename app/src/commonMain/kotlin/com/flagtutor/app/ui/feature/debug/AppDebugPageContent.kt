@@ -1,6 +1,6 @@
 package com.flagtutor.app.ui.feature.debug
 
-import com.flagtutor.app.ui.theme.FlagTutorTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.flagtutor.app.ui.theme.AppTheme
 
 /**
  * The app's own debug page: the debug tools that are specific to FlagTutor, and a button that opens
@@ -96,7 +95,7 @@ private fun DebugLink(icon: ImageVector, label: String, onClick: () -> Unit) {
 @Preview
 @Composable
 private fun Preview() {
-    FlagTutorTheme {
+    AppTheme {
         AppDebugPageContent(
             onOpenSdkDebug = {},
             onCountriesOverviewClick = {},

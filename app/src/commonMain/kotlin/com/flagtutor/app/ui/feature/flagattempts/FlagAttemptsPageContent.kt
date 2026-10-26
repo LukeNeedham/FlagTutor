@@ -1,6 +1,6 @@
 package com.flagtutor.app.ui.feature.flagattempts
 
-import com.flagtutor.app.ui.theme.FlagTutorTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,7 +18,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -153,7 +152,7 @@ private fun FlagAttemptRow(attempt: FlagAttempt) {
 @Preview
 @Composable
 private fun Preview() {
-    FlagTutorTheme {
+    AppTheme {
         FlagAttemptsPageContent(attempts = emptyList(), isLoading = false, onBackClick = {})
     }
 }
