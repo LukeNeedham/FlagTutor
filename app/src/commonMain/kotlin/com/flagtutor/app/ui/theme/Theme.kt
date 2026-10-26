@@ -27,7 +27,7 @@ object AppTheme {
 }
 
 @Composable
-fun FlagTutorTheme(
+fun AppTheme(
     themeMode: ThemeMode = ThemeMode.System,
     content: @Composable () -> Unit,
 ) {

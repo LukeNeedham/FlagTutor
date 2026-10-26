@@ -1,6 +1,6 @@
 package com.flagtutor.app.ui.feature.pickcountrynamegame
 
-import com.flagtutor.app.ui.theme.FlagTutorTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
@@ -48,7 +48,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -665,7 +664,7 @@ private fun checkerboardColorOrder(colors: List<ExtractedColor>): IntArray {
 @Preview
 @Composable
 private fun Preview() {
-    FlagTutorTheme {
+    AppTheme {
         PickCountryNameGamePageContent(
             uiState = PickCountryNameGameUiState.Loading,
             onOptionSelected = {},

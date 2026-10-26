@@ -1,6 +1,6 @@
 package com.flagtutor.app.ui.feature.credits
 
-import com.flagtutor.app.ui.theme.FlagTutorTheme
+import com.flagtutor.app.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import com.flagtutor.app.ui.theme.AppTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -91,5 +90,5 @@ internal fun CreditsPageContent(
 @Preview
 @Composable
 private fun Preview() {
-    FlagTutorTheme { CreditsPageContent(onLinkClick = {}, onBackClick = {}) }
+    AppTheme { CreditsPageContent(onLinkClick = {}, onBackClick = {}) }
 }
