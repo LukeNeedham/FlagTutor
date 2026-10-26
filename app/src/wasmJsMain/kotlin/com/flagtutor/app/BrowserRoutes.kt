@@ -1,17 +1,7 @@
 package com.flagtutor.app
 
+import com.flagtutor.app.ui.navigation.Route
 import cafe.adriel.voyager.core.screen.Screen
-import com.flagtutor.app.ui.navigation.CountriesOverviewScreen
-import com.flagtutor.app.ui.navigation.ExcludedCountriesScreen
-import com.flagtutor.app.ui.navigation.CrashesScreen
-import com.flagtutor.app.ui.navigation.CreditsScreen
-import com.flagtutor.app.ui.navigation.DebugScreen
-import com.flagtutor.app.ui.navigation.FlagAttemptsScreen
-import com.flagtutor.app.ui.navigation.HomeScreen
-import com.flagtutor.app.ui.navigation.LogsScreen
-import com.flagtutor.app.ui.navigation.PickCountryNameGameScreen
-import com.flagtutor.app.ui.navigation.SdkDebugScreen
-import com.flagtutor.app.ui.navigation.SettingsScreen
 import kotlinx.browser.window
 
 /**
@@ -25,20 +15,20 @@ import kotlinx.browser.window
 object BrowserRoutes {
 
     private val debugRoutes: List<Pair<String, Screen>> = listOf(
-        "/debug" to DebugScreen,
-        "/debug/countries" to CountriesOverviewScreen,
-        "/debug/excluded" to ExcludedCountriesScreen,
-        "/debug/attempts" to FlagAttemptsScreen,
-        "/debug/sdk" to SdkDebugScreen,
-        "/debug/sdk/logs" to LogsScreen,
-        "/debug/sdk/crashes" to CrashesScreen,
+        "/debug" to Route.AppDebug,
+        "/debug/countries" to Route.CountriesOverview,
+        "/debug/excluded" to Route.ExcludedCountries,
+        "/debug/attempts" to Route.FlagAttempts,
+        "/debug/sdk" to Route.Debug,
+        "/debug/sdk/logs" to Route.Logs,
+        "/debug/sdk/crashes" to Route.Crashes,
     )
 
     // Debug pages are only reachable from debug builds, so their URLs only work there too.
     private val routes: List<Pair<String, Screen>> = listOf(
-        "/play" to PickCountryNameGameScreen,
-        "/credits" to CreditsScreen,
-        "/settings" to SettingsScreen,
+        "/play" to Route.PickCountryNameGame,
+        "/credits" to Route.Credits,
+        "/settings" to Route.Settings,
     ) + if (isDebugBuild) debugRoutes else emptyList()
 
     /**
@@ -53,12 +43,12 @@ object BrowserRoutes {
 
     /** The route path for [screen], e.g. "/play"; "/" for home; null if it has no route. */
     fun pathFor(screen: Screen): String? = when (screen) {
-        HomeScreen -> "/"
+        Route.Home -> "/"
         else -> routes.firstOrNull { it.second == screen }?.first
     }
 
     fun screenFor(path: String): Screen =
-        routes.firstOrNull { it.first == path }?.second ?: HomeScreen
+        routes.firstOrNull { it.first == path }?.second ?: Route.Home
 
     /** The current route path, e.g. "/play", or "/" for anything unrecognised. */
     fun currentPath(): String {
@@ -76,6 +66,6 @@ object BrowserRoutes {
             .sortedBy { it.first.length }
             .map { it.second }
         val screen = screenFor(path)
-        return if (screen == HomeScreen) listOf(HomeScreen) else listOf(HomeScreen) + parents + screen
+        return if (screen == Route.Home) listOf(Route.Home) else listOf(Route.Home) + parents + screen
     }
 }

@@ -1,5 +1,6 @@
 package com.flagtutor.app
 
+import com.flagtutor.app.ui.navigation.Route
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -9,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.navigator.Navigator
-import com.flagtutor.app.ui.navigation.HomeScreen
 import kotlinx.browser.window
 import org.w3c.dom.events.Event
 import kotlin.js.toInt
@@ -65,8 +65,8 @@ private fun showBrowserLocation(navigator: Navigator) {
     if (navigator.lastItem == target) return
     if (navigator.items.contains(target)) {
         navigator.popUntil { it == target }
-    } else if (target == HomeScreen) {
-        navigator.replaceAll(HomeScreen)
+    } else if (target == Route.Home) {
+        navigator.replaceAll(Route.Home)
     } else {
         navigator.push(target)
     }

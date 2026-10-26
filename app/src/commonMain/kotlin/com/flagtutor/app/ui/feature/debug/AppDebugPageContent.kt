@@ -1,5 +1,7 @@
 package com.flagtutor.app.ui.feature.debug
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -36,7 +38,7 @@ import com.flagtutor.app.ui.theme.AppTheme
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppDebugPageContent(
+internal fun AppDebugPageContent(
     onOpenSdkDebug: () -> Unit,
     onCountriesOverviewClick: () -> Unit,
     onExcludedCountriesClick: () -> Unit,
@@ -88,5 +90,19 @@ private fun DebugLink(icon: ImageVector, label: String, onClick: () -> Unit) {
         Icon(imageVector = icon, contentDescription = null)
         Spacer(modifier = Modifier.padding(horizontal = 8.dp))
         Text(label)
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    FlagTutorTheme {
+        AppDebugPageContent(
+            onOpenSdkDebug = {},
+            onCountriesOverviewClick = {},
+            onExcludedCountriesClick = {},
+            onFlagAttemptsClick = {},
+            onBackClick = {},
+        )
     }
 }

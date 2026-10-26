@@ -1,5 +1,7 @@
 package com.flagtutor.app.ui.feature.debug
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -65,7 +67,7 @@ private data class EnlargedImage(val alpha2Code: String, val type: DebugImageTyp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CountriesOverviewPageContent(
+internal fun CountriesOverviewPageContent(
     countries: List<Country>,
     attemptStatsByCountry: Map<String, FlagAttemptStats>,
     isLoading: Boolean,
@@ -337,6 +339,23 @@ private fun StatItem(label: String, value: String, modifier: Modifier = Modifier
             text = label,
             style = AppTheme.typography.labelSmall,
             color = AppTheme.colors.textSecondary,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    FlagTutorTheme {
+        CountriesOverviewPageContent(
+            countries = emptyList(),
+            attemptStatsByCountry = emptyMap(),
+            isLoading = true,
+            isError = false,
+            onMoreInfo = {},
+            onPlay = {},
+            onRetry = {},
+            onBackClick = {},
         )
     }
 }

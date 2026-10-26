@@ -1,5 +1,7 @@
 package com.flagtutor.app.ui.feature.debug
 
+import com.flagtutor.app.ui.theme.FlagTutorTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,7 +40,7 @@ import com.flagtutor.app.ui.theme.AppTheme
 /** Lists the countries that have an ISO 3166-1 code but that the app leaves out: no official flag, or the parent country's flag. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExcludedCountriesPageContent(
+internal fun ExcludedCountriesPageContent(
     countries: List<ExcludedCountry>,
     isLoading: Boolean,
     isError: Boolean,
@@ -170,6 +172,21 @@ private fun ExcludedCountryRow(excluded: ExcludedCountry, onMoreInfo: (String) -
             text = excluded.reason,
             style = AppTheme.typography.bodySmall,
             color = AppTheme.colors.text,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    FlagTutorTheme {
+        ExcludedCountriesPageContent(
+            countries = emptyList(),
+            isLoading = true,
+            isError = false,
+            onMoreInfo = {},
+            onRetry = {},
+            onBackClick = {},
         )
     }
 }
