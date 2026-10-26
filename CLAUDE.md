@@ -105,8 +105,8 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
   - `Logger.e(msg, throwable)` — unexpected errors / likely bugs
 - The shared library's `DebugPage` shows only the library's own things (animation speed, links to Logs and Crashes) and has
   no slot for anything else. FlagTutor's own debug tools therefore live on the app's own debug page
-  (`AppDebugPage`, shown by `Route.AppDebug` in `ui/navigation/Route.kt`), which has a button that opens the library's
-  page (`Route.Debug`); `Route.Logs` and `Route.Crashes` wrap the library's `LogsPage` / `CrashesPage`. Add new app-specific
+  (`AppDebugPage`, shown by `Route.AppDebug`, shown by `ui/navigation/Router.kt`), which has a button that opens the library's
+  page (`Route.Debug`); `Route.Logs` and `Route.Crashes` show the library's `LogsPage` / `CrashesPage`. Add new app-specific
   debug tools to `AppDebugPage`, never to the library's page.
 - The animation speed is saved by the library and only applied when `isDebugBuild`. `ProvideDebugSettings` (in `App.kt`) is the
   library's single provider of debug composition locals: keep the whole UI inside it (every app does), and read settings through
@@ -121,7 +121,7 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
 - Browser URLs follow in-app navigation (`/`, `/play`, `/credits`; see `BrowserRoutes`,
   `BrowserNavigationSync`), so the back button works. GitHub Pages can't serve those paths, so
   `.github/pages/404.html` (published to the `gh-pages` root by the preview workflow) redirects them
-  to `index.html`, which restores the URL. New routable screens need an entry in `BrowserRoutes` (debug pages are at `/debug/...`, with the library's pages under `/debug/sdk`, `/debug/sdk/logs` and `/debug/sdk/crashes`, debug builds only).
+  to `index.html`, which restores the URL. The back stack is Navigation 3 (JetBrains' multiplatform `navigation3-ui`): `AppNavigation` owns it, `Router` is the exhaustive `when` over `Route`, and every new `Route` member is also registered in `AppNavigation`'s `backStackConfig` (iOS and the web have no reflection to save the back stack). New routable screens need an entry in `BrowserRoutes` (debug pages are at `/debug/...`, with the library's pages under `/debug/sdk`, `/debug/sdk/logs` and `/debug/sdk/crashes`, debug builds only).
 - `isDebugBuild` on web is read from `config.js` (`window.appDebug`), which is `false` in the
   repo. PR previews overwrite it with `true`; the production deploy
   (`.github/workflows/web_deploy_production.yml`, on every push to `main`, to the `gh-pages` root)

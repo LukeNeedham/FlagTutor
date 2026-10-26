@@ -1,15 +1,15 @@
 package com.flagtutor.app
 
-import com.flagtutor.app.ui.navigation.Route
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import cafe.adriel.voyager.navigator.Navigator
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import com.flagtutor.app.ui.navigation.Route
 import kotlinx.browser.window
 import org.w3c.dom.events.Event
 import kotlin.js.toInt
@@ -17,7 +17,7 @@ import kotlin.js.toJsNumber
 
 /**
  * Keeps the browser history and the in-app back stack in step:
- * - navigating in the app pushes a history entry with the screen's URL,
+ * - navigating in the app pushes a history entry with the route's URL,
  * - popping in the app steps the history back, so the browser's forward/back stay consistent,
  * - the browser's back/forward buttons navigate the app.
  *
@@ -25,25 +25,23 @@ import kotlin.js.toJsNumber
  * to step back to (e.g. after opening a deep link).
  */
 @Composable
-fun BrowserNavigationSync(navigator: Navigator) {
-    var currentNavigator by remember { mutableStateOf(navigator) }
-    SideEffect { currentNavigator = navigator }
-
-    DisposableEffect(Unit) {
+fun BrowserNavigationSync(backStack: NavBackStack<NavKey>) {
+    DisposableEffect(backStack) {
         if (historyDepth() == null) {
             window.history.replaceState(0.toJsNumber(), "", window.location.href)
         }
-        val onPopState: (Event) -> Unit = { showBrowserLocation(currentNavigator) }
+        val onPopState: (Event) -> Unit = { showBrowserLocation(backStack) }
         window.addEventListener("popstate", onPopState)
         onDispose { window.removeEventListener("popstate", onPopState) }
     }
 
-    var previousSize by remember { mutableStateOf(navigator.size) }
-    LaunchedEffect(navigator.size, navigator.lastItem) {
-        val path = BrowserRoutes.pathFor(navigator.lastItem)
-        val grew = navigator.size > previousSize
-        val shrank = navigator.size < previousSize
-        previousSize = navigator.size
+    var previousSize by remember { mutableStateOf(backStack.size) }
+    val lastRoute = backStack.lastOrNull()
+    LaunchedEffect(backStack.size, lastRoute) {
+        val path = (lastRoute as? Route)?.let(BrowserRoutes::pathFor)
+        val grew = backStack.size > previousSize
+        val shrank = backStack.size < previousSize
+        previousSize = backStack.size
 
         if (path == null || path == BrowserRoutes.currentPath()) return@LaunchedEffect
         val depth = historyDepth() ?: 0
@@ -60,14 +58,15 @@ fun BrowserNavigationSync(navigator: Navigator) {
 private fun historyDepth(): Int? = (window.history.state as? kotlin.js.JsNumber)?.toInt()
 
 /** Brings the app in line with the URL after the browser's back/forward buttons were used. */
-private fun showBrowserLocation(navigator: Navigator) {
-    val target = BrowserRoutes.screenFor(BrowserRoutes.currentPath())
-    if (navigator.lastItem == target) return
-    if (navigator.items.contains(target)) {
-        navigator.popUntil { it == target }
+private fun showBrowserLocation(backStack: NavBackStack<NavKey>) {
+    val target = BrowserRoutes.routeFor(BrowserRoutes.currentPath())
+    if (backStack.lastOrNull() == target) return
+    if (target in backStack) {
+        while (backStack.lastOrNull() != target) backStack.removeLastOrNull()
     } else if (target == Route.Home) {
-        navigator.replaceAll(Route.Home)
+        backStack.clear()
+        backStack.add(Route.Home)
     } else {
-        navigator.push(target)
+        backStack.add(target)
     }
 }
