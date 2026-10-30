@@ -86,7 +86,7 @@ As screens are added, give each one:
 ### Dependency Injection
 
 - Use Koin (`koin-compose`, `koin-compose-viewmodel`) for DI, with module definitions grouped in a
-  `di/KoinModule.kt`, following the VideoDiary pattern (`factory { }` for most things, `single { }`
+  `di/KoinModules.kt`, following the VideoDiary pattern (`factory { }` for most things, `single { }`
   for stateful singletons).
 
 ### Logging, crashes and debug tools (shared library)
@@ -114,7 +114,7 @@ shared library `com.lukeneedham:common` (source in `LukeNeedham/ci-workflows`, `
 
 ### Web target
 
-- `wasmJsMain` holds the browser entry point (`Main.kt`), `webModule()` and the web `actual`s.
+- `wasmJsMain` holds the browser entry point (`Main.kt`), `WebModule` and the web `actual`s.
 - Room has no web support, so the persistence code (`data/stats` entity/DAO/database) lives in
   `roomMain`, an intermediate source set that `androidMain` and `iosMain` depend on (web does not). Web uses
   `LocalStorageFlagAttemptRepository` instead. Anything using Room must go in `roomMain`.

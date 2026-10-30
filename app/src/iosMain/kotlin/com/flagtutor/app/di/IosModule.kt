@@ -9,9 +9,11 @@ import com.flagtutor.app.data.stats.AppDatabase
 import com.flagtutor.app.data.stats.createDatabase
 import org.koin.dsl.module
 
-fun iosModule() = module {
-    single<ThemePreferenceStore> { UserDefaultsThemePreferenceStore() }
-    single { createDatabase(DatabaseBuilderFactory().create()) }
-    single { get<AppDatabase>().flagAttemptDao() }
-    single<FlagAttemptRepository> { FlagAttemptRepositoryImpl(get()) }
+object IosModule {
+    fun bindings() = module {
+        single<ThemePreferenceStore> { UserDefaultsThemePreferenceStore() }
+        single { createDatabase(DatabaseBuilderFactory().create()) }
+        single { get<AppDatabase>().flagAttemptDao() }
+        single<FlagAttemptRepository> { FlagAttemptRepositoryImpl(get()) }
+    }
 }
