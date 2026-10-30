@@ -17,3 +17,6 @@ fun createDatabase(builder: RoomDatabase.Builder<AppDatabase>): AppDatabase =
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.Default)
         .build()
+
+/** The database of the platform's builder, with the shared settings applied. */
+fun DatabaseBuilderFactory.build(): AppDatabase = createDatabase(create())
