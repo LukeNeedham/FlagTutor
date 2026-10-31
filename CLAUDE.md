@@ -83,11 +83,9 @@ As screens are added, give each one:
   `private set`.
 - Run async work in `viewModelScope.launch { ... }`.
 
-### Dependency Injection
+### Dependency injection
 
-- Use Koin (`koin-compose`, `koin-compose-viewmodel`) for DI, with module definitions grouped in a
-  `di/KoinModules.kt`, following the VideoDiary pattern (`factory { }` for most things, `single { }`
-  for stateful singletons).
+Dependency injection is set up in accordance with the architecture in the [common repo](https://github.com/LukeNeedham/ci-workflows/blob/main/docs/new-app.md#6-app-architecture).
 
 ### Logging, crashes and debug tools (shared library)
 
