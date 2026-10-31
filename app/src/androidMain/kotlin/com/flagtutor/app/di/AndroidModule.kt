@@ -7,12 +7,15 @@ import com.flagtutor.app.data.settings.ThemePreferenceStore
 import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.data.stats.FlagAttemptRepositoryImpl
 import com.flagtutor.app.data.stats.AppDatabase
-import com.flagtutor.app.data.stats.createDatabase
+import com.flagtutor.app.data.stats.build
 import org.koin.dsl.module
 
-fun androidModule(context: Context) = module {
-    single<ThemePreferenceStore> { DataStoreThemePreferenceStore(context) }
-    single { createDatabase(DatabaseBuilderFactory(context).create()) }
-    single { get<AppDatabase>().flagAttemptDao() }
-    single<FlagAttemptRepository> { FlagAttemptRepositoryImpl(get()) }
+object AndroidModule {
+    fun bindings(context: Context) = module {
+        single<ThemePreferenceStore> { DataStoreThemePreferenceStore(context) }
+        single { DatabaseBuilderFactory(context) }
+        single { get<DatabaseBuilderFactory>().build() }
+        single { get<AppDatabase>().flagAttemptDao() }
+        single<FlagAttemptRepository> { FlagAttemptRepositoryImpl(get()) }
+    }
 }

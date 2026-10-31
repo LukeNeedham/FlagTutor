@@ -6,7 +6,9 @@ import com.flagtutor.app.data.stats.FlagAttemptRepository
 import com.flagtutor.app.data.stats.LocalStorageFlagAttemptRepository
 import org.koin.dsl.module
 
-fun webModule() = module {
-    single<ThemePreferenceStore> { LocalStorageThemePreferenceStore() }
-    single<FlagAttemptRepository> { LocalStorageFlagAttemptRepository() }
+object WebModule {
+    fun bindings() = module {
+        single<ThemePreferenceStore> { LocalStorageThemePreferenceStore() }
+        single<FlagAttemptRepository> { LocalStorageFlagAttemptRepository() }
+    }
 }

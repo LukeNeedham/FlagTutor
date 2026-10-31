@@ -1,0 +1,47 @@
+package com.flagtutor.app.di
+
+import com.flagtutor.app.data.local.FlagColorDataSource
+import com.flagtutor.app.data.local.IdenticalFlagDataSource
+import com.flagtutor.app.data.repository.CountryRepository
+import com.flagtutor.app.data.repository.FlagImageRepository
+import com.flagtutor.app.data.repository.GamePreloader
+import com.flagtutor.app.data.settings.ThemeRepository
+import com.flagtutor.app.ui.feature.debug.CountriesOverviewViewModel
+import com.flagtutor.app.ui.feature.debug.ExcludedCountriesViewModel
+import com.flagtutor.app.ui.feature.flagattempts.FlagAttemptsViewModel
+import com.flagtutor.app.ui.feature.home.HomeViewModel
+import com.flagtutor.app.ui.feature.pickcountrynamegame.PickCountryNameGameViewModel
+import com.flagtutor.app.ui.feature.settings.SettingsViewModel
+import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
+
+object KoinModules {
+    private val app = module {
+        singleOf(::FlagColorDataSource)
+        singleOf(::IdenticalFlagDataSource)
+        singleOf(::CountryRepository)
+        singleOf(::FlagImageRepository)
+        singleOf(::GamePreloader)
+        singleOf(::ThemeRepository)
+        viewModelOf(::HomeViewModel)
+        viewModelOf(::SettingsViewModel)
+        viewModelOf(::CountriesOverviewViewModel)
+        viewModelOf(::ExcludedCountriesViewModel)
+        viewModel { params ->
+            PickCountryNameGameViewModel(
+                countryRepository = get(),
+                flagAttemptRepository = get(),
+                flagImageRepository = get(),
+                gamePreloader = get(),
+                identicalFlagDataSource = get(),
+                forcedAlpha2Code = params.getOrNull(),
+            )
+        }
+        viewModelOf(::FlagAttemptsViewModel)
+    }
+
+    val modules: List<Module> = listOf(app)
+}
